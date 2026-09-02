@@ -32,10 +32,18 @@ Dipersiapkan oleh:
 # BAB 1: Analisis Permasalahan
 
 ## 1.1 Latar Belakang Masalah
-Tuliskan deskripsi permasalahan yang kalian pilih secara naratif dan spesifik. Tambahkan keterkaitan permasalahan tersebut dengan Tujuan Pembangunan Berkelanjutan (SDGs) yang telah disepakati. Dukung argumen kalian dengan data yang kredibel, serta jelaskan urgensi mengapa masalah ini perlu dan layak untuk segera diselesaikan.
+Kebakaran hutan dan lahan gambut menjadi bencana yang berulang tiap musim kemarau di Indonesia. Berdasarkan Bank Dunia, kebakaran pada tahun 2015 membakar sekitar 2,6 juta hektare lahan Indonesia dengan kerugian ekonomi mencapai hingga US$16,1 miliar. Kebakaran serupa terjadi lagi pada tahun 2019, 1,6 juta hektare terbakar dan lebih dari 900 ribu orang melaporkan gangguan pernapasan akibat kabut asap.
+
+Sistem pemantauan yang dimiliki pemerinta, seperti SiPongi+ milik Kementerian Lingkungan Hidup dan Kehutanan serta data FDRS BMKG, masih berfokus pada visualisasi gabungan di dasbor pusat dan berfokus pada respon setelah anomali titik panas satelit tertangkap. Di tingkatan operasional, informasi titik koordinat panas sering kali diteruskan melalui pesan  tanpa konteks, skala prioritas tindakan, serta panduan rute lapangan. Sementara itu, warga di pemukiman sekitar gambut sering kali terlambat mendapatkan peringatan bahaya sebelum asap pekat mengepung kawasan mereka.
+
+SIGAP dibangun untuk menutupi celah penyebaran informasi tersebut. Sistem informasi berbasis peta yang mengubah data titik panas satelit, dan cuaca menjadi parameter jadi  risiko per petak lahan. Setelah itu, diturunkan jadwal kerja pencegahan dan peringatan darurat berjenjang.
+
 
 ## 1.2 Analisis Kondisi Saat Ini
-Lakukan analisis terhadap proses yang berjalan saat ini di dunia nyata, baik itu sistem lama ataupun solusi yang sudah ada. Soroti kesenjangan atau celah dari kondisi tersebut yang nantinya akan diselesaikan oleh perangkat lunak kalian.
+Kondisi Petugas dan Relawan Lapangan Informasi titik panas saat ini diterima melalui pesan singkat atau grup WhatsApp, tanpa konteks kondisi lahan, tanpa urutan prioritas, dan tanpa rute menuju lokasi. Banyak lokasi gambut juga berada di wilayah bersinyal lemah sehingga aplikasi yang mengharuskan koneksi internet terus-menerus sulit digunakan. Warga Sekitar Lahan Gambut Warga umumnya baru mengetahui adanya kebakaran ketika asap sudah terlihat. Belum tersedia saluran peringatan yang menjangkau tingkat desa, sehingga warga kehilangan waktu untuk bersiap, terutama kelompok rentan seperti anak-anak dan lansia.
+
+Sistem yang Sudah Ada Pemerintah telah memiliki beberapa sistem pemantauan. SiPongi+ milik Kementerian Lingkungan Hidup dan Kehutanan menyediakan peta titik panas dan sistem peringkat bahaya kebakaran, sementara PRIMS dan SIPALAGA menyediakan informasi restorasi dan pemantauan muka air gambut, tetapi dilaporkan belum berjalan optimal hingga awal 2026. Sistem-sistem tersebut sudah baik dalam menampilkan data, tetapi keluarannya berhenti sebagai peta di dasbor pusat. Perbedaan utama SIGAP terletak pada keluarannya berupa daftar pekerjaan pencegahan yang terjadwal dan terverifikasi, bukan sekadar peringatan setelah api muncul.
+
 
 ---
 
@@ -122,4 +130,12 @@ Buatlah *Activity Diagram* atau *Swimlane Diagram* yang menunjukkan alur kerja p
 <br>
 
 # Referensi
-- Diagram UML: https://www.drawio.com/, https://staruml.io/
+- https://www.nature.com/articles/s41467-021-27353-x
+- https://finance.yahoo.com/news/world-bank-says-indonesia-forest-055251978.html
+- https://www.mdpi.com/2073-445X/13/3/373
+- https://www.sciencedirect.com/science/article/abs/pii/S016819232100424X
+- Peraturan Pemerintah Republik Indonesia Nomor 71 Tahun 2014 tentang Perlindungan dan Pengelolaan Ekosistem Gambut.
+- Peraturan Pemerintah Republik Indonesia Nomor 57 Tahun 2016 tentang Perubahan atas PP No. 71 Tahun 2014.
+- https://documents1.worldbank.org/curated/en/776101467990969768/pdf/103668-BRI-Cost-of-Fires-Knowledge-Note-PUBLIC-ADD-NEW-SERIES-Indonesia-Sustainable-Landscapes-Knowledge-Note.pdf
+
+
