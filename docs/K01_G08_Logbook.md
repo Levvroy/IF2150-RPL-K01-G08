@@ -34,6 +34,13 @@
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *28-08-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Memilih nama kelompok dan SDG | <1 Jam  | Done | SDG sudah diisi namun tidak terupdate di sheets | 
+| *30-08-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Melakukan brainstorming | 2 Jam  | Done | SDG sudah diisi namun tidak terupdate di sheets | 
+| *30-08-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Melakukan asistensi | <1 Jam  | Done | Progress masih sedikit | 
+| *02-09-2026* | Rafi | Mengerjakan Bab 2 | 2 Jam  | Done | Masih ada diskusi kecil dalam pengerjaan dan koreksi |
+| *02-09-2026* | Arga | Mengerjakan Bab 1 | 2 Jam  | Done | - |
+| *02-09-2026* | Rafiif | Mengerjakan Bab 3.4 | 2 Jam  | Done | - |
+| *02-09-2026* | Reinhard | Mengerjakan Bab 3.3 | 2 Jam  | Done | - |
+| *02-09-2026* | Lewi | Mengerjakan Bab 3.1 & 3.2 | 2 Jam  | Done | - |
 | | | | | | | |
 
 **Catatan/Evaluasi Milestone 1:**
