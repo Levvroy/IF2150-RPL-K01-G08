@@ -35,7 +35,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 ### Milestone 1
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 | :--- | :--- | :--- | :--- |
-| *Gemini* | *Mengecek relasi antar class* | *"Apakah relasi antara class User dan Order dalam UML ini seharusnya composition atau aggregation?"* | *AI menyarankan composition, tapi setelah dicek kembali ke requirement, kami menggunakan aggregation karena Order masih bisa eksis di history.* |
+| Gemini | Brainstorming topik awal | Tolong berikan topik dan ide awal yang berkaitan dengan SDG 13 | AI menyarankan beberapa contoh topik, namun akhirnya kami memutuskan untuk memilih topik tentang kebakaran hutan karena berkaitan dengan apa yang terjadi akhir-akhir ini |
 | | | | | |
 
 ### Milestone 2
@@ -52,7 +52,7 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 | Tanda Tangan | Nama Anggota |
 | :---: | :--- |
 | <img src="./assets/rafi.jpg" width="100"> | 13525022 - Muhammad Rafi Insyan Syiham Abrar |
-| <img src="./assets/ttd-anggota2.png" width="100"> | 13525037 - Muhammad Rafiif Ansyadya |
+| <img src="./assets/Rafiif.png" width="100"> | 13525037 - Muhammad Rafiif Ansyadya |
 | <img src="./assets/rei.png" width="100"> | 13525076 - Reinhard Mikhael Tandra |
-| <img src="./assets/ttd-anggota4.png" width="100"> | 13525094 - Arga Cyrano Simanjuntak |
+| <img src="./assets/arga.png" width="100"> | 13525094 - Arga Cyrano Simanjuntak |
 | <img src="./assets/Lewi.jpeg" width="100"> | 13525136 - Jonathan Lewie |
