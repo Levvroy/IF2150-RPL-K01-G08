@@ -7,9 +7,9 @@ TOPIC BRAINSTORMING
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## *SIGAP*
 
-### Untuk: *[Nama Asisten]*
+### Untuk: *[Amanda Aurellia Salsabilla]*
 
 Dipersiapkan oleh:
 | Informasi | Keterangan |
