@@ -7,7 +7,7 @@
 | Kelas | K-01 |
 | Nomor Kelompok | G-08 |
 | Nama Kelompok | firstTimeRPL |
-| Nama Perangkat Lunak | *[Nama P/L]* |
+| Nama Perangkat Lunak | SIGAP |
 
 **Anggota Kelompok:**
 
