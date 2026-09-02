@@ -51,8 +51,8 @@ Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan A
 
 | Tanda Tangan | Nama Anggota |
 | :---: | :--- |
-| <img src="./assets/ttd-anggota1.png" width="100"> | 13525022 - Muhammad Rafi Insyan Syiham Abrar |
+| <img src="./assets/rafi.jpg" width="100"> | 13525022 - Muhammad Rafi Insyan Syiham Abrar |
 | <img src="./assets/ttd-anggota2.png" width="100"> | 13525037 - Muhammad Rafiif Ansyadya |
-| <img src="./assets/ttd-anggota3.png" width="100"> | 13525076 - Reinhard Mikhael Tandra |
+| <img src="./assets/rei.png" width="100"> | 13525076 - Reinhard Mikhael Tandra |
 | <img src="./assets/ttd-anggota4.png" width="100"> | 13525094 - Arga Cyrano Simanjuntak |
-| <img src="./assets/ttd-anggota5.png" width="100"> | 13525136 - Jonathan Lewie |
+| <img src="./assets/Lewi.jpeg" width="100"> | 13525136 - Jonathan Lewie |
