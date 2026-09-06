@@ -23,6 +23,7 @@
 
 ### Daftar Isi
 * [Milestone 1](#milestone-1)
+* [Milestone 2](#milestone-2)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -48,5 +49,15 @@
 
 ---
 
+### Milestone 2
+**Periode:** [Tanggal Mulai] - [Tanggal Selesai]
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *06-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Membahas apa yang harus diisi untuk draf milestone 2 dan menanyakan jadwal asisten untuk melakukan asistensi  | <1 Jam  | Done | - | 
+| | | | | | | |
+
+**Catatan/Evaluasi Milestone 2:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
