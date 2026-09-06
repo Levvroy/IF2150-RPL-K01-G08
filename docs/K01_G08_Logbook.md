@@ -54,7 +54,7 @@
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
-| *06-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Membahas apa yang harus diisi untuk draf milestone 2 dan menanyakan jadwal asisten untuk melakukan asistensi  | <1 Jam  | Done | - | 
+| *06-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Membahas apa yang harus diisi untuk draf milestone 2 | <1 Jam  | Done | - | 
 | | | | | | | |
 
 **Catatan/Evaluasi Milestone 2:**
