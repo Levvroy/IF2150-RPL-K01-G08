@@ -46,7 +46,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 |---|---|---|---|
 | ChatGPT | Melengkapi parameter Kebutuhan Non-Fungsional (KNF) yang belum ada | "Dari tabel ini adakah yang perlu ditambahkan parameternya untuk diperjelas?" | Membandingkan parameter yang sudah dipakai (Response time, Reliability, Portability, Security, Constraint, Accuracy, Availability, Ergonomy) dengan daftar acuan, lalu memverifikasi bahwa Memory dan Safety belum ada dan memang relevan untuk SIGAP sebelum ditambahkan |
-
+| Gemini | Brainstorming mekanisme sinkronisasi data luring (offline) | "Tolong Bagaimana cara kerja aplikasi menyimpan data form laporan saat offline dan mengirimkannya kembali saat online tanpa terjadinya data ganda?" | AI menyarankan penggunaan service worker dan background sync yang terlalu kompleks. Saya memvalidasi saran tersebut dan memutuskan untuk menyederhanakannya menggunakan penyimpanan `localStorage` biasa dengan pengecekan status koneksi dan pembuatan UUID di sisi client, sesuai dengan kebutuhan dan kapasitas teknis tugas besar. |
 
 ---
 ### Pernyataan Integritas dan Persetujuan
