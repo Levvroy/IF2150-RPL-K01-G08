@@ -45,7 +45,7 @@
 | | | | | | | |
 
 **Catatan/Evaluasi Milestone 1:**
-* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+* *untuk milestone 1 evaluasi dari kami ialah mencoba membagi pengerjaan dengan efektif kedepannya sehingga tidak ada yang misskom lagi*
 
 ---
 
@@ -56,7 +56,8 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *06-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Membahas apa yang harus diisi untuk draf milestone 2 | <1 Jam  | Done | - | 
 | *08-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Melakukan asistensi untuk milestone 2 dengan asisten | <1 Jam  | Done | - | 
-| | | | | | | |
+| *08-09-2026* | Lewie | Memasukkan draft Brainstorming secara keseluruhan | 3 Jam | Done | - | 
+| *09-09-2026* | Rafiif | Mengedit beberapa bagian di draft yang merupakan hasil diskusi | <1 Jam | Done | - | 
 
 **Catatan/Evaluasi Milestone 2:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
