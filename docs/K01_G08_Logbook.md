@@ -70,6 +70,7 @@
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *12-09-2026* | Reinhard | Mengisi draf milestone 3 dengan apa yang bisa diambil dari milestone sebelumnya  | <1 Jam  | Done | - | 
+| *14-09-2026* | Lewi | Mengisi draf sementara dan brainstorming mengenai Use Case yang akan digunakan sebelum asistensi | 1 Jam  | Done | - |
 | *15-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Melakukan asistensi untuk milestone 2 dengan asisten | <1 Jam  | Done | - | 
 | *15-09-2026* | Lewi | Mengerjakan diagram use case | 2 Jam  | Done | - |
 | *16-09-2026* | Reinhard | Mengerjakan skenario UC05 dan UC06| 2 Jam  | Done | - |
