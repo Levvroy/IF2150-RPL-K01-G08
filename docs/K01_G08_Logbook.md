@@ -43,7 +43,6 @@
 | *02-09-2026* | Rafiif | Mengerjakan Bab 3.4 | 2 Jam  | Done | - |
 | *02-09-2026* | Reinhard | Mengerjakan Bab 3.3 | 2 Jam  | Done | - |
 | *02-09-2026* | Lewi | Mengerjakan Bab 3.1 & 3.2 | 2 Jam  | Done | - |
-| | | | | | | |
 
 **Catatan/Evaluasi Milestone 1:**
 * *untuk milestone 1 evaluasi dari kami ialah mencoba membagi pengerjaan dengan efektif kedepannya sehingga tidak ada yang misskom lagi*
@@ -66,12 +65,17 @@
 ---
 
 ### Milestone 3
-**Periode:** 12-09-2026 - ---
+**Periode:** 12-09-2026 - 16-09-2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
 | :--- | :--- | :--- | :--- | :--- | :--- | 
 | *12-09-2026* | Reinhard | Mengisi draf milestone 3 dengan apa yang bisa diambil dari milestone sebelumnya  | <1 Jam  | Done | - | 
-| | | | | | | |
+| *15-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewie | Melakukan asistensi untuk milestone 2 dengan asisten | <1 Jam  | Done | - | 
+| *15-09-2026* | Lewi | Mengerjakan diagram use case | 2 Jam  | Done | - |
+| *16-09-2026* | Reinhard | Mengerjakan skenario UC05 dan UC06| 2 Jam  | Done | - |
+| *16-09-2026* | Rafiif | Mengerjakan skenario UC03 dan UC04 | 2 Jam  | Done | - |
+| *16-09-2026* | Rafi | Mengerjakan skenario UC01 dan UC02 | 2 Jam  | Done | - |
+| *16-09-2026* | Arga | Mengerjakan skenario UC07 dan logbook | 2 Jam  | Done | - |
 
 **Catatan/Evaluasi Milestone 3:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
