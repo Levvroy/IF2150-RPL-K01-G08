@@ -57,6 +57,13 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Gemini | Mencari tahu apakah ada skenario alternatif yang blm ada | "Apakah ada skenario alternatif lain untuk use case ini dan seperti apa jika ada" | Menentukan apakah skenario dari AI benar-benar dapat terjadi lalu membuat skenarionya sesuai dengan aplikasi kami |
 | | | | | |
 
+## Milestone 4
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Claude | Membantu brainstorming dan menyusun struktur logika diagram yang efisien | "Saya ingin membuat diagram alur kerja untuk case keseluruhan, tolong bedah tahapan utamanya beserta susunan hirarki logisnya" | Memeriksa kebenaran logika alur serta menyesuaikan penamaan variabel/istilah teknis sesuai standar |
+| | | | | |
+
 ---
 ### Pernyataan Integritas dan Persetujuan
 
