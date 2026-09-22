@@ -81,4 +81,19 @@
 **Catatan/Evaluasi Milestone 3:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
+### Milestone 4
+**Periode:** 19-09-2026 - 23-09-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* | 
+| :--- | :--- | :--- | :--- | :--- | :--- | 
+| *19-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewi | Berdiskusi membahas identifikasi dari tiap kelas sesuai ketentuan dan spesifikasi yang telah dibahas saat asistensi akbar | 2 Jam | Done | masih kebingungan terhadap ketentuan yang diberikan saat asistensi akbar, tetapi akhirnya masalah terpecahkan | 
+| *20-09-2026* | Lewi | Mengisi draf milestone 4 ditambah hasil diskusi sebelumnya | <1 Jam  | Done | - |
+| *21-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewi | Berdiskusi menentukan struktur logika tiap diagram dari tiap kelas ditambah dengan diagram untuk keseluruhan secara bersama | 1 Jam | Done | - | 
+| *21-09-2026* | Rafi, Rafiif, Reinhard, Arga | Memeriksa serta memfiksasikan diagram-diagram yang telah dibuat, dan mengecek kembali alur logika dari tiap diagram | 2 Jam | Done | - | 
+| *21-09-2026* | Lewi | Mengisi gambar diagram pada dokumen milestone 4 | <1 Jam  | Done | - |
+| *23-09-2026* | Lewi | Mengerjakan logbook | <1 Jam  | Done | - |
+
+**Catatan/Evaluasi Milestone 4:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
