@@ -291,7 +291,7 @@ Tabel 3.2. Kebutuhan Non-Fungsional
 ## 4.3 Use Case Diagram
 
 <p align="center">
-<img alt="Use Case Diagram SIGAP" src="./assets/diagram/use_case_diagram.png" width="80%">
+<img alt="Use Case Diagram SIGAP" src="./assets/diagram/use_case_diagram.webp" width="80%">
 </p>
 <p align="center">
 <i>Gambar 3. Use Case Diagram SIGAP</i>
