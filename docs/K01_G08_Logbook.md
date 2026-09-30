@@ -97,4 +97,19 @@
 **Catatan/Evaluasi Milestone 4:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
+### Milestone 5
+**Periode:** 25-09-2026 - 30-09-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| *25-09-2026* | Rafi, Rafiif, Reinhard, Arga, Lewi | Berdiskusi membahas pembagian tugas dan ketentuan SKPL sesuai spesifikasi milestone 5 | 2 Jam | Done | - |
+| *26-09-2026* | Lewi | Mengisi draf milestone 5 ditambah hasil diskusi sebelumnya | <1 Jam | Done | - |
+| *27-09-2026* | Reinhard | Membuat diagram untuk UC08, diagram proses bisnis, dan diagram konteks | 2 Jam | Done | - |
+| *28-09-2026* | Rafi, Rafiif, Arga | Berdiskusi menggabungkan dokumen tugas sebelumnya (brainstorming, requirement gathering, use case, dan class diagram) menjadi satu SKPL | 2 Jam | Done | - |
+| *29-09-2026* | Rafi, Rafiif, Arga | Memeriksa dan memfiksasi isi SKPL, serta mengecek kembali kesesuaian antarbagian dokumen | 1 Jam | Done | - |
+| *30-09-2026* | Rafi | Mengerjakan logbook | <1 Jam | Done | - |
+
+**Catatan/Evaluasi Milestone 5:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
