@@ -25,6 +25,8 @@
 * [Milestone 1](#milestone-1)
 * [Milestone 2](#milestone-2)
 * [Milestone 3](#milestone-3)
+* [Milestone 4](#milestone-4)
+* [Milestone 5](#milestone-5)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 ---
@@ -62,6 +64,13 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 |---|---|---|---|
 | Claude | Membantu brainstorming dan menyusun struktur logika diagram yang efisien | "Saya ingin membuat diagram alur kerja untuk case keseluruhan, tolong bedah tahapan utamanya beserta susunan hirarki logisnya" | Memeriksa kebenaran logika alur serta menyesuaikan penamaan variabel/istilah teknis sesuai standar |
+| | | | | |
+
+## Milestone 5
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Gemini | Membantu brainstorming untuk membuat diagram | "Saya ingin membuat diagram swimlane dan diagram context, tolong jelaskan apa saja yang dibutuhkan dan seperti apa" | Memeriksa kebenaran logikanya dan menyesuaikannya dengan aplikasi kami |
 | | | | | |
 
 ---
