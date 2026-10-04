@@ -7,26 +7,23 @@ ARSITEKTUR PERANGKAT LUNAK (APL)
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
+## *SIGAP*
 
-### Untuk: *[Nama Asisten]*
+### Untuk: *Amanda Aurellia Salsabilla*
 
 Dipersiapkan oleh:
-
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]*  |
-| Nama Kelompok | *\[Nama Kelompok\]*  |
+| Kelas | K-01 |
+| Kelompok | G-08 |
 
-| NIM       | Nama               |
-| --------- | ------------------ |
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
-
+| NIM | Nama |
+|---|---|
+| 13525022 | Muhammad Rafi Insyan Syiham Abrar |
+| 13525037 | Muhammad Rafiif Ansyadya |
+| 13525076 | Reinhard Mikhael Tandra |
+| 13525094 | Arga Cyrano Simanjuntak |
+| 13525136 | Jonathan Lewie |
 ---
 
 <br>
@@ -34,35 +31,42 @@ Dipersiapkan oleh:
 
 # BAB 1: Style/Pattern Arsitektur Acuan
 
-Pada bagian ini, tentukan *architectural style* atau *pattern* yang menjadi acuan untuk aplikasi yang Anda kembangkan. Misalnya *layered architecture*, *client-server*, *repository*, *pipe and filter architecture*, atau MVC (*Model-View-Controller*).
+Pada bagian ini, *architectural style* atau *pattern* yang menjadi acuan untuk pengembangan aplikasi SIGAP adalah kombinasi dari **Client-Server** dan **MVC (Model-View-Controller)**. 
+
+1. **Client-Server**: Memisahkan sistem menjadi dua bagian utama, yaitu antarmuka pengguna di sisi klien dan pusat pemrosesan serta pengelolaan data di sisi server.
+2. **MVC (Model-View-Controller)**: Memisahkan struktur kode aplikasi ke dalam tiga peran utama:
+   * **Model**: Merepresentasikan struktur data, aturan bisnis, dan logika penyimpanan persisten (misalnya komponen `PetakLahan`, `TitikPanas`, `Warga`, dan `LaporanBuktiKerja`).
+   * **View**: Menangani antarmuka visual (UI) yang berinteraksi langsung dengan pengguna (misalnya komponen `HalamanPetaRisiko`, `HalamanDaftarTugas`, dan `FormLaporanBuktiKerja`).
+   * **Controller**: Menerima *input* dari *View*, memproses logika bisnis, dan memanipulasi *Model* (misalnya komponen `PetaRisikoController`, `JadwalController`, dan `PeringatanSMSController`).
+
+**Alasan Pemilihan Pattern**
+Pemilihan arsitektur ini didasarkan pada karakteristik pengguna, lingkungan operasi, serta Kebutuhan Fungsional (KF) dan Kebutuhan Non-Fungsional (KNF) pada dokumen SKPL:
+* **Lingkungan Pengguna (Client-Server):** SIGAP digunakan oleh dua jenis pengguna dengan perangkat yang sangat berbeda, yaitu Petugas Posko (menggunakan peramban web desktop dengan koneksi stabil) dan Relawan Lapangan (menggunakan ponsel Android kelas menengah ke bawah di area minim sinyal). Pemrosesan berat seperti penarikan data satelit NASA FIRMS (KF02) dan pengiriman SMS peringatan (KF16) harus difokuskan di sisi *Server* agar tidak membebani perangkat *Client*.
+* **Performa dan Pemisahan Tugas (MVC):** Sistem membutuhkan antarmuka peta interaktif yang dinamis dengan waktu muat maksimal 5 detik (KNF01). Pemisahan *View* dan *Controller* memungkinkan modul antarmuka (seperti peta Leaflet) bekerja secara independen dari logika *backend*. Selain itu, pola ini memudahkan implementasi fitur luring (*offline*) relawan (KF12, KF13); *Controller* dapat diarahkan untuk menyimpan data sementara ke dalam *Model* lokal di perangkat sebelum disinkronkan ke server pusat.
 
 <p align="center">
-<img alt="Contoh Arsitektur MVC" src="./assets/diagram/contoh-arsitektur-mvc.webp" width="70%">
+<img alt="Arsitektur MVC pada SIGAP" src="./assets/diagram/arsitektur-mvc-sigap.png" width="80%">
 </p>
 <p align="center">
-<i>Gambar 1. Contoh Arsitektur MVC</i>
+<i>Gambar 1. Arsitektur MVC pada P/L SIGAP</i>
 </p>
-
-Isi bab ini dengan hal-hal berikut:
-1. **Style/pattern yang dipilih** beserta penjelasan singkat peran setiap bagiannya. Untuk MVC, jelaskan peran *Model*, *View*, dan *Controller*.
-2. **Alasan pemilihan** berdasarkan karakteristik P/L Anda, misalnya jenis pengguna, alur proses bisnis, serta KF dan KNF pada dokumen SKPL.
-3. **Gambar style/pattern yang diterapkan pada P/L Anda.** Jangan hanya menyalin Gambar 1. Isi setiap bagian pattern dengan komponen milik P/L Anda. Misalnya, kotak *Controller* berisi daftar *controller* yang ada di aplikasi dan kotak *Model* berisi daftar *model* yang ada di aplikasi.
-
-Selain *style/pattern*, tuliskan juga lingkungan operasi P/L. Tabel berikut **disalin dari subbab 2.5 *Lingkungan Operasi Perangkat Lunak* pada dokumen SKPL** tanpa perubahan. Setelah tabel, jelaskan kaitan teknologi yang dipakai dengan *style/pattern* yang dipilih. Contohnya, Django (Python) secara bawaan mengikuti pola MVT (*Model-View-Template*), yaitu varian dari MVC.
 
 Tabel 1.1. Lingkungan Operasi Perangkat Lunak
 
 | Komponen | Spesifikasi |
 | :--- | :--- |
-| *Server* | *[contoh: Node.js v20 dengan Next.js, dijalankan secara lokal (localhost)]* |
-| *Client* | *[contoh: Web Browser modern (Chrome, Firefox terbaru)]* |
-| *DBMS* | *[contoh: PostgreSQL 15 pada Supabase sebagai basis data terpusat]* |
-| *OS* | *[contoh: Cross-platform (Windows/Linux/MacOS) melalui browser]* |
-| *...* | *...* |
-
-<sub><b><i>Catatan</i></b>: <i>Style/pattern yang dipilih di bab ini menjadi acuan untuk BAB 2 (pengelompokan komponen) dan BAB 3 (model arsitektur). Contoh pada dokumen ini memakai MVC secara konsisten dari BAB 1 sampai BAB 3. Kelompok boleh memakai pattern lain selama alasannya dijelaskan dan BAB 2 serta BAB 3 disesuaikan. Tabel 1.1 harus sama persis dengan subbab 2.5 dokumen SKPL; jangan menambah atau mengubah isinya karena SKPL sudah final.</i></sub>
+| Server | Node.js versi LTS (22 atau lebih baru) dengan framework Express, dijalankan pada layanan cloud gratis. |
+| Client Petugas | Peramban web modern versi terbaru (Chrome, Edge, atau Firefox) pada komputer atau laptop. |
+| Client Relawan | Ponsel Android kelas menengah ke bawah dengan Chrome versi terbaru, GPS dan kamera aktif, dijalankan sebagai PWA. |
+| DBMS | PostgreSQL 16 untuk data server. IndexedDB pada peramban relawan untuk laporan luring. |
+| Peta | Leaflet dengan tile OpenStreetMap. |
+| Penjadwal | Layanan cron eksternal gratis yang memanggil endpoint pembaruan setiap 3 jam. |
+| OS | Lintas platform (Windows, Linux, macOS, Android) melalui peramban. |
+| Jaringan | HTTPS untuk seluruh akses. |
 
 ---
+**Kaitan Teknologi dengan Style/Pattern**
+Lingkungan operasi pada Tabel 1.1 mendukung implementasi pola *Client-Server* dan *MVC* secara terintegrasi. Node.js dengan framework Express bertindak sebagai lapis *Controller* di sisi *Server* yang memproses logika bisnis dan berkomunikasi dengan PostgreSQL 16 yang mewadahi lapis *Model* persisten. Di sisi *Client*, peramban web modern dan PWA Android bertindak sebagai lapis *View* yang merender antarmuka ke pengguna. Penggunaan IndexedDB pada klien relawan memungkinkan sebagian lapis *Model* untuk beroperasi secara lokal, sehingga *Controller* tetap dapat menyimpan data bukti kerja (KF12) saat perangkat tidak terhubung ke internet.
 
 # BAB 2: Identifikasi Komponen / Modul / Subsistem
 
