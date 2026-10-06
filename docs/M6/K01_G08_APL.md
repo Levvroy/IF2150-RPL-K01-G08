@@ -51,6 +51,13 @@ Pemilihan arsitektur ini didasarkan pada karakteristik pengguna, lingkungan oper
 <i>Gambar 1. Arsitektur MVC pada P/L SIGAP</i>
 </p>
 
+<p align="center">
+<img alt="Arsitektur Client-Server pada SIGAP" src="./assets/diagram/arsitektur-CS-sigap.png" width="80%">
+</p>
+<p align="center">
+<i>Gambar 2. Arsitektur Client-Server pada P/L SIGAP</i>
+</p>
+
 Tabel 1.1. Lingkungan Operasi Perangkat Lunak
 
 | Komponen | Spesifikasi |
@@ -78,22 +85,37 @@ Tabel 2.1. Identifikasi Komponen/Modul/Subsistem
 
 | Nama Komponen/Modul/Subsistem | Jenis                 | Penjelasan                                                                                                           |
 | :---------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------- |
-| *KatalogView*                 | *View*                | *Menampilkan daftar produk dan meneruskan aksi pelanggan (misalnya "Tambah ke Keranjang") ke KatalogController.*     |
-| *KeranjangView*               | *View*                | *Menampilkan isi keranjang pelanggan beserta tombol checkout.*                                                       |
-| *CheckoutView*                | *View*                | *Menampilkan ringkasan pesanan dan pilihan metode pembayaran kepada pelanggan.*                                      |
-| *RiwayatPesananView*          | *View*                | *Menampilkan daftar pesanan yang pernah dibuat pelanggan beserta statusnya.*                                         |
-| *KatalogController*           | *Controller*          | *Memproses permintaan daftar produk dan penambahan produk ke keranjang.*                                             |
-| *KeranjangController*         | *Controller*          | *Memproses perubahan isi keranjang dan membuat pesanan baru saat checkout.*                                          |
-| *PembayaranController*        | *Controller*          | *Memproses pemilihan metode pembayaran dan meneruskan permintaan otorisasi ke PaymentGatewayAdapter.*                |
-| *PesananController*           | *Controller*          | *Memproses permintaan riwayat pesanan milik pelanggan.*                                                              |
-| *Produk*                      | *Model*               | *Merepresentasikan data produk beserta stoknya serta metode untuk mengakses dan mengubahnya.*                        |
-| *Keranjang*                   | *Model*               | *Merepresentasikan item yang dipilih pelanggan sebelum checkout serta metode untuk mengakses dan mengubahnya.*       |
-| *Pesanan*                     | *Model*               | *Merepresentasikan data pesanan beserta status pembayarannya serta metode untuk mengakses dan mengubahnya.*          |
-| *Pelanggan*                   | *Model*               | *Merepresentasikan data akun pelanggan serta metode untuk mengakses dan mengubahnya.*                                |
-| *Validasi*                    | *Pendukung*           | *Memvalidasi input pelanggan sebelum diproses oleh controller.*                                                      |
-| *PaymentGatewayAdapter*       | *Integrasi Eksternal* | *Mengirim permintaan otorisasi ke payment gateway (dummy) dan meneruskan status pembayaran ke PembayaranController.* |
-| *Database*                    | *Penyimpanan Data*    | *Menyimpan seluruh data model secara persisten, baik lokal (misalnya SQLite) maupun terpusat (misalnya Supabase).*   |
-| *...*                         | *...*                 | *...*                                                                                                                |
+| *HalamanPetaRisiko*                 | *View*                | *Menampilkan antarmuka peta risiko yang akan dilihat oleh petugas posko.*     |
+| *FormPenyusunanJadwal*               | *View*                | *Menampilkan antarmuka agar petugas posko dapat menyusun jadwal, rekomendasi petak, dan memilih relawan.*                                                       |
+| *HalamanAntreanLaporan*                | *View*                | *Menampilkan antarmuka untuk daftar antrean dan juga detail laporan bukti kerja untuk diverifikasi oleh petugas posko.*                                      |
+| *HalamanDaftarTugas*          | *View*                | *Menampilkan antarmuka untuk daftar dan detail tugas relawan.*                                         |
+| *FormLaporanBuktiKerja*           | *View*          | *Menampilkan antarmuka untuk mengisi laporan bukti kerja (foto dan koordinat).*                                             |
+| *DialogTandaiKeliru*         | *View*          | *Menampilkan antarmuka untuk menandakan suatu titik panas sebagai deteksi keliru..*                                          |
+| *HalamanLogin*        | *View*          | *Menampilkan antarmuka untuk masuk ke sistem.*                |
+| *PetaRisikoController*           | *Controller*          | *Menerima input data titik panas dan curah hujan, menghitung skor risiko dari data yang diterima, menangani fallback ke cache, dan memicu pengecekan ambang peringatan.*                                                              |
+| *JadwalController*                      | *Controller*               | *Menyusun rekomendasi untuk petak yang harus ditugaskan, memvalidasi kapasitas tiap relawan, membuat jadwal, dan mengirim notifikasi penugasan kepada relawan.*                        |
+| *VerifikasiLaporanController*                   | *Controller*               | *Menghitung jarak koordinat laporan dengan petak tugas, memproses persetujuan atau penolakan laporan, mengunci laporan, dan memperbarui status dari tugas.*       |
+| *DaftarTugasController*                     | *Controller*               | *Mengambil dan mengurutkan tugas-tugas relawan, menyimpan salinan tugas secara lokal di perangkat, dan memproses pembatalan tugas.*          |
+| *UploadLaporanController*                   | *Controller*               | *Membuat UUID, mengompres foto untuk laporan, mendeteksi koneksi perangkat relawan, menyimpan laporan di perangkat secara lokal ketika tidak ada koneksi, dan menyinkronkannya saat koneksi sudah tersedia.*                                |
+| *DeteksiKeliruController*                    | *Controller*           | *Memvalidasi keterangan dari laporan kekeliruan titik panas dan mengubah status titik panas menjadi keliru.*                                                      |
+| *PeringatanSMSController*       | *Controller* | *Mengecek petak yang naik ke tingkat tinggi,  mengirim SMS (simulasi) kepada warga saat tingkat risiko sudah tinggi, mencegah pengiriman ulang SMS dalam waktu 24 jam, memproses balasan STOP dari warga, dan menghapus nomor yang persetujuannya dicabut.* |
+| *AutentikasiController*                    | *Controller*    | *Memverifikasi kredensial pengguna, membuat dan memeriksa sesi, serta mengarahkan pengguna sesuai perannya.*   |
+| *PetakLahan*                         | *Model*                 | *Merepresentasikan batas wilayah, skor risiko, tingkat risiko, dan waktu pembaruan terakhir suatu petak lahan.* |
+| *TitikPanas*                         | *Model*                 | *Merepresentasikan data titik panas yang diambil dari FIRMS beserta status validitas dan keterangan penandaan titik yang keliru.* |
+| *JadwalPekerjaan*                         | *Model*                 | *Merepresentasikan detail-detail untuk satu tugas pencegahan seperti jenis pekerjaan, status, tanggal, dan alasan pembatalan.* |
+| *RelawanLapangan*                         | *Model*                 | *Merepresentasikan data-data relawan seperti identitas, kontak, dan status keaktifan.* |
+| *LaporanBuktiKerja*                         | *Model*                 | *Merepresentasikan UUID laporan, foto, koordinat unggahan, jarak ke petak tugas, status verifikasi, dan waktu verifikasi.* |
+| *Warga*                         | *Model*                 | *Merepresentasikan nomor HP penerima SMS, status persetujuan, dan waktu pencabutan persetujuan.* |
+| *PeringatanSMS*                         | *Model*                 | *Merepresentasikan log pengiriman SMS, isi pesan, waktu kirim, dan status.* |
+| *Pengguna*                         | *Model*                 | *Merepresentasikan akun pengguna yaitu username, hash password, dan peran.* |
+| *Notifikasi*                         | *Model*                 | *Merepresentasikan notifikasi dalam aplikasi yaitu isi pesan, waktu dibuat, dan status sudah dibaca.* |
+| *API_NasaFirms*                         | *Integrasi Eksternal*                 | *Komponen eksternal yang digunakan untuk mengambil data titik panas dari layanan NASA FIRMS Area API.* |
+| *API_OpenMeteo*                         | *Integrasi Eksternal*                 | *Komponen eksternal yang digunakan untuk mengambil data batas koordinat wilayah dan data curah hujan harian dari layanan Open-Meteo Forecast API* |
+| *GatewaySMS_Simulasi*                         | *Integrasi Eksternal*                 | *Komponen eksternal yang digunakan untuk menerima permintaan pengiriman SMS ketika skor risiko sudah tinggi* |
+| *API_OpenStreetMap*                         | *Integrasi Eksternal*                 | *Komponen eksternal yang digunakan untuk menampilkan peta dasar pada antarmuka pengguna* |
+| *LayananCronEksternal*                         | *Integrasi Eksternal*                 | *Komponen eksternal yang digunakan untuk secara otomatis setiap 3 jam melakukan pembaruan data sistem* |
+| *DatabaseServer*                         | *Penyimpanan Data*                 | *Komponen penyimpanan data yang menggunakan PostgreSQL 16 untuk data server pusat* |
+| *PenyimpananLokal*                         | *Penyimpanan Data*                 | *Komponen penyimpanan data secara lokal yang menggunakan IndexedDB pada peramban lawan untuk menyimpan laporan luring* |
 
 Ketentuan pengisian Tabel 2.1:
 1. Kolom **Jenis** mengikuti pengelompokan pada *style/pattern* di BAB 1. Untuk MVC, jenisnya adalah *Model*, *View*, dan *Controller*. Jenis lain boleh ditambahkan, misalnya *Pendukung* untuk komponen bantu yang dipakai bersama, atau *Integrasi Eksternal* untuk penghubung ke sistem di luar P/L yang disebutkan pada subbab 2.2 dokumen SKPL. Kolom ini juga boleh diisi dengan *Subsistem*, *Modul*, atau *Komponen* apabila komponen dikelompokkan berdasarkan fungsinya. Tuliskan subsistem terlebih dahulu, lalu komponen penyusunnya di baris-baris berikutnya.
