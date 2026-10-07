@@ -45,14 +45,14 @@ Pemilihan arsitektur ini didasarkan pada karakteristik pengguna, lingkungan oper
 * **Performa dan Pemisahan Tugas (MVC):** Sistem membutuhkan antarmuka peta interaktif yang dinamis dengan waktu muat maksimal 5 detik (KNF01). Pemisahan *View* dan *Controller* memungkinkan modul antarmuka (seperti peta Leaflet) bekerja secara independen dari logika *backend*. Selain itu, pola ini memudahkan implementasi fitur luring (*offline*) relawan (KF12, KF13); *Controller* dapat diarahkan untuk menyimpan data sementara ke dalam *Model* lokal di perangkat sebelum disinkronkan ke server pusat.
 
 <p align="center">
-<img alt="Arsitektur MVC pada SIGAP" src="./assets/diagram/gambar-1-arsitektur-mvc-sigap.drawio" width="80%">
+<img alt="Arsitektur MVC pada SIGAP" src="./assets/diagram/gambar-1-arsitektur-mvc-sigap.drawio.png" width="80%">
 </p>
 <p align="center">
 <i>Gambar 1. Arsitektur MVC pada P/L SIGAP</i>
 </p>
 
 <p align="center">
-<img alt="Arsitektur Client-Server pada SIGAP" src="./assets/diagram/gambar-2-arsitektur-client-server-sigap.drawio" width="80%">
+<img alt="Arsitektur Client-Server pada SIGAP" src="./assets/diagram/gambar-2-arsitektur-client-server-sigap.drawio.png" width="80%">
 </p>
 <p align="center">
 <i>Gambar 2. Arsitektur Client-Server pada P/L SIGAP</i>
@@ -142,7 +142,7 @@ Arsitektur SIGAP digambarkan dengan dua *view* dari model 4+1 (Kruchten, 1995) y
 *Logical View* digambarkan dalam bentuk *block diagram*. Seluruh 31 komponen pada Tabel 2.1 dikelompokkan sesuai pola MVC: *View* di kiri, *Controller* di tengah, dan *Model* di kanan, dengan `DatabaseServer` dan `PenyimpananLokal` sebagai penyimpanan data. Sistem eksternal digambarkan dengan garis putus-putus.
 
 <p align="center">
-<img alt="Logical View SIGAP" src="./assets/diagram/gambar-3-logical-view-sigap.drawio" width="100%">
+<img alt="Logical View SIGAP" src="./assets/diagram/gambar-3-logical-view-sigap.drawio.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 3. Logical View SIGAP</i>
@@ -167,7 +167,7 @@ Pada diagram, `PetaRisikoController` dipicu oleh `CronEksternal` dan bukan oleh 
 *Physical View* digambarkan dalam bentuk *deployment diagram* yang memetakan komponen Tabel 2.1 ke perangkat dan lingkungan eksekusi pada Tabel 1.1.
 
 <p align="center">
-<img alt="Physical View SIGAP" src="./assets/diagram/gambar-4-physical-view-sigap.drawio" width="100%">
+<img alt="Physical View SIGAP" src="./assets/diagram/gambar-4-physical-view-sigap.drawio.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 4. Physical View SIGAP</i>
