@@ -109,7 +109,21 @@
 | *29-09-2026* | Rafi, Rafiif, Arga | Memeriksa dan memfiksasi isi SKPL, serta mengecek kembali kesesuaian antarbagian dokumen | 1 Jam | Done | - |
 | *30-09-2026* | Rafi | Mengerjakan logbook | <1 Jam | Done | - |
 
-**Catatan/Evaluasi Milestone 5:**
+**Catatan/Evaluasi Milestone 6:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| *04-10-2026* | Rafi, Rafiif, Reinhard, Arga, Lewi | Berdiskusi membahas pembagian tugas dan pemilihan arsitektur sesuai spesifikasi milestone 6 | 2 Jam | Done | - |
+| *04-10-2026* | Reinhard | Mengisi draf milestone 6 bab 1 | <1 Jam | Done | - |
+| *06-10-2026* | Reinhard | Membuat tabel 2.1 | 1 Jam | Done | - |
+| *07-10-2026* | Rafiif | membuat bab 3 dan diagram | 2 Jam | Done | - |
+| *07-09-2026* | Rafi, Lewi, Arga | Memeriksa dan memfiksasi isi draft dan digram | 1 Jam | Done | - |
+| *07-09-2026* | Arga  | menyesuaikan diagram sesuai dengan format spesifikasi tugas | <1 Jam | Done | - |
+| *07-09-2026* | Arga  | mengisi logbook | <1 Jam | Done | - |
+
+
+**Catatan/Evaluasi Milestone 6:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
 
