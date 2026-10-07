@@ -128,37 +128,75 @@ Ketentuan pengisian Tabel 2.1:
 
 # BAB 3: Model Arsitektur Perangkat Lunak
 
-*Architectural View* adalah bagaimana cara kita melihat/mendeskripsikan arsitektur sebuah sistem dari sudut pandang tertentu. Dalam perancangan arsitektur aplikasi, dibutuhkan *Architectural View* yang dapat mempermudah pemahaman dari proses aplikasi yang akan dikembangkan. Tujuan dari *Architectural View* adalah menjadi bahan komunikasi, pemisahan masalah, mempermudah analisis, dan pemandu saat eksekusi pengembangan sistem tersebut.
+Arsitektur SIGAP digambarkan dengan dua *view* dari model 4+1 (Kruchten, 1995) yang menggambarkan keseluruhan sistem dari sudut pandang berbeda. Keduanya sejalan dengan dua *style* pada BAB 1:
 
-Buatlah model arsitektur dari aplikasi yang akan dirancang dalam bentuk *view*. Model arsitektur ini berfungsi untuk memperlihatkan bagaimana setiap komponen, modul, dan subsistem saling berinteraksi serta berkolaborasi dalam menjalankan fungsi utama sistem secara keseluruhan. Anda dapat membuat satu atau lebih *view* tergantung kebutuhan dalam bentuk gambar. Pilihlah notasi yang sesuai. Contoh *view* yang dapat digunakan antara lain ***Logical View***, ***Process View***, ***Development View***, serta ***Physical View***.
+| View | Sudut pandang | *Style* yang dicerminkan | Alasan dipilih |
+| :--- | :--- | :--- | :--- |
+| 3.1 *Logical View* | Pembagian tanggung jawab komponen dan hubungan antarkomponen | MVC | Menunjukkan bahwa setiap fungsi SKPL dilayani komponen yang jelas dan bagaimana *View*, *Controller*, *Model*, serta sistem eksternal saling terhubung. |
+| 3.2 *Physical View* | Penempatan komponen pada perangkat dan jaringan | Client-Server | Pembagian klien petugas, klien relawan, server aplikasi, dan basis data adalah inti kebutuhan lingkungan operasi (Tabel 1.1), termasuk bagian logika yang berjalan di perangkat relawan. |
 
-Ketentuan pengisian BAB 3:
-1. Setiap view menggambarkan **keseluruhan sistem**, bukan satu use case atau satu fitur saja.
-2. Buat **minimal satu view**. Setiap view dituliskan dalam subbab tersendiri (3.1, 3.2, dan seterusnya). Tidak perlu membuat keempat view, pilih yang paling membantu menjelaskan P/L Anda, lalu jelaskan alasan pemilihannya.
-3. Setiap view harus **konsisten dengan BAB 2**. Seluruh komponen pada Tabel 2.1 harus muncul dengan nama yang sama, dan tidak boleh ada komponen pada view yang tidak terdaftar di Tabel 2.1.
-4. Setiap view harus **mencerminkan style/pattern pada BAB 1**. Misalnya, jika memilih MVC, pembagian *Model*, *View*, dan *Controller* harus terlihat jelas pada diagram.
-5. Jika membuat lebih dari satu view, setiap view harus menggambarkan sistem yang sama dari sudut pandang berbeda. View tambahan melengkapi view pertama, bukan mengulanginya.
-6. Beri label pada setiap garis atau panah yang menghubungkan komponen agar hubungan antarkomponen dapat dipahami tanpa penjelasan tambahan.
-7. Jika membuat *Physical View*, gambarkan lingkungan operasi pada Tabel 1.1.
+*Process View* dan *Development View* tidak dibuat karena kedua *view* di atas sudah memuat seluruh komponen Tabel 2.1. Alur dinamis tiap fitur sudah dijelaskan pada skenario *use case* di SKPL BAB 4.
 
-## 3.1 XXX View
+## 3.1 Logical View
 
-Tuliskan secara singkat mengenai model arsitektur perangkat lunak yang Anda pilih dan sertakan alasan mengapa model arsitektur tersebut cocok untuk aplikasi Anda.
+*Logical View* digambarkan dalam bentuk *block diagram*. Seluruh 31 komponen pada Tabel 2.1 dikelompokkan sesuai pola MVC: *View* di kiri, *Controller* di tengah, dan *Model* di kanan, dengan `DatabaseServer` dan `PenyimpananLokal` sebagai penyimpanan data. Sistem eksternal digambarkan dengan garis putus-putus.
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-logical-view.webp" width="100%">
+<img alt="Logical View SIGAP" src="./assets/diagram/logical-view-sigap.png" width="100%">
 </p>
 <p align="center">
-<i>Gambar 2. Contoh Logical View pada P/L E-Commerce</i>
+<i>Gambar 3. Logical View SIGAP</i>
 </p>
 
-Gambar 2 adalah contoh *Logical View* dalam bentuk *block diagram*. Seluruh komponen pada Tabel 2.1 digambarkan dan dikelompokkan sesuai pola MVC (*View*, *Controller*, *Model*), ditambah komponen pendukung dan basis data. Sistem di luar P/L, seperti *Payment Gateway (dummy)*, digambarkan dengan garis putus-putus dan tidak perlu dimasukkan ke Tabel 2.1. Setiap garis diberi label: "Memanggil" untuk *View* yang memanggil *Controller*, "akses" untuk *Controller* yang mengakses *Model*, serta agregasi dan komposisi untuk hubungan antar-*Model*.
+Setiap garis diberi label sebagai berikut:
 
-<sub><b><i>Catatan</i></b>: <i>Ganti XXX dengan nama view yang dibuat, misalnya Logical View. Gambar 2 hanya contoh untuk P/L e-commerce, ganti dengan view milik kelompok Anda yang memuat seluruh komponen pada Tabel 2.1. Jenis view dan notasinya boleh berbeda dari contoh. Jika membuat view tambahan, lanjutkan pola 3.x ini (3.2, 3.3, dan seterusnya).</i></sub>
+| Hubungan | Label pada diagram | Keterangan |
+| :--- | :--- | :--- |
+| *View* ke *Controller* | "memanggil" | Setiap *View* meneruskan aksi pengguna ke tepat satu *Controller*. |
+| *Controller* ke *Model* | "akses: ..." | Panah menuju kelompok *Model*. Nama *Model* yang dibaca atau diubah ditulis pada label, misalnya `JadwalController` mengakses `JadwalPekerjaan`, `RelawanLapangan`, `PetakLahan`, dan `Notifikasi`. |
+| *Controller* ke *Controller* | "memicu cek ambang" | `PetaRisikoController` memicu `PeringatanSMSController` setelah skor dihitung. |
+| Antar-*Model* | nama relasi dan multiplisitas | Asosiasi dan agregasi sesuai relasi antar-*entity* pada SKPL subbab 5.3, misalnya agregasi `PetakLahan` ke `TitikPanas` (1 ke 0..*). |
+| *Model* ke `DatabaseServer` | "simpan / baca (query SQL)" | Seluruh data *Model* disimpan terpusat. |
+| *Controller* ke `PenyimpananLokal` | "simpan laporan luring ↔ sinkron" dan "salinan tugas (luring)" | Hanya untuk fitur luring relawan. |
+| Sistem eksternal | "memicu tiap 3 jam (HTTPS + token rahasia)", "ambil titik panas", "ambil curah hujan", "muat tile peta", "kirim SMS (simulasi)", "balasan STOP" | Hubungan antara *Controller* atau *View* dan sistem di luar P/L. |
+
+Pada diagram, `PetaRisikoController` dipicu oleh `CronEksternal` dan bukan oleh *View*, dan `PeringatanSMSController` tidak memiliki *View* karena warga tidak membuka antarmuka apa pun (SKPL AK03). `HalamanPetaRisiko` juga menampilkan notifikasi untuk petugas, misalnya pembatalan tugas oleh relawan (KF21).
+
+## 3.2 Physical View
+
+*Physical View* digambarkan dalam bentuk *deployment diagram* yang memetakan komponen Tabel 2.1 ke perangkat dan lingkungan eksekusi pada Tabel 1.1.
+
+<p align="center">
+<img alt="Physical View SIGAP" src="./assets/diagram/physical-view-sigap.png" width="100%">
+</p>
+<p align="center">
+<i>Gambar 4. Physical View SIGAP</i>
+</p>
+
+| Node | Lingkungan eksekusi | Komponen |
+| :--- | :--- | :--- |
+| Laptop petugas posko | Peramban web modern (Chrome, Edge, atau Firefox) dengan Leaflet | `HalamanLogin`, `HalamanPetaRisiko`, `FormPenyusunanJadwal`, `HalamanAntreanLaporan` |
+| Ponsel Android relawan | Chrome Android sebagai PWA dengan *Service Worker* | `HalamanLogin`, `HalamanDaftarTugas`, `FormLaporanBuktiKerja`, `DialogTandaiKeliru`, `PenyimpananLokal`, serta bagian klien dari `AutentikasiController`, `DaftarTugasController`, dan `UploadLaporanController` |
+| Server aplikasi (layanan cloud gratis) | Node.js LTS 22 + Express | Delapan *Controller* dan sembilan *Model* (bagian server dari tiga *Controller* di atas ikut berada di sini) |
+| Server basis data | PostgreSQL 16 | `DatabaseServer` |
+| Sistem eksternal (garis putus-putus) | Di luar P/L | `CronEksternal`, `NasaFirmsAPI`, `OpenMeteoAPI`, `SMSGatewaySimulasi`, `OpenStreetMapTile` |
+
+Seluruh jalur komunikasi antara klien dan server memakai HTTPS. Peramban petugas memuat tile peta langsung dari `OpenStreetMapTile`, sedangkan seluruh pemanggilan API eksternal lainnya dilakukan oleh server.
+
+**Keputusan rancangan yang mengikuti dari view ini**
+
+1. **Satu aplikasi server (monolit modular).** Seluruh *Controller* dan *Model* berada dalam satu proses Express yang juga menyajikan berkas antarmuka kedua klien. Dengan demikian cukup satu layanan yang dideploy, dan tidak ada komunikasi antarlayanan yang perlu dikelola oleh tim.
+2. ***Controller* yang terbagi klien dan server.** Logika luring (UUID, kompresi foto, penyimpanan lokal, pemeriksaan sesi) berjalan di PWA, sedangkan penerimaan data, penolakan UUID ganda, dan pengelolaan sesi berjalan di server. Pemisahan ini mengikuti KF12, KF13, KF20, dan KNF03.
+3. **Endpoint pembaruan dilindungi token rahasia.** Endpoint yang dipanggil `CronEksternal` bersifat publik sehingga harus memeriksa token rahasia. Token dan MAP_KEY NASA FIRMS disimpan sebagai *environment variable* di server, tidak di repositori, karena repositori proyek bersifat publik (SKPL batasan 13).
+4. **Kendala layanan gratis.** Layanan hosting gratis dapat menidurkan server ketika tidak ada trafik, sehingga permintaan pertama bisa lebih lambat daripada batas 5 detik pada KNF01. Sebelum sesi pengujian dan demo, server perlu dipanaskan lebih dulu dengan membuka aplikasi atau memanggil endpoint kesehatan.
+5. **Penanda prototipe.** Karena SMS disimulasikan dan demo memakai data titik panas historis (SKPL batasan 4 dan 10), antarmuka menampilkan penanda "Prototipe: data historis dan SMS disimulasikan" agar tidak disalahartikan sebagai peringatan sungguhan.
 
 ---
 
 # Referensi
 
 - Sommerville, I. (2016). *Software Engineering* (10th ed.). Pearson. Chapter 6: *Architectural Design*: [https://software-engineering-book.com/slides/](https://software-engineering-book.com/slides/)
-- Diagram arsitektur: [https://www.drawio.com/](https://www.drawio.com/), [https://staruml.io/](https://staruml.io/)
+- Kruchten, P. (1995). The 4+1 View Model of Architecture. *IEEE Software*, 12(6), 42–50.
+- Kelompok G-08 K-01. *Spesifikasi Kebutuhan Perangkat Lunak (SKPL) SIGAP*, Tugas 5, IF2150 Rekayasa Perangkat Lunak, 2026.
+- Diagram arsitektur: [https://www.drawio.com/](https://www.drawio.com/)
+
