@@ -243,8 +243,516 @@ Keputusan rancangan yang lahir dari *view* ini:
 ---
 
 # BAB 3: Realisasi Use Case
+## 3.1 Use Case 01: *Memantau Peta Risiko Kebakaran*
+
+**ID Use Case:** *UC01*  
+**Nama Use Case:** *Memantau Peta Risiko Kebakaran*
+
+### 3.1.1 Identifikasi Kelas
+
+Tabel 3.1. Identifikasi Kelas Use Case UC01
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `HalamanPetaRisiko` | `HalamanPetaRisiko` |
+| 2 | `PetaRisikoController` | `PetaRisikoController` |
+| 3 | `PetakLahan` | `PetakLahan` |
+| 4 | `TitikPanas` | `TitikPanas` |
+|||
+
+### 3.1.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC01" src="./assets/diagram/Sequence-Diagram-01.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 5. Sequence Diagram UC01</i>
+</p>
+
+- **Skenario Alternatif 1: Pembaruan data terakhir gagal**
+
+<p align="center">
+<img alt="Sequence Diagram UC01 Alt" src="./assets/diagram/Sequence-Diagram-01-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6. Sequence Diagram UC01 - Pembaruan data terakhir gagal</i>
+</p>
+
+### 3.1.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC01" src="./assets/diagram/class_diagram_uc01.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 7. Diagram Kelas UC01</i>
+</p>
+
+## 3.2 Use Case 02: *Menyusun dan Menugaskan Jadwal Pencegahan*
+
+**ID Use Case:** *UC02*  
+**Nama Use Case:** *Menyusun dan Menugaskan Jadwal Pencegahan*
+
+### 3.2.1 Identifikasi Kelas
+
+Tabel 3.2. Identifikasi Kelas Use Case UC02
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `FormPenyusunanJadwal` | `FormPenyusunanJadwal` |
+| 2 | `JadwalController` | `JadwalController` |
+| 3 | `JadwalPekerjaan` | `JadwalPekerjaan` |
+| 4 | `RelawanLapangan` | `RelawanLapangan` |
+| 5 | `PetakLahan` | `PetakLahan` |
+| 6 | `Notifikasi` | `Notifikasi` |
+|||
+
+### 3.2.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC02" src="./assets/diagram/Sequence-Diagram-02.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 8. Sequence Diagram UC02</i>
+</p>
+
+- **Skenario Alternatif 1: Pembaruan data terakhir gagal**
+
+<p align="center">
+<img alt="Sequence Diagram UC02 Alt" src="./assets/diagram/Sequence-Diagram-01-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 9. Sequence Diagram UC02 - Kapasitas relawan penuh</i>
+</p>
+
+### 3.2.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC02" src="./assets/diagram/class_diagram_uc02.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 10. Diagram Kelas UC02</i>
+</p>
+
+## 3.3 Use Case 03: *Memverifikasi Laporan Bukti Kerja*
+
+**ID Use Case:** *UC03*  
+**Nama Use Case:** *Memverifikasi Laporan Bukti Kerja*
+
+### 3.3.1 Identifikasi Kelas
+
+Tabel 3.3. Identifikasi Kelas Use Case UC03
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `HalamanAntreanLaporan` | `HalamanAntreanLaporan` |
+| 2 | `VerifikasiLaporanController` | `VerifikasiLaporanController` |
+| 3 | `LaporanBuktiKerja` | `LaporanBuktiKerja` |
+| 4 | `JadwalPekerjaan` | `JadwalPekerjaan` |
+| 5 | `Pengguna` | `Pengguna` |
+| 6 | `Notifikasi` | `Notifikasi` |
+|||
+
+### 3.3.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC03" src="./assets/diagram/Sequence-Diagram-03.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 11. Sequence Diagram UC03</i>
+</p>
+
+- **Skenario Alternatif 1: Jarak koordinat melebihi 200 meter**
+
+<p align="center">
+<img alt="Sequence Diagram UC03 Alt" src="./assets/diagram/Sequence-Diagram-03-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 12. Sequence Diagram UC03 - Jarak koordinat melebihi 200 meter</i>
+</p>
+
+- **Skenario Alternatif 2: Petugas menolak laporan**
+
+<p align="center">
+<img alt="Sequence Diagram UC03 Alt2" src="./assets/diagram/Sequence-Diagram-03-Alt2.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 13. Sequence Diagram UC03 - Petugas menolak laporan</i>
+</p>
+
+- **Skenario Alternatif 3: Tidak ada laporan pada antrean**
+
+<p align="center">
+<img alt="Sequence Diagram UC03 Alt3" src="./assets/diagram/Sequence-Diagram-03-Alt3.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 14. Sequence Diagram UC03 - Tidak ada laporan pada antrean</i>
+</p>
+
+### 3.3.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC03" src="./assets/diagram/class_diagram_uc03.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 15. Diagram Kelas UC03</i>
+</p>
+
+## 3.4 Use Case 04: *Melihat Daftar Tugas Prioritas*
+
+**ID Use Case:** *UC04*  
+**Nama Use Case:** *Melihat Daftar Tugas Prioritas*
+
+### 3.4.1 Identifikasi Kelas
+
+Tabel 3.4. Identifikasi Kelas Use Case UC04
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `HalamanDaftarTugas` | `HalamanDaftarTugas` |
+| 2 | `DaftarTugasController` | `DaftarTugasController` |
+| 3 | `JadwalPekerjaan` | `JadwalPekerjaan` |
+| 4 | `PetakLahan` | `PetakLahan` |
+| 4 | `Notifikasi` | `Notifikasi` |
+|||
+
+### 3.4.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC04" src="./assets/diagram/Sequence-Diagram-04.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 16. Sequence Diagram UC04</i>
+</p>
+
+- **Skenario Alternatif 1: Perangkat luring**
+
+<p align="center">
+<img alt="Sequence Diagram UC04 Alt" src="./assets/diagram/Sequence-Diagram-04-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 17. Sequence Diagram UC04 - Perangkat luring</i>
+</p>
+
+- **Skenario Alternatif 2: Belum ada tugas**
+
+<p align="center">
+<img alt="Sequence Diagram UC04 Alt2" src="./assets/diagram/Sequence-Diagram-04-Alt2.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 18. Sequence Diagram UC04 - Belum ada tugas</i>
+</p>
+
+- **Skenario Alternatif 3: Relawan membatalkan tugas karena kondisi tidak aman**
+
+<p align="center">
+<img alt="Sequence Diagram UC04 Alt3" src="./assets/diagram/Sequence-Diagram-04-Alt3.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 19. Sequence Diagram UC04 - Relawan membatalkan tugas karena kondisi tidak aman</i>
+</p>
+
+### 3.4.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC04" src="./assets/diagram/class_diagram_uc04.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 20. Diagram Kelas UC04</i>
+</p>
+
+## 3.5 Use Case 05: *Mengunggah Laporan Bukti Kerja*
+
+**ID Use Case:** *UC05*  
+**Nama Use Case:** *Mengunggah Laporan Bukti Kerja*
+
+### 3.5.1 Identifikasi Kelas
+
+Tabel 3.5. Identifikasi Kelas Use Case UC05
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `FormLaporanBuktiKerja` | `FormLaporanBuktiKerja` |
+| 2 | `UploadLaporanController` | `UploadLaporanController` |
+| 3 | `LaporanBuktiKerja` | `LaporanBuktiKerja` |
+| 4 | `JadwalPekerjaan` | `JadwalPekerjaan` |
+|||
+
+### 3.5.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC05" src="./assets/diagram/Sequence-Diagram-05.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 21. Sequence Diagram UC05</i>
+</p>
+
+- **Skenario Alternatif 1: Perangkat tidak terhubung ke internet**
+
+<p align="center">
+<img alt="Sequence Diagram UC05 Alt" src="./assets/diagram/Sequence-Diagram-05-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 22. Sequence Diagram UC05 - Perangkat tidak terhubung ke internet</i>
+</p>
+
+- **Skenario Alternatif 2: GPS perangkat belum dinyalakan**
+
+<p align="center">
+<img alt="Sequence Diagram UC05 Alt2" src="./assets/diagram/Sequence-Diagram-05-Alt2.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 23. Sequence Diagram UC05 - GPS perangkat belum dinyalakan</i>
+</p>
+
+- **Skenario Alternatif 3: Penyimpanan lokal penuh**
+
+<p align="center">
+<img alt="Sequence Diagram UC05 Alt3" src="./assets/diagram/Sequence-Diagram-05-Alt3.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 24. Sequence Diagram UC05 - Penyimpanan lokal penuh</i>
+</p>
+
+### 3.5.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC05" src="./assets/diagram/class_diagram_uc05.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 25. Diagram Kelas UC05</i>
+</p>
+
+## 3.6 Use Case 06: *Menandai Titik Panas sebagai Deteksi Keliru*
+
+**ID Use Case:** *UC06*  
+**Nama Use Case:** *Menandai Titik Panas sebagai Deteksi Keliru*
+
+### 3.6.1 Identifikasi Kelas
+
+Tabel 3.6. Identifikasi Kelas Use Case UC06
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `DialogTandaiKeliru` | `DialogTandaiKeliru` |
+| 2 | `DeteksiKeliruController` | `DeteksiKeliruController` |
+| 3 | `TitikPanas` | `TitikPanas` |
+|||
+
+### 3.6.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC06" src="./assets/diagram/Sequence-Diagram-06.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 26. Sequence Diagram UC06</i>
+</p>
+
+- **Skenario Alternatif 1: Relawan tidak mengisi kolom keterangan**
+
+<p align="center">
+<img alt="Sequence Diagram UC06 Alt" src="./assets/diagram/Sequence-Diagram-06-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 27. Sequence Diagram UC06 - Relawan tidak mengisi kolom keterangan</i>
+</p>
+
+### 3.6.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC06" src="./assets/diagram/class_diagram_uc06.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 28. Diagram Kelas UC06</i>
+</p>
+
+## 3.7 Use Case 07: *Menerima Peringatan Dini via SMS*
+
+**ID Use Case:** *UC07*  
+**Nama Use Case:** *Menerima Peringatan Dini via SMS*
+
+### 3.7.1 Identifikasi Kelas
+
+Tabel 3.7. Identifikasi Kelas Use Case UC07
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `PeringatanSMSController` | `PeringatanSMSController` |
+| 2 | `Warga` | `Warga` |
+| 3 | `PeringatanSMS` | `PeringatanSMS` |
+| 4 | `PetakLahan` | `PetakLahan` |
+|||
+
+### 3.7.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC07" src="./assets/diagram/Sequence-Diagram-07.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 29. Sequence Diagram UC07</i>
+</p>
+
+- **Skenario Alternatif 1: Nomor tidak aktif**
+
+<p align="center">
+<img alt="Sequence Diagram UC07 Alt" src="./assets/diagram/Sequence-Diagram-07-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 30. Sequence Diagram UC07 - Nomor tidak aktif</i>
+</p>
+
+- **Skenario Alternatif 2: Warga berhenti berlangganan**
+
+<p align="center">
+<img alt="Sequence Diagram UC07 Alt2" src="./assets/diagram/Sequence-Diagram-07-Alt2.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 31. Sequence Diagram UC07 - Warga berhenti berlangganan</i>
+</p>
+
+### 3.7.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC07" src="./assets/diagram/class_diagram_uc07.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 32. Diagram Kelas UC07</i>
+</p>
+
+## 3.8 Use Case 08: *Masuk ke Sistem*
+
+**ID Use Case:** *UC08*  
+**Nama Use Case:** *Masuk ke Sistem*
+
+### 3.8.1 Identifikasi Kelas
+
+Tabel 3.8. Identifikasi Kelas Use Case UC08
+
+| No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
+|:--- | :--- | :--- |
+| 1 | `HalamanLogin` | `HalamanLogin` |
+| 2 | `AutentikasiController` | `AutentikasiController` |
+| 3 | `Pengguna` | `Pengguna` |
+|||
+
+### 3.8.2 Sequence Diagram
+
+- **Skenario Normal**
+
+<p align="center">
+<img alt="Sequence Diagram UC08" src="./assets/diagram/Sequence-Diagram-08.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 33. Sequence Diagram UC08</i>
+</p>
+
+- **Skenario Alternatif 1: Kredensial tidak valid**
+
+<p align="center">
+<img alt="Sequence Diagram UC08 Alt" src="./assets/diagram/Sequence-Diagram-08-Alt.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 34. Sequence Diagram UC08 - Kredensial tidak valid</i>
+</p>
+
+- **Skenario Alternatif 2: Relawan membuka aplikasi saat luring**
+
+<p align="center">
+<img alt="Sequence Diagram UC08 Alt2" src="./assets/diagram/Sequence-Diagram-08-Alt2.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 35. Sequence Diagram UC08 - Relawan membuka aplikasi saat luring</i>
+</p>
+
+### 3.8.3 Diagram Kelas
+
+<p align="center">
+<img alt="Diagram Kelas UC08" src="./assets/diagram/class_diagram_uc08.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 36. Diagram Kelas UC08</i>
+</p>
+
 
 # BAB 4: Diagram Kelas Keseluruhan
 
+<p align="center">
+<img alt="Diagram Kelas Keseluruhan" src="./assets/diagram/class_diagram_keseluruhan.png" width="35%">
+</p>
+<p align="center">
+<i>Gambar 37. Diagram Kelas Perancangan Keseluruhan SIGAP</i>
+</p>
+
+Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
+
+| ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
+| :--- | :--- | :--- | :--- |
+| C01 | `HalamanPetaRisiko` | - | `tampilkanPeta()`, `tampilkanKeteranganCache()`, `tampilkanAtribusi()` |
+| C02 | `PetaRisikoController` | - | `ambilDataTitikPanas()`, `ambilDataCuaca()`, `hitungSkorRisiko()`, `ambilDataCache()`, `picuCekAmbang()` |
+| C03 | `PetakLahan` | `idPetak`, `batasWilayah`, `skorRisiko`, `tingkatRisiko`, `waktuUpdateTerakhir` | `perbaruiSkor()`, `simpanCache()`, `getTingkatRisiko()` |
+| C04 | `TitikPanas` | `idTitikPanas`, `koordinat`, `waktuDeteksi`, `statusValiditas`, `keterangan`, `waktuTandaiKeliru` | `getStatus()`, `tandaiKeliru()`, `isDikecualikan()` |
+| C05 | `FormPenyusunanJadwal` | - | `tampilkanForm()`, `tampilkanRekomendasi()`, `tampilkanDaftarRelawanAktif()`, `tampilkanPesanKapasitasPenuh()` |
+| C06 | `JadwalController` | - | `buatRekomendasi()`, `validasiKapasitas()`, `buatJadwal()`, `kirimNotifikasiTugas()` |
+| C07 | `JadwalPekerjaan` | `idJadwal`, `jenisPekerjaan`, `status`, `tanggal`, `alasanPembatalan` | `perbaruiStatus()`, `batalkan()` |
+| C08 | `RelawanLapangan` | `idRelawan`, `nama`, `kontak`, `statusAktif` | `getStatusAktif()`, `hitungTugasAktif()` |
+| C09 | `HalamanAntreanLaporan` | - | `tampilkanAntrean()`, `tampilkanDetailLaporan()`, `tampilkanPeringatanJarak()`, `tampilkanAntreanKosong()` |
+| C10 | `VerifikasiLaporanController` | - | `hitungJarak()`, `verifikasiLaporan()`, `tolakLaporan()`, `kunciLaporan()`, `perbaruiStatusTugas()` |
+| C11 | `LaporanBuktiKerja` | `idLaporan`, `foto`, `koordinatUnggah`, `waktuUnggah`, `jarakKeTugas`, `status`, `alasanPenolakan`, `waktuVerifikasi` | `getStatus()`, `isTerkunci()` |
+| C12 | `HalamanDaftarTugas` | - | `tampilkanDaftarTugas()`, `tampilkanDetailTugas()`, `tampilkanPenandaLuring()`, `tampilkanFormPembatalan()`, `tampilkanNotifikasi()` |
+| C13 | `DaftarTugasController` | - | `ambilTugasRelawan()`, `urutkanBerdasarkanSkorRisiko()`, `simpanSalinanLokal()`, `batalkanTugasTidakAman()` |
+| C14 | `FormLaporanBuktiKerja` | - | `tampilkanForm()`, `ambilFoto()`, `ambilKoordinatGPS()`, `tampilkanPeringatanGPS()` |
+| C15 | `UploadLaporanController` | - | `generateUUID()`, `kompresFoto()`, `deteksiKoneksi()`, `simpanLokal()`, `sinkronOtomatis()` |
+| C16 | `DialogTandaiKeliru` | - | `tampilkanForm()`, `tampilkanPeringatanKeteranganKosong()` |
+| C17 | `DeteksiKeliruController` | - | `validasiKeterangan()`, `ubahStatusTitikPanas()` |
+| C18 | `PeringatanSMSController` | - | `cekAmbangRisiko()`, `cekPeringatanTerakhir()`, `identifikasiWargaTerdampak()`, `kirimSMS()`, `prosesBalasanSTOP()`, `hapusNomorDicabut()` |
+| C19 | `Warga` | `idWarga`, `nomorHP`, `statusPersetujuan`, `waktuDicabut` | `cabutPersetujuan()` |
+| C20 | `PeringatanSMS` | `idPeringatan`, `isiPesan`, `waktuKirim`, `status` | - |
+| C21 | `HalamanLogin` | - | `tampilkanFormLogin()`, `tampilkanPesanGagal()` |
+| C22 | `AutentikasiController` | - | `verifikasiKredensial()`, `buatSesi()`, `periksaSesi()`, `arahkanSesuaiPeran()` |
+| C23 | `Pengguna` | `idPengguna`, `username`, `passwordHash`, `peran` | `cekPassword()`, `getPeran()` |
+| C24 | `Notifikasi` | `idNotifikasi`, `isiPesan`, `waktuDibuat`, `sudahDibaca` | `tandaiDibaca()` |
+
+
+<br>
 
 # BAB 5: Matriks Kerunutan
+Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
+| Kelas | Use Case Terkait |
+| :--- | :--- |
+| C01-HalamanPetaRisiko | UC01-Memantau Peta Risiko Kebakaran |
+| C02-PetaRisikoController | UC01-Memantau Peta Risiko Kebakaran |
+| C03-PetakLahan | UC01-Memantau Peta Risiko Kebakaran, UC02-Menyusun dan Menugaskan Jadwal Pencegahan, UC04-Melihat Daftar Tugas Prioritas, UC07-Menerima Peringatan Dini via SMS |
+| C04-TitikPanas | UC01-Memantau Peta Risiko Kebakaran, UC06-Menandai Titik Panas sebagai Deteksi Keliru |
+| C05-FormPenyusunanJadwal | UC02-Menyusun dan Menugaskan Jadwal Pencegahan |
+| C06-JadwalController | UC02-Menyusun dan Menugaskan Jadwal Pencegahan |
+| C07-JadwalPekerjaan | UC02-Menyusun dan Menugaskan Jadwal Pencegahan, UC03-Memverifikasi Laporan Bukti Kerja, UC04-Melihat Daftar Tugas Prioritas, UC05-Mengunggah Laporan Bukti Kerja |
+| C08-RelawanLapangan | UC02-Menyusun dan Menugaskan Jadwal Pencegahan |
+| C09-HalamanAntreanLaporan | UC03-Memverifikasi Laporan Bukti Kerja |
+| C10-VerifikasiLaporanController | UC03-Memverifikasi Laporan Bukti Kerja |
+| C11-VerifikasiLaporanController | UC03-Memverifikasi Laporan Bukti Kerja, UC05-Mengunggah Laporan Bukti Kerja |
+| C12-HalamanDaftarTugas | UC04-Melihat Daftar Tugas Prioritas |
+| C13-DaftarTugasController | UC04-Melihat Daftar Tugas Prioritas |
+| C14-FormLaporanBuktiKerja | UC05-Mengunggah Laporan Bukti Kerja |
+| C15-UploadLaporanController | UC05-Mengunggah Laporan Bukti Kerja |
+| C16-DialogTandaiKeliru | UC06-Menandai Titik Panas sebagai Deteksi Keliru |
+| C17-DeteksiKeliruController | UC06-Menandai Titik Panas sebagai Deteksi Keliru |
+| C18-PeringatanSMSController | UC07-Menerima Peringatan Dini via SMS |
+| C19-Warga | UC07-Menerima Peringatan Dini via SMS |
+| C20-PeringatanSMS | UC07-Menerima Peringatan Dini via SMS |
+| C21-HalamanLogin | UC08-Masuk ke Sistem |
+| C22-AutentikasiController | UC08-Masuk ke Sistem |
+| C23-Pengguna | UC03-Memverifikasi Laporan Bukti Kerja, UC08-Masuk ke Sistem |
+| C24-Notifikasi | UC02-Menyusun dan Menugaskan Jadwal Pencegahan, UC03-Memverifikasi Laporan Bukti Kerja, UC04-Melihat Daftar Tugas Prioritas |
