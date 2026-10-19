@@ -47,6 +47,7 @@ Dipersiapkan oleh:
 | O | Memperbaiki model kelas dari Tugas 4: setiap entity diberi atribut ID; C03 `koordinat` diganti `batasWilayah` dan ditambah `tingkatRisiko`; C07 ditambah `alasanPembatalan`, atribut `prioritas` dihapus karena urutan tugas diambil dari skor petak; C11 ditambah `idLaporan` (UUID) dan `waktuVerifikasi`; C19 ditambah `statusPersetujuan` dan `waktuDicabut`; C20 ditambah `isiPesan`. Menambahkan kelas C24 `Notifikasi` untuk menyimpan notifikasi dalam aplikasi (KF07, KF21, KF24) dan relasi antar-entity yang sebelumnya belum ada. |
 | P | Menambahkan skenario alternatif UC04 (perangkat luring, belum ada tugas, dan pembatalan tugas) sesuai catatan asistensi Tugas 3 bahwa setiap use case minimal punya satu skenario alternatif. Menambahkan skenario alternatif 3 UC05 (penyimpanan lokal penuh) sesuai KNF09. Menambahkan KF24 karena status tugas "selesai" belum pernah didefinisikan, padahal batas kapasitas KF06 bergantung padanya. |
 | Q | Use case diagram diperbarui sesuai catatan asistensi Tugas 3 (*include* untuk proses wajib, *extend* untuk proses opsional). Activity diagram proses bisnis dibuat ulang karena dokumen Topic Brainstorming masih memuat gambar contoh dari template, dan ditambahkan diagram konteks. |
+| R | KNF11 diselaraskan dengan DPPL subbab 2.4.2: sesi kedaluwarsa 7 hari setelah login, bukan setelah 7 hari tidak aktif. Masa berlaku token JWT ditetapkan saat login, sehingga perangkat relawan dapat memeriksanya sendiri ketika luring (KF20). |
 
 <br>
 
@@ -260,7 +261,7 @@ Tabel 3.2. Kebutuhan Non-Fungsional
 | KNF08 | R13 | Ergonomy | Antarmuka pengisian laporan relawan harus dapat dioperasikan dengan satu tangan (tombol aksi utama pada 40% bagian bawah layar) dan tetap terbaca di bawah sinar matahari langsung (kontras teks dan latar minimal 4,5:1, target sentuh minimal 48×48 dp). |
 | KNF09 | R13 | Memory | Penyimpanan lokal laporan luring yang belum terkirim dibatasi maksimal 20 laporan, dan setiap foto dikompres di perangkat menjadi maksimal 500 KB sebelum disimpan. |
 | KNF10 | R17 | Safety | Ketika perhitungan skor menunjukkan petak berpenghuni naik ke tingkat tinggi, sistem harus mencatat pengiriman SMS peringatan (disimulasikan) paling lambat 15 menit sejak perhitungan tersebut selesai. |
-| KNF11 | R21 | Security | Password pengguna harus disimpan dalam bentuk hash bcrypt, tidak pernah dalam bentuk teks biasa, dan sesi login kedaluwarsa setelah 7 hari tidak aktif. |
+| KNF11 | R21 | Security | Password pengguna harus disimpan dalam bentuk hash bcrypt, tidak pernah dalam bentuk teks biasa, dan sesi login kedaluwarsa 7 hari setelah login. |
 | KNF12 | R23 | Security | Sistem harus menghapus nomor HP yang persetujuannya dicabut paling lambat 30 hari setelah pencabutan. |
 
 ---
