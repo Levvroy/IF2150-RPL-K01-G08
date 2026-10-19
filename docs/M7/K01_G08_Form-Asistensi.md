@@ -4,23 +4,23 @@
 
 | Informasi | Keterangan |
 | --- | --- |
-| **Hari** | *\[Hari\]* |
-| **Tanggal** | *\[DD/MM/YYYY\]* |
-| **Kelas** | *\[Kelas\]* |
-| **Nomor Kelompok** | *\[Nomor Kelompok\]*  |
-| **Nama Kelompok** | *\[Nama Kelompok\]*  |
-| **Nama Perangkat Lunak** | *\[Nama P/L\]*  |
-| **Dokumen** | *\[Nama Dokumen yang diasistensikan\]*  |
+| **Hari** | Selasa |
+| **Tanggal** | 20/19/2026 |
+| **Kelas** | K-01 |
+| **Nomor Kelompok** | G-08  |
+| **Nama Kelompok** | firstTimeRPL  |
+| **Nama Perangkat Lunak** | SIGAP  |
+| **Dokumen** | - |
 
 ### Anggota Kelompok
 
 | NIM | Nama |
 | --- | --- |
-| *\[NIM 1\]* | *\[Nama Anggota 1\]* |
-| *\[NIM 2\]* | *\[Nama Anggota 2\]* |
-| *\[NIM 3\]* | *\[Nama Anggota 3\]* |
-| *\[NIM 4\]* | *\[Nama Anggota 4\]* |
-| *\[NIM 5\]* | *\[Nama Anggota 5\]* |
+| 13525022 | Muhammad Rafi Insyan Syiham Abrar |
+| 13525037 | Muhammad Rafiif Ansyadya |
+| 13525076 | Reinhard Mikhael Tandra |
+| 13525094 | Arga Cyrano Simanjuntak |
+| 13525136 | Jonathan Lewie |
 
 ### Catatan
 
