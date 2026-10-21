@@ -80,6 +80,14 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 |---|---|---|---|
 | Gemini | Membantu brainstorming untuk memilih style arsitektur yang sesuai dengan aplikasi kami | "Saya ingin memilih style arsitektur yang sesuai. Tolong berikan beberapa pilihan style arsitektur" | Memilah style-style arsitektur lalu memilih yang paling sesuai dengan aplikasi kami |
 | | | | | |
+
+## Milestone 7
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Claude | Membuat aset ikon api dengan gelombang sinyal untuk titik pada huruf "i" di logo SIGAP | "Buatkan Logo api seperti pusat sinyal dengan color pallet yang sama dengan ini,  tolong dibuat tanpa background, mau saya upload ke Canva dalam resolusi tinggi" | Memilih konsep api + sinyal dari beberapa alternatif karena paling mewakili fitur notifikasi berjenjang SIGAP. Menyusun ulang di Canva: mengganti font tulisan "sigap", mengatur ukuran dan posisi ikon di atas huruf "i", serta menambahkan tagline |
+| Claude | Membuat aset ikon pin lokasi berelemen api untuk kotak tengah ikon peta risiko | "elemen apinya dibuat lebih besar di bagian luar pin, tapi pin harus tetap terlihat jelas sebagai pin" | Ide awal pin (api yang dibalik menjadi bentuk pin) berasal dari kami, lalu direvisi beberapa kali sampai bentuk pin dan apinya jelas. Memilih versi pin putih, menempatkannya di kotak tengah grid 3×3, serta menentukan sendiri susunan dan gradasi warna heatmap di Canva |
+
 ---
 ### Pernyataan Integritas dan Persetujuan
 
