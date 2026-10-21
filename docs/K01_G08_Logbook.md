@@ -26,6 +26,9 @@
 * [Milestone 2](#milestone-2)
 * [Milestone 3](#milestone-3)
 * [Milestone 4](#milestone-4)
+* [Milestone 5](#milestone-5)
+* [Milestone 6](#milestone-6)
+* [Milestone 7](#milestone-7)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -109,8 +112,11 @@
 | *29-09-2026* | Rafi, Rafiif, Arga | Memeriksa dan memfiksasi isi SKPL, serta mengecek kembali kesesuaian antarbagian dokumen | 1 Jam | Done | - |
 | *30-09-2026* | Rafi | Mengerjakan logbook | <1 Jam | Done | - |
 
-**Catatan/Evaluasi Milestone 6:**
+**Catatan/Evaluasi Milestone 5:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
+### Milestone 6
+**Periode:** 30-09-2026 - 07-09-2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -122,8 +128,26 @@
 | *07-09-2026* | Arga  | menyesuaikan diagram sesuai dengan format spesifikasi tugas | <1 Jam | Done | - |
 | *07-09-2026* | Arga  | mengisi logbook | <1 Jam | Done | - |
 
-
 **Catatan/Evaluasi Milestone 6:**
+* *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
+### Milestone 7
+**Periode:** 07-10-2026 - 21-10-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / Blocker |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 13-10-2026 | Rafi, Rafiif, Reinhard, Arga, Lewi | Berdiskusi membahas pembagian tugas dan pemilihan arsitektur sesuai spesifikasi milestone 6 | 2 Jam | Done | - |
+| 14-10-2026 | Lewi | Mengisi draf milestone 7 bab 1 dan bab 2| 3 Jam | Done | - |
+| 16-10-2026 | Reinhard | Membuat tabel 2.1 |  1 Jam | Done | - |
+| 17-10-2026 | Reinhard | membuat bab 3 dan diagram | 3Jam | Done | - |
+| 19-10-2026 | Lewi | Revisi daftar perubahan DPPL dan keambiguan pada SKPL | 1 Jam | Done | - |
+| 20-10-2026 | Rafif, Arga , Rafi  | Membuat diagram sequence, class, dan use | 2 Jam | Done | - |
+| 20-10-2026 | Rafif  | Memasukkan diagram sequence, class, dan use secara keseluruhan  | 2 Jam | Done | - |
+| 20-10-2026 | Rafif | | < 1 Jam | Done | - |
+| 20-10-2026 | Rafi  mendesign logo |  1 Jam | Done | - |
+| 20-10-2026 |  Arga memberi gradasi warna pada logo |  < 1Jam | Done | - |
+
+**Catatan/Evaluasi Milestone 7:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
 
