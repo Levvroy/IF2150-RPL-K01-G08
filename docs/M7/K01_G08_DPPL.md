@@ -347,7 +347,7 @@ Tabel 3.2. Identifikasi Kelas Use Case UC02
 ### 3.2.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas UC02" src="./assets/diagram/class-diagram_uc02.png" width="70%">
+<img alt="Diagram Kelas UC02" src="./assets/diagram/class_diagram_uc02.png" width="70%">
 </p>
 <p align="center">
 <i>Gambar 10. Diagram Kelas UC02</i>
