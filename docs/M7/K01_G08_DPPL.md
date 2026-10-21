@@ -281,7 +281,7 @@ Diagram UC01 memuat dua bagian, yaitu pembaruan skor oleh `CronEksternal` setiap
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC01" src="./assets/diagram/Sequence-Diagram-01.png" width="100%">
+<img alt="Sequence Diagram UC01" src="./assets/diagram/sequence-diagram-01.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 5. Sequence Diagram UC01</i>
@@ -290,7 +290,7 @@ Diagram UC01 memuat dua bagian, yaitu pembaruan skor oleh `CronEksternal` setiap
 - **Skenario Alternatif 1: Pembaruan data terakhir gagal**
 
 <p align="center">
-<img alt="Sequence Diagram UC01 Alt" src="./assets/diagram/Sequence-Diagram-01-Alt.png" width="100%">
+<img alt="Sequence Diagram UC01 Alt" src="./assets/diagram/sequence-diagram-01-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 6. Sequence Diagram UC01 - Pembaruan data terakhir gagal</i>
@@ -329,7 +329,7 @@ Tabel 3.2. Identifikasi Kelas Use Case UC02
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC02" src="./assets/diagram/Sequence-Diagram-02.png" width="100%">
+<img alt="Sequence Diagram UC02" src="./assets/diagram/sequence-diagram-02.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 8. Sequence Diagram UC02</i>
@@ -338,7 +338,7 @@ Tabel 3.2. Identifikasi Kelas Use Case UC02
 - **Skenario Alternatif 1: Kapasitas relawan penuh**
 
 <p align="center">
-<img alt="Sequence Diagram UC02 Alt" src="./assets/diagram/Sequence-Diagram-02-Alt.png" width="100%">
+<img alt="Sequence Diagram UC02 Alt" src="./assets/diagram/sequence-diagram-02-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 9. Sequence Diagram UC02 - Kapasitas relawan penuh</i>
@@ -347,7 +347,7 @@ Tabel 3.2. Identifikasi Kelas Use Case UC02
 ### 3.2.3 Diagram Kelas
 
 <p align="center">
-<img alt="Diagram Kelas UC02" src="./assets/diagram/class_diagram_uc02.png" width="70%">
+<img alt="Diagram Kelas UC02" src="./assets/diagram/class-diagram_uc02.png" width="70%">
 </p>
 <p align="center">
 <i>Gambar 10. Diagram Kelas UC02</i>
@@ -378,7 +378,7 @@ Tabel 3.3. Identifikasi Kelas Use Case UC03
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC03" src="./assets/diagram/Sequence-Diagram-03.png" width="100%">
+<img alt="Sequence Diagram UC03" src="./assets/diagram/sequence-diagram-03.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 11. Sequence Diagram UC03</i>
@@ -387,7 +387,7 @@ Tabel 3.3. Identifikasi Kelas Use Case UC03
 - **Skenario Alternatif 1: Jarak koordinat melebihi 200 meter**
 
 <p align="center">
-<img alt="Sequence Diagram UC03 Alt" src="./assets/diagram/Sequence-Diagram-03-Alt.png" width="100%">
+<img alt="Sequence Diagram UC03 Alt" src="./assets/diagram/sequence-diagram-03-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 12. Sequence Diagram UC03 - Jarak koordinat melebihi 200 meter</i>
@@ -396,7 +396,7 @@ Tabel 3.3. Identifikasi Kelas Use Case UC03
 - **Skenario Alternatif 2: Petugas menolak laporan**
 
 <p align="center">
-<img alt="Sequence Diagram UC03 Alt2" src="./assets/diagram/Sequence-Diagram-03-Alt2.png" width="100%">
+<img alt="Sequence Diagram UC03 Alt2" src="./assets/diagram/sequence-diagram-03-alt2.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 13. Sequence Diagram UC03 - Petugas menolak laporan</i>
@@ -405,7 +405,7 @@ Tabel 3.3. Identifikasi Kelas Use Case UC03
 - **Skenario Alternatif 3: Tidak ada laporan pada antrean**
 
 <p align="center">
-<img alt="Sequence Diagram UC03 Alt3" src="./assets/diagram/Sequence-Diagram-03-Alt3.png" width="100%">
+<img alt="Sequence Diagram UC03 Alt3" src="./assets/diagram/sequence-diagram-03-alt3.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 14. Sequence Diagram UC03 - Tidak ada laporan pada antrean</i>
@@ -444,7 +444,7 @@ Tabel 3.4. Identifikasi Kelas Use Case UC04
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC04" src="./assets/diagram/Sequence-Diagram-04.png" width="100%">
+<img alt="Sequence Diagram UC04" src="./assets/diagram/sequence-diagram-04.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 16. Sequence Diagram UC04</i>
@@ -453,7 +453,7 @@ Tabel 3.4. Identifikasi Kelas Use Case UC04
 - **Skenario Alternatif 1: Perangkat luring**
 
 <p align="center">
-<img alt="Sequence Diagram UC04 Alt" src="./assets/diagram/Sequence-Diagram-04-Alt.png" width="100%">
+<img alt="Sequence Diagram UC04 Alt" src="./assets/diagram/sequence-diagram-04-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 17. Sequence Diagram UC04 - Perangkat luring</i>
@@ -462,7 +462,7 @@ Tabel 3.4. Identifikasi Kelas Use Case UC04
 - **Skenario Alternatif 2: Belum ada tugas**
 
 <p align="center">
-<img alt="Sequence Diagram UC04 Alt2" src="./assets/diagram/Sequence-Diagram-04-Alt2.png" width="100%">
+<img alt="Sequence Diagram UC04 Alt2" src="./assets/diagram/sequence-diagram-04-alt2.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 18. Sequence Diagram UC04 - Belum ada tugas</i>
@@ -471,7 +471,7 @@ Tabel 3.4. Identifikasi Kelas Use Case UC04
 - **Skenario Alternatif 3: Relawan membatalkan tugas karena kondisi tidak aman**
 
 <p align="center">
-<img alt="Sequence Diagram UC04 Alt3" src="./assets/diagram/Sequence-Diagram-04-Alt3.png" width="100%">
+<img alt="Sequence Diagram UC04 Alt3" src="./assets/diagram/sequence-diagram-04-alt3.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 19. Sequence Diagram UC04 - Relawan membatalkan tugas karena kondisi tidak aman</i>
@@ -508,7 +508,7 @@ Tabel 3.5. Identifikasi Kelas Use Case UC05
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC05" src="./assets/diagram/Sequence-Diagram-05.png" width="100%">
+<img alt="Sequence Diagram UC05" src="./assets/diagram/sequence-diagram-05.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 21. Sequence Diagram UC05</i>
@@ -517,7 +517,7 @@ Tabel 3.5. Identifikasi Kelas Use Case UC05
 - **Skenario Alternatif 1: Perangkat tidak terhubung ke internet**
 
 <p align="center">
-<img alt="Sequence Diagram UC05 Alt" src="./assets/diagram/Sequence-Diagram-05-Alt.png" width="100%">
+<img alt="Sequence Diagram UC05 Alt" src="./assets/diagram/sequence-diagram-05-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 22. Sequence Diagram UC05 - Perangkat tidak terhubung ke internet</i>
@@ -526,7 +526,7 @@ Tabel 3.5. Identifikasi Kelas Use Case UC05
 - **Skenario Alternatif 2: GPS perangkat belum dinyalakan**
 
 <p align="center">
-<img alt="Sequence Diagram UC05 Alt2" src="./assets/diagram/Sequence-Diagram-05-Alt2.png" width="100%">
+<img alt="Sequence Diagram UC05 Alt2" src="./assets/diagram/sequence-diagram-05-alt2.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 23. Sequence Diagram UC05 - GPS perangkat belum dinyalakan</i>
@@ -535,7 +535,7 @@ Tabel 3.5. Identifikasi Kelas Use Case UC05
 - **Skenario Alternatif 3: Penyimpanan lokal penuh**
 
 <p align="center">
-<img alt="Sequence Diagram UC05 Alt3" src="./assets/diagram/Sequence-Diagram-05-Alt3.png" width="100%">
+<img alt="Sequence Diagram UC05 Alt3" src="./assets/diagram/sequence-diagram-05-alt3.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 24. Sequence Diagram UC05 - Penyimpanan lokal penuh</i>
@@ -571,7 +571,7 @@ Tabel 3.6. Identifikasi Kelas Use Case UC06
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC06" src="./assets/diagram/Sequence-Diagram-06.png" width="100%">
+<img alt="Sequence Diagram UC06" src="./assets/diagram/sequence-diagram-06.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 26. Sequence Diagram UC06</i>
@@ -580,7 +580,7 @@ Tabel 3.6. Identifikasi Kelas Use Case UC06
 - **Skenario Alternatif 1: Relawan tidak mengisi kolom keterangan**
 
 <p align="center">
-<img alt="Sequence Diagram UC06 Alt" src="./assets/diagram/Sequence-Diagram-06-Alt.png" width="100%">
+<img alt="Sequence Diagram UC06 Alt" src="./assets/diagram/sequence-diagram-06-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 27. Sequence Diagram UC06 - Relawan tidak mengisi kolom keterangan</i>
@@ -618,7 +618,7 @@ Tabel 3.7. Identifikasi Kelas Use Case UC07
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC07" src="./assets/diagram/Sequence-Diagram-07.png" width="100%">
+<img alt="Sequence Diagram UC07" src="./assets/diagram/sequence-diagram-07.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 29. Sequence Diagram UC07</i>
@@ -627,7 +627,7 @@ Tabel 3.7. Identifikasi Kelas Use Case UC07
 - **Skenario Alternatif 1: Nomor tidak aktif**
 
 <p align="center">
-<img alt="Sequence Diagram UC07 Alt" src="./assets/diagram/Sequence-Diagram-07-Alt.png" width="100%">
+<img alt="Sequence Diagram UC07 Alt" src="./assets/diagram/sequence-diagram-07-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 30. Sequence Diagram UC07 - Nomor tidak aktif</i>
@@ -636,7 +636,7 @@ Tabel 3.7. Identifikasi Kelas Use Case UC07
 - **Skenario Alternatif 2: Warga berhenti berlangganan**
 
 <p align="center">
-<img alt="Sequence Diagram UC07 Alt2" src="./assets/diagram/Sequence-Diagram-07-Alt2.png" width="100%">
+<img alt="Sequence Diagram UC07 Alt2" src="./assets/diagram/sequence-diagram-07-alt2.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 31. Sequence Diagram UC07 - Warga berhenti berlangganan</i>
@@ -672,7 +672,7 @@ Tabel 3.8. Identifikasi Kelas Use Case UC08
 - **Skenario Normal**
 
 <p align="center">
-<img alt="Sequence Diagram UC08" src="./assets/diagram/Sequence-Diagram-08.png" width="100%">
+<img alt="Sequence Diagram UC08" src="./assets/diagram/sequence-diagram-08.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 33. Sequence Diagram UC08</i>
@@ -681,7 +681,7 @@ Tabel 3.8. Identifikasi Kelas Use Case UC08
 - **Skenario Alternatif 1: Kredensial tidak valid**
 
 <p align="center">
-<img alt="Sequence Diagram UC08 Alt" src="./assets/diagram/Sequence-Diagram-08-Alt.png" width="100%">
+<img alt="Sequence Diagram UC08 Alt" src="./assets/diagram/sequence-diagram-08-alt.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 34. Sequence Diagram UC08 - Kredensial tidak valid</i>
@@ -690,7 +690,7 @@ Tabel 3.8. Identifikasi Kelas Use Case UC08
 - **Skenario Alternatif 2: Relawan membuka aplikasi saat luring**
 
 <p align="center">
-<img alt="Sequence Diagram UC08 Alt2" src="./assets/diagram/Sequence-Diagram-08-Alt2.png" width="100%">
+<img alt="Sequence Diagram UC08 Alt2" src="./assets/diagram/sequence-diagram-08-alt2.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 35. Sequence Diagram UC08 - Relawan membuka aplikasi saat luring</i>
@@ -709,7 +709,7 @@ Tabel 3.8. Identifikasi Kelas Use Case UC08
 # BAB 4: Diagram Kelas Keseluruhan
 
 <p align="center">
-<img alt="Diagram Kelas Keseluruhan" src="./assets/diagram/class_diagram_keseluruhan.png" width="100%">
+<img alt="Diagram Kelas Keseluruhan" src="./assets/diagram/diagramkeseluruhan.png" width="100%">
 </p>
 <p align="center">
 <i>Gambar 37. Diagram Kelas Perancangan Keseluruhan SIGAP</i>
