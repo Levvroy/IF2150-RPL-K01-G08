@@ -9,7 +9,8 @@ DESKRIPSI PERANCANGAN PERANGKAT LUNAK (DPPL)
 
 ## *SIGAP*
 <p align="center">
-<img alt="Logo SIGAP" src="./assets/logo-sigap.png" width="160"> <!-- nanti tambahin logonya disini ya ges -->
+<img alt="Logo SIGAP" src="../assets/logo-sigap.png" width="160">
+
 </p>
 
 ### Untuk: *Amanda Aurellia Salsabilla*
