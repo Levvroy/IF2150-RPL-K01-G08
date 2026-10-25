@@ -833,6 +833,7 @@ Tabel 5.12.1. Operasi Kelas HalamanDaftarTugas
 | tampilkanBelumAdaTugas(): void | Public | Menampilkan pesan bahwa relawan belum memiliki penugasan |
 | tampilkanFormPembatalan(): void | Public | Menampilkan kolom alasan pembatalan yang wajib diisi beserta tombol kirim. Tombol kirim meneruskan idJadwal dan alasan ke DaftarTugasController.batalkanTugasTidakAman() |
 | tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void | Public | Menampilkan notifikasi yang belum dibaca, misalnya penugasan baru (KF07) dan hasil verifikasi laporan (KF24) |
+| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan kegagalan di dalam form pembatalan tanpa menutup form, misalnya ketika perangkat luring atau server menolak pembatalan (respons 400/409), sehingga alasan yang sudah diketik tidak hilang |
 
 Tabel 5.12.2. Atribut Kelas HalamanDaftarTugas
 
@@ -855,7 +856,7 @@ Tabel 5.13.1. Operasi Kelas DaftarTugasController
 | :--- | :--- | :--- |
 | muatDaftarTugas(): void | Public | (Klien) Mengambil daftar tugas dari server dan menyimpan salinannya di perangkat. Jika server tidak dapat dihubungi, salinan terakhir di perangkat yang ditampilkan (KF11, KF20). Lihat Algo-007 |
 | ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[] | Public | (Server) Mengambil tugas aktif relawan melalui JadwalPekerjaan.ambilAktifByRelawan(), melengkapi setiap tugas dengan skor risiko dan batas wilayah dari PetakLahan.ambilById(), lalu mengurutkannya. Respons *endpoint* juga menyertakan notifikasi belum dibaca dari Notifikasi.ambilBelumDibaca() (Gambar 16). Nilai idRelawan diambil dari token sesi, bukan dari masukan klien, agar relawan tidak dapat membuka tugas relawan lain |
-| batalkanTugasTidakAman(idJadwal: Number, alasan: String): void | Public | (Klien) Meneruskan permintaan pembatalan ke server, lalu memanggil muatDaftarTugas() untuk memperbarui daftar. (Server) Memvalidasi alasan, mengubah status tugas menjadi 'dibatalkan', dan membuat notifikasi untuk seluruh petugas posko (KF21). Lihat Algo-008 |
+| batalkanTugasTidakAman(idJadwal: Number, alasan: String): void | Public | (Klien) Meneruskan permintaan pembatalan ke server, lalu memanggil muatDaftarTugas() untuk memperbarui daftar. Jika permintaan gagal karena luring atau server membalas 400/409, klien memanggil HalamanDaftarTugas.tampilkanPesanGagal(). (Server) Memvalidasi alasan, mengubah status tugas menjadi 'dibatalkan', dan membuat notifikasi untuk seluruh petugas posko (KF21). Lihat Algo-008 |
 | urutkanBerdasarkanSkorRisiko(daftarTugas: JadwalPekerjaan[]): JadwalPekerjaan[] | Private | (Server) Mengurutkan daftar tugas dari skor risiko petak tertinggi ke terendah (KF11) |
 | simpanSalinanLokal(daftarTugas: JadwalPekerjaan[]): void | Private | (Klien) Mengganti seluruh isi *object store* `salinanTugas` dengan daftar tugas terbaru dan mencatat waktu sinkronisasi saat itu. Daftar kosong tetap disimpan supaya tugas yang sudah dibatalkan atau selesai tidak tertinggal di salinan |
 | ambilSalinanLokal(): Object | Private | (Klien) Membaca `salinanTugas` dan mengembalikan objek {daftarTugas, waktuSinkron}, atau null jika perangkat belum pernah tersinkron |
