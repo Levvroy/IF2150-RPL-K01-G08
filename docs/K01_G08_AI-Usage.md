@@ -22,13 +22,19 @@
 ---
 
 ### Daftar Isi
-* [Milestone 1](#milestone-1)
-* [Milestone 2](#milestone-2)
-* [Milestone 3](#milestone-3)
-* [Milestone 4](#milestone-4)
-* [Milestone 5](#milestone-5)
-* [Milestone 6](#milestone-6)
-* Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
+- [Deklarasi Penggunaan AI](#deklarasi-penggunaan-ai)
+  - [Tugas Besar IF2150 - Rekayasa Perangkat Lunak](#tugas-besar-if2150---rekayasa-perangkat-lunak)
+    - [Daftar Isi](#daftar-isi)
+    - [Log Penggunaan AI per Milestone](#log-penggunaan-ai-per-milestone)
+    - [Milestone 1](#milestone-1)
+  - [Milestone 2](#milestone-2)
+  - [Milestone 3](#milestone-3)
+  - [Milestone 4](#milestone-4)
+  - [Milestone 5](#milestone-5)
+  - [Milestone 6](#milestone-6)
+  - [Milestone 7](#milestone-7)
+  - [Milestone 8](#milestone-8)
+    - [Pernyataan Integritas dan Persetujuan](#pernyataan-integritas-dan-persetujuan)
 
 ---
 
@@ -89,6 +95,16 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Claude | Membuat aset ikon pin lokasi berelemen api untuk kotak tengah ikon peta risiko | "elemen apinya dibuat lebih besar di bagian luar pin, tapi pin harus tetap terlihat jelas sebagai pin" | Ide awal pin (api yang dibalik menjadi bentuk pin) berasal dari kami, lalu direvisi beberapa kali sampai bentuk pin dan apinya jelas. Memilih versi pin putih, menempatkannya di kotak tengah grid 3×3, serta menentukan sendiri susunan dan gradasi warna heatmap di Canva |
 
 ---
+
+## Milestone 8
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Gemini | Memberikan cara-cara untuk mencari warga yang terhubung dengan petak tertentu | Model warga tidak memiliki idPetak, bagaimana cara mendapatkan daftar warga di petak tersebut | AI merekomendasikan untuk menambahkan atribut idPetak, namun supaya tidak mengubah kelas-kelasnya, usul tersebut ditolak. Usul yang diterima dari AI yaitu untuk membuat suatu tabel relasi perantara wargaPetak antara Warga dan PetakLahan untuk menghubungkan idWarga dengan idPetak |
+
+
+---
+
 ### Pernyataan Integritas dan Persetujuan
 
 Kami yang bertanda tangan di bawah ini menyatakan bahwa seluruh log penggunaan AI di atas adalah benar. Kami telah memvalidasi seluruh hasil AI dan bertanggung jawab penuh atas orisinalitas, keamanan, dan kebenaran hasil akhir dari tugas ini.

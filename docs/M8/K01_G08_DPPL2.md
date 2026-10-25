@@ -818,6 +818,198 @@ Tabel 5.1.1. Query Operasi [Nama Operasi]
 
 <br>
 
+## 5.18 Kelas PeringatanSMSController
+
+**Nama Kelas:** PeringatanSMSController  
+**ID Kelas:** C18
+
+Tabel 5.18.1. Operasi Kelas PeringatanSMSController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| cekAmbangRisiko(daftarPetakNaik: PetakLahan[]): void | Public | Mengevaluasi risiko dari daftar petak lahan yang mengalami kenaikan untuk menentukan apakah SMS peringatan perlu dikirim  |
+| prosesBalasanSTOP(nomorHP: String, isiBalasan: String): void | Public | Menerima dan memprosees balasan STOP dari warga untuk menghentikan pengiriman peringatan|
+| hapusNomorDicabut(): void | Public | Menghapus nomor HP warga yang status persetujuannya telah dicabut dari sistem |
+| cekPeringatanTerakhir(idPetak: Number): Boolean | Private | Mengecek apakah peringatan sudah pernah dikirim untuk petak lahan tertentu dalam periode waktu tertentu |
+| identifikasiWargaTerdampak(idPetak: Number): Warga[] | Private | Mengembalikan daftar warga yang akan terdampak dengan petak lahan tertentu |
+| kirimSMS(nomorHP: String, isiPesan: String): Boolean | Private | Memicu gateway SMS untuk mengirimkan pesan peringatan kepada nomor HP tertentu dan mengembalikan status keberhasilan |
+
+
+### 5.18.1 Algoritma
+
+**Nama Kelas:** PeringatanSMSController  
+**Nama Operasi:** cekAmbangRisiko(daftarPetakNaik: PetakLahan[]): void  
+**ID Algoritma:** Algo-012 
+
+```text
+FOR EACH petakLahan IN daftarPetakNaik DO
+    id = petakLahan.idPetak
+    IF petakLahan.tingkatRisiko == 'tinggi' THEN
+        isPernahDikirim = cekPeringatanTerakhir(id)
+        IF NOT isPernahDikirim THEN
+            daftarWarga = identifikasiWargaTerdampak(id)
+            FOR EACH warga in daftarWarga DO
+                IF warga.statusPersetujuan == 'aktif' THEN
+                    pesan = "PERINGATAN!! Petak Lahan yang dekat dengan anda berisiko tinggi terjadinya karhutla."
+                    statusPengiriman = kirimSMS(warga.nomorHP, pesan)
+                    PeringatanSMS.catat(warga.idWarga, id, pesan, statusPengiriman)
+                END IF
+            END FOR
+        END IF
+    END IF
+END FOR
+```
+
+## 5.19 Kelas Warga
+
+**Nama Kelas:** Warga  
+**ID Kelas:** C19
+
+Tabel 5.19.1. Operasi Kelas Warga
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| ambilAktifByPetak(idPetak: Number): Warga[] | Public | Mengambil daftar warga yang status persetujuannya aktif dan terhubung dengan petak tertentu |
+| cariByNomor(nomorHP: String): Warga | Public | Mencari suatu entitas warga berdasarkan nomor HP yang terdaftar kepada sistem |
+| cabutPersetujuan(idWarga: Number): void | Public | Mengubah status persetujuan milik seorang warga menjadi 'dicabut' |
+| hapusDicabutLama(batasHari: Number): Number | Public | Menghapus data seorang warga yang statusnya sudah 'dicabut' secara permanen ketika sudah melewati batas hari tertentu dan mengembalikan jumlah data yang dihapus |
+
+Tabel 5.19.2. Atribut Kelas Warga
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idWarga | Private | Number |
+| nomorHP | Private | String |
+| statusPersetujuan | Private | String |
+| waktuDicabut | Private | Date |
+
+### 5.19.1 Algoritma
+
+**Nama Kelas:** Warga  
+**Nama Operasi:** ambilAktifByPetak(idPetak: Number): Warga[]  
+**ID Algoritma:** Algo-13
+
+```text
+daftarWargaAktif = KOSONG
+hasilQuery = EKSEKUSI_QUERY(Q-019, idPetak)
+
+FOR EACH baris IN hasilQuery DO
+    IF baris.statusPersetujuan == 'aktif' THEN
+        wargaBaru = BUAT_OBJEK Warga(baris.idWarga, baris.nomorHP, baris.statusPersetujuan)
+        TAMBAH wargaBaru KE daftarWargaAktif
+    END IF
+END FOR
+RETURN daftarWargaAktif
+```
+
+
+### 5.19.2 Algoritma/Query
+
+Tabel 5.19.3. Query Operasi Warga
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-20 | SELECT w.* FROM Warga w <br> JOIN WargaPetak wp ON <br> w.idWarga = wp.idWarga WHERE <br> wp.idPetak = $1 AND <br> w.statusPersetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
+| Q-21 | SELECT * FROM Warga WHERE <br> nomorHP = $1 LIMIT 1 | Mencari data warga berdasarkan nomor HP |
+| Q-22 | UPDATE Warga SET <br> statusPersetujuan = 'dicabut', <br> waktuDicabut = NOW() <br> WHERE idWarga = $1 | Mencatat penolakan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
+| Q-23 | DELETE FROM WargaPetak WHERE <br> idWarga IN (SELECT idWarga FROM <br> Warga WHERE statusPersetujuan = <br> 'dicabut' AND waktuDicabut < <br> NOW() - ($1 * INTERVAL '1 day')) | Menghapus relasi petak lahan milik warga yang datanya akan dihapus secara permanen |
+| Q-24 | DELETE FROM Warga WHERE <br> statusPersetujuan = 'dicabut' <br> AND waktuDicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING idWarga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
+
+
+
+## 5.20 Kelas PeringatanSMS
+
+**Nama Kelas:** PeringatanSMS  
+**ID Kelas:** C20
+
+Tabel 5.20.1. Operasi Kelas PeringatanSMS
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan kedalam database |
+| adaDalam24Jam(idPetak: Number): Boolean | Public | Mengecek apakah ada SMS peringatan yang dikirim untuk suatu petak lahan dalam 24 jam terakhir |
+
+Tabel 5.20.2. Atribut Kelas PeringatanSMS
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idPeringatan | Private | Number |
+| isiPesan | Private | String |
+| waktuKirim | Private | Date |
+| status | Private | String ('terkirim' / 'gagal') |
+
+### 5.20.1 Algoritma
+
+**Nama Kelas:** PeringatanSMS  
+**Nama Operasi:** adaDalam24Jam(idPetak: Number): Boolean  
+**ID Algoritma:** Algo-014
+
+```text
+jumlahPesanDikirim = EKSEKUSI_QUERY(Q-024, idPetak)
+IF jumlahPesanDikirim > 0 THEN
+    RETURN TRUE
+ELSE 
+    RETURN FALSE
+END IF
+```
+
+### 5.20.2 Query
+
+Tabel 5.20.3. Query Operasi PeringatanSMS 
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-025 | SELECT COUNT(idPeringatan) <br> FROM PeringatanSMS WHERE <br> idPetak = $1 AND <br> waktuKirim >= NOW() - <br> INTERVAL '1 day' AND <br> status = 'terkirim' | Menghitung jumlah pesan peringatan yang telah berhasil dikirim ke suatu petak dalam 24 jam terakhir |
+| Q-026 | INSERT INTO PeringatanSMS <br> (idWarga, idPetak, <br> isiPesan, waktuKirim, <br> status) VALUES ($1, $2, <br> $3, NOW(), $4) | Mencatat log pengirimian SMS ke database |
+
+
+## 5.21 Kelas HalamanLogin
+
+**Nama Kelas:** HalamanLogin  
+**ID Kelas:** C21
+
+Tabel 5.21.1. Operasi Kelas HalamanLogin
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| tampilkanFormLogin(): void | Public | Menampilkan antarmuka form untuk melakukan login |
+| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan kegagalan kepada layar ketika terjadi kesalahan dalam autentikasi  |
+| tampilkanPesanPerluKoneksi(): void | Public | Menampilkan peringatan kepada pengguna jika perangkat tidak memiliki koneksi internet saat melakukan login |
+
+
+## 5.22 Kelas AutentikasiController
+
+**Nama Kelas:** AutentikasiController  
+**ID Kelas:** C22
+
+Tabel 5.22.1. Operasi Kelas AutentikasiController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| login(username: String, password: String): Object | Public | Memverifikasi kredensial dari permintaan login dan mengembalikan objek sesi jika berhasil |
+| periksaSesi(): Boolean | Public | Mengecek JSON Web Token untuk memastikan sesi pengguna masih aktif |
+| arahkanSesuaiPeran(peran: String): void | Public | Mengarahkan pengguna ke antarmukanya masing-masing sesuai perannya |
+| verifikasiKredensial(username: String, password: String): Pengguna | Private | Mengecek kecocokan username dan enkripsi password dengan entitas Pengguna |
+| buatSesi(pengguna: Pengguna): String | Private | Membuat token sesi (JWT) yang berisi identitas pengguna, perannya, dan masa berlaku sesi |
+
+### 5.22.1 Algoritma
+
+**Nama Kelas:** AutentikasiController  
+**Nama Operasi:** login(username: String, password: String): Object  
+**ID Algoritma:** Algo-015
+
+```text
+pengguna = verifikasiKredensial(username, password)
+IF pengguna == NULL THEN
+    HalamanLogin.tampilkanPesanGagal("Kredensial tidak valid")
+    return NULL
+ELSE
+    tokenSesi = buatSesi(pengguna)
+    arahkanSesuaiPeran(pengguna.peran)
+    RETURN {user: pengguna, token: tokenSesi}
+END IF
+```
+
 ---
 
 # BAB 6: Perancangan Antarmuka
