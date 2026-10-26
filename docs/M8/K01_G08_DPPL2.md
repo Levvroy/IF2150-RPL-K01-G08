@@ -961,6 +961,152 @@ Tabel 5.8.3. Query Operasi RelawanLapangan
 | Q-012 | SELECT id_relawan, nama <br> FROM relawan_lapangan <br> WHERE status_aktif = TRUE <br> ORDER BY nama | Mengambil relawan aktif. Kolom kontak tidak diambil karena formulir jadwal hanya menampilkan nama |
 | Q-013 | SELECT COUNT(*)::int AS jumlah <br> FROM jadwal_pekerjaan <br> WHERE id_relawan = $1 <br> AND status IN ('ditugaskan', 'menunggu verifikasi') | Menghitung tugas aktif relawan. `::int` dipakai karena `COUNT` di PostgreSQL bertipe `bigint`, yang oleh pustaka `pg` dikembalikan sebagai string |
 
+## 5.9 Kelas HalamanAntreanLaporan
+
+**Nama Kelas:** HalamanAntreanLaporan  
+**ID Kelas:** C09
+
+Tabel 5.9.1. Operasi Kelas HalamanAntreanLaporan
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| tampilkanAntrean(daftarLaporan: LaporanBuktiKerja[]): void | Public | Menampilkan laporan berstatus 'menunggu verifikasi' sesuai urutan dari controller (waktu unggah paling lama di atas). Setiap baris memuat nama relawan, jenis pekerjaan, dan waktu unggah. Memilih satu baris memanggil VerifikasiLaporanController.ambilDetailLaporan() (KF08) |
+| tampilkanDetailLaporan(laporan: LaporanBuktiKerja, jarak: Number): void | Public | Menampilkan foto, koordinat unggahan, petak lokasi tugas, dan jarak koordinat ke batas petak dalam meter (0 berarti koordinat berada di dalam petak), beserta tombol setuju dan tolak. Tombol tolak memunculkan kolom alasan penolakan, dan tombol kirim penolakan baru aktif setelah alasan terisi (KF08, KF09) |
+| tampilkanPeringatanJarak(jarak: Number): void | Public | Menampilkan peringatan bahwa lokasi bukti kerja berada sejauh `jarak` meter dari batas petak tugas, melebihi batas 200 meter. Peringatan tidak menonaktifkan tombol setuju dan tolak karena keputusan tetap berada di tangan petugas (KF09, UC03 skenario alternatif 1) |
+| tampilkanAntreanKosong(): void | Public | Menampilkan pesan bahwa antrean laporan sedang kosong (UC03 skenario alternatif 3) |
+
+Tabel 5.9.2. Atribut Kelas HalamanAntreanLaporan
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+
+HalamanAntreanLaporan tidak memiliki atribut karena seluruh data yang ditampilkannya datang dari parameter yang dikirim VerifikasiLaporanController.
+
+## 5.10 Kelas VerifikasiLaporanController
+
+**Nama Kelas:** VerifikasiLaporanController  
+**ID Kelas:** C10
+
+VerifikasiLaporanController berjalan di server sebagai *route handler* Express. Seluruh *endpoint*-nya hanya dapat diakses akun berperan 'petugas' karena mengembalikan foto bukti kerja dan mengubah status tugas (KNF05).
+
+Tabel 5.10.1. Operasi Kelas VerifikasiLaporanController
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| ambilAntrean(): LaporanBuktiKerja[] | Public | Mengambil laporan berstatus 'menunggu verifikasi' melalui LaporanBuktiKerja.ambilMenungguVerifikasi(). Halaman menampilkannya dengan tampilkanAntrean(), atau tampilkanAntreanKosong() jika daftar kosong (KF08) |
+| ambilDetailLaporan(idLaporan: String): Object | Public | Mengambil laporan melalui LaporanBuktiKerja.ambilById() dan batas wilayah petak tugas melalui PetakLahan.ambilById(), menghitung jarak dengan hitungJarak(), lalu mengembalikan {laporan, petak, jarak, melebihiBatas}. Nilai melebihiBatas bernilai TRUE jika jarak lebih dari 200 meter, dan halaman memanggil tampilkanPeringatanJarak() untuk kondisi itu (KF09, KNF06). Membalas 404 jika laporan tidak ditemukan |
+| verifikasiLaporan(idLaporan: String): void | Public | Menyetujui laporan, mengubah status tugas menjadi 'selesai', dan mengirim notifikasi ke relawan pengunggah (KF10, KF24). Lihat Algo-006 |
+| tolakLaporan(idLaporan: String, alasan: String): void | Public | Memvalidasi alasan (membalas 400 jika kosong setelah spasi di tepi dihapus), lalu mengikuti pola Algo-006: memeriksa status laporan, memanggil LaporanBuktiKerja.tolak(), mengembalikan status tugas menjadi 'ditugaskan', dan mengirim notifikasi berisi alasan penolakan ke relawan agar relawan dapat mengunggah ulang bukti kerja (KF24, UC03 skenario alternatif 2) |
+| hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number | Private | Menghitung jarak dalam meter dari koordinat unggahan ke titik terdekat pada batas petak dengan rumus haversine. Bernilai 0 jika koordinat berada di dalam petak (KF09, KNF06). Lihat Algo-005 |
+
+Tabel 5.10.2. Atribut Kelas VerifikasiLaporanController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+
+VerifikasiLaporanController tidak memiliki atribut. Data laporan, tugas, dan petak tersimpan di DatabaseServer dan dibaca melalui *Model*.
+
+### 5.10.1 Algoritma
+
+**Nama Kelas:** VerifikasiLaporanController  
+**Nama Operasi:** hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number  
+**ID Algoritma:** Algo-005
+
+```text
+R = 6371000
+
+latTerdekat = MIN(MAKS(koordinatUnggah.lat, batasWilayah.latMin), batasWilayah.latMaks)
+lngTerdekat = MIN(MAKS(koordinatUnggah.lng, batasWilayah.lngMin), batasWilayah.lngMaks)
+
+IF latTerdekat == koordinatUnggah.lat AND lngTerdekat == koordinatUnggah.lng THEN
+    RETURN 0
+END IF
+
+lat1 = RADIAN(koordinatUnggah.lat)
+lat2 = RADIAN(latTerdekat)
+selisihLat = RADIAN(latTerdekat - koordinatUnggah.lat)
+selisihLng = RADIAN(lngTerdekat - koordinatUnggah.lng)
+
+a = SIN(selisihLat / 2)^2 + COS(lat1) * COS(lat2) * SIN(selisihLng / 2)^2
+c = 2 * ATAN2(AKAR(a), AKAR(1 - a))
+RETURN BULATKAN(R * c)
+```
+
+R adalah jari-jari rata-rata bumi dalam meter. Titik terdekat pada batas petak diperoleh dengan menjepit lintang dan bujur koordinat unggahan ke dalam rentang petak. Jika hasil jepitan sama dengan koordinat semula, koordinat berada di dalam petak dan jaraknya 0. Penjepitan dilakukan pada satuan derajat; untuk petak berukuran 1 km, selisihnya terhadap titik terdekat yang sebenarnya jauh di bawah akurasi GPS ponsel.
+
+### 5.10.2 Algoritma
+
+**Nama Kelas:** VerifikasiLaporanController  
+**Nama Operasi:** verifikasiLaporan(idLaporan: String): void  
+**ID Algoritma:** Algo-006
+
+```text
+idPetugas = id pengguna yang tersimpan di token sesi
+
+laporan = LaporanBuktiKerja.ambilById(idLaporan)
+IF laporan == NULL THEN
+    RETURN respons 404 "Laporan tidak ditemukan"
+END IF
+IF laporan.status != 'menunggu verifikasi' THEN
+    RETURN respons 409 "Laporan sudah diproses"
+END IF
+
+LaporanBuktiKerja.setujui(idLaporan, idPetugas)
+JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'selesai')
+
+isiPesan = "Laporan untuk tugas #" + laporan.idJadwal + " disetujui petugas posko. Tugas dinyatakan selesai."
+Notifikasi.buat(laporan.idRelawan, isiPesan)
+RETURN respons 200 "Laporan disetujui"
+```
+
+Pemeriksaan status mencegah laporan yang sudah diputuskan diproses ulang, misalnya ketika dua petugas membuka laporan yang sama. Laporan yang disetujui berstatus 'terverifikasi' dan terkunci dari perubahan oleh relawan (KF10). Nilai idPetugas diambil dari token sesi, bukan dari masukan klien.
+
+## 5.11 Kelas LaporanBuktiKerja
+
+**Nama Kelas:** LaporanBuktiKerja  
+**ID Kelas:** C11
+
+Relasi LaporanBuktiKerja ke JadwalPekerjaan (0..* ke 1) dan ke Pengguna (0..* ke 0..1) disimpan sebagai kolom `id_jadwal` dan `id_petugas_verifikasi` pada tabel `laporan_bukti_kerja`, sehingga tidak dicantumkan sebagai atribut kelas. Koordinat unggahan disimpan sebagai dua kolom `lat_unggah` dan `lng_unggah`, sedangkan foto disimpan sebagai `BYTEA`.
+
+Tabel 5.11.1. Operasi Kelas LaporanBuktiKerja
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| simpan(laporan: Object): void | Public | Menyimpan laporan baru dengan status 'menunggu verifikasi'. Nilai waktuUnggah berasal dari perangkat relawan sehingga laporan luring tetap tercatat dengan waktu pembuatannya. Jika idLaporan sudah terdaftar, PostgreSQL menolak penyimpanan karena PRIMARY KEY dan galatnya diteruskan ke pemanggil (Algo-011, KNF03). Memakai Q-014 |
+| cekUUIDAda(uuid: String): Boolean | Public | Mengembalikan TRUE jika UUID laporan sudah tersimpan di server (KNF03). Memakai Q-015 |
+| ambilMenungguVerifikasi(): LaporanBuktiKerja[] | Public | Mengambil laporan berstatus 'menunggu verifikasi' beserta nama relawan dan jenis pekerjaan, diurutkan dari waktu unggah paling lama. Foto tidak ikut diambil agar daftar antrean ringan (KF08). Memakai Q-016 |
+| ambilById(idLaporan: String): LaporanBuktiKerja | Public | Mengambil satu laporan lengkap dengan fotonya, beserta idPetak dan idRelawan dari tugas terkait. Mengembalikan null jika laporan tidak ditemukan. Memakai Q-017 |
+| setujui(idLaporan: String, idPetugas: Number): void | Public | Mengubah status laporan menjadi 'terverifikasi' serta mencatat petugas pemverifikasi dan waktunya. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi' (KF10). Memakai Q-018 |
+| tolak(idLaporan: String, alasan: String): void | Public | Mengubah status laporan menjadi 'ditolak' serta menyimpan alasan penolakan dan waktu keputusan. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi'. Memakai Q-019 |
+| isTerkunci(idLaporan: String): Boolean | Public | Mengembalikan TRUE jika status laporan 'terverifikasi', yaitu laporan yang tidak boleh lagi diubah atas permintaan relawan (KF10). Status dibaca melalui ambilById() sehingga tidak memerlukan query tersendiri |
+
+Tabel 5.11.2. Atribut Kelas LaporanBuktiKerja
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idLaporan | Private | String (UUID) |
+| foto | Private | Blob (klien) / Buffer (server) |
+| koordinatUnggah | Private | Object {lat, lng} |
+| waktuUnggah | Private | Date |
+| status | Private | String ('menunggu verifikasi' / 'terverifikasi' / 'ditolak') |
+| alasanPenolakan | Private | String |
+| waktuVerifikasi | Private | Date |
+
+### 5.11.1 Query
+
+Tabel 5.11.3. Query Operasi LaporanBuktiKerja
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-014 | INSERT INTO laporan_bukti_kerja <br> (id_laporan, id_jadwal, foto, <br> lat_unggah, lng_unggah, <br> waktu_unggah, status) <br> VALUES ($1, $2, $3, $4, $5, $6, <br> 'menunggu verifikasi') | Menyimpan laporan baru yang diterima server |
+| Q-015 | SELECT 1 FROM laporan_bukti_kerja <br> WHERE id_laporan = $1 | Memeriksa apakah UUID laporan sudah tersimpan |
+| Q-016 | SELECT l.id_laporan, l.waktu_unggah, <br> j.id_jadwal, j.jenis_pekerjaan, <br> r.nama AS nama_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> JOIN relawan_lapangan r <br> ON r.id_relawan = j.id_relawan <br> WHERE l.status = 'menunggu verifikasi' <br> ORDER BY l.waktu_unggah ASC | Mengambil antrean laporan untuk petugas posko |
+| Q-017 | SELECT l.*, j.id_petak, j.id_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> WHERE l.id_laporan = $1 | Mengambil detail satu laporan beserta petak dan relawan dari tugas terkait |
+| Q-018 | UPDATE laporan_bukti_kerja <br> SET status = 'terverifikasi', <br> id_petugas_verifikasi = $2, <br> waktu_verifikasi = NOW() <br> WHERE id_laporan = $1 <br> AND status = 'menunggu verifikasi' | Menyetujui laporan dan mencatat petugas pemverifikasi |
+| Q-019 | UPDATE laporan_bukti_kerja <br> SET status = 'ditolak', <br> alasan_penolakan = $2, <br> waktu_verifikasi = NOW() <br> WHERE id_laporan = $1 <br> AND status = 'menunggu verifikasi' | Menolak laporan dan menyimpan alasan penolakan |
+
 ## 5.12 Kelas HalamanDaftarTugas
 
 **Nama Kelas:** HalamanDaftarTugas  
@@ -1453,6 +1599,74 @@ ELSE
     RETURN {user: pengguna, token: tokenSesi}
 END IF
 ```
+
+
+## 5.23 Kelas Pengguna
+
+**Nama Kelas:** Pengguna  
+**ID Kelas:** C23
+
+Relasi RelawanLapangan ke Pengguna (1 ke 1) direalisasikan dengan nilai `id_relawan` yang sama dengan `id_pengguna` akun relawan tersebut. Karena itu, id pengguna pada token sesi dapat langsung dipakai sebagai idRelawan (Algo-007), dan idRelawan pada tugas dapat langsung dipakai sebagai tujuan notifikasi (Algo-006). Password disimpan sebagai hash bcrypt dengan *cost* 10, dan passwordHash tidak pernah dikirim ke klien.
+
+Tabel 5.23.1. Operasi Kelas Pengguna
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| cariByUsername(username: String): Pengguna | Public | Mengambil akun beserta passwordHash berdasarkan username untuk proses login di AutentikasiController.verifikasiKredensial(). Mengembalikan null jika username tidak terdaftar (KF18). Memakai Q-026 |
+| cekPassword(password: String, passwordHash: String): Boolean | Public | Membandingkan password masukan dengan passwordHash melalui `bcrypt.compare()`. Tidak memerlukan query (KF18) |
+| ambilByPeran(peran: String): Pengguna[] | Public | Mengambil seluruh akun dengan peran tertentu tanpa passwordHash, misalnya seluruh petugas posko yang perlu menerima notifikasi pembatalan tugas (Algo-008). Memakai Q-027 |
+
+Tabel 5.23.2. Atribut Kelas Pengguna
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idPengguna | Private | Number |
+| username | Private | String |
+| passwordHash | Protected | String |
+| peran | Private | String ('petugas' / 'relawan') |
+
+### 5.23.1 Query
+
+Tabel 5.23.3. Query Operasi Pengguna
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-026 | SELECT id_pengguna, username, <br> password_hash, peran <br> FROM pengguna <br> WHERE username = $1 | Mencari akun berdasarkan username saat login |
+| Q-027 | SELECT id_pengguna, username, peran <br> FROM pengguna <br> WHERE peran = $1 | Mengambil daftar akun dengan peran tertentu tanpa hash password |
+
+## 5.24 Kelas Notifikasi
+
+**Nama Kelas:** Notifikasi  
+**ID Kelas:** C24
+
+Relasi Notifikasi ke Pengguna (0..* ke 1) disimpan sebagai kolom `id_pengguna` pada tabel `notifikasi`, sehingga tidak dicantumkan sebagai atribut kelas.
+
+Tabel 5.24.1. Operasi Kelas Notifikasi
+
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| buat(idPengguna: Number, isiPesan: String): void | Public | Menyimpan notifikasi baru yang belum dibaca untuk satu pengguna. Dipanggil saat jadwal baru dibuat (KF07), saat relawan membatalkan tugas (KF21), dan saat laporan disetujui atau ditolak (KF24). Memakai Q-028 |
+| ambilBelumDibaca(idPengguna: Number): Notifikasi[] | Public | Mengambil notifikasi yang belum dibaca milik satu pengguna, diurutkan dari yang terbaru. Dipanggil oleh DaftarTugasController.ambilTugasRelawan(). Memakai Q-029 |
+| tandaiDibaca(idNotifikasi: Number): void | Public | Mengubah status notifikasi menjadi sudah dibaca ketika pengguna membuka notifikasi tersebut. Memakai Q-030 |
+
+Tabel 5.24.2. Atribut Kelas Notifikasi
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idNotifikasi | Private | Number |
+| isiPesan | Private | String |
+| waktuDibuat | Private | Date |
+| sudahDibaca | Private | Boolean |
+
+### 5.24.1 Query
+
+Tabel 5.24.3. Query Operasi Notifikasi
+
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-028 | INSERT INTO notifikasi <br> (id_pengguna, isi_pesan, <br> waktu_dibuat, sudah_dibaca) <br> VALUES ($1, $2, NOW(), FALSE) | Menyimpan notifikasi baru |
+| Q-029 | SELECT id_notifikasi, isi_pesan, <br> waktu_dibuat <br> FROM notifikasi <br> WHERE id_pengguna = $1 <br> AND sudah_dibaca = FALSE <br> ORDER BY waktu_dibuat DESC | Mengambil notifikasi yang belum dibaca milik satu pengguna |
+| Q-030 | UPDATE notifikasi <br> SET sudah_dibaca = TRUE <br> WHERE id_notifikasi = $1 | Menandai satu notifikasi sudah dibaca |
 
 ---
 
