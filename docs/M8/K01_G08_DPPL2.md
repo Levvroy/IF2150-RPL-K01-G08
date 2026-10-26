@@ -1574,13 +1574,20 @@ Tabel 5.18.1. Operasi Kelas PeringatanSMSController
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| cekAmbangRisiko(daftarPetakNaik: PetakLahan[]): void | Public | Mengevaluasi risiko dari daftar petak lahan yang mengalami kenaikan untuk menentukan apakah SMS peringatan perlu dikirim  |
-| prosesBalasanSTOP(nomorHP: String, isiBalasan: String): void | Public | Menerima dan memprosees balasan STOP dari warga untuk menghentikan pengiriman peringatan|
-| hapusNomorDicabut(): void | Public | Menghapus nomor HP warga yang status persetujuannya telah dicabut dari sistem |
-| cekPeringatanTerakhir(idPetak: Number): Boolean | Private | Mengecek apakah peringatan sudah pernah dikirim untuk petak lahan tertentu dalam periode waktu tertentu |
-| identifikasiWargaTerdampak(idPetak: Number): Warga[] | Private | Mengembalikan daftar warga yang akan terdampak dengan petak lahan tertentu |
-| kirimSMS(nomorHP: String, isiPesan: String): Boolean | Private | Memicu gateway SMS untuk mengirimkan pesan peringatan kepada nomor HP tertentu dan mengembalikan status keberhasilan |
+| cekAmbangRisiko(daftarPetakNaik: PetakLahan[]): void | Public | (Server) Dipanggil oleh `PetaRisikoController.picuCekAmbang()` untuk petak yang naik ke tingkat 'tinggi'. Untuk setiap petak yang belum menerima pesan peringatan dalam 24 jam terakhir, mengirim SMS peringatan kepada warga aktif di sekitar petak tersebut dan mencatat hasilnya (KF16). Lihat Algo-012  |
+| prosesBalasanSTOP(nomorHP: String, isiBalasan: String): void | Public | (Server) Menerima dan memproses balasan dari warga apabila isi balasannya adalah "STOP" (tanpa membedakan huruf besar maupun huruf kecil), mencari warga lewat `Warga.cariByNomor()` lalu memanggil `Warga.cabutPersetujuan()` |
+| hapusNomorDicabut(): void | Public | (Server) Memanggil `Warga.hapusDicabutLama(30)` untuk menghapus secara permanen data warga yang sudah 'dicabut' lebih dari 30 hari. Dipanggil di akhir `PetaRisikoController.perbaruiData()` |
+| cekPeringatanTerakhir(idPetak: Number): Boolean | Private | (Server) Memanggil `PeringatanSMS.adaDalam24Jam(idPetak)`. TRUE berarti petak sudah pernah menerima peringatan dalam 24 jam terakhir |
+| identifikasiWargaTerdampak(idPetak: Number): Warga[] | Private | (Server) Memanggil `Warga.ambilAktifByPetak(idPetak)`, yaitu warga yang berstatus 'aktif' yang juga terhubung dengan petak tersebut |
+| kirimSMS(nomorHP: String, isiPesan: String): Boolean | Private | (Server) Mengirim pesan melalui `SMSGatewaySimulasi`. Bernilai TRUE jika gateway menerima pesan dan FALSE jika gagal menerima pesan |
 
+Tabel 5.18.2. Atribut Kelas PeringatanSMSController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+
+PeringatanSMSController tidak memiliki atribut. Data warga dan log pengiriman disimpan melalui `Warga` dan `PeringatanSMS`
 
 ### 5.18.1 Algoritma
 
@@ -1597,7 +1604,7 @@ FOR EACH petakLahan IN daftarPetakNaik DO
             daftarWarga = identifikasiWargaTerdampak(id)
             FOR EACH warga in daftarWarga DO
                 IF warga.statusPersetujuan == 'aktif' THEN
-                    pesan = "PERINGATAN!! Petak Lahan yang dekat dengan anda berisiko tinggi terjadinya karhutla."
+                    pesan = "PERINGATAN!! Petak Lahan " + id + " yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan"
                     statusPengiriman = kirimSMS(warga.nomorHP, pesan)
                     PeringatanSMS.catat(warga.idWarga, id, pesan, statusPengiriman)
                 END IF
@@ -1612,14 +1619,16 @@ END FOR
 **Nama Kelas:** Warga  
 **ID Kelas:** C19
 
+Relasi Warga ke PetakLahan (N ke 1) disimpan sebagai kolom `id_petak` pada tabel `warga`, sehingga tidak dicantumkan sebagai atribut kelas.
+
 Tabel 5.19.1. Operasi Kelas Warga
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| ambilAktifByPetak(idPetak: Number): Warga[] | Public | Mengambil daftar warga yang status persetujuannya aktif dan terhubung dengan petak tertentu |
-| cariByNomor(nomorHP: String): Warga | Public | Mencari suatu entitas warga berdasarkan nomor HP yang terdaftar kepada sistem |
-| cabutPersetujuan(idWarga: Number): void | Public | Mengubah status persetujuan milik seorang warga menjadi 'dicabut' |
-| hapusDicabutLama(batasHari: Number): Number | Public | Menghapus data seorang warga yang statusnya sudah 'dicabut' secara permanen ketika sudah melewati batas hari tertentu dan mengembalikan jumlah data yang dihapus |
+| ambilAktifByPetak(idPetak: Number): Warga[] | Public | Mengambil daftar warga yang status persetujuannya aktif dan terhubung dengan petak tertentu (KF16). Lihat Algo-013. Memakai Q-020|
+| cariByNomor(nomorHP: String): Warga | Public | Mencari warga berdasarkan nomor HP yang terdaftar kepada sistem. Mengembalikan NULL jika tidak ditemukan. Memakai Q-021 |
+| cabutPersetujuan(idWarga: Number): void | Public | Mengubah status persetujuan milik seorang warga yang 'aktif' menjadi 'dicabut' dan mencatat `waktuDicabut`. Memakai Q-022 |
+| hapusDicabutLama(batasHari: Number): Number | Public | Menghapus data seorang warga yang statusnya sudah 'dicabut' secara permanen ketika sudah melewati `batasHari` dan mengembalikan jumlah baris yang dihapus. Memakai Q-023 |
 
 Tabel 5.19.2. Atribut Kelas Warga
 
@@ -1627,18 +1636,18 @@ Tabel 5.19.2. Atribut Kelas Warga
 | :--- | :--- | :--- |
 | idWarga | Private | Number |
 | nomorHP | Private | String |
-| statusPersetujuan | Private | String |
+| statusPersetujuan | Private | String('aktif'/'dicabut') |
 | waktuDicabut | Private | Date |
 
 ### 5.19.1 Algoritma
 
 **Nama Kelas:** Warga  
 **Nama Operasi:** ambilAktifByPetak(idPetak: Number): Warga[]  
-**ID Algoritma:** Algo-13
+**ID Algoritma:** Algo-013
 
 ```text
 daftarWargaAktif = KOSONG
-hasilQuery = EKSEKUSI_QUERY(Q-019, idPetak)
+hasilQuery = EKSEKUSI_QUERY(Q-020, idPetak)
 
 FOR EACH baris IN hasilQuery DO
     IF baris.statusPersetujuan == 'aktif' THEN
@@ -1656,11 +1665,10 @@ Tabel 5.19.3. Query Operasi Warga
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-20 | SELECT w.* FROM Warga w <br> JOIN WargaPetak wp ON <br> w.idWarga = wp.idWarga WHERE <br> wp.idPetak = $1 AND <br> w.statusPersetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
-| Q-21 | SELECT * FROM Warga WHERE <br> nomorHP = $1 LIMIT 1 | Mencari data warga berdasarkan nomor HP |
-| Q-22 | UPDATE Warga SET <br> statusPersetujuan = 'dicabut', <br> waktuDicabut = NOW() <br> WHERE idWarga = $1 | Mencatat penolakan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
-| Q-23 | DELETE FROM WargaPetak WHERE <br> idWarga IN (SELECT idWarga FROM <br> Warga WHERE statusPersetujuan = <br> 'dicabut' AND waktuDicabut < <br> NOW() - ($1 * INTERVAL '1 day')) | Menghapus relasi petak lahan milik warga yang datanya akan dihapus secara permanen |
-| Q-24 | DELETE FROM Warga WHERE <br> statusPersetujuan = 'dicabut' <br> AND waktuDicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING idWarga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
+| Q-020 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE id_petak = $1 <br> AND status_persetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
+| Q-021 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE nomor_hp = $1 <br> LIMIT 1 | Mencari data warga berdasarkan nomor HP |
+| Q-022 | UPDATE Warga SET <br> status_persetujuan = 'dicabut', <br> waktu_dicabut = NOW() <br> WHERE id_warga = $1 AND status_persetujuan = 'aktif' | Mencatat pencabutan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
+| Q-023 | DELETE FROM Warga WHERE <br> status_persetujuan = 'dicabut' <br> AND waktu_dicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING id_warga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
 
 
 
@@ -1669,12 +1677,14 @@ Tabel 5.19.3. Query Operasi Warga
 **Nama Kelas:** PeringatanSMS  
 **ID Kelas:** C20
 
+Relasi PeringatanSMS ke Warga (N ke 1) dan ke PetakLahan (N ke 1) disimpan sebagai kolom `id_warga` dan `id_petak` pada tabel `peringatan_sms`, sehingga tidak dicantumkan sebagai atribut kelas.
+
 Tabel 5.20.1. Operasi Kelas PeringatanSMS
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan kedalam database |
-| adaDalam24Jam(idPetak: Number): Boolean | Public | Mengecek apakah ada SMS peringatan yang dikirim untuk suatu petak lahan dalam 24 jam terakhir |
+| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan kedalam basis data. `status` bernilai 'terkirim' atau 'gagal' (KF16). Memakai Q-025 |
+| adaDalam24Jam(idPetak: Number): Boolean | Public | Mengembalikan TRUE apabila ada SMS peringatan yang berstatus 'terkirim' untuk suatu petak lahan dalam 24 jam terakhir (KF16). Lihat Algo-014. Memakai Q-024 |
 
 Tabel 5.20.2. Atribut Kelas PeringatanSMS
 
@@ -1706,8 +1716,8 @@ Tabel 5.20.3. Query Operasi PeringatanSMS
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-025 | SELECT COUNT(idPeringatan) <br> FROM PeringatanSMS WHERE <br> idPetak = $1 AND <br> waktuKirim >= NOW() - <br> INTERVAL '1 day' AND <br> status = 'terkirim' | Menghitung jumlah pesan peringatan yang telah berhasil dikirim ke suatu petak dalam 24 jam terakhir |
-| Q-026 | INSERT INTO PeringatanSMS <br> (idWarga, idPetak, <br> isiPesan, waktuKirim, <br> status) VALUES ($1, $2, <br> $3, NOW(), $4) | Mencatat log pengirimian SMS ke database |
+| Q-024 | SELECT COUNT(id_peringatan) <br> FROM peringatan_sms WHERE <br> id_petak = $1 AND <br> waktu_kirim >= NOW() - <br> INTERVAL '24 hours' AND <br> status = 'terkirim' | Menghitung jumlah pesan peringatan yang telah berhasil dikirim ke suatu petak dalam 24 jam terakhir |
+| Q-025 | INSERT INTO peringatan_sms <br> (id_warga, id_petak, <br> isi_pesan, waktu_kirim, <br> status) VALUES ($1, $2, <br> $3, NOW(), $4) | Mencatat log pengiriman SMS ke basis data |
 
 
 ## 5.21 Kelas HalamanLogin
@@ -1719,10 +1729,17 @@ Tabel 5.21.1. Operasi Kelas HalamanLogin
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| tampilkanFormLogin(): void | Public | Menampilkan antarmuka form untuk melakukan login |
-| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan kegagalan kepada layar ketika terjadi kesalahan dalam autentikasi  |
-| tampilkanPesanPerluKoneksi(): void | Public | Menampilkan peringatan kepada pengguna jika perangkat tidak memiliki koneksi internet saat melakukan login |
+| tampilkanFormLogin(): void | Public | (Klien) Menampilkan kolom username, kolom password, dan tombol "Masuk". Bila salah satu kolom kosong, form tidak dikirim dan `tampilkanPesanGagal()` dipanggil. Bila terisi, tombol meneruskan username dan password ke `AutentikasiController.login()`. Jika server membalas 200, klien menyimpan token sesi di perangkat lalu memanggil `AutentikasiController.arahkanSesuaiPeran()`; jika 401, klien memanggil `tampilkanPesanGagal()` (KF18) |
+| tampilkanPesanGagal(pesan: String): void | Public | (Klien) Menampilkan pesan di atas form apabila kredensial yang diisi pengguna tidak valid. Isi kolom username akan tetap, dan kolom password dikosongkan (KF18) |
+| tampilkanPesanPerluKoneksi(): void | Public | (Klien) Menampilkan peringatan bahwa login memerlukan koneksi internet ketika perangkat luring dan belum ada sesi aktif. Jika token sesi di perangkat masih berlaku (7 hari), relawan langsung masuk tanpa melalui halaman ini (KF18, KF20) |
 
+Tabel 5.21.2. Atribut Kelas HalamanLogin
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+
+HalamanLogin tidak memiliki atribut. Username dan password dibaca dari kolom isian saat tombol "Masuk" ditekan dan tidak disimpan.
 
 ## 5.22 Kelas AutentikasiController
 
@@ -1733,11 +1750,19 @@ Tabel 5.22.1. Operasi Kelas AutentikasiController
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| login(username: String, password: String): Object | Public | Memverifikasi kredensial dari permintaan login dan mengembalikan objek sesi jika berhasil |
-| periksaSesi(): Boolean | Public | Mengecek JSON Web Token untuk memastikan sesi pengguna masih aktif |
-| arahkanSesuaiPeran(peran: String): void | Public | Mengarahkan pengguna ke antarmukanya masing-masing sesuai perannya |
-| verifikasiKredensial(username: String, password: String): Pengguna | Private | Mengecek kecocokan username dan enkripsi password dengan entitas Pengguna |
-| buatSesi(pengguna: Pengguna): String | Private | Membuat token sesi (JWT) yang berisi identitas pengguna, perannya, dan masa berlaku sesi |
+| login(username: String, password: String): Object | Public | (Server) Memanggil `verifikasiKredensial()`. Jika gagal, membalas 401. Jika berhasil, membalas 200 berisi token sesi dan data pengguna tanpa `passwordHash` (KF18). Lihat Algo-015 |
+| periksaSesi(): Boolean | Public | (Klien) Membaca token sesi di perangkat dan memeriksa bahwa token ada dan juga belum melewati 7 hari, sehingga relawan yang luring tetap bisa masuk (KF20). Klien tidak memverifikasi tanda tangan token. Verifikasi tanda tangan dan pembatasan peran (KNF05) dilakukan middleware Express pada setiap endpoint server |
+| arahkanSesuaiPeran(peran: String): void | Public | (Klien) Mengarahkan pengguna berperan 'petugas' ke HalamanPetaRisiko dan 'relawan' ke HalamanDaftarTugas |
+| verifikasiKredensial(username: String, password: String): Pengguna | Private | (Server) Memanggil `Pengguna.cariByUsername()` lalu `Pengguna.cekPassword()`. Mengembalikan NULL apaila username tidak ditemukan atau password tidak cocok (KF18, KNF11) |
+| buatSesi(pengguna: Pengguna): String | Private | 	(Server) Menerbitkan JWT dengan `jsonwebtoken` berisi idPengguna, peran, dan waktu kedaluwarsa 7 hari sejak login (KF20) |
+
+Tabel 5.22.2. Atribut Kelas AutentikasiController
+
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+
+AutentikasiController tidak memiliki atribut. Data akun dibaca melalui `Pengguna`, dan kunci penanda tangan token dibaca dari variabel lingkungan server.
 
 ### 5.22.1 Algoritma
 
@@ -1748,15 +1773,14 @@ Tabel 5.22.1. Operasi Kelas AutentikasiController
 ```text
 pengguna = verifikasiKredensial(username, password)
 IF pengguna == NULL THEN
-    HalamanLogin.tampilkanPesanGagal("Kredensial tidak valid")
-    return NULL
-ELSE
-    tokenSesi = buatSesi(pengguna)
-    arahkanSesuaiPeran(pengguna.peran)
-    RETURN {user: pengguna, token: tokenSesi}
+    RETURN respons 401 "Kredensial tidak valid"
 END IF
+tokenSesi = buatSesi(pengguna)
+RETURN respons 200 {
+    token: tokenSesi,
+    user: { idPengguna: pengguna.idPengguna, username: pengguna.username, peran: pengguna.peran }
+}
 ```
-
 
 ## 5.23 Kelas Pengguna
 
