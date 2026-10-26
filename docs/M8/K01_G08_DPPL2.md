@@ -818,6 +818,149 @@ Tabel 5.1.1. Query Operasi [Nama Operasi]
 
 <br>
 
+## 5.5 Kelas FormPenyusunanJadwal
+ 
+**Nama Kelas:** FormPenyusunanJadwal  
+**ID Kelas:** C05
+ 
+Tabel 5.5.1. Operasi Kelas FormPenyusunanJadwal
+ 
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| tampilkanForm(): void | Public | Menampilkan formulir penyusunan jadwal. Isinya pilihan relawan, pilihan petak, pilihan jenis pekerjaan, isian tanggal, dan tombol simpan. Saat halaman dibuka, View meminta data awal ke JadwalController.bukaFormJadwal(), lalu mengisi pilihan melalui dua operasi berikutnya (KF05) |
+| tampilkanDaftarRelawanAktif(daftarRelawan: RelawanLapangan[]): void | Public | Mengisi pilihan relawan dengan nama relawan berstatus aktif. Relawan nonaktif tidak ada di daftar sehingga tidak bisa dipilih (KF05) |
+| tampilkanRekomendasi(daftarPetak: PetakLahan[]): void | Public | Menampilkan maksimal 5 petak rekomendasi beserta skor dan tingkat risikonya. Memilih satu rekomendasi akan mengisi pilihan petak pada formulir. Jika daftar kosong, ditampilkan keterangan belum ada rekomendasi, dan petak tetap bisa dipilih manual (KF17) |
+| tampilkanPesanKapasitasPenuh(): void | Public | Menampilkan pesan bahwa relawan yang dipilih sudah memiliki 3 tugas aktif. Isian lain tidak dikosongkan, jadi petugas cukup mengganti relawan lalu menyimpan lagi (KF06, UC02 alternatif 1) |
+| tampilkanPesanBerhasil(): void | Public | Menampilkan konfirmasi bahwa jadwal tersimpan dan relawan sudah menerima notifikasi. Setelah itu formulir dikosongkan dan rekomendasi dimuat ulang agar sesuai dengan jadwal terbaru |
+| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan dari respons 400 atau 500, misalnya petak tidak ditemukan atau server tidak dapat dihubungi. Isian formulir tidak dikosongkan |
+ 
+Tabel 5.5.2. Atribut Kelas FormPenyusunanJadwal
+ 
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+ 
+FormPenyusunanJadwal tidak memiliki atribut. Daftar relawan dan rekomendasi petak datang dari JadwalController, sedangkan isian petugas langsung dikirim sebagai dataJadwal saat tombol simpan ditekan.
+ 
+## 5.6 Kelas JadwalController
+ 
+**Nama Kelas:** JadwalController  
+**ID Kelas:** C06
+ 
+Tabel 5.6.1. Operasi Kelas JadwalController
+ 
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| bukaFormJadwal(): Object | Public | Mengembalikan objek {daftarRelawan, rekomendasi}. daftarRelawan berasal dari RelawanLapangan.ambilRelawanAktif() dan rekomendasi berasal dari buatRekomendasi() (KF05, KF17) |
+| buatJadwal(dataJadwal: Object): JadwalPekerjaan | Public | dataJadwal berisi {idRelawan, idPetak, jenisPekerjaan, tanggal}. Operasi ini memvalidasi isian, memeriksa kapasitas relawan, menyimpan jadwal berstatus 'ditugaskan', lalu membuat notifikasi untuk relawan (KF06, KF07). Lihat Algo-004 |
+| buatRekomendasi(): PetakLahan[] | Private | Memanggil PetakLahan.ambilRekomendasi(5) dan mengembalikan hasilnya. Angka 5 adalah batas rekomendasi pada KF17 |
+| validasiKapasitas(idRelawan: Number): Boolean | Private | Memanggil RelawanLapangan.hitungTugasAktif(idRelawan) dan bernilai TRUE jika hasilnya kurang dari 3. Tugas aktif adalah tugas berstatus 'ditugaskan' atau 'menunggu verifikasi' (KF06) |
+| kirimNotifikasiTugas(idRelawan: Number, idJadwal: Number): void | Private | Memanggil Notifikasi.buat(idRelawan, isiPesan) dengan isi "Tugas baru #[idJadwal] sudah ditugaskan kepada Anda" (KF07). idRelawan bisa langsung dipakai sebagai idPengguna karena kolom id_relawan merujuk ke id_pengguna akun relawan, sama seperti yang dipakai Algo-007 |
+ 
+Tabel 5.6.2. Atribut Kelas JadwalController
+ 
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+ 
+JadwalController tidak memiliki atribut. Data jadwal, relawan, petak, dan notifikasi dibaca serta ditulis melalui *Model* masing-masing.
+ 
+### 5.6.1 Algoritma
+ 
+**Nama Kelas:** JadwalController  
+**Nama Operasi:** buatJadwal(dataJadwal: Object): JadwalPekerjaan  
+**ID Algoritma:** Algo-004
+ 
+```text
+IF dataJadwal.idRelawan, dataJadwal.idPetak, dataJadwal.jenisPekerjaan, ATAU dataJadwal.tanggal KOSONG THEN
+    RETURN respons 400 "Semua isian jadwal wajib diisi"
+END IF
+ 
+IF NOT validasiKapasitas(dataJadwal.idRelawan) THEN
+    RETURN respons 409 "Relawan sudah memiliki 3 tugas aktif"
+END IF
+ 
+TRY
+    jadwal = JadwalPekerjaan.simpan(dataJadwal)
+CATCH database menolak data (relawan atau petak tidak ada, jenis pekerjaan atau tanggal tidak valid)
+    RETURN respons 400 "Data jadwal tidak valid"
+END TRY
+ 
+kirimNotifikasiTugas(dataJadwal.idRelawan, jadwal.idJadwal)
+RETURN respons 201 jadwal
+```
+ 
+Pemeriksaan relawan, petak, jenis pekerjaan, dan format tanggal tidak ditulis ulang di controller. Pemeriksaan itu sudah dilakukan PostgreSQL lewat *foreign key*, `CHECK` constraint pada kolom jenis_pekerjaan, dan tipe kolom `DATE`, dengan kode galat 23503, 23514, dan 22007. Algoritma cukup menangkap ketiganya sebagai respons 400.
+ 
+Kapasitas diperiksa sebelum jadwal disimpan, dan keduanya tidak berada dalam satu transaksi. Jika dua petugas menyimpan jadwal untuk relawan yang sama pada detik yang sama, relawan itu bisa mendapat 4 tugas aktif. Risiko ini diterima karena petugas posko di satu kecamatan hanya sedikit dan formulir diisi manual.
+ 
+## 5.7 Kelas JadwalPekerjaan
+ 
+**Nama Kelas:** JadwalPekerjaan  
+**ID Kelas:** C07
+ 
+Tabel 5.7.1. Operasi Kelas JadwalPekerjaan
+ 
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| simpan(dataJadwal: Object): JadwalPekerjaan | Public | Dipanggil JadwalController.buatJadwal(). Menyimpan jadwal baru berstatus 'ditugaskan' dan mengembalikan objek JadwalPekerjaan beserta idJadwal yang dibuat database (KF07, Q-008) |
+| ambilAktifByRelawan(idRelawan: Number): JadwalPekerjaan[] | Public | Dipanggil DaftarTugasController.ambilTugasRelawan(). Mengambil tugas milik satu relawan yang berstatus 'ditugaskan' atau 'menunggu verifikasi' (KF11, Q-009) |
+| perbaruiStatus(idJadwal: Number, status: String): void | Public | Mengubah status satu tugas. Dipanggil UploadLaporanController.terimaLaporan() dengan status 'menunggu verifikasi', serta VerifikasiLaporanController dengan status 'selesai' ketika laporan disetujui atau 'ditugaskan' ketika laporan ditolak (KF13, KF24, Q-010) |
+| batalkan(idJadwal: Number, alasan: String): Boolean | Public | Dipanggil DaftarTugasController.batalkanTugasTidakAman(). Mengubah status menjadi 'dibatalkan' dan menyimpan alasan, hanya jika status tugas masih 'ditugaskan'. Bernilai FALSE jika tidak ada baris yang berubah (KF21, Q-011) |
+ 
+Tabel 5.7.2. Atribut Kelas JadwalPekerjaan
+ 
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idJadwal | Private | Number |
+| jenisPekerjaan | Private | String ('patroli' / 'pembasahan sekat kanal' / 'pengecekan titik panas') |
+| status | Private | String ('ditugaskan' / 'menunggu verifikasi' / 'selesai' / 'dibatalkan') |
+| tanggal | Private | Date |
+| alasanPembatalan | Private | String |
+ 
+Relawan penerima tugas dan petak tujuan disimpan sebagai kolom *foreign key* id_relawan dan id_petak. Keduanya digambarkan sebagai asosiasi ke RelawanLapangan dan PetakLahan pada diagram kelas, sehingga tidak dicantumkan lagi sebagai atribut.
+ 
+### 5.7.1 Query
+ 
+Tabel 5.7.3. Query Operasi JadwalPekerjaan
+ 
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-008 | INSERT INTO jadwal_pekerjaan <br> (id_relawan, id_petak, jenis_pekerjaan, tanggal, status) <br> VALUES ($1, $2, $3, $4, 'ditugaskan') <br> RETURNING * | Menyimpan jadwal baru. `RETURNING *` mengembalikan baris baru beserta id_jadwal yang dibuat database, yang kemudian dipakai untuk isi notifikasi |
+| Q-009 | SELECT id_jadwal, id_petak, jenis_pekerjaan, status, tanggal <br> FROM jadwal_pekerjaan <br> WHERE id_relawan = $1 <br> AND status IN ('ditugaskan', 'menunggu verifikasi') | Mengambil tugas aktif satu relawan. Skor risiko dan batas petak dilengkapi DaftarTugasController lewat PetakLahan.ambilById() (Gambar 16). Karena tugas aktif paling banyak 3 (KF06), tambahan kueri per tugas juga paling banyak 3 |
+| Q-010 | UPDATE jadwal_pekerjaan <br> SET status = $2 <br> WHERE id_jadwal = $1 | Mengubah status tugas. Nilai $2 dibatasi `CHECK` constraint pada kolom status |
+| Q-011 | UPDATE jadwal_pekerjaan <br> SET status = 'dibatalkan', alasan_pembatalan = $2 <br> WHERE id_jadwal = $1 AND status = 'ditugaskan' | Membatalkan tugas. Syarat status ditaruh di `WHERE` agar pengecekan dan perubahan terjadi dalam satu perintah. batalkan() mengembalikan TRUE jika `rowCount` lebih dari 0 |
+ 
+## 5.8 Kelas RelawanLapangan
+ 
+**Nama Kelas:** RelawanLapangan  
+**ID Kelas:** C08
+ 
+Tabel 5.8.1. Operasi Kelas RelawanLapangan
+ 
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| ambilRelawanAktif(): RelawanLapangan[] | Public | Mengambil relawan berstatus aktif, diurutkan menurut nama, untuk pilihan relawan pada formulir jadwal (KF05, Q-012) |
+| hitungTugasAktif(idRelawan: Number): Number | Public | Menghitung tugas relawan yang berstatus 'ditugaskan' atau 'menunggu verifikasi'. Hasilnya dipakai JadwalController.validasiKapasitas() (KF06, Q-013) |
+ 
+Tabel 5.8.2. Atribut Kelas RelawanLapangan
+ 
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| idRelawan | Private | Number |
+| nama | Private | String |
+| kontak | Private | String |
+| statusAktif | Private | Boolean |
+ 
+### 5.8.1 Query
+ 
+Tabel 5.8.3. Query Operasi RelawanLapangan
+ 
+| No Query | Query | Keterangan |
+| :--- | :--- | :--- |
+| Q-012 | SELECT id_relawan, nama <br> FROM relawan_lapangan <br> WHERE status_aktif = TRUE <br> ORDER BY nama | Mengambil relawan aktif. Kolom kontak tidak diambil karena formulir jadwal hanya menampilkan nama |
+| Q-013 | SELECT COUNT(*)::int AS jumlah <br> FROM jadwal_pekerjaan <br> WHERE id_relawan = $1 <br> AND status IN ('ditugaskan', 'menunggu verifikasi') | Menghitung tugas aktif relawan. `::int` dipakai karena `COUNT` di PostgreSQL bertipe `bigint`, yang oleh pustaka `pg` dikembalikan sebagai string |
+
 ## 5.12 Kelas HalamanDaftarTugas
 
 **Nama Kelas:** HalamanDaftarTugas  
@@ -1077,6 +1220,47 @@ END TRY
 JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'menunggu verifikasi')
 RETURN {status: 201, pesan: "Laporan diterima"}
 ```
+## 5.16 Kelas DialogTandaiKeliru
+ 
+**Nama Kelas:** DialogTandaiKeliru  
+**ID Kelas:** C16
+ 
+Tabel 5.16.1. Operasi Kelas DialogTandaiKeliru
+ 
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| tampilkanForm(): void | Public | Menampilkan dialog di atas detail tugas, berisi kolom keterangan (maksimal 200 karakter), tombol kirim, dan tombol batal. Dialog hanya bisa dibuka dari tugas berjenis 'pengecekan titik panas' (KF14). Tombol kirim meneruskan idTitikPanas dan keterangan ke DeteksiKeliruController.tandaiKeliru() |
+| tampilkanPeringatanKeteranganKosong(): void | Public | Menampilkan peringatan di bawah kolom keterangan bahwa keterangan wajib diisi. Dialog tetap terbuka (UC06 alternatif 1) |
+| tampilkanPesanBerhasil(): void | Public | Menutup dialog dan menampilkan konfirmasi bahwa titik panas sudah ditandai keliru dan tidak dihitung dalam skor risiko selama 24 jam, kecuali ada deteksi baru dalam radius 500 m (KF15) |
+| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan ketika permintaan tidak sampai ke server, misalnya perangkat luring. Dialog tetap terbuka dan keterangan yang sudah diketik tidak hilang. Penandaan tidak disimpan di perangkat untuk dikirim belakangan karena penyimpanan luring pada SKPL hanya berlaku untuk laporan bukti kerja (KF12) |
+ 
+Tabel 5.16.2. Atribut Kelas DialogTandaiKeliru
+ 
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+ 
+DialogTandaiKeliru tidak memiliki atribut. idTitikPanas dibawa dari tugas yang sedang dibuka pada HalamanDaftarTugas, sedangkan keterangan dibaca dari kolom isian saat tombol kirim ditekan.
+ 
+## 5.17 Kelas DeteksiKeliruController
+ 
+**Nama Kelas:** DeteksiKeliruController  
+**ID Kelas:** C17
+ 
+Tabel 5.17.1. Operasi Kelas DeteksiKeliruController
+ 
+| Nama Operasi | Visibility (private, public) | Keterangan |
+| :--- | :--- | :--- |
+| tandaiKeliru(idTitikPanas: Number, keterangan: String): void | Public | (Server) Hanya bisa dipanggil pengguna berperan relawan. Memanggil validasiKeterangan(); jika hasilnya FALSE, controller membalas 400 dan View memanggil tampilkanPeringatanKeteranganKosong(). Jika valid, controller memanggil TitikPanas.tandaiKeliru(idTitikPanas, keterangan) dengan keterangan yang spasi di tepinya sudah dibuang, lalu membalas 200 (KF14, KF15) |
+| validasiKeterangan(keterangan: String): Boolean | Private | Bernilai TRUE jika keterangan adalah teks yang panjangnya 1 sampai 200 karakter setelah spasi di awal dan akhir dibuang. Keterangan berisi spasi saja dianggap kosong |
+ 
+Tabel 5.17.2. Atribut Kelas DeteksiKeliruController
+ 
+| Nama Atribut | Visibility (private, public) | Tipe |
+| :--- | :--- | :--- |
+| - | - | - |
+ 
+DeteksiKeliruController tidak memiliki atribut. Status validitas, keterangan, dan waktu penandaan disimpan oleh TitikPanas melalui Q-007.
 
 ## 5.18 Kelas PeringatanSMSController
 
