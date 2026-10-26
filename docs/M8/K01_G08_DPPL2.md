@@ -735,9 +735,9 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | C09 | `HalamanAntreanLaporan` | - | `+tampilkanAntrean(daftarLaporan: LaporanBuktiKerja[]): void`<br>`+tampilkanDetailLaporan(laporan: LaporanBuktiKerja, jarak: Number): void`<br>`+tampilkanPeringatanJarak(jarak: Number): void`<br>`+tampilkanAntreanKosong(): void` |
 | C10 | `VerifikasiLaporanController` | - | `+ambilAntrean(): LaporanBuktiKerja[]`<br>`+ambilDetailLaporan(idLaporan: String): Object`<br>`+verifikasiLaporan(idLaporan: String): void`<br>`+tolakLaporan(idLaporan: String, alasan: String): void`<br>`-hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number` |
 | C11 | `LaporanBuktiKerja` | `-idLaporan: String (UUID)`<br>`-foto: Blob (klien) / Buffer (server)`<br>`-koordinatUnggah: Object {lat, lng}`<br>`-waktuUnggah: Date`<br>`-status: String ('menunggu verifikasi' / 'terverifikasi' / 'ditolak')`<br>`-alasanPenolakan: String`<br>`-waktuVerifikasi: Date` | `+simpan(laporan: Object): void`<br>`+cekUUIDAda(uuid: String): Boolean`<br>`+ambilMenungguVerifikasi(): LaporanBuktiKerja[]`<br>`+ambilById(idLaporan: String): LaporanBuktiKerja`<br>`+setujui(idLaporan: String, idPetugas: Number): void`<br>`+tolak(idLaporan: String, alasan: String): void`<br>`+isTerkunci(idLaporan: String): Boolean` |
-| C12 | `HalamanDaftarTugas` | - | `+tampilkanDaftarTugas(daftarTugas: JadwalPekerjaan[]): void`<br>`+tampilkanDetailTugas(tugas: JadwalPekerjaan): void`<br>`+tampilkanPenandaLuring(waktuSinkron: Date): void`<br>`+tampilkanBelumAdaTugas(): void`<br>`+tampilkanFormPembatalan(): void`<br>`+tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void` |
-| C13 | `DaftarTugasController` | - | `+muatDaftarTugas(): void`<br>`+ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+batalkanTugasTidakAman(idJadwal: Number, alasan: String): void`<br>`-urutkanBerdasarkanSkorRisiko(daftarTugas: JadwalPekerjaan[]): JadwalPekerjaan[]`<br>`-simpanSalinanLokal(daftarTugas: JadwalPekerjaan[]): void`<br>`-ambilSalinanLokal(): Object` |
-| C14 | `FormLaporanBuktiKerja` | - | `+tampilkanForm(uuid: String, koordinat: Object): void`<br>`+ambilFoto(): File`<br>`+ambilKoordinatGPS(): Object`<br>`+tampilkanPeringatanGPS(): void`<br>`+tampilkanPesanTerkirim(): void`<br>`+tampilkanStatusMenungguDikirim(): void`<br>`+tampilkanPesanPenyimpananPenuh(): void` |
+| C12 | `HalamanDaftarTugas` | - | `+tampilkanDaftarTugas(daftarTugas: JadwalPekerjaan[]): void`<br>`+tampilkanDetailTugas(tugas: JadwalPekerjaan): void`<br>`+tampilkanPenandaLuring(waktuSinkron: Date): void`<br>`+tampilkanBelumAdaTugas(): void`<br>`+tampilkanFormPembatalan(): void`<br>`+tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void`<br>`+tampilkanPesanGagal(pesan: String): void` |
+| C13 | `DaftarTugasController` | - | `+muatDaftarTugas(): void`<br>`+ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+batalkanTugasTidakAman(idJadwal: Number, alasan: String): void`<br>`+tandaiNotifikasiDibaca(idNotifikasi: Number): void`<br>`-urutkanBerdasarkanSkorRisiko(daftarTugas: JadwalPekerjaan[]): JadwalPekerjaan[]`<br>`-simpanSalinanLokal(daftarTugas: JadwalPekerjaan[]): void`<br>`-ambilSalinanLokal(): Object` |
+| C14 | `FormLaporanBuktiKerja` | - | `+tampilkanForm(uuid: String, koordinat: Object): void`<br>`+ambilFoto(): File`<br>`+ambilKoordinatGPS(): Object`<br>`+tampilkanPeringatanGPS(): void`<br>`+tampilkanPesanTerkirim(): void`<br>`+tampilkanStatusMenungguDikirim(): void`<br>`+tampilkanPesanPenyimpananPenuh(): void`<br>`+tampilkanPesanDitolak(pesan: String): void` |
 | C15 | `UploadLaporanController` | - | `+mulaiLaporan(idJadwal: Number): void`<br>`+kompresFoto(foto: File): Blob`<br>`+kirimLaporan(laporan: Object): void`<br>`+sinkronOtomatis(): void`<br>`+terimaLaporan(laporan: Object): Object`<br>`-generateUUID(): String`<br>`-deteksiKoneksi(): Boolean`<br>`-hitungLaporanTertunda(): Number`<br>`-simpanLokal(laporan: Object): void` |
 | C16 | `DialogTandaiKeliru` | - | `+tampilkanForm(): void`<br>`+tampilkanPeringatanKeteranganKosong(): void`<br>`+tampilkanPesanBerhasil(): void` |
 | C17 | `DeteksiKeliruController` | - | `+tandaiKeliru(idTitikPanas: Number, keterangan: String): void`<br>`-validasiKeterangan(keterangan: String): Boolean` |
@@ -1274,7 +1274,7 @@ Tabel 5.12.1. Operasi Kelas HalamanDaftarTugas
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | tampilkanDaftarTugas(daftarTugas: JadwalPekerjaan[]): void | Public | Menampilkan tugas aktif relawan sesuai urutan yang diterima dari controller (skor risiko petak tertinggi di atas). Setiap baris memuat jenis pekerjaan, lokasi petak tujuan, skor risiko, dan status tugas (KF11) |
-| tampilkanDetailTugas(tugas: JadwalPekerjaan): void | Public | Menampilkan detail satu tugas berupa petak lokasi tujuan, skor risiko, jenis pekerjaan, tombol buat laporan, dan tombol pembatalan karena tidak aman. Tombol pembatalan hanya muncul jika status tugas 'ditugaskan' (KF21). Untuk tugas pengecekan titik panas, ditampilkan juga tombol tandai keliru (KF14) |
+| tampilkanDetailTugas(tugas: JadwalPekerjaan): void | Public | Menampilkan detail satu tugas berupa petak lokasi tujuan, skor risiko, jenis pekerjaan, tombol buat laporan, dan tombol pembatalan karena tidak aman. Tombol pembatalan hanya muncul jika status tugas 'ditugaskan' (KF21). Untuk tugas berjenis 'pengecekan titik panas', ditampilkan juga tombol tandai keliru yang membawa `idTitikPanas` milik tugas tersebut ke DialogTandaiKeliru (KF14) |
 | tampilkanPenandaLuring(waktuSinkron: Date): void | Public | Menampilkan penanda bahwa data yang tampil berasal dari salinan di perangkat beserta waktu sinkronisasi terakhir. Jika waktuSinkron bernilai null, penanda berisi keterangan bahwa daftar tugas belum pernah tersinkron |
 | tampilkanBelumAdaTugas(): void | Public | Menampilkan pesan bahwa relawan belum memiliki penugasan |
 | tampilkanFormPembatalan(): void | Public | Menampilkan kolom alasan pembatalan yang wajib diisi beserta tombol kirim. Tombol kirim meneruskan idJadwal dan alasan ke DaftarTugasController.batalkanTugasTidakAman() |
@@ -1301,8 +1301,9 @@ Tabel 5.13.1. Operasi Kelas DaftarTugasController
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | muatDaftarTugas(): void | Public | (Klien) Mengambil daftar tugas dari server dan menyimpan salinannya di perangkat. Jika server tidak dapat dihubungi, salinan terakhir di perangkat yang ditampilkan (KF11, KF20). Lihat Algo-007 |
-| ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[] | Public | (Server) Mengambil tugas aktif relawan melalui JadwalPekerjaan.ambilAktifByRelawan(), melengkapi setiap tugas dengan skor risiko dan batas wilayah dari PetakLahan.ambilById(), lalu mengurutkannya. Respons *endpoint* juga menyertakan notifikasi belum dibaca dari Notifikasi.ambilBelumDibaca() (Gambar 16). Nilai idRelawan diambil dari token sesi, bukan dari masukan klien, agar relawan tidak dapat membuka tugas relawan lain |
-| batalkanTugasTidakAman(idJadwal: Number, alasan: String): void | Public | (Klien) Meneruskan permintaan pembatalan ke server, lalu memanggil muatDaftarTugas() untuk memperbarui daftar. Jika permintaan gagal karena luring atau server membalas 400/409, klien memanggil HalamanDaftarTugas.tampilkanPesanGagal(). (Server) Memvalidasi alasan, mengubah status tugas menjadi 'dibatalkan', dan membuat notifikasi untuk seluruh petugas posko (KF21). Lihat Algo-008 |
+| ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[] | Public | (Server) Klien memanggil *endpoint* tanpa mengirim id; server mengisi idRelawan dari token sesi. Mengambil tugas aktif relawan melalui JadwalPekerjaan.ambilAktifByRelawan(), melengkapi setiap tugas dengan skor risiko dan batas wilayah dari PetakLahan.ambilById(), lalu mengurutkannya. Respons *endpoint* juga menyertakan notifikasi belum dibaca dari Notifikasi.ambilBelumDibaca() (Gambar 16). Nilai idRelawan diambil dari token sesi, bukan dari masukan klien, agar relawan tidak dapat membuka tugas relawan lain |
+| batalkanTugasTidakAman(idJadwal: Number, alasan: String): void | Public | (Klien) Meneruskan permintaan pembatalan ke server, lalu memanggil muatDaftarTugas() untuk memperbarui daftar. Jika permintaan gagal karena luring atau server membalas 400/409, klien memanggil HalamanDaftarTugas.tampilkanPesanGagal(). (Server) Memvalidasi alasan, mengubah status tugas menjadi 'dibatalkan' hanya jika tugas milik relawan pada token sesi dan masih berstatus 'ditugaskan', lalu membuat notifikasi untuk seluruh petugas posko (KF21). Lihat Algo-008 |
+| tandaiNotifikasiDibaca(idNotifikasi: Number): void | Public | (Server) Dipanggil ketika relawan membuka notifikasi. Memanggil Notifikasi.tandaiDibaca(idNotifikasi, idPengguna) dengan idPengguna dari token sesi, sehingga relawan tidak dapat menandai notifikasi milik pengguna lain |
 | urutkanBerdasarkanSkorRisiko(daftarTugas: JadwalPekerjaan[]): JadwalPekerjaan[] | Private | (Server) Mengurutkan daftar tugas dari skor risiko petak tertinggi ke terendah (KF11) |
 | simpanSalinanLokal(daftarTugas: JadwalPekerjaan[]): void | Private | (Klien) Mengganti seluruh isi *object store* `salinanTugas` dengan daftar tugas terbaru dan mencatat waktu sinkronisasi saat itu. Daftar kosong tetap disimpan supaya tugas yang sudah dibatalkan atau selesai tidak tertinggal di salinan |
 | ambilSalinanLokal(): Object | Private | (Klien) Membaca `salinanTugas` dan mengembalikan objek {daftarTugas, waktuSinkron}, atau null jika perangkat belum pernah tersinkron |
@@ -1327,17 +1328,29 @@ IF NOT AutentikasiController.periksaSesi() THEN
     RETURN
 END IF
 
-idRelawan = id pengguna yang tersimpan di token sesi
 TRY
-    hasil = server.ambilTugasRelawan(idRelawan)
-    simpanSalinanLokal(hasil.daftarTugas)
-    IF hasil.daftarTugas KOSONG THEN
-        HalamanDaftarTugas.tampilkanBelumAdaTugas()
-    ELSE
-        HalamanDaftarTugas.tampilkanDaftarTugas(hasil.daftarTugas)
-    END IF
-    HalamanDaftarTugas.tampilkanNotifikasi(hasil.daftarNotifikasi)
+    respons = server.ambilTugasRelawan()
 CATCH galat jaringan
+    tampilkanDariSalinanLokal()
+    RETURN
+END TRY
+
+IF respons.status == 401 THEN
+    hapus token sesi di perangkat
+    arahkan ke HalamanLogin
+    RETURN
+END IF
+
+hasil = respons.data
+simpanSalinanLokal(hasil.daftarTugas)
+IF hasil.daftarTugas KOSONG THEN
+    HalamanDaftarTugas.tampilkanBelumAdaTugas()
+ELSE
+    HalamanDaftarTugas.tampilkanDaftarTugas(hasil.daftarTugas)
+END IF
+HalamanDaftarTugas.tampilkanNotifikasi(hasil.daftarNotifikasi)
+
+PROSEDUR tampilkanDariSalinanLokal()
     salinan = ambilSalinanLokal()
     IF salinan == NULL THEN
         HalamanDaftarTugas.tampilkanBelumAdaTugas()
@@ -1350,10 +1363,10 @@ CATCH galat jaringan
         END IF
         HalamanDaftarTugas.tampilkanPenandaLuring(salinan.waktuSinkron)
     END IF
-END TRY
+END PROSEDUR
 ```
 
-Algoritma ini menentukan kondisi luring dari gagal atau tidaknya permintaan ke server. Nilai `navigator.onLine` tidak dipakai sebagai dasar karena ponsel yang tersambung ke jaringan seluler bersinyal lemah tetap melaporkan TRUE walaupun permintaan HTTP tidak pernah sampai ke server.
+Klien tidak mengirim idRelawan tetapi server membacanya dari token sesi agar relawan tidak dapat membuka tugas relawan lain. Respons 401 berarti token sudah kedaluwarsa atau tidak sah menurut server, sehingga relawan diarahkan ke login dan salinan lokal tidak ditampilkan seolah-olah perangkat luring. Algoritma ini menentukan kondisi luring dari gagal atau tidaknya permintaan ke server. Nilai `navigator.onLine` tidak dipakai sebagai dasar karena ponsel yang tersambung ke jaringan seluler bersinyal lemah tetap melaporkan TRUE walaupun permintaan HTTP tidak pernah sampai ke server.
 
 ### 5.13.2 Algoritma
 
@@ -1362,12 +1375,13 @@ Algoritma ini menentukan kondisi luring dari gagal atau tidaknya permintaan ke s
 **ID Algoritma:** Algo-008
 
 ```text
+idRelawan = id pengguna yang tersimpan di token sesi
 alasan = HAPUS_SPASI_DI_TEPI(alasan)
 IF alasan KOSONG THEN
     RETURN respons 400 "Alasan pembatalan wajib diisi"
 END IF
 
-berhasil = JadwalPekerjaan.batalkan(idJadwal, alasan)
+berhasil = JadwalPekerjaan.batalkan(idJadwal, alasan, idRelawan)
 IF NOT berhasil THEN
     RETURN respons 409 "Tugas tidak dapat dibatalkan"
 END IF
@@ -1380,7 +1394,7 @@ END FOR
 RETURN respons 200 "Tugas dibatalkan"
 ```
 
-Pembatalan hanya berlaku untuk tugas berstatus 'ditugaskan', mengikuti siklus status tugas pada SKPL subbab 3.1. Tugas berstatus 'menunggu verifikasi' sudah memiliki laporan di antrean petugas; jika tugas itu dibatalkan, petugas akan memverifikasi laporan untuk tugas yang sudah tidak berlaku.
+`JadwalPekerjaan.batalkan()` menjalankan Q-011 dengan tambahan syarat `id_relawan = $3`, sehingga relawan tidak dapat membatalkan tugas relawan lain. Tugas yang bukan miliknya, tidak ada, atau tidak lagi berstatus 'ditugaskan' sama-sama menghasilkan `rowCount` 0 dan dibalas 409. Pembatalan hanya berlaku untuk tugas berstatus 'ditugaskan', mengikuti siklus status tugas pada SKPL subbab 3.1. Tugas berstatus 'menunggu verifikasi' sudah memiliki laporan di antrean petugas; jika tugas itu dibatalkan, petugas akan memverifikasi laporan untuk tugas yang sudah tidak berlaku.
 
 ## 5.14 Kelas FormLaporanBuktiKerja
 
@@ -1398,6 +1412,7 @@ Tabel 5.14.1. Operasi Kelas FormLaporanBuktiKerja
 | tampilkanPesanTerkirim(): void | Public | Menampilkan pesan bahwa laporan sudah diterima server dan masuk antrean petugas posko |
 | tampilkanStatusMenungguDikirim(): void | Public | Menampilkan status "menunggu dikirim" untuk laporan yang tersimpan di perangkat (KF12) |
 | tampilkanPesanPenyimpananPenuh(): void | Public | Menampilkan pesan bahwa sudah ada 20 laporan yang belum terkirim, sehingga relawan perlu mencari area bersinyal untuk mengirim laporan tertunda terlebih dahulu (KNF09) |
+| tampilkanPesanDitolak(pesan: String): void | Public | Menampilkan pesan bahwa server menolak laporan secara permanen (respons 400, 409, atau 413), misalnya tugas sudah dibatalkan atau foto melebihi 500 KB. Laporan seperti ini tidak disimpan untuk dikirim ulang |
 
 Tabel 5.14.2. Atribut Kelas FormLaporanBuktiKerja
 
@@ -1419,10 +1434,10 @@ Tabel 5.15.1. Operasi Kelas UploadLaporanController
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | mulaiLaporan(idJadwal: Number): void | Public | (Klien) Memulai laporan baru untuk satu tugas dengan memanggil generateUUID() dan menyerahkan UUID tersebut ke FormLaporanBuktiKerja |
-| kompresFoto(foto: File): Blob | Public | (Klien) Menggambar foto ke elemen *canvas* dengan sisi terpanjang maksimal 1280 piksel, lalu mengubahnya ke JPEG melalui `canvas.toBlob()`. Kualitas dimulai dari 0,8 dan diturunkan 0,1 per percobaan sampai ukuran hasil tidak lebih dari 500 KB (KNF09) |
+| kompresFoto(foto: File): Blob | Public | (Klien) Menggambar foto ke elemen *canvas* dengan sisi terpanjang maksimal 1280 piksel, lalu mengubahnya ke JPEG melalui `canvas.toBlob()`. Kualitas dimulai dari 0,8 dan diturunkan 0,1 per percobaan sampai ukuran hasil tidak lebih dari 500 KB. Jika kualitas sudah 0,5 dan ukuran masih di atas 500 KB, sisi terpanjang dikecilkan menjadi 960 piksel lalu kualitas diulang dari 0,8. Percobaan dibatasi 10 kali agar proses pasti berhenti (KNF09) |
 | kirimLaporan(laporan: Object): void | Public | (Klien) Mengirim laporan ke server jika daring. Jika luring atau server tidak dapat dihubungi, laporan disimpan di perangkat selama jumlah laporan tertunda belum mencapai 20 (KF12, KNF09). Lihat Algo-009 |
 | sinkronOtomatis(): void | Public | (Klien) Mengirim ulang seluruh laporan tertunda ketika koneksi kembali (event `online`) atau saat aplikasi dibuka, lalu menghapus laporan yang sudah dikonfirmasi server (KF13). Lihat Algo-010 |
-| terimaLaporan(laporan: Object): Object | Public | (Server) Menerima laporan, mengabaikan UUID yang sudah pernah diterima, menyimpan laporan, dan mengubah status tugas menjadi 'menunggu verifikasi' (KF13, KNF03). Foto diterima dengan `multer` yang dibatasi 500 KB. Lihat Algo-011 |
+| terimaLaporan(laporan: Object): Object | Public | (Server) Menerima laporan, mengabaikan UUID yang sudah pernah diterima, lalu dalam satu transaksi mengubah status tugas menjadi 'menunggu verifikasi' dan menyimpan laporan. Laporan hanya diterima untuk tugas milik relawan pada token sesi yang masih berstatus 'ditugaskan' (KF13, KNF03). Foto diterima dengan `multer` yang dibatasi 500 KB. Lihat Algo-011 |
 | generateUUID(): String | Private | (Klien) Membuat UUID dengan `crypto.randomUUID()`. UUID dibuat di perangkat agar laporan luring sudah memiliki identitas sebelum sampai ke server |
 | deteksiKoneksi(): Boolean | Private | (Klien) Mengembalikan nilai `navigator.onLine`. Nilai FALSE pasti berarti luring, sedangkan nilai TRUE belum menjamin server dapat dihubungi, sehingga pengiriman tetap menangani galat jaringan |
 | hitungLaporanTertunda(): Number | Private | (Klien) Mengembalikan jumlah data pada *object store* `laporanTertunda` |
@@ -1443,21 +1458,23 @@ UploadLaporanController tidak memiliki atribut. Laporan yang sedang diisi berada
 **ID Algoritma:** Algo-009
 
 ```text
-terkirim = FALSE
+respons = NULL
 IF deteksiKoneksi() THEN
     TRY
         respons = server.terimaLaporan(laporan)
-        IF respons.status == 201 OR respons.status == 200 THEN
-            terkirim = TRUE
-        END IF
     CATCH galat jaringan
-        terkirim = FALSE
+        respons = NULL
     END TRY
 END IF
 
-IF terkirim THEN
-    FormLaporanBuktiKerja.tampilkanPesanTerkirim()
-    RETURN
+IF respons != NULL THEN
+    IF respons.status == 200 OR respons.status == 201 THEN
+        FormLaporanBuktiKerja.tampilkanPesanTerkirim()
+        RETURN
+    ELSE IF respons.status == 400 OR respons.status == 409 OR respons.status == 413 THEN
+        FormLaporanBuktiKerja.tampilkanPesanDitolak(respons.pesan)
+        RETURN
+    END IF
 END IF
 
 IF hitungLaporanTertunda() >= 20 THEN
@@ -1470,7 +1487,13 @@ TRY
 CATCH QuotaExceededError
     FormLaporanBuktiKerja.tampilkanPesanPenyimpananPenuh()
 END TRY
+
+IF respons != NULL AND respons.status == 401 THEN
+    arahkan ke HalamanLogin
+END IF
 ```
+
+Respons dibagi tiga. Respons 200/201 berarti laporan diterima. Respons 400, 409, dan 413 berarti server menolak laporan secara permanen, sehingga laporan tidak disimpan karena mengirim ulang tidak akan mengubah hasilnya. Galat jaringan, 5xx, dan 401 dianggap belum sampai: laporan disimpan di perangkat. Khusus 401, relawan diarahkan ke login dan laporan terkirim lewat sinkronOtomatis() setelah login ulang.
 
 ### 5.15.2 Algoritma
 
@@ -1490,11 +1513,19 @@ FOR EACH laporan IN daftarLaporan DO
     CATCH galat jaringan
         BERHENTI
     END TRY
-    IF respons.status == 201 OR respons.status == 200 THEN
+    IF respons.status == 200 OR respons.status == 201 THEN
         hapus laporan.idLaporan dari 'laporanTertunda'
+    ELSE IF respons.status == 400 OR respons.status == 409 OR respons.status == 413 THEN
+        hapus laporan.idLaporan dari 'laporanTertunda'
+        FormLaporanBuktiKerja.tampilkanPesanDitolak(respons.pesan)
+    ELSE IF respons.status == 401 THEN
+        arahkan ke HalamanLogin
+        BERHENTI
     END IF
 END FOR
 ```
+
+Laporan yang ditolak permanen dihapus agar tidak dikirim ulang terus dan tidak memakan jatah 20 laporan (KNF09). Respons 5xx tidak menghapus laporan, sehingga laporan ikut terkirim pada sinkronisasi berikutnya.
 
 Klien menghapus laporan dari perangkat hanya setelah menerima balasan server. Misalkan koneksi terputus setelah server menyimpan laporan tetapi sebelum balasannya sampai: laporan masih ada di perangkat sehingga ikut terkirim pada sinkronisasi berikutnya, server membalas 200 karena UUID-nya sudah tercatat, dan klien baru menghapusnya saat itu. Mekanisme yang sama mencegah laporan ganda (KNF03) ketika event `online` dan pembukaan aplikasi memicu dua sinkronOtomatis() pada waktu yang hampir bersamaan.
 
@@ -1505,7 +1536,9 @@ Klien menghapus laporan dari perangkat hanya setelah menerima balasan server. Mi
 **ID Algoritma:** Algo-011
 
 ```text
-IF laporan.idLaporan, laporan.idJadwal, laporan.foto, ATAU laporan.koordinatUnggah KOSONG THEN
+idRelawan = id pengguna yang tersimpan di token sesi
+
+IF laporan.idLaporan, laporan.idJadwal, laporan.foto, laporan.koordinatUnggah, ATAU laporan.waktuUnggah KOSONG THEN
     RETURN {status: 400, pesan: "Data laporan tidak lengkap"}
 END IF
 
@@ -1513,16 +1546,24 @@ IF LaporanBuktiKerja.cekUUIDAda(laporan.idLaporan) THEN
     RETURN {status: 200, pesan: "Laporan sudah pernah diterima"}
 END IF
 
+MULAI TRANSAKSI
 TRY
+    berubah = JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'menunggu verifikasi', 'ditugaskan', idRelawan)
+    IF NOT berubah THEN
+        BATALKAN TRANSAKSI
+        RETURN {status: 409, pesan: "Tugas tidak dapat menerima laporan"}
+    END IF
     LaporanBuktiKerja.simpan(laporan)
+    SELESAIKAN TRANSAKSI
 CATCH pelanggaran PRIMARY KEY pada id_laporan
-    cekUUIDAda()
+    BATALKAN TRANSAKSI
     RETURN {status: 200, pesan: "Laporan sudah pernah diterima"}
 END TRY
 
-JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'menunggu verifikasi')
 RETURN {status: 201, pesan: "Laporan diterima"}
 ```
+
+Perubahan status tugas dan penyimpanan laporan dijalankan dalam satu transaksi (`BEGIN` dan `COMMIT` pada satu *client* `pg` dari *pool*). Jika salah satunya gagal, keduanya dibatalkan, sehingga tidak ada laporan tersimpan dengan status tugas yang masih 'ditugaskan'. `perbaruiStatus` hanya mengubah tugas milik relawan pada token sesi yang masih berstatus 'ditugaskan'; tugas relawan lain atau tugas yang sudah 'dibatalkan', 'menunggu verifikasi', atau 'selesai' menghasilkan 409. Pemeriksaan `cekUUIDAda()` di awal menangani pengiriman ulang biasa, sedangkan penangkapan pelanggaran PRIMARY KEY menangani dua pengiriman UUID yang sama pada saat bersamaan (KNF03). Foto di atas 500 KB sudah ditolak `multer` dengan respons 413 sebelum algoritma ini berjalan.
 ## 5.16 Kelas DialogTandaiKeliru
  
 **Nama Kelas:** DialogTandaiKeliru  
