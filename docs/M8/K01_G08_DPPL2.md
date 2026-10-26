@@ -9,7 +9,7 @@ DESKRIPSI PERANCANGAN PERANGKAT LUNAK (DPPL)
 
 ## *SIGAP*
 <p align="center">
-<img alt="Logo SIGAP" src="../assets/logo-sigap.png" width="160">
+<img alt="Logo SIGAP" src="../assets/logo-sigap.png" width="100%">
 
 </p>
 
