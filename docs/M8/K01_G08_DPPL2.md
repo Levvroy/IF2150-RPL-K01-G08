@@ -734,7 +734,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | C08 | `RelawanLapangan` | `-idRelawan: Number`<br>`-nama: String`<br>`-kontak: String`<br>`-statusAktif: Boolean` | `+ambilRelawanAktif(): RelawanLapangan[]`<br>`+hitungTugasAktif(idRelawan: Number): Number` |
 | C09 | `HalamanAntreanLaporan` | - | `+tampilkanAntrean(daftarLaporan: LaporanBuktiKerja[]): void`<br>`+tampilkanDetailLaporan(laporan: LaporanBuktiKerja, jarak: Number): void`<br>`+tampilkanPeringatanJarak(jarak: Number): void`<br>`+tampilkanAntreanKosong(): void` |
 | C10 | `VerifikasiLaporanController` | - | `+ambilAntrean(): LaporanBuktiKerja[]`<br>`+ambilDetailLaporan(idLaporan: String): Object`<br>`+verifikasiLaporan(idLaporan: String): void`<br>`+tolakLaporan(idLaporan: String, alasan: String): void`<br>`-hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number` |
-| C11 | `LaporanBuktiKerja` | `-idLaporan: String (UUID)`<br>`-foto: Blob (klien) / Buffer (server)`<br>`-koordinatUnggah: Object {lat, lng}`<br>`-waktuUnggah: Date`<br>`-status: String ('menunggu verifikasi' / 'terverifikasi' / 'ditolak')`<br>`-alasanPenolakan: String`<br>`-waktuVerifikasi: Date` | `+simpan(laporan: Object): void`<br>`+cekUUIDAda(uuid: String): Boolean`<br>`+ambilMenungguVerifikasi(): LaporanBuktiKerja[]`<br>`+ambilById(idLaporan: String): LaporanBuktiKerja`<br>`+setujui(idLaporan: String, idPetugas: Number): void`<br>`+tolak(idLaporan: String, alasan: String): void`<br>`+isTerkunci(idLaporan: String): Boolean` |
+| C11 | `LaporanBuktiKerja` | `-idLaporan: String (UUID)`<br>`-foto: Blob (klien) / Buffer (server)`<br>`-koordinatUnggah: Object {lat, lng}`<br>`-waktuUnggah: Date`<br>`-status: String ('menunggu verifikasi' / 'terverifikasi' / 'ditolak')`<br>`-alasanPenolakan: String`<br>`-waktuVerifikasi: Date` | `+simpan(laporan: Object): void`<br>`+cekUUIDAda(uuid: String): Boolean`<br>`+ambilMenungguVerifikasi(): LaporanBuktiKerja[]`<br>`+ambilById(idLaporan: String): LaporanBuktiKerja`<br>`+setujui(idLaporan: String, idPetugas: Number): Boolean`<br>`+tolak(idLaporan: String, alasan: String): Boolean` |
 | C12 | `HalamanDaftarTugas` | - | `+tampilkanDaftarTugas(daftarTugas: JadwalPekerjaan[]): void`<br>`+tampilkanDetailTugas(tugas: JadwalPekerjaan): void`<br>`+tampilkanPenandaLuring(waktuSinkron: Date): void`<br>`+tampilkanBelumAdaTugas(): void`<br>`+tampilkanFormPembatalan(): void`<br>`+tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void`<br>`+tampilkanPesanGagal(pesan: String): void` |
 | C13 | `DaftarTugasController` | - | `+muatDaftarTugas(): void`<br>`+ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+batalkanTugasTidakAman(idJadwal: Number, alasan: String): void`<br>`+tandaiNotifikasiDibaca(idNotifikasi: Number): void`<br>`-urutkanBerdasarkanSkorRisiko(daftarTugas: JadwalPekerjaan[]): JadwalPekerjaan[]`<br>`-simpanSalinanLokal(daftarTugas: JadwalPekerjaan[]): void`<br>`-ambilSalinanLokal(): Object` |
 | C14 | `FormLaporanBuktiKerja` | - | `+tampilkanForm(uuid: String, koordinat: Object): void`<br>`+ambilFoto(): File`<br>`+ambilKoordinatGPS(): Object`<br>`+tampilkanPeringatanGPS(): void`<br>`+tampilkanPesanTerkirim(): void`<br>`+tampilkanStatusMenungguDikirim(): void`<br>`+tampilkanPesanPenyimpananPenuh(): void`<br>`+tampilkanPesanDitolak(pesan: String): void` |
@@ -747,7 +747,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | C21 | `HalamanLogin` | - | `+tampilkanFormLogin(): void`<br>`+tampilkanPesanGagal(pesan: String): void`<br>`+tampilkanPesanPerluKoneksi(): void` |
 | C22 | `AutentikasiController` | - | `+login(username: String, password: String): Object`<br>`+periksaSesi(): Boolean`<br>`+arahkanSesuaiPeran(peran: String): void`<br>`-verifikasiKredensial(username: String, password: String): Pengguna`<br>`-buatSesi(pengguna: Pengguna): String` |
 | C23 | `Pengguna` | `-idPengguna: Number`<br>`-username: String`<br>`#passwordHash: String`<br>`-peran: String ('petugas' / 'relawan')` | `+cariByUsername(username: String): Pengguna`<br>`+cekPassword(password: String, passwordHash: String): Boolean`<br>`+ambilByPeran(peran: String): Pengguna[]` |
-| C24 | `Notifikasi` | `-idNotifikasi: Number`<br>`-isiPesan: String`<br>`-waktuDibuat: Date`<br>`-sudahDibaca: Boolean` | `+buat(idPengguna: Number, isiPesan: String): void`<br>`+ambilBelumDibaca(idPengguna: Number): Notifikasi[]`<br>`+tandaiDibaca(idNotifikasi: Number): void` |
+| C24 | `Notifikasi` | `-idNotifikasi: Number`<br>`-isiPesan: String`<br>`-waktuDibuat: Date`<br>`-sudahDibaca: Boolean` | `+buat(idPengguna: Number, isiPesan: String): void`<br>`+ambilBelumDibaca(idPengguna: Number): Notifikasi[]`<br>`+tandaiDibaca(idNotifikasi: Number, idPengguna: Number): void` |
 
 <br>
 
@@ -1154,7 +1154,7 @@ Tabel 5.10.1. Operasi Kelas VerifikasiLaporanController
 | ambilAntrean(): LaporanBuktiKerja[] | Public | Mengambil laporan berstatus 'menunggu verifikasi' melalui LaporanBuktiKerja.ambilMenungguVerifikasi(). Halaman menampilkannya dengan tampilkanAntrean(), atau tampilkanAntreanKosong() jika daftar kosong (KF08) |
 | ambilDetailLaporan(idLaporan: String): Object | Public | Mengambil laporan melalui LaporanBuktiKerja.ambilById() dan batas wilayah petak tugas melalui PetakLahan.ambilById(), menghitung jarak dengan hitungJarak(), lalu mengembalikan {laporan, petak, jarak, melebihiBatas}. Nilai melebihiBatas bernilai TRUE jika jarak lebih dari 200 meter, dan halaman memanggil tampilkanPeringatanJarak() untuk kondisi itu (KF09, KNF06). Membalas 404 jika laporan tidak ditemukan |
 | verifikasiLaporan(idLaporan: String): void | Public | Menyetujui laporan, mengubah status tugas menjadi 'selesai', dan mengirim notifikasi ke relawan pengunggah (KF10, KF24). Lihat Algo-006 |
-| tolakLaporan(idLaporan: String, alasan: String): void | Public | Memvalidasi alasan (membalas 400 jika kosong setelah spasi di tepi dihapus), lalu mengikuti pola Algo-006: memeriksa status laporan, memanggil LaporanBuktiKerja.tolak(), mengembalikan status tugas menjadi 'ditugaskan', dan mengirim notifikasi berisi alasan penolakan ke relawan agar relawan dapat mengunggah ulang bukti kerja (KF24, UC03 skenario alternatif 2) |
+| tolakLaporan(idLaporan: String, alasan: String): void | Public | Memvalidasi alasan (membalas 400 jika kosong setelah spasi di tepi dihapus), lalu mengikuti pola Algo-006: memeriksa status laporan, memanggil LaporanBuktiKerja.tolak() dan membalas 409 jika hasilnya FALSE, mengembalikan status tugas menjadi 'ditugaskan' lewat JadwalPekerjaan.perbaruiStatus(idJadwal, 'ditugaskan', 'menunggu verifikasi'), dan mengirim notifikasi berisi alasan penolakan ke relawan agar relawan dapat mengunggah ulang bukti kerja (KF24, UC03 skenario alternatif 2) |
 | hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number | Private | Menghitung jarak dalam meter dari koordinat unggahan ke titik terdekat pada batas petak dengan rumus haversine. Bernilai 0 jika koordinat berada di dalam petak (KF09, KNF06). Lihat Algo-005 |
 
 Tabel 5.10.2. Atribut Kelas VerifikasiLaporanController
@@ -1210,15 +1210,18 @@ IF laporan.status != 'menunggu verifikasi' THEN
     RETURN respons 409 "Laporan sudah diproses"
 END IF
 
-LaporanBuktiKerja.setujui(idLaporan, idPetugas)
-JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'selesai')
+berhasil = LaporanBuktiKerja.setujui(idLaporan, idPetugas)
+IF NOT berhasil THEN
+    RETURN respons 409 "Laporan sudah diproses"
+END IF
+JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'selesai', 'menunggu verifikasi')
 
 isiPesan = "Laporan untuk tugas #" + laporan.idJadwal + " disetujui petugas posko. Tugas dinyatakan selesai."
 Notifikasi.buat(laporan.idRelawan, isiPesan)
 RETURN respons 200 "Laporan disetujui"
 ```
 
-Pemeriksaan status mencegah laporan yang sudah diputuskan diproses ulang, misalnya ketika dua petugas membuka laporan yang sama. Laporan yang disetujui berstatus 'terverifikasi' dan terkunci dari perubahan oleh relawan (KF10). Nilai idPetugas diambil dari token sesi, bukan dari masukan klien.
+Pemeriksaan status di awal hanya memberi pesan yang jelas. Yang mencegah laporan diproses dua kali adalah `rowCount` Q-018: ketika dua petugas menekan setuju bersamaan, UPDATE kedua tidak mengubah baris karena klausa WHERE hanya mengenai laporan 'menunggu verifikasi', sehingga setujui() mengembalikan FALSE dan balasan 409 dikirim tanpa mengubah status tugas atau mengirim notifikasi lagi. Laporan yang disetujui berstatus 'terverifikasi' dan tidak dapat diubah relawan (KF10). Nilai idPetugas diambil dari token sesi, bukan dari masukan klien.
 
 ## 5.11 Kelas LaporanBuktiKerja
 
@@ -1227,6 +1230,8 @@ Pemeriksaan status mencegah laporan yang sudah diputuskan diproses ulang, misaln
 
 Relasi LaporanBuktiKerja ke JadwalPekerjaan (0..* ke 1) dan ke Pengguna (0..* ke 0..1) disimpan sebagai kolom `id_jadwal` dan `id_petugas_verifikasi` pada tabel `laporan_bukti_kerja`, sehingga tidak dicantumkan sebagai atribut kelas. Koordinat unggahan disimpan sebagai dua kolom `lat_unggah` dan `lng_unggah`, sedangkan foto disimpan sebagai `BYTEA`.
 
+KF10 terpenuhi tanpa operasi pengunci: tidak ada endpoint bagi relawan untuk mengubah laporan, dan setujui() serta tolak() hanya mengubah laporan berstatus 'menunggu verifikasi'.
+
 Tabel 5.11.1. Operasi Kelas LaporanBuktiKerja
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
@@ -1234,10 +1239,9 @@ Tabel 5.11.1. Operasi Kelas LaporanBuktiKerja
 | simpan(laporan: Object): void | Public | Menyimpan laporan baru dengan status 'menunggu verifikasi'. Nilai waktuUnggah berasal dari perangkat relawan sehingga laporan luring tetap tercatat dengan waktu pembuatannya. Jika idLaporan sudah terdaftar, PostgreSQL menolak penyimpanan karena PRIMARY KEY dan galatnya diteruskan ke pemanggil (Algo-011, KNF03). Memakai Q-014 |
 | cekUUIDAda(uuid: String): Boolean | Public | Mengembalikan TRUE jika UUID laporan sudah tersimpan di server (KNF03). Memakai Q-015 |
 | ambilMenungguVerifikasi(): LaporanBuktiKerja[] | Public | Mengambil laporan berstatus 'menunggu verifikasi' beserta nama relawan dan jenis pekerjaan, diurutkan dari waktu unggah paling lama. Foto tidak ikut diambil agar daftar antrean ringan (KF08). Memakai Q-016 |
-| ambilById(idLaporan: String): LaporanBuktiKerja | Public | Mengambil satu laporan lengkap dengan fotonya, beserta idPetak dan idRelawan dari tugas terkait. Mengembalikan null jika laporan tidak ditemukan. Memakai Q-017 |
-| setujui(idLaporan: String, idPetugas: Number): void | Public | Mengubah status laporan menjadi 'terverifikasi' serta mencatat petugas pemverifikasi dan waktunya. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi' (KF10). Memakai Q-018 |
-| tolak(idLaporan: String, alasan: String): void | Public | Mengubah status laporan menjadi 'ditolak' serta menyimpan alasan penolakan dan waktu keputusan. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi'. Memakai Q-019 |
-| isTerkunci(idLaporan: String): Boolean | Public | Mengembalikan TRUE jika status laporan 'terverifikasi', yaitu laporan yang tidak boleh lagi diubah atas permintaan relawan (KF10). Status dibaca melalui ambilById() sehingga tidak memerlukan query tersendiri |
+| ambilById(idLaporan: String): LaporanBuktiKerja | Public | Mengambil satu laporan lengkap dengan fotonya, beserta idPetak dan idRelawan dari tugas terkait. Foto ikut diambil karena halaman detail laporan menampilkannya kepada petugas (UC03). Mengembalikan null jika laporan tidak ditemukan. Memakai Q-017 |
+| setujui(idLaporan: String, idPetugas: Number): Boolean | Public | Mengubah status laporan menjadi 'terverifikasi' serta mencatat petugas pemverifikasi dan waktunya. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi' (KF10). Mengembalikan TRUE jika `rowCount` lebih dari 0 dan FALSE jika laporan sudah diputuskan lebih dulu. Memakai Q-018 |
+| tolak(idLaporan: String, alasan: String): Boolean | Public | Mengubah status laporan menjadi 'ditolak' serta menyimpan alasan penolakan dan waktu keputusan. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi'. Mengembalikan TRUE jika `rowCount` lebih dari 0 dan FALSE jika laporan sudah diputuskan lebih dulu. Memakai Q-019 |
 
 Tabel 5.11.2. Atribut Kelas LaporanBuktiKerja
 
@@ -1260,7 +1264,7 @@ Tabel 5.11.3. Query Operasi LaporanBuktiKerja
 | Q-014 | INSERT INTO laporan_bukti_kerja <br> (id_laporan, id_jadwal, foto, <br> lat_unggah, lng_unggah, <br> waktu_unggah, status) <br> VALUES ($1, $2, $3, $4, $5, $6, <br> 'menunggu verifikasi') | Menyimpan laporan baru yang diterima server |
 | Q-015 | SELECT 1 FROM laporan_bukti_kerja <br> WHERE id_laporan = $1 | Memeriksa apakah UUID laporan sudah tersimpan |
 | Q-016 | SELECT l.id_laporan, l.waktu_unggah, <br> j.id_jadwal, j.jenis_pekerjaan, <br> r.nama AS nama_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> JOIN relawan_lapangan r <br> ON r.id_relawan = j.id_relawan <br> WHERE l.status = 'menunggu verifikasi' <br> ORDER BY l.waktu_unggah ASC | Mengambil antrean laporan untuk petugas posko |
-| Q-017 | SELECT l.*, j.id_petak, j.id_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> WHERE l.id_laporan = $1 | Mengambil detail satu laporan beserta petak dan relawan dari tugas terkait |
+| Q-017 | SELECT l.*, j.id_petak, j.id_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> WHERE l.id_laporan = $1 | Mengambil detail satu laporan beserta petak dan relawan dari tugas terkait. Foto (BYTEA) ikut diambil karena halaman detail laporan menampilkannya kepada petugas |
 | Q-018 | UPDATE laporan_bukti_kerja <br> SET status = 'terverifikasi', <br> id_petugas_verifikasi = $2, <br> waktu_verifikasi = NOW() <br> WHERE id_laporan = $1 <br> AND status = 'menunggu verifikasi' | Menyetujui laporan dan mencatat petugas pemverifikasi |
 | Q-019 | UPDATE laporan_bukti_kerja <br> SET status = 'ditolak', <br> alasan_penolakan = $2, <br> waktu_verifikasi = NOW() <br> WHERE id_laporan = $1 <br> AND status = 'menunggu verifikasi' | Menolak laporan dan menyimpan alasan penolakan |
 
@@ -1834,9 +1838,9 @@ Tabel 5.23.1. Operasi Kelas Pengguna
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| cariByUsername(username: String): Pengguna | Public | Mengambil akun beserta passwordHash berdasarkan username untuk proses login di AutentikasiController.verifikasiKredensial(). Mengembalikan null jika username tidak terdaftar (KF18). Memakai Q-026 |
+| cariByUsername(username: String): Pengguna | Public | Mengambil akun beserta passwordHash berdasarkan username untuk proses login di AutentikasiController.verifikasiKredensial(). Mengembalikan null jika username tidak terdaftar (KF18). Memakai Q-027 |
 | cekPassword(password: String, passwordHash: String): Boolean | Public | Membandingkan password masukan dengan passwordHash melalui `bcrypt.compare()`. Tidak memerlukan query (KF18) |
-| ambilByPeran(peran: String): Pengguna[] | Public | Mengambil seluruh akun dengan peran tertentu tanpa passwordHash, misalnya seluruh petugas posko yang perlu menerima notifikasi pembatalan tugas (Algo-008). Memakai Q-027 |
+| ambilByPeran(peran: String): Pengguna[] | Public | Mengambil seluruh akun dengan peran tertentu tanpa passwordHash, misalnya seluruh petugas posko yang perlu menerima notifikasi pembatalan tugas (Algo-008). Memakai Q-028 |
 
 Tabel 5.23.2. Atribut Kelas Pengguna
 
@@ -1853,8 +1857,8 @@ Tabel 5.23.3. Query Operasi Pengguna
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-026 | SELECT id_pengguna, username, <br> password_hash, peran <br> FROM pengguna <br> WHERE username = $1 | Mencari akun berdasarkan username saat login |
-| Q-027 | SELECT id_pengguna, username, peran <br> FROM pengguna <br> WHERE peran = $1 | Mengambil daftar akun dengan peran tertentu tanpa hash password |
+| Q-027 | SELECT id_pengguna, username, <br> password_hash, peran <br> FROM pengguna <br> WHERE username = $1 | Mencari akun berdasarkan username saat login |
+| Q-028 | SELECT id_pengguna, username, peran <br> FROM pengguna <br> WHERE peran = $1 | Mengambil daftar akun dengan peran tertentu tanpa hash password |
 
 ## 5.24 Kelas Notifikasi
 
@@ -1867,9 +1871,9 @@ Tabel 5.24.1. Operasi Kelas Notifikasi
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| buat(idPengguna: Number, isiPesan: String): void | Public | Menyimpan notifikasi baru yang belum dibaca untuk satu pengguna. Dipanggil saat jadwal baru dibuat (KF07), saat relawan membatalkan tugas (KF21), dan saat laporan disetujui atau ditolak (KF24). Memakai Q-028 |
-| ambilBelumDibaca(idPengguna: Number): Notifikasi[] | Public | Mengambil notifikasi yang belum dibaca milik satu pengguna, diurutkan dari yang terbaru. Dipanggil oleh DaftarTugasController.ambilTugasRelawan(). Memakai Q-029 |
-| tandaiDibaca(idNotifikasi: Number): void | Public | Mengubah status notifikasi menjadi sudah dibaca ketika pengguna membuka notifikasi tersebut. Memakai Q-030 |
+| buat(idPengguna: Number, isiPesan: String): void | Public | Menyimpan notifikasi baru yang belum dibaca untuk satu pengguna. Dipanggil saat jadwal baru dibuat (KF07), saat relawan membatalkan tugas (KF21), dan saat laporan disetujui atau ditolak (KF24). Memakai Q-029 |
+| ambilBelumDibaca(idPengguna: Number): Notifikasi[] | Public | Mengambil notifikasi yang belum dibaca milik satu pengguna, diurutkan dari yang terbaru. Dipanggil oleh DaftarTugasController.ambilTugasRelawan() untuk relawan dan oleh PetaRisikoController.ambilDataPeta() untuk petugas posko (KF07, KF21, KF24). Memakai Q-030 |
+| tandaiDibaca(idNotifikasi: Number, idPengguna: Number): void | Public | Mengubah status notifikasi menjadi sudah dibaca ketika pengguna membuka notifikasi tersebut. Nilai idPengguna berasal dari token sesi dan dicek pada klausa WHERE, sehingga pengguna tidak dapat menandai notifikasi milik pengguna lain. Dipanggil oleh DaftarTugasController.tandaiNotifikasiDibaca() untuk relawan dan oleh PetaRisikoController.tandaiNotifikasiDibaca() untuk petugas posko. Memakai Q-031 |
 
 Tabel 5.24.2. Atribut Kelas Notifikasi
 
@@ -1886,9 +1890,9 @@ Tabel 5.24.3. Query Operasi Notifikasi
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-028 | INSERT INTO notifikasi <br> (id_pengguna, isi_pesan, <br> waktu_dibuat, sudah_dibaca) <br> VALUES ($1, $2, NOW(), FALSE) | Menyimpan notifikasi baru |
-| Q-029 | SELECT id_notifikasi, isi_pesan, <br> waktu_dibuat <br> FROM notifikasi <br> WHERE id_pengguna = $1 <br> AND sudah_dibaca = FALSE <br> ORDER BY waktu_dibuat DESC | Mengambil notifikasi yang belum dibaca milik satu pengguna |
-| Q-030 | UPDATE notifikasi <br> SET sudah_dibaca = TRUE <br> WHERE id_notifikasi = $1 | Menandai satu notifikasi sudah dibaca |
+| Q-029 | INSERT INTO notifikasi <br> (id_pengguna, isi_pesan, <br> waktu_dibuat, sudah_dibaca) <br> VALUES ($1, $2, NOW(), FALSE) | Menyimpan notifikasi baru |
+| Q-030 | SELECT id_notifikasi, isi_pesan, <br> waktu_dibuat <br> FROM notifikasi <br> WHERE id_pengguna = $1 <br> AND sudah_dibaca = FALSE <br> ORDER BY waktu_dibuat DESC | Mengambil notifikasi yang belum dibaca milik satu pengguna |
+| Q-031 | UPDATE notifikasi <br> SET sudah_dibaca = TRUE <br> WHERE id_notifikasi = $1 <br> AND id_pengguna = $2 | Menandai satu notifikasi sudah dibaca, hanya jika notifikasi itu milik pengguna yang meminta |
 
 ---
 
