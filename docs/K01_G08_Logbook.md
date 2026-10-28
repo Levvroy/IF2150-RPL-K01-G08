@@ -29,6 +29,8 @@
 * [Milestone 5](#milestone-5)
 * [Milestone 6](#milestone-6)
 * [Milestone 7](#milestone-7)
+* [Milestone 8](#milestone-8)
+* [Milestone 7](#milestone-7)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -149,6 +151,36 @@
 
 **Catatan/Evaluasi Milestone 7:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
+
+
+### Milestone 8
+**Periode:** 21-10-2026 - 28-10-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / Blocker |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 24-10-2026 | Lewi | Membuat draf DPPL2 dengan melanjutkan isi DPPL milestone 7 | 1 Jam | Done | - |
+| 25-10-2026 | Reinhard | Mengerjakan bab 5 kelas C18 sampai C22 | 2 Jam | Done | - |
+| 25-10-2026 | Lewi | Mengerjakan bab 5 kelas C12 sampai C15 | 2 Jam | Done | - |
+| 26-10-2026 | Rafi, Rafiif, Reinhard, Arga, Lewi | Melakukan asistensi milestone 8 dengan asisten | <1 Jam | Done | Ada lima catatan revisi dari asisten (subbab per state antarmuka, label klien/server pada controller, dll.) |
+| 26-10-2026 | Rafiif | Mengerjakan bab 5 kelas C05 sampai C08 serta C16 dan C17 | 2 Jam | Done | - |
+| 26-10-2026 | Rafi | Mengerjakan bab 5 kelas C09 sampai C11, C23, dan C24 | 2 Jam | Done | - |
+| 26-10-2026 | Arga | Mengerjakan bab 5 kelas C01 sampai C04 | 2 Jam | Done | - |
+| 26-10-2026 | Reinhard | Merevisi bab 5 kelas C18 sampai C22 | 1 Jam | Done | - |
+| 26-10-2026 | Lewi | Menambahkan metode untuk pembatalan gagal pada C12 dan merapikan ukuran logo sampul | 1 Jam | Done | - |
+| 27-10-2026 | Rafi | Merevisi bab 5 kelas C09 sampai C11, C23, dan C24 | 1 Jam | Done | - |
+| 28-10-2026 | Rafiif | Merevisi subbab 5.7 dan memperbaiki C07 pada Tabel 4.1 | <1 Jam | Done | - |
+| 28-10-2026 | Rafi | Membuat rancangan antarmuka I-04, memperbarui diagram kelas dan sequence UC03, serta menyesuaikan bab 4 sampai 7 bagian UC03 | 3 Jam | Done | Perubahan diagram UC03 membuat bab 4 sampai 7 ikut harus disesuaikan |
+| 28-10-2026 | Reinhard | Membuat dan merevisi rancangan antarmuka I-08 | 1 Jam | Done | - |
+| 28-10-2026 | Arga | Merevisi bab 5 kelas C01 sampai C04 dan membuat rancangan antarmuka I-02 | 3 Jam | Done | Path gambar I-02 sempat salah sehingga perlu diperbaiki |
+| 28-10-2026 | Lewi | Melengkapi spesifikasi objek antarmuka I-05 dan I-06 serta memindahkan foto ke folder antarmuka | 2 Jam | Done | - |
+| 28-10-2026 | Rafiif | Membuat rancangan antarmuka I-01, I-03, dan I-07 | 2 Jam | Done | - |
+| 28-10-2026 | Reinhard | Mengisi form asistensi dan merevisi AI Usage | <1 Jam | Done | - |
+| 28-10-2026 | Arga, Rafiif | Menambahkan AI Usage dan merapikan DPPL2 | <1 Jam | Done | - |
+| 28-10-2026 | Lewi | Memeriksa ulang DPPL2 terhadap template dan catatan asistensi, merevisi bagian yang belum konsisten, dan memperbarui diagram kelas serta tiga sequence diagram | 1 Jam | Done | Banyak diagram masih versi milestone 7 dan belum memuat perubahan metode di bab 5 |
+| 28-10-2026 | (isi nama) | Mengisi logbook | <1 Jam | Done | - |
+
+**Catatan/Evaluasi Milestone 8:**
+* Sebagian besar pekerjaan menumpuk di hari terakhir (28-10-2026). Untuk milestone berikutnya, revisi dari asistensi sebaiknya langsung dibagi dan dikerjakan pada hari yang sama.
 
 
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
