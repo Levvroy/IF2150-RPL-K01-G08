@@ -36,6 +36,11 @@ Dipersiapkan oleh:
 | :--- | :--- |
 | A | Melanjutkan DPPL Tugas 7. |
 | B | Operasi `isDikecualikan(titik)` pada C04 diubah menjadi `isDikecualikan(titik, titikBaru)` karena pengecekan deteksi baru dalam radius 500 m (KF15) butuh daftar titik pembanding. |
+| C | Seluruh atribut dan operasi pada Tabel 4.1 dan diagram kelas dilengkapi tipe data, dan `passwordHash` pada C23 diubah menjadi *protected* (`#`). |
+| D | Operasi baru untuk notifikasi dan pesan gagal: `tampilkanNotifikasi()` (C01), `tandaiNotifikasiDibaca()` (C02, C13), `tampilkanPesanGagal()` (C05, C09, C12, C16), `tampilkanPesanBerhasil()` (C09), dan `tampilkanPesanDitolak()` (C14). |
+| E | Parameter `idRelawan` ditambahkan pada `perbaruiStatus()` dan `batalkan()` (C07), parameter `statusLama` pada `perbaruiStatus()`, dan parameter `idPengguna` pada `tandaiDibaca()` (C24), agar pengecekan pemilik dan status terjadi dalam satu query. Operasi `isTerkunci()` pada C11 dihapus karena KF10 sudah dipenuhi oleh klausa WHERE pada Q-018 dan Q-019. |
+| F | Jadwal berjenis 'pengecekan titik panas' kini menyimpan `id_titik_panas` (Q-008, Q-009) agar tombol tandai keliru pada I-05 tahu titik mana yang ditandai. Notifikasi ditambahkan ke Tabel 3.1, dan Q-016 serta Q-017 mengambil data yang ditampilkan I-04. |
+| G | Diagram kelas UC01 sampai UC08, diagram kelas keseluruhan, serta *sequence diagram* UC01 skenario normal, UC04 skenario alternatif 3, dan UC05 skenario normal digambar ulang mengikuti perubahan di atas. BAB 6 dipecah menjadi subbab per keadaan layar. |
 
 ---
 
@@ -275,6 +280,7 @@ Tabel 3.1. Identifikasi Kelas Use Case UC01
 | 2 | `PetaRisikoController` | `PetaRisikoController` |
 | 3 | `PetakLahan` | `PetakLahan` |
 | 4 | `TitikPanas` | `TitikPanas` |
+| 5 | `Notifikasi` | `Notifikasi` |
 |||
 
 ### 3.1.2 Sequence Diagram
@@ -728,7 +734,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | C02 | `PetaRisikoController` | - | `+perbaruiData(token: String): Object`<br>`+ambilDataPeta(): Object`<br>`+tandaiNotifikasiDibaca(idNotifikasi: Number): void`<br>`-ambilDataTitikPanas(): Object[]`<br>`-ambilDataCuaca(): Object`<br>`-hitungSkorRisiko(titikBerlaku: TitikPanas[], dataCurahHujan: Object): Object[]`<br>`-isDataUsang(waktuUpdateTerakhir: Date): Boolean`<br>`-picuCekAmbang(daftarPetakNaik: PetakLahan[]): void` |
 | C03 | `PetakLahan` | `-idPetak: Number`<br>`-batasWilayah: Object {latMin, latMaks, lngMin, lngMaks}`<br>`-skorRisiko: Number`<br>`-tingkatRisiko: String ('rendah' / 'sedang' / 'tinggi')`<br>`-waktuUpdateTerakhir: Date` | `+ambilSemua(): PetakLahan[]`<br>`+ambilById(idPetak: Number): PetakLahan`<br>`+ambilRekomendasi(batas: Number): PetakLahan[]`<br>`+perbaruiSkor(idPetak: Number, skor: Number, tingkat: String): void` |
 | C04 | `TitikPanas` | `-idTitikPanas: Number`<br>`-koordinat: Object {lat, lng}`<br>`-waktuDeteksi: Date`<br>`-statusValiditas: String ('valid' / 'keliru')`<br>`-keterangan: String`<br>`-waktuTandaiKeliru: Date` | `+simpanBaru(daftarTitik: Object[]): Number`<br>`+ambilTitikBerlaku(): TitikPanas[]`<br>`-isDikecualikan(titik: TitikPanas, titikBaru: TitikPanas[]): Boolean`<br>`+tandaiKeliru(idTitikPanas: Number, keterangan: String): Boolean` |
-| C05 | `FormPenyusunanJadwal` | - | `+tampilkanForm(): void`<br>`+tampilkanDaftarRelawanAktif(daftarRelawan: RelawanLapangan[]): void`<br>`+tampilkanRekomendasi(daftarPetak: PetakLahan[]): void`<br>`+tampilkanPesanKapasitasPenuh(): void`<br>`+tampilkanPesanBerhasil(): void` |
+| C05 | `FormPenyusunanJadwal` | - | `+tampilkanForm(): void`<br>`+tampilkanDaftarRelawanAktif(daftarRelawan: RelawanLapangan[]): void`<br>`+tampilkanRekomendasi(daftarPetak: PetakLahan[]): void`<br>`+tampilkanPesanKapasitasPenuh(): void`<br>`+tampilkanPesanBerhasil(): void`<br>`+tampilkanPesanGagal(pesan: String): void` |
 | C06 | `JadwalController` | - | `+bukaFormJadwal(): Object`<br>`+buatJadwal(dataJadwal: Object): JadwalPekerjaan`<br>`-buatRekomendasi(): PetakLahan[]`<br>`-validasiKapasitas(idRelawan: Number): Boolean`<br>`-kirimNotifikasiTugas(idRelawan: Number, idJadwal: Number): void` |
 | C07 | `JadwalPekerjaan` | `-idJadwal: Number`<br>`-jenisPekerjaan: String`<br>`-status: String ('ditugaskan' / 'menunggu verifikasi' / 'selesai' / 'dibatalkan')`<br>`-tanggal: Date`<br>`-alasanPembatalan: String` | `+simpan(dataJadwal: Object): JadwalPekerjaan`<br>`+ambilAktifByRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+perbaruiStatus(idJadwal: Number, statusBaru: String, statusLama: String, idRelawan: Number): Boolean`<br>`+batalkan(idJadwal: Number, alasan: String, idRelawan: Number): Boolean` |
 | C08 | `RelawanLapangan` | `-idRelawan: Number`<br>`-nama: String`<br>`-kontak: String`<br>`-statusAktif: Boolean` | `+ambilRelawanAktif(): RelawanLapangan[]`<br>`+hitungTugasAktif(idRelawan: Number): Number` |
@@ -739,7 +745,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | C13 | `DaftarTugasController` | - | `+muatDaftarTugas(): void`<br>`+ambilTugasRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+batalkanTugasTidakAman(idJadwal: Number, alasan: String): void`<br>`+tandaiNotifikasiDibaca(idNotifikasi: Number): void`<br>`-urutkanBerdasarkanSkorRisiko(daftarTugas: JadwalPekerjaan[]): JadwalPekerjaan[]`<br>`-simpanSalinanLokal(daftarTugas: JadwalPekerjaan[]): void`<br>`-ambilSalinanLokal(): Object` |
 | C14 | `FormLaporanBuktiKerja` | - | `+tampilkanForm(uuid: String, koordinat: Object): void`<br>`+ambilFoto(): File`<br>`+ambilKoordinatGPS(): Object`<br>`+tampilkanPeringatanGPS(): void`<br>`+tampilkanPesanTerkirim(): void`<br>`+tampilkanStatusMenungguDikirim(): void`<br>`+tampilkanPesanPenyimpananPenuh(): void`<br>`+tampilkanPesanDitolak(pesan: String): void` |
 | C15 | `UploadLaporanController` | - | `+mulaiLaporan(idJadwal: Number): void`<br>`+kompresFoto(foto: File): Blob`<br>`+kirimLaporan(laporan: Object): void`<br>`+sinkronOtomatis(): void`<br>`+terimaLaporan(laporan: Object): Object`<br>`-generateUUID(): String`<br>`-deteksiKoneksi(): Boolean`<br>`-hitungLaporanTertunda(): Number`<br>`-simpanLokal(laporan: Object): void` |
-| C16 | `DialogTandaiKeliru` | - | `+tampilkanForm(): void`<br>`+tampilkanPeringatanKeteranganKosong(): void`<br>`+tampilkanPesanBerhasil(): void` |
+| C16 | `DialogTandaiKeliru` | - | `+tampilkanForm(): void`<br>`+tampilkanPeringatanKeteranganKosong(): void`<br>`+tampilkanPesanBerhasil(): void`<br>`+tampilkanPesanGagal(pesan: String): void` |
 | C17 | `DeteksiKeliruController` | - | `+tandaiKeliru(idTitikPanas: Number, keterangan: String): void`<br>`-validasiKeterangan(keterangan: String): Boolean` |
 | C18 | `PeringatanSMSController` | - | `+cekAmbangRisiko(daftarPetakNaik: PetakLahan[]): void`<br>`+prosesBalasanSTOP(nomorHP: String, isiBalasan: String): void`<br>`+hapusNomorDicabut(): void`<br>`-cekPeringatanTerakhir(idPetak: Number): Boolean`<br>`-identifikasiWargaTerdampak(idPetak: Number): Warga[]`<br>`-kirimSMS(nomorHP: String, isiPesan: String): Boolean` |
 | C19 | `Warga` | `-idWarga: Number`<br>`-nomorHP: String`<br>`-statusPersetujuan: String ('aktif' / 'dicabut')`<br>`-waktuDicabut: Date` | `+ambilAktifByPetak(idPetak: Number): Warga[]`<br>`+cariByNomor(nomorHP: String): Warga`<br>`+cabutPersetujuan(idWarga: Number): void`<br>`+hapusDicabutLama(batasHari: Number): Number` |
@@ -755,17 +761,38 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 # BAB 5: Perancangan Rinci Kelas
 
-Bagian ini diisi dengan daftar seluruh kelas dalam tabel berikut:
+Setiap kelas perancangan memakai nama dan ID yang sama dengan kelas analisis pada SKPL subbab 5.1, sehingga tidak ada kelas perancangan tanpa pasangan kelas analisis.
 
 Tabel 5.1. Daftar Kelas Perancangan dan Kelas Analisis Terkait
 
 | No | Nama Kelas Perancangan | Nama Kelas Analisis Terkait |
 | :--- | :--- | :--- |
-| 1 | *[Nama kelas perancangan]* | *[Nama kelas analisis pada SKPL atau -]* |
-| 2 | *[Nama kelas perancangan]* | *[Nama kelas analisis pada SKPL atau -]* |
-| ... | *...* | *...* |
+| 1 | C01 - `HalamanPetaRisiko` | `HalamanPetaRisiko` |
+| 2 | C02 - `PetaRisikoController` | `PetaRisikoController` |
+| 3 | C03 - `PetakLahan` | `PetakLahan` |
+| 4 | C04 - `TitikPanas` | `TitikPanas` |
+| 5 | C05 - `FormPenyusunanJadwal` | `FormPenyusunanJadwal` |
+| 6 | C06 - `JadwalController` | `JadwalController` |
+| 7 | C07 - `JadwalPekerjaan` | `JadwalPekerjaan` |
+| 8 | C08 - `RelawanLapangan` | `RelawanLapangan` |
+| 9 | C09 - `HalamanAntreanLaporan` | `HalamanAntreanLaporan` |
+| 10 | C10 - `VerifikasiLaporanController` | `VerifikasiLaporanController` |
+| 11 | C11 - `LaporanBuktiKerja` | `LaporanBuktiKerja` |
+| 12 | C12 - `HalamanDaftarTugas` | `HalamanDaftarTugas` |
+| 13 | C13 - `DaftarTugasController` | `DaftarTugasController` |
+| 14 | C14 - `FormLaporanBuktiKerja` | `FormLaporanBuktiKerja` |
+| 15 | C15 - `UploadLaporanController` | `UploadLaporanController` |
+| 16 | C16 - `DialogTandaiKeliru` | `DialogTandaiKeliru` |
+| 17 | C17 - `DeteksiKeliruController` | `DeteksiKeliruController` |
+| 18 | C18 - `PeringatanSMSController` | `PeringatanSMSController` |
+| 19 | C19 - `Warga` | `Warga` |
+| 20 | C20 - `PeringatanSMS` | `PeringatanSMS` |
+| 21 | C21 - `HalamanLogin` | `HalamanLogin` |
+| 22 | C22 - `AutentikasiController` | `AutentikasiController` |
+| 23 | C23 - `Pengguna` | `Pengguna` |
+| 24 | C24 - `Notifikasi` | `Notifikasi` |
 
-Untuk **setiap kelas**, identifikasi operasi berdasarkan tanggung jawab kelas beserta *visibility*-nya, serta atribut beserta *visibility* dan tipenya. Buat subbab tersendiri untuk setiap kelas.
+Subbab berikut merinci operasi (beserta *visibility*), atribut (beserta *visibility* dan tipe), serta algoritma dan query untuk operasi yang penting pada setiap kelas. Kolom keterangan pada tabel operasi *Controller* diawali (Klien) atau (Server) sesuai node tempat operasi itu berjalan (subbab 2.4.2).
 
 ## 5.1 Kelas HalamanPetaRisiko
 
@@ -849,6 +876,7 @@ TRY
     IF daftarPetakNaik TIDAK KOSONG THEN
         picuCekAmbang(daftarPetakNaik)
     END IF
+    PeringatanSMSController.hapusNomorDicabut()
 
     RETURN respons 200 "Pembaruan skor berhasil"
 CATCH galat API atau Database
@@ -1015,15 +1043,17 @@ FormPenyusunanJadwal tidak memiliki atribut. Daftar relawan dan rekomendasi peta
 **Nama Kelas:** JadwalController  
 **ID Kelas:** C06
  
+JadwalController seluruhnya berjalan di server sebagai *route handler* Express dan hanya dapat diakses akun berperan 'petugas'.
+
 Tabel 5.6.1. Operasi Kelas JadwalController
  
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| bukaFormJadwal(): Object | Public | Mengembalikan objek {daftarRelawan, rekomendasi}. daftarRelawan berasal dari RelawanLapangan.ambilRelawanAktif() dan rekomendasi berasal dari buatRekomendasi() (KF05, KF17) |
-| buatJadwal(dataJadwal: Object): JadwalPekerjaan | Public | dataJadwal berisi {idRelawan, idPetak, jenisPekerjaan, tanggal}. Operasi ini memvalidasi isian, memeriksa kapasitas relawan, menyimpan jadwal berstatus 'ditugaskan', lalu membuat notifikasi untuk relawan (KF06, KF07). Lihat Algo-004 |
-| buatRekomendasi(): PetakLahan[] | Private | Memanggil PetakLahan.ambilRekomendasi(5) dan mengembalikan hasilnya. Angka 5 adalah batas rekomendasi pada KF17 |
-| validasiKapasitas(idRelawan: Number): Boolean | Private | Memanggil RelawanLapangan.hitungTugasAktif(idRelawan) dan bernilai TRUE jika hasilnya kurang dari 3. Tugas aktif adalah tugas berstatus 'ditugaskan' atau 'menunggu verifikasi' (KF06) |
-| kirimNotifikasiTugas(idRelawan: Number, idJadwal: Number): void | Private | Memanggil Notifikasi.buat(idRelawan, isiPesan) dengan isi "Tugas baru #[idJadwal] sudah ditugaskan kepada Anda" (KF07). idRelawan bisa langsung dipakai sebagai idPengguna karena kolom id_relawan merujuk ke id_pengguna akun relawan, sama seperti yang dipakai Algo-007 |
+| bukaFormJadwal(): Object | Public | (Server) Mengembalikan objek {daftarRelawan, rekomendasi}. daftarRelawan berasal dari RelawanLapangan.ambilRelawanAktif() dan rekomendasi berasal dari buatRekomendasi() (KF05, KF17) |
+| buatJadwal(dataJadwal: Object): JadwalPekerjaan | Public | (Server) dataJadwal berisi {idRelawan, idPetak, jenisPekerjaan, tanggal}. Operasi ini memvalidasi isian, memeriksa kapasitas relawan, menyimpan jadwal berstatus 'ditugaskan', lalu membuat notifikasi untuk relawan (KF06, KF07). Lihat Algo-004 |
+| buatRekomendasi(): PetakLahan[] | Private | (Server) Memanggil PetakLahan.ambilRekomendasi(5) dan mengembalikan hasilnya. Angka 5 adalah batas rekomendasi pada KF17 |
+| validasiKapasitas(idRelawan: Number): Boolean | Private | (Server) Memanggil RelawanLapangan.hitungTugasAktif(idRelawan) dan bernilai TRUE jika hasilnya kurang dari 3. Tugas aktif adalah tugas berstatus 'ditugaskan' atau 'menunggu verifikasi' (KF06) |
+| kirimNotifikasiTugas(idRelawan: Number, idJadwal: Number): void | Private | (Server) Memanggil Notifikasi.buat(idRelawan, isiPesan) dengan isi "Tugas baru #[idJadwal] sudah ditugaskan kepada Anda" (KF07). idRelawan bisa langsung dipakai sebagai idPengguna karena kolom id_relawan merujuk ke id_pengguna akun relawan, sama seperti yang dipakai Algo-007 |
  
 Tabel 5.6.2. Atribut Kelas JadwalController
  
@@ -1086,7 +1116,7 @@ Tabel 5.7.2. Atribut Kelas JadwalPekerjaan
 | tanggal | Private | Date |
 | alasanPembatalan | Private | String |
  
-Relawan penerima tugas dan petak tujuan disimpan sebagai kolom *foreign key* id_relawan dan id_petak. Keduanya digambarkan sebagai asosiasi ke RelawanLapangan dan PetakLahan pada diagram kelas, sehingga tidak dicantumkan lagi sebagai atribut.
+Relawan penerima tugas, petak tujuan, dan titik panas yang diperiksa disimpan sebagai kolom *foreign key* id_relawan, id_petak, dan id_titik_panas. Ketiganya digambarkan sebagai asosiasi ke RelawanLapangan, PetakLahan, dan TitikPanas pada diagram kelas, sehingga tidak dicantumkan lagi sebagai atribut. Kolom id_titik_panas hanya terisi untuk tugas 'pengecekan titik panas' (lihat Q-008) dan bernilai NULL untuk jenis lain.
  
 ### 5.7.1 Query
  
@@ -1094,8 +1124,8 @@ Tabel 5.7.3. Query Operasi JadwalPekerjaan
  
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-008 | INSERT INTO jadwal_pekerjaan <br> (id_relawan, id_petak, jenis_pekerjaan, tanggal, status) <br> VALUES ($1, $2, $3, $4, 'ditugaskan') <br> RETURNING * | Menyimpan jadwal baru. `RETURNING *` mengembalikan baris baru beserta id_jadwal yang dibuat database, yang kemudian dipakai untuk isi notifikasi |
-| Q-009 | SELECT id_jadwal, id_petak, jenis_pekerjaan, status, tanggal <br> FROM jadwal_pekerjaan <br> WHERE id_relawan = $1 <br> AND status IN ('ditugaskan', 'menunggu verifikasi') | Mengambil tugas aktif satu relawan. Skor risiko dan batas petak dilengkapi DaftarTugasController lewat PetakLahan.ambilById() (Gambar 16). Karena tugas aktif paling banyak 3 (KF06), tambahan kueri per tugas juga paling banyak 3 |
+| Q-008 | INSERT INTO jadwal_pekerjaan <br> (id_relawan, id_petak, jenis_pekerjaan, tanggal, status, id_titik_panas) <br> VALUES ($1, $2, $3, $4, 'ditugaskan', <br> &nbsp;&nbsp;CASE WHEN $3 = 'pengecekan titik panas' THEN ( <br> &nbsp;&nbsp;&nbsp;&nbsp;SELECT t.id_titik_panas FROM titik_panas t, petak_lahan p <br> &nbsp;&nbsp;&nbsp;&nbsp;WHERE p.id_petak = $2 <br> &nbsp;&nbsp;&nbsp;&nbsp;AND t.latitude >= p.lat_min AND t.latitude < p.lat_maks <br> &nbsp;&nbsp;&nbsp;&nbsp;AND t.longitude >= p.lng_min AND t.longitude < p.lng_maks <br> &nbsp;&nbsp;&nbsp;&nbsp;ORDER BY t.waktu_deteksi DESC LIMIT 1) <br> &nbsp;&nbsp;END) <br> RETURNING * | Menyimpan jadwal baru. Untuk tugas 'pengecekan titik panas', subquery mengambil titik panas terbaru di dalam petak itu, memakai aturan batas petak yang sama dengan hitungSkorRisiko(). Jika petak tidak punya titik panas, kolom bernilai NULL dan tombol tandai keliru tidak ditampilkan. `RETURNING *` mengembalikan baris baru beserta id_jadwal yang dibuat database, yang kemudian dipakai untuk isi notifikasi |
+| Q-009 | SELECT id_jadwal, id_petak, id_titik_panas, jenis_pekerjaan, status, tanggal <br> FROM jadwal_pekerjaan <br> WHERE id_relawan = $1 <br> AND status IN ('ditugaskan', 'menunggu verifikasi') | Mengambil tugas aktif satu relawan. Skor risiko dan batas petak dilengkapi DaftarTugasController lewat PetakLahan.ambilById() (Gambar 16). Karena tugas aktif paling banyak 3 (KF06), tambahan kueri per tugas juga paling banyak 3 |
 | Q-010 | UPDATE jadwal_pekerjaan <br> SET status = $2 <br> WHERE id_jadwal = $1 <br> AND status = $3 <br> AND ($4::int IS NULL OR id_relawan = $4) | Mengubah status tugas hanya jika status saat ini sama dengan `statusLama` ($3). Jika $4 diisi, tugas juga harus milik relawan tersebut. Seperti Q-011, pengecekan dan perubahan terjadi dalam satu perintah, sehingga dua permintaan bersamaan tidak bisa sama-sama berhasil. perbaruiStatus() mengembalikan TRUE jika `rowCount` lebih dari 0. Nilai $2 dibatasi `CHECK` constraint pada kolom status |
 | Q-011 | UPDATE jadwal_pekerjaan <br> SET status = 'dibatalkan', alasan_pembatalan = $2 <br> WHERE id_jadwal = $1 <br> AND id_relawan = $3 <br> AND status = 'ditugaskan' | Membatalkan tugas milik relawan pada token sesi. Syarat pemilik dan status ditaruh di `WHERE` agar pengecekan dan perubahan terjadi dalam satu perintah. batalkan() mengembalikan TRUE jika `rowCount` lebih dari 0 |
 
@@ -1257,7 +1287,7 @@ Tabel 5.11.1. Operasi Kelas LaporanBuktiKerja
 | simpan(laporan: Object): void | Public | Menyimpan laporan baru dengan status 'menunggu verifikasi'. Nilai waktuUnggah berasal dari perangkat relawan sehingga laporan luring tetap tercatat dengan waktu pembuatannya. Jika idLaporan sudah terdaftar, PostgreSQL menolak penyimpanan karena PRIMARY KEY dan galatnya diteruskan ke pemanggil (Algo-011, KNF03). Memakai Q-014 |
 | cekUUIDAda(uuid: String): Boolean | Public | Mengembalikan TRUE jika UUID laporan sudah tersimpan di server (KNF03). Memakai Q-015 |
 | ambilMenungguVerifikasi(): LaporanBuktiKerja[] | Public | Mengambil laporan berstatus 'menunggu verifikasi' beserta nama relawan dan jenis pekerjaan, diurutkan dari waktu unggah paling lama. Foto tidak ikut diambil agar daftar antrean ringan (KF08). Memakai Q-016 |
-| ambilById(idLaporan: String): LaporanBuktiKerja | Public | Mengambil satu laporan lengkap dengan fotonya, beserta idPetak dan idRelawan dari tugas terkait. Foto ikut diambil karena halaman detail laporan menampilkannya kepada petugas (UC03). Mengembalikan null jika laporan tidak ditemukan. Memakai Q-017 |
+| ambilById(idLaporan: String): LaporanBuktiKerja | Public | Mengambil satu laporan lengkap dengan fotonya, beserta idPetak, idRelawan, jenis pekerjaan, tanggal tugas, dan nama relawan dari tugas terkait. Foto ikut diambil karena halaman detail laporan menampilkannya kepada petugas (UC03). Mengembalikan null jika laporan tidak ditemukan. Memakai Q-017 |
 | setujui(idLaporan: String, idPetugas: Number): Boolean | Public | Mengubah status laporan menjadi 'terverifikasi' serta mencatat petugas pemverifikasi dan waktunya. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi' (KF10). Mengembalikan TRUE jika `rowCount` lebih dari 0 dan FALSE jika laporan sudah diputuskan lebih dulu. Memakai Q-018 |
 | tolak(idLaporan: String, alasan: String): Boolean | Public | Mengubah status laporan menjadi 'ditolak' serta menyimpan alasan penolakan dan waktu keputusan. Klausa WHERE hanya mengubah laporan yang masih 'menunggu verifikasi'. Mengembalikan TRUE jika `rowCount` lebih dari 0 dan FALSE jika laporan sudah diputuskan lebih dulu. Memakai Q-019 |
 
@@ -1281,8 +1311,8 @@ Tabel 5.11.3. Query Operasi LaporanBuktiKerja
 | :--- | :--- | :--- |
 | Q-014 | INSERT INTO laporan_bukti_kerja <br> (id_laporan, id_jadwal, foto, <br> lat_unggah, lng_unggah, <br> waktu_unggah, status) <br> VALUES ($1, $2, $3, $4, $5, $6, <br> 'menunggu verifikasi') | Menyimpan laporan baru yang diterima server |
 | Q-015 | SELECT 1 FROM laporan_bukti_kerja <br> WHERE id_laporan = $1 | Memeriksa apakah UUID laporan sudah tersimpan |
-| Q-016 | SELECT l.id_laporan, l.waktu_unggah, <br> j.id_jadwal, j.jenis_pekerjaan, <br> r.nama AS nama_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> JOIN relawan_lapangan r <br> ON r.id_relawan = j.id_relawan <br> WHERE l.status = 'menunggu verifikasi' <br> ORDER BY l.waktu_unggah ASC | Mengambil antrean laporan untuk petugas posko |
-| Q-017 | SELECT l.*, j.id_petak, j.id_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> WHERE l.id_laporan = $1 | Mengambil detail satu laporan beserta petak dan relawan dari tugas terkait. Foto (BYTEA) ikut diambil karena halaman detail laporan menampilkannya kepada petugas |
+| Q-016 | SELECT l.id_laporan, l.waktu_unggah, <br> j.id_jadwal, j.id_petak, j.jenis_pekerjaan, <br> r.nama AS nama_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> JOIN relawan_lapangan r <br> ON r.id_relawan = j.id_relawan <br> WHERE l.status = 'menunggu verifikasi' <br> ORDER BY l.waktu_unggah ASC | Mengambil antrean laporan untuk petugas posko |
+| Q-017 | SELECT l.*, j.id_petak, j.id_relawan, <br> j.jenis_pekerjaan, j.tanggal, <br> r.nama AS nama_relawan <br> FROM laporan_bukti_kerja l <br> JOIN jadwal_pekerjaan j <br> ON j.id_jadwal = l.id_jadwal <br> JOIN relawan_lapangan r <br> ON r.id_relawan = j.id_relawan <br> WHERE l.id_laporan = $1 | Mengambil detail satu laporan beserta petak, jenis pekerjaan, tanggal tugas, dan nama relawan yang ditampilkan I04-15 dan I04-18. Foto (BYTEA) ikut diambil karena halaman detail laporan menampilkannya kepada petugas |
 | Q-018 | UPDATE laporan_bukti_kerja <br> SET status = 'terverifikasi', <br> id_petugas_verifikasi = $2, <br> waktu_verifikasi = NOW() <br> WHERE id_laporan = $1 <br> AND status = 'menunggu verifikasi' | Menyetujui laporan dan mencatat petugas pemverifikasi |
 | Q-019 | UPDATE laporan_bukti_kerja <br> SET status = 'ditolak', <br> alasan_penolakan = $2, <br> waktu_verifikasi = NOW() <br> WHERE id_laporan = $1 <br> AND status = 'menunggu verifikasi' | Menolak laporan dan menyimpan alasan penolakan |
 
@@ -1296,7 +1326,7 @@ Tabel 5.12.1. Operasi Kelas HalamanDaftarTugas
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | tampilkanDaftarTugas(daftarTugas: JadwalPekerjaan[]): void | Public | Menampilkan tugas aktif relawan sesuai urutan yang diterima dari controller (skor risiko petak tertinggi di atas). Setiap baris memuat jenis pekerjaan, lokasi petak tujuan, skor risiko, dan status tugas (KF11) |
-| tampilkanDetailTugas(tugas: JadwalPekerjaan): void | Public | Menampilkan detail satu tugas berupa petak lokasi tujuan, skor risiko, jenis pekerjaan, tombol buat laporan, dan tombol pembatalan karena tidak aman. Tombol pembatalan hanya muncul jika status tugas 'ditugaskan' (KF21). Untuk tugas berjenis 'pengecekan titik panas', ditampilkan juga tombol tandai keliru yang membawa `idTitikPanas` milik tugas tersebut ke DialogTandaiKeliru (KF14) |
+| tampilkanDetailTugas(tugas: JadwalPekerjaan): void | Public | Menampilkan detail satu tugas berupa petak lokasi tujuan, skor risiko, jenis pekerjaan, tombol buat laporan, dan tombol pembatalan karena tidak aman. Tombol pembatalan hanya muncul jika status tugas 'ditugaskan' (KF21). Untuk tugas berjenis 'pengecekan titik panas' yang `idTitikPanas`-nya terisi (Q-008, Q-009), ditampilkan juga tombol tandai keliru yang membawa `idTitikPanas` tersebut ke DialogTandaiKeliru (KF14) |
 | tampilkanPenandaLuring(waktuSinkron: Date): void | Public | Menampilkan penanda bahwa data yang tampil berasal dari salinan di perangkat beserta waktu sinkronisasi terakhir. Jika waktuSinkron bernilai null, penanda berisi keterangan bahwa daftar tugas belum pernah tersinkron |
 | tampilkanBelumAdaTugas(): void | Public | Menampilkan pesan bahwa relawan belum memiliki penugasan |
 | tampilkanFormPembatalan(): void | Public | Menampilkan kolom alasan pembatalan yang wajib diisi beserta tombol kirim. Tombol kirim meneruskan idJadwal dan alasan ke DaftarTugasController.batalkanTugasTidakAman() |
@@ -1618,7 +1648,7 @@ Tabel 5.17.1. Operasi Kelas DeteksiKeliruController
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
 | tandaiKeliru(idTitikPanas: Number, keterangan: String): void | Public | (Server) Hanya bisa dipanggil pengguna berperan relawan. Memanggil validasiKeterangan(); jika hasilnya FALSE, controller membalas 400 dan View memanggil tampilkanPeringatanKeteranganKosong(). Jika valid, controller memanggil TitikPanas.tandaiKeliru(idTitikPanas, keterangan) dengan keterangan yang spasi di tepinya sudah dibuang, lalu membalas 200 (KF14, KF15) |
-| validasiKeterangan(keterangan: String): Boolean | Private | Bernilai TRUE jika keterangan adalah teks yang panjangnya 1 sampai 200 karakter setelah spasi di awal dan akhir dibuang. Keterangan berisi spasi saja dianggap kosong |
+| validasiKeterangan(keterangan: String): Boolean | Private | (Server) Bernilai TRUE jika keterangan adalah teks yang panjangnya 1 sampai 200 karakter setelah spasi di awal dan akhir dibuang. Keterangan berisi spasi saja dianggap kosong |
  
 Tabel 5.17.2. Atribut Kelas DeteksiKeliruController
  
@@ -1639,7 +1669,7 @@ Tabel 5.18.1. Operasi Kelas PeringatanSMSController
 | :--- | :--- | :--- |
 | cekAmbangRisiko(daftarPetakNaik: PetakLahan[]): void | Public | (Server) Dipanggil oleh `PetaRisikoController.picuCekAmbang()` untuk petak yang naik ke tingkat 'tinggi'. Untuk setiap petak yang belum menerima pesan peringatan dalam 24 jam terakhir, mengirim SMS peringatan kepada warga aktif di sekitar petak tersebut dan mencatat hasilnya (KF16). Lihat Algo-012  |
 | prosesBalasanSTOP(nomorHP: String, isiBalasan: String): void | Public | (Server) Menerima dan memproses balasan dari warga apabila isi balasannya adalah "STOP" (tanpa membedakan huruf besar maupun huruf kecil), mencari warga lewat `Warga.cariByNomor()` lalu memanggil `Warga.cabutPersetujuan()` |
-| hapusNomorDicabut(): void | Public | (Server) Memanggil `Warga.hapusDicabutLama(30)` untuk menghapus secara permanen data warga yang sudah 'dicabut' lebih dari 30 hari. Dipanggil di akhir `PetaRisikoController.perbaruiData()` |
+| hapusNomorDicabut(): void | Public | (Server) Memanggil `Warga.hapusDicabutLama(30)` untuk menghapus secara permanen data warga yang sudah 'dicabut' lebih dari 30 hari. Dipanggil di akhir `PetaRisikoController.perbaruiData()` (Algo-001), jadi pembersihan ikut berjalan setiap 3 jam tanpa penjadwal tambahan (KNF12) |
 | cekPeringatanTerakhir(idPetak: Number): Boolean | Private | (Server) Memanggil `PeringatanSMS.adaDalam24Jam(idPetak)`. TRUE berarti petak sudah pernah menerima peringatan dalam 24 jam terakhir |
 | identifikasiWargaTerdampak(idPetak: Number): Warga[] | Private | (Server) Memanggil `Warga.ambilAktifByPetak(idPetak)`, yaitu warga yang berstatus 'aktif' yang juga terhubung dengan petak tersebut |
 | kirimSMS(nomorHP: String, isiPesan: String): Boolean | Private | (Server) Mengirim pesan melalui `SMSGatewaySimulasi`. Bernilai TRUE jika gateway menerima pesan dan FALSE jika gagal menerima pesan |
@@ -1668,8 +1698,12 @@ FOR EACH petakLahan IN daftarPetakNaik DO
             FOR EACH warga in daftarWarga DO
                 IF warga.statusPersetujuan == 'aktif' THEN
                     pesan = "PERINGATAN!! Petak Lahan " + id + " yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan"
-                    statusPengiriman = kirimSMS(warga.nomorHP, pesan)
-                    PeringatanSMS.catat(warga.idWarga, id, pesan, statusPengiriman)
+                    IF kirimSMS(warga.nomorHP, pesan) THEN
+                        status = 'terkirim'
+                    ELSE
+                        status = 'gagal'
+                    END IF
+                    PeringatanSMS.catat(warga.idWarga, id, pesan, status)
                 END IF
             END FOR
         END IF
@@ -1729,9 +1763,9 @@ Tabel 5.19.3. Query Operasi Warga
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
 | Q-020 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> warga WHERE id_petak = $1 <br> AND status_persetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
-| Q-021 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE nomor_hp = $1 <br> LIMIT 1 | Mencari data warga berdasarkan nomor HP |
-| Q-022 | UPDATE Warga SET <br> status_persetujuan = 'dicabut', <br> waktu_dicabut = NOW() <br> WHERE id_warga = $1 AND status_persetujuan = 'aktif' | Mencatat pencabutan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
-| Q-023 | DELETE FROM Warga WHERE <br> status_persetujuan = 'dicabut' <br> AND waktu_dicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING id_warga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
+| Q-021 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> warga WHERE nomor_hp = $1 <br> LIMIT 1 | Mencari data warga berdasarkan nomor HP |
+| Q-022 | UPDATE warga SET <br> status_persetujuan = 'dicabut', <br> waktu_dicabut = NOW() <br> WHERE id_warga = $1 AND status_persetujuan = 'aktif' | Mencatat pencabutan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
+| Q-023 | DELETE FROM warga WHERE <br> status_persetujuan = 'dicabut' <br> AND waktu_dicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING id_warga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
 
 
 
@@ -1779,7 +1813,7 @@ Tabel 5.20.3. Query Operasi PeringatanSMS
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-024 | SELECT COUNT(id_peringatan) <br> FROM peringatan_sms WHERE <br> id_petak = $1 AND <br> waktu_kirim >= NOW() - <br> INTERVAL '24 hours' AND <br> status = 'terkirim' | Menghitung jumlah pesan peringatan yang telah berhasil dikirim ke suatu petak dalam 24 jam terakhir |
+| Q-024 | SELECT COUNT(id_peringatan)::int AS jumlah <br> FROM peringatan_sms WHERE <br> id_petak = $1 AND <br> waktu_kirim >= NOW() - <br> INTERVAL '24 hours' AND <br> status = 'terkirim' | Menghitung jumlah pesan peringatan yang telah berhasil dikirim ke suatu petak dalam 24 jam terakhir |
 | Q-025 | INSERT INTO peringatan_sms <br> (id_warga, id_petak, <br> isi_pesan, waktu_kirim, <br> status) VALUES ($1, $2, <br> $3, NOW(), $4) | Mencatat log pengiriman SMS ke basis data |
 
 
@@ -1792,9 +1826,9 @@ Tabel 5.21.1. Operasi Kelas HalamanLogin
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| tampilkanFormLogin(): void | Public | (Klien) Menampilkan kolom username, kolom password, dan tombol "Masuk". Bila salah satu kolom kosong, form tidak dikirim dan `tampilkanPesanGagal()` dipanggil. Bila terisi, tombol meneruskan username dan password ke `AutentikasiController.login()`. Jika server membalas 200, klien menyimpan token sesi di perangkat lalu memanggil `AutentikasiController.arahkanSesuaiPeran()`; jika 401, klien memanggil `tampilkanPesanGagal()` (KF18) |
-| tampilkanPesanGagal(pesan: String): void | Public | (Klien) Menampilkan pesan di atas form apabila kredensial yang diisi pengguna tidak valid. Isi kolom username akan tetap, dan kolom password dikosongkan (KF18) |
-| tampilkanPesanPerluKoneksi(): void | Public | (Klien) Menampilkan peringatan bahwa login memerlukan koneksi internet ketika perangkat luring dan belum ada sesi aktif. Jika token sesi di perangkat masih berlaku (7 hari), relawan langsung masuk tanpa melalui halaman ini (KF18, KF20) |
+| tampilkanFormLogin(): void | Public | Menampilkan kolom username, kolom password, dan tombol "Masuk". Bila salah satu kolom kosong, form tidak dikirim dan `tampilkanPesanGagal()` dipanggil. Bila terisi, tombol meneruskan username dan password ke `AutentikasiController.login()`. Jika server membalas 200, klien menyimpan token sesi di perangkat lalu memanggil `AutentikasiController.arahkanSesuaiPeran()`; jika 401, klien memanggil `tampilkanPesanGagal()` (KF18) |
+| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan di atas form apabila kredensial yang diisi pengguna tidak valid. Isi kolom username akan tetap, dan kolom password dikosongkan (KF18) |
+| tampilkanPesanPerluKoneksi(): void | Public | Menampilkan peringatan bahwa login memerlukan koneksi internet ketika perangkat luring dan belum ada sesi aktif. Jika token sesi di perangkat masih berlaku (7 hari), relawan langsung masuk tanpa melalui halaman ini (KF18, KF20) |
 
 Tabel 5.21.2. Atribut Kelas HalamanLogin
 
@@ -1923,12 +1957,16 @@ Tabel 5.24.3. Query Operasi Notifikasi
 
 Layar pertama yang dibuka petugas posko dan relawan lapangan. Layar I-01 merealisasikan UC08 dan memenuhi KF18 serta KF20. Relawan membuka layar ini di ponsel (Gambar 6.1a sampai 6.1e), sedangkan petugas posko membukanya di laptop (Gambar 6.1f dan 6.1g). Skenario normal UC08 berjalan dari Gambar 6.1a ke 6.1b lalu 6.1c. Gambar 6.1d dan 6.1g memperlihatkan kredensial tidak valid (skenario alternatif 1), dan Gambar 6.1e memperlihatkan relawan yang membuka aplikasi saat luring tanpa sesi aktif (skenario alternatif 2).
 
+### 6.1.1 Form kosong
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Login, kosong" src="./assets/antarmuka/I-01a%20Login%20kosong.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.1a. Rancangan Antarmuka I-01 - Masuk ke SIGAP (form kosong)</i>
 </p>
+
+### 6.1.2 Form terisi
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Login, terisi" src="./assets/antarmuka/I-01b%20Login%20terisi.png" width="25%">
@@ -1937,12 +1975,16 @@ Layar pertama yang dibuka petugas posko dan relawan lapangan. Layar I-01 mereali
 <i>Gambar 6.1b. Rancangan Antarmuka I-01 - Masuk ke SIGAP (form terisi)</i>
 </p>
 
+### 6.1.3 Memeriksa akun
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Memeriksa akun" src="./assets/antarmuka/I-01c%20Memeriksa%20akun.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.1c. Rancangan Antarmuka I-01 - Masuk ke SIGAP (memeriksa akun)</i>
 </p>
+
+### 6.1.4 Kredensial tidak valid
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Gagal masuk" src="./assets/antarmuka/I-01d%20Gagal%20masuk.png" width="25%">
@@ -1951,12 +1993,16 @@ Layar pertama yang dibuka petugas posko dan relawan lapangan. Layar I-01 mereali
 <i>Gambar 6.1d. Rancangan Antarmuka I-01 - Masuk ke SIGAP (kredensial tidak valid)</i>
 </p>
 
+### 6.1.5 Luring tanpa sesi aktif
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Luring" src="./assets/antarmuka/I-01e%20Luring%20tanpa%20sesi.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.1e. Rancangan Antarmuka I-01 - Masuk ke SIGAP (luring tanpa sesi aktif)</i>
 </p>
+
+### 6.1.6 Form login di laptop petugas
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Login petugas laptop" src="./assets/antarmuka/I-01f%20Login%20petugas%20(laptop).png" width="50%">
@@ -1965,12 +2011,16 @@ Layar pertama yang dibuka petugas posko dan relawan lapangan. Layar I-01 mereali
 <i>Gambar 6.1f. Rancangan Antarmuka I-01 - Masuk ke SIGAP (laptop petugas)</i>
 </p>
 
+### 6.1.7 Kredensial tidak valid di laptop petugas
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-01 Gagal masuk laptop" src="./assets/antarmuka/I-01g%20Gagal%20masuk%20(laptop).png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.1g. Rancangan Antarmuka I-01 - Masuk ke SIGAP (laptop, kredensial tidak valid)</i>
 </p>
+
+### 6.1.8 Spesifikasi Objek Antarmuka I-01
 
 Tabel 6.1. Spesifikasi Objek Antarmuka I-01
 
@@ -1998,12 +2048,16 @@ Tabel 6.1. Spesifikasi Objek Antarmuka I-01
 
 Petugas posko membuka layar ini lewat tab "Peta risiko" setelah masuk ke sistem, lalu peta menjadi layar utama selama petugas memantau wilayah. Layar I-02 merealisasikan UC01 dan memenuhi KF01, KF04, KF21, serta KF23. Skenario normal UC01 tergambar pada Gambar 6.2a, dan Gambar 6.2b memperlihatkan petugas yang memilih satu petak untuk melihat data petak itu. Gambar 6.2c memperlihatkan pembaruan data yang gagal (skenario alternatif 1), sedangkan Gambar 6.2d memperlihatkan layar selagi data peta masih dimuat dari server. Gambar 6.2e memperlihatkan notifikasi pembatalan tugas oleh relawan karena kondisi tidak aman (KF21, UC04 skenario alternatif 3).
 
+### 6.2.1 Data terbaru
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-02 Peta Risiko" src="./assets/antarmuka/I-02a Peta risiko.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.2a. Rancangan Antarmuka I-02 - Peta Risiko (data terbaru)</i>
 </p>
+
+### 6.2.2 Petak dipilih
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-02 Peta Risiko, petak dipilih" src="./assets/antarmuka/I-02b Petak dipilih.png" width="50%">
@@ -2012,12 +2066,16 @@ Petugas posko membuka layar ini lewat tab "Peta risiko" setelah masuk ke sistem,
 <i>Gambar 6.2b. Rancangan Antarmuka I-02 - Peta Risiko (petak dipilih)</i>
 </p>
 
+### 6.2.3 Data belum diperbarui, memakai cache
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-02 Peta Risiko, data belum diperbarui" src="./assets/antarmuka/I-02c Data belum diperbarui.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.2c. Rancangan Antarmuka I-02 - Peta Risiko (data belum diperbarui, memakai cache)</i>
 </p>
+
+### 6.2.4 Memuat peta
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-02 Peta Risiko, memuat peta" src="./assets/antarmuka/I-02d Memuat peta.png" width="50%">
@@ -2026,12 +2084,16 @@ Petugas posko membuka layar ini lewat tab "Peta risiko" setelah masuk ke sistem,
 <i>Gambar 6.2d. Rancangan Antarmuka I-02 - Peta Risiko (memuat peta)</i>
 </p>
 
+### 6.2.5 Notifikasi pembatalan tugas oleh relawan
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-02 Peta Risiko, notifikasi pembatalan" src="./assets/antarmuka/I-02e Notifikasi pembatalan.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.2e. Rancangan Antarmuka I-02 - Peta Risiko (notifikasi pembatalan tugas oleh relawan)</i>
 </p>
+
+### 6.2.6 Spesifikasi Objek Antarmuka I-02
 
 Tabel 6.2. Spesifikasi Objek Antarmuka I-02
 
@@ -2074,12 +2136,16 @@ Tabel 6.2. Spesifikasi Objek Antarmuka I-02
 
 Petugas posko membuka layar ini lewat tab "Jadwal", tombol "Susun jadwal untuk petak ini" (I02-24), atau tombol "Susun ulang jadwal" (I02-29). Layar I-03 merealisasikan UC02 dan memenuhi KF05, KF06, KF07, serta KF17. Skenario normal UC02 berjalan dari Gambar 6.3b (memilih relawan) ke 6.3a (form terisi) lalu 6.3d (jadwal tersimpan). Gambar 6.3c memperlihatkan relawan yang sudah memiliki 3 tugas aktif (skenario alternatif 1). Gambar 6.3e memperlihatkan form ketika tidak ada petak yang bisa direkomendasikan, dan Gambar 6.3f memperlihatkan penyimpanan yang gagal karena server tidak dapat dihubungi.
 
+### 6.3.1 Formulir terisi
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-03 Formulir terisi" src="./assets/antarmuka/I-03a%20Formulir%20terisi.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.3a. Rancangan Antarmuka I-03 - Susun Jadwal (formulir terisi)</i>
 </p>
+
+### 6.3.2 Memilih relawan
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-03 Memilih relawan" src="./assets/antarmuka/I-03b%20Memilih%20relawan.png" width="50%">
@@ -2088,12 +2154,16 @@ Petugas posko membuka layar ini lewat tab "Jadwal", tombol "Susun jadwal untuk p
 <i>Gambar 6.3b. Rancangan Antarmuka I-03 - Susun Jadwal (memilih relawan)</i>
 </p>
 
+### 6.3.3 Kapasitas relawan penuh
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-03 Kapasitas relawan penuh" src="./assets/antarmuka/I-03c%20Kapasitas%20relawan%20penuh.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.3c. Rancangan Antarmuka I-03 - Susun Jadwal (kapasitas relawan penuh)</i>
 </p>
+
+### 6.3.4 Jadwal tersimpan
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-03 Jadwal tersimpan" src="./assets/antarmuka/I-03d%20Jadwal%20tersimpan.png" width="50%">
@@ -2102,6 +2172,8 @@ Petugas posko membuka layar ini lewat tab "Jadwal", tombol "Susun jadwal untuk p
 <i>Gambar 6.3d. Rancangan Antarmuka I-03 - Susun Jadwal (jadwal tersimpan)</i>
 </p>
 
+### 6.3.5 Belum ada rekomendasi
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-03 Belum ada rekomendasi" src="./assets/antarmuka/I-03e%20Belum%20ada%20rekomendasi.png" width="50%">
 </p>
@@ -2109,12 +2181,16 @@ Petugas posko membuka layar ini lewat tab "Jadwal", tombol "Susun jadwal untuk p
 <i>Gambar 6.3e. Rancangan Antarmuka I-03 - Susun Jadwal (belum ada rekomendasi)</i>
 </p>
 
+### 6.3.6 Gagal menyimpan
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-03 Gagal menyimpan" src="./assets/antarmuka/I-03f%20Gagal%20menyimpan.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.3f. Rancangan Antarmuka I-03 - Susun Jadwal (gagal menyimpan)</i>
 </p>
+
+### 6.3.7 Spesifikasi Objek Antarmuka I-03
 
 Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 
@@ -2147,12 +2223,18 @@ Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 **Antarmuka:** *I-04*  
 **Nama Layar:** *Antrean Laporan Bukti Kerja*
 
+Petugas posko membuka layar ini lewat tab "Antrean laporan". Layar I-04 merealisasikan UC03 dan memenuhi KF08, KF09, KF10, serta KF24. Skenario normal UC03 tergambar pada Gambar 6.4a lalu 6.4e. Gambar 6.4b memperlihatkan lokasi foto yang lebih dari 200 m dari petak (skenario alternatif 1), Gambar 6.4c dan 6.4d memperlihatkan penolakan laporan (skenario alternatif 2), dan Gambar 6.4g memperlihatkan antrean kosong (skenario alternatif 3). Gambar 6.4f dan 6.4h memperlihatkan laporan yang sudah diproses petugas lain dan antrean yang gagal dimuat.
+
+### 6.4.1 Laporan dibuka
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan dibuka" src="./assets/antarmuka/I-04a%20Laporan%20dibuka.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4a. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan dibuka)</i>
 </p>
+
+### 6.4.2 Lokasi foto di luar batas 200 m
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, lokasi di luar batas" src="./assets/antarmuka/I-04b%20Lokasi%20di%20luar%20batas.png" width="50%">
@@ -2161,12 +2243,16 @@ Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 <i>Gambar 6.4b. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (lokasi foto di luar batas 200 m)</i>
 </p>
 
+### 6.4.3 Menolak, alasan masih kosong
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan kosong" src="./assets/antarmuka/I-04c%20Menolak%2C%20alasan%20kosong.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4c. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan masih kosong)</i>
 </p>
+
+### 6.4.4 Menolak, alasan terisi
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan terisi" src="./assets/antarmuka/I-04d%20Menolak%2C%20alasan%20terisi.png" width="50%">
@@ -2175,12 +2261,16 @@ Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 <i>Gambar 6.4d. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan terisi)</i>
 </p>
 
+### 6.4.5 Laporan disetujui
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan disetujui" src="./assets/antarmuka/I-04e%20Laporan%20disetujui.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4e. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan disetujui)</i>
 </p>
+
+### 6.4.6 Laporan sudah diproses petugas lain
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, sudah diproses petugas lain" src="./assets/antarmuka/I-04f%20Sudah%20diproses%20petugas%20lain.png" width="50%">
@@ -2189,6 +2279,8 @@ Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 <i>Gambar 6.4f. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan sudah diproses petugas lain)</i>
 </p>
 
+### 6.4.7 Antrean kosong
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, antrean kosong" src="./assets/antarmuka/I-04g%20Antrean%20kosong.png" width="50%">
 </p>
@@ -2196,12 +2288,16 @@ Tabel 6.3. Spesifikasi Objek Antarmuka I-03
 <i>Gambar 6.4g. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean kosong)</i>
 </p>
 
+### 6.4.8 Antrean gagal dimuat
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-04 Antrean Laporan, gagal memuat antrean" src="./assets/antarmuka/I-04h%20Gagal%20memuat%20antrean.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4h. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean gagal dimuat)</i>
 </p>
+
+### 6.4.9 Spesifikasi Objek Antarmuka I-04
 
 Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 
@@ -2250,12 +2346,16 @@ Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 
 Relawan lapangan membuka layar ini lewat PWA SIGAP di ponsel. Layar I-05 merealisasikan UC04 dan memenuhi KF07, KF11, KF20, KF21, serta KF24. Skenario normal UC04 tergambar pada Gambar 6.5a. Gambar 6.5b memperlihatkan perangkat yang sedang luring (skenario alternatif 1), sedangkan Gambar 6.5c memperlihatkan relawan yang belum punya tugas (skenario alternatif 2). Alur pembatalan tugas karena kondisi tidak aman (skenario alternatif 3) berjalan dari Gambar 6.5d ke 6.5e, lalu berakhir di 6.5f jika gagal atau 6.5h jika berhasil. Gambar 6.5g berisi tab notifikasi.
 
+### 6.5.1 Daftar tugas saat daring
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Daftar Tugas, daring" src="./assets/antarmuka/I-05a%20Daftar%20tugas%20(daring).png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.5a. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (daring)</i>
 </p>
+
+### 6.5.2 Daftar tugas saat luring (dari salinan di perangkat)
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Daftar Tugas, luring" src="./assets/antarmuka/I-05b%20Daftar%20tugas%20(luring).png" width="25%">
@@ -2264,12 +2364,16 @@ Relawan lapangan membuka layar ini lewat PWA SIGAP di ponsel. Layar I-05 mereali
 <i>Gambar 6.5b. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (luring, dari salinan di perangkat)</i>
 </p>
 
+### 6.5.3 Belum ada tugas
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Daftar Tugas, belum ada tugas" src="./assets/antarmuka/I-05c%20Belum%20ada%20tugas.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.5c. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (belum ada tugas)</i>
 </p>
+
+### 6.5.4 Detail tugas
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Detail Tugas" src="./assets/antarmuka/I-05d%20Detail%20tugas.png" width="25%">
@@ -2278,12 +2382,16 @@ Relawan lapangan membuka layar ini lewat PWA SIGAP di ponsel. Layar I-05 mereali
 <i>Gambar 6.5d. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (detail tugas)</i>
 </p>
 
+### 6.5.5 Form pembatalan tugas
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Form Pembatalan" src="./assets/antarmuka/I-05e%20Form%20pembatalan.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.5e. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (form pembatalan tugas)</i>
 </p>
+
+### 6.5.6 Pembatalan gagal karena luring
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Pembatalan Gagal" src="./assets/antarmuka/I-05f%20Pembatalan%20gagal.png" width="25%">
@@ -2292,6 +2400,8 @@ Relawan lapangan membuka layar ini lewat PWA SIGAP di ponsel. Layar I-05 mereali
 <i>Gambar 6.5f. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (pembatalan gagal karena luring)</i>
 </p>
 
+### 6.5.7 Tab notifikasi
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Notifikasi" src="./assets/antarmuka/I-05g%20Notifikasi.png" width="25%">
 </p>
@@ -2299,12 +2409,16 @@ Relawan lapangan membuka layar ini lewat PWA SIGAP di ponsel. Layar I-05 mereali
 <i>Gambar 6.5g. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (tab notifikasi)</i>
 </p>
 
+### 6.5.8 Pembatalan berhasil
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-05 Pembatalan Berhasil" src="./assets/antarmuka/I-05h%20Pembatalan%20berhasil.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.5h. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (pembatalan berhasil)</i>
 </p>
+
+### 6.5.9 Spesifikasi Objek Antarmuka I-05
 
 Tabel 6.5. Spesifikasi Objek Antarmuka I-05
 
@@ -2345,12 +2459,16 @@ Tabel 6.5. Spesifikasi Objek Antarmuka I-05
 
 Relawan sampai di layar ini setelah menekan tombol "Buat laporan" (I05-15). Layar I-06 merealisasikan UC05 dan memenuhi KF12, KF13, KNF03, serta KNF09. Pada skenario normal, relawan mengisi form seperti Gambar 6.6a lalu menerima konfirmasi seperti Gambar 6.6e. Jika GPS mati, form tampil seperti Gambar 6.6b. Laporan yang gagal terkirim karena perangkat luring tersimpan di ponsel (Gambar 6.6c) dan terkirim sendiri begitu sinyal kembali (Gambar 6.6g). Gambar 6.6d memperlihatkan kondisi ketika ponsel sudah menampung 20 laporan tertunda, dan Gambar 6.6f memperlihatkan laporan yang ditolak server.
 
+### 6.6.1 Siap kirim
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 Form Laporan, siap kirim" src="./assets/antarmuka/I-06a%20Form%20laporan%20(siap%20kirim).png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.6a. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (siap kirim)</i>
 </p>
+
+### 6.6.2 GPS belum aktif
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 GPS belum aktif" src="./assets/antarmuka/I-06b%20GPS%20belum%20aktif.png" width="25%">
@@ -2359,12 +2477,16 @@ Relawan sampai di layar ini setelah menekan tombol "Buat laporan" (I05-15). Laya
 <i>Gambar 6.6b. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (GPS belum aktif)</i>
 </p>
 
+### 6.6.3 Tersimpan, menunggu dikirim
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 Menunggu dikirim" src="./assets/antarmuka/I-06c%20Menunggu%20dikirim%20(luring).png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.6c. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (tersimpan, menunggu dikirim)</i>
 </p>
+
+### 6.6.4 Penyimpanan perangkat penuh
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 Penyimpanan penuh" src="./assets/antarmuka/I-06d%20Penyimpanan%20penuh.png" width="25%">
@@ -2373,12 +2495,16 @@ Relawan sampai di layar ini setelah menekan tombol "Buat laporan" (I05-15). Laya
 <i>Gambar 6.6d. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (penyimpanan perangkat penuh)</i>
 </p>
 
+### 6.6.5 Terkirim
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 Terkirim" src="./assets/antarmuka/I-06e%20Terkirim.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.6e. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (terkirim)</i>
 </p>
+
+### 6.6.6 Ditolak server
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 Ditolak server" src="./assets/antarmuka/I-06f%20Ditolak%20server.png" width="25%">
@@ -2387,12 +2513,16 @@ Relawan sampai di layar ini setelah menekan tombol "Buat laporan" (I05-15). Laya
 <i>Gambar 6.6f. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (ditolak server)</i>
 </p>
 
+### 6.6.7 Terkirim otomatis setelah sinyal kembali
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-06 Terkirim otomatis" src="./assets/antarmuka/I-06g%20Terkirim%20otomatis.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.6g. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (terkirim otomatis setelah sinyal kembali)</i>
 </p>
+
+### 6.6.8 Spesifikasi Objek Antarmuka I-06
 
 Tabel 6.6. Spesifikasi Objek Antarmuka I-06
 
@@ -2427,12 +2557,16 @@ Tabel 6.6. Spesifikasi Objek Antarmuka I-06
 
 Relawan membuka dialog ini dengan tombol "Tandai keliru" (I05-16) pada detail tugas berjenis 'pengecekan titik panas'. Layar I-07 merealisasikan UC06 dan memenuhi KF14 serta KF15. Dialog muncul dari bawah layar di atas detail tugas yang digelapkan. Skenario normal UC06 berjalan dari Gambar 6.7a ke 6.7b lalu 6.7e. Gambar 6.7c memperlihatkan keterangan yang belum diisi (skenario alternatif 1), dan Gambar 6.7d memperlihatkan pengiriman yang gagal karena perangkat luring.
 
+### 6.7.1 Dialog dibuka
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-07 Dialog tandai keliru" src="./assets/antarmuka/I-07a%20Dialog%20terbuka.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.7a. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (dialog dibuka)</i>
 </p>
+
+### 6.7.2 Keterangan terisi
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-07 Keterangan terisi" src="./assets/antarmuka/I-07b%20Keterangan%20terisi.png" width="25%">
@@ -2441,12 +2575,16 @@ Relawan membuka dialog ini dengan tombol "Tandai keliru" (I05-16) pada detail tu
 <i>Gambar 6.7b. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (keterangan terisi)</i>
 </p>
 
+### 6.7.3 Keterangan belum diisi
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-07 Keterangan kosong" src="./assets/antarmuka/I-07c%20Keterangan%20kosong.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.7c. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (keterangan belum diisi)</i>
 </p>
+
+### 6.7.4 Gagal mengirim karena luring
 
 <p align="center">
 <img alt="Rancangan Antarmuka I-07 Gagal mengirim" src="./assets/antarmuka/I-07d%20Gagal%20mengirim.png" width="25%">
@@ -2455,12 +2593,16 @@ Relawan membuka dialog ini dengan tombol "Tandai keliru" (I05-16) pada detail tu
 <i>Gambar 6.7d. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (gagal mengirim karena luring)</i>
 </p>
 
+### 6.7.5 Berhasil ditandai
+
 <p align="center">
 <img alt="Rancangan Antarmuka I-07 Berhasil ditandai" src="./assets/antarmuka/I-07e%20Berhasil%20ditandai.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.7e. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (berhasil ditandai)</i>
 </p>
+
+### 6.7.6 Spesifikasi Objek Antarmuka I-07
 
 Tabel 6.7. Spesifikasi Objek Antarmuka I-07
 
@@ -2483,6 +2625,8 @@ Tabel 6.7. Spesifikasi Objek Antarmuka I-07
 
 Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh aplikasi web SIGAP. SIGAP hanya menentukan isi dari pesan (Algo-012) dan memproses balasan yang masuk melalui `SMSGatewaySimulasi`. Layar ini mendukung UC07 (KF16): Gambar 6.8a untuk Skenario Normal dan awal Skenario Alternatif 2, Gambar 6.8b untuk akhir Skenario Alternatif 2 (warga berhenti berlangganan).
 
+### 6.8.1 Pesan diterima dan balasan STOP diketik
+
 <p align="center">
 <img alt="Antarmuka I-08" src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" width="25%">
 </p>
@@ -2490,12 +2634,16 @@ Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh ap
 <i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini (pesan diterima dan balasan STOP diketik)</i>
 </p>
 
+### 6.8.2 Balasan STOP terkirim
+
 <p align="center">
 <img alt="Antarmuka I-08-2" src="./assets/antarmuka/I-08b%20Warga%20membalas%20STOP.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.8b. Rancangan Antarmuka I-08 - SMS Peringatan Dini (Balasan STOP terkirim)</i>
 </p>
+
+### 6.8.3 Spesifikasi Objek Antarmuka I-08
 
 Tabel 6.8. Spesifikasi Objek Antarmuka I-08
 
