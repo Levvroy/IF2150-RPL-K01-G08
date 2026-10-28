@@ -1916,27 +1916,80 @@ Tabel 5.24.3. Query Operasi Notifikasi
 
 # BAB 6: Perancangan Antarmuka
 
-## 6.1 Rancangan Antarmuka [ID Layar 1]
+## 6.1 Rancangan Antarmuka I-01
 
-Masukkan versi awal prototipe antarmuka, dimana untuk setiap antarmuka/layar, tuliskan spesifikasi rinci objek yang ditampilkan dan reaksi sistem terhadap interaksi pengguna.
+**Antarmuka:** *I-01*  
+**Nama Layar:** *Login ke SIGAP*
 
-**Antarmuka:** *[ID layar]*  
-**Nama Layar:** *[Nama layar]*
+Layar pertama yang dibuka petugas posko dan relawan lapangan. Layar I-01 merealisasikan UC08 dan memenuhi KF18 serta KF20. Relawan membuka layar ini di ponsel (Gambar 6.1a sampai 6.1e), sedangkan petugas posko membukanya di laptop (Gambar 6.1f dan 6.1g). Skenario normal UC08 berjalan dari Gambar 6.1a ke 6.1b lalu 6.1c. Gambar 6.1d dan 6.1g memperlihatkan kredensial tidak valid (skenario alternatif 1), dan Gambar 6.1e memperlihatkan relawan yang membuka aplikasi saat luring tanpa sesi aktif (skenario alternatif 2).
 
 <p align="center">
-<img alt="Contoh Logical View pada P/L E-Commerce" src="./assets/diagram/contoh-design.png" width="50%">
+<img alt="Rancangan Antarmuka I-01 Login, kosong" src="./assets/antarmuka/I-01a%20Login%20kosong.png" width="25%">
 </p>
 <p align="center">
-<i>Gambar 6.1. Rancangan Antarmuka [ID Layar] - [Nama Layar]</i>
+<i>Gambar 6.1a. Rancangan Antarmuka I-01 - Masuk ke SIGAP (form kosong)</i>
 </p>
 
-Tabel 6.1. Spesifikasi Objek Antarmuka [ID Layar]
+<p align="center">
+<img alt="Rancangan Antarmuka I-01 Login, terisi" src="./assets/antarmuka/I-01b%20Login%20terisi.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.1b. Rancangan Antarmuka I-01 - Masuk ke SIGAP (form terisi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-01 Memeriksa akun" src="./assets/antarmuka/I-01c%20Memeriksa%20akun.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.1c. Rancangan Antarmuka I-01 - Masuk ke SIGAP (memeriksa akun)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-01 Gagal masuk" src="./assets/antarmuka/I-01d%20Gagal%20masuk.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.1d. Rancangan Antarmuka I-01 - Masuk ke SIGAP (kredensial tidak valid)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-01 Luring" src="./assets/antarmuka/I-01e%20Luring%20tanpa%20sesi.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.1e. Rancangan Antarmuka I-01 - Masuk ke SIGAP (luring tanpa sesi aktif)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-01 Login petugas laptop" src="./assets/antarmuka/I-01f%20Login%20petugas%20(laptop).png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.1f. Rancangan Antarmuka I-01 - Masuk ke SIGAP (laptop petugas)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-01 Gagal masuk laptop" src="./assets/antarmuka/I-01g%20Gagal%20masuk%20(laptop).png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.1g. Rancangan Antarmuka I-01 - Masuk ke SIGAP (laptop, kredensial tidak valid)</i>
+</p>
+
+Tabel 6.1. Spesifikasi Objek Antarmuka I-01
 
 | Id_Objek | Jenis | Konten | Keterangan |
 | :--- | :--- | :--- | :--- |
-| *[ID objek]* | *[Jenis objek, misalnya Button, RTF Box, dll]* | *[String yang tampil pada layar]* | *[Reaksi sistem, layar tujuan, tautan, atau ID algoritma yang dijalankan]* |
-| *[ID objek]* | *[Jenis objek]* | *[Konten yang ditampilkan]* | *[Reaksi sistem atau nama file terkait beserta deskripsi ringkasnya]* |
-| *...* | *...* | *...* | *...* |
+| I01-01 | Image | Logo SIGAP (ponsel) atau logo dan tulisan "SIGAP" (laptop) | Identitas aplikasi. Tidak memiliki reaksi. |
+| I01-02 | Label | "Masuk ke SIGAP" dan "Petugas posko diarahkan ke peta risiko, relawan lapangan ke daftar tugas." | Judul layar dan keterangan tujuan setelah masuk, sesuai `arahkanSesuaiPeran()`. |
+| I01-03 | Text Field | Label "Username" dengan teks petunjuk "contoh: arga.simanjuntak" | Diisi pengguna. Isinya tetap ada setelah login gagal (`tampilkanPesanGagal()`). |
+| I01-04 | Text Field (password) | Label "Password" dengan teks petunjuk "Wajib diisi" | Isian ditampilkan sebagai titik. Dikosongkan setelah login gagal. Password tidak disimpan di perangkat (KNF11). |
+| I01-05 | Button (ikon mata) | Ikon mata | Menampilkan atau menyembunyikan isi I01-04. Tidak mengirim apa pun ke server. |
+| I01-06 | Label | "Isi username dan password untuk masuk." | Tampil selama I01-03 atau I01-04 kosong (Gambar 6.1a). |
+| I01-07 | Button | "Masuk" | Abu-abu dan tidak bisa ditekan selama salah satu kolom kosong. Setelah keduanya terisi (Gambar 6.1b), tombol memanggil `AutentikasiController.login(username, password)` (Algo-015). Selama menunggu balasan, teks berganti menjadi "Memeriksa akun..." dan tombol nonaktif (Gambar 6.1c). Balasan 200: token sesi disimpan di perangkat lalu `arahkanSesuaiPeran(peran)` membuka I-02 untuk 'petugas' atau I-05 untuk 'relawan'. Balasan 401: tampil I01-08. |
+| I01-08 | Alert | Ikon peringatan dan "Username atau password salah." | Ditampilkan oleh `tampilkanPesanGagal(pesan)` ketika server membalas 401 (UC08 skenario alternatif 1, Gambar 6.1d dan 6.1g). Pesan tidak menyebut kolom mana yang salah. |
+| I01-09 | Alert | Ikon sinyal terputus dan "Tidak ada koneksi" | Ditampilkan oleh `tampilkanPesanPerluKoneksi()` ketika perangkat luring dan `periksaSesi()` bernilai FALSE (UC08 skenario alternatif 2, Gambar 6.1e). Jika token di perangkat masih berlaku 7 hari, layar ini dilewati dan relawan langsung masuk ke I-05 (KF20). |
+| I01-10 | Label | "Masuk butuh koneksi internet. Setelah masuk sekali, daftar tugas tetap bisa dibuka tanpa sinyal selama 7 hari." | Keterangan di bawah form saat luring (Gambar 6.1e). |
+| I01-11 | Label | "Akun dibuat oleh koordinator posko. Lupa password? Hubungi koordinator." | Keterangan untuk petugas di laptop (Gambar 6.1f). SIGAP tidak menyediakan pendaftaran atau atur ulang password karena akun diisi lewat data master (SKPL batasan 9). |
+| I01-12 | Image | "Peta risiko per petak 1 km", grid petak berwarna, dan legenda "Tinggi", "Sedang", "Rendah" | Gambar ilustrasi statis di sisi kanan layar laptop (Gambar 6.1f). Bukan data asli dan tidak memanggil server, karena data peta hanya boleh dibuka pengguna yang sudah masuk. |
+| I01-13 | Label | "Data di SIGAP adalah data historis dan fiktif untuk keperluan tugas IF2150." | Penanda prototipe (subbab 2.4.2 butir 6). Tampil di kiri bawah layar laptop. |
+
 
 ## 6.2 Rancangan Antarmuka I-02
 
@@ -2013,6 +2066,81 @@ Tabel 6.2. Spesifikasi Objek Antarmuka I-02
 | I02-27 | Label | "Notifikasi (n baru)", misalnya "Notifikasi (1 baru)" | Judul panel notifikasi. Nilai n adalah banyaknya notifikasi pada `daftarNotifikasi` dari `Notifikasi.ambilBelumDibaca()` (Q-030). Panel ini menggantikan I02-15 dan I02-16 selama ada notifikasi belum dibaca, sedangkan I02-17 dan I02-18 tetap tampil di bawahnya (Gambar 6.2e). |
 | I02-28 | Card | Isi notifikasi dan waktunya, misalnya "Tugas #12 dibatalkan relawan karena kondisi tidak aman. Alasan: api masih menyala di tepi kanal, jalan masuk tertutup asap." dan "Hari ini, 15.02" | Ditampilkan oleh `tampilkanNotifikasi(daftarNotifikasi)` setelah relawan membatalkan tugas lewat `batalkanTugasTidakAman()` (KF21, Algo-008). Teks berasal dari `isiPesan` dan waktu dari `waktuDibuat` (Q-030). Angka setelah tanda # adalah `idJadwal`. Notifikasi dibuat untuk seluruh petugas posko, sehingga semua petugas melihat kartu yang sama. |
 | I02-29 | Button | "Susun ulang jadwal" | Memanggil `tandaiNotifikasiDibaca(idNotifikasi)`, menghapus kartu dari tampilan, lalu membuka I-03. Petak yang dibatalkan kembali muncul pada rekomendasi di I-03 karena Q-003 hanya mengecualikan petak yang masih punya tugas 'ditugaskan' atau 'menunggu verifikasi'. Jika tidak ada notifikasi lain, panel kembali menampilkan I02-15 sampai I02-18. |
+
+## 6.3 Rancangan Antarmuka I-03
+
+**Antarmuka:** *I-03*  
+**Nama Layar:** *Susun Jadwal*
+
+Petugas posko membuka layar ini lewat tab "Jadwal", tombol "Susun jadwal untuk petak ini" (I02-24), atau tombol "Susun ulang jadwal" (I02-29). Layar I-03 merealisasikan UC02 dan memenuhi KF05, KF06, KF07, serta KF17. Skenario normal UC02 berjalan dari Gambar 6.3b (memilih relawan) ke 6.3a (form terisi) lalu 6.3d (jadwal tersimpan). Gambar 6.3c memperlihatkan relawan yang sudah memiliki 3 tugas aktif (skenario alternatif 1). Gambar 6.3e memperlihatkan form ketika tidak ada petak yang bisa direkomendasikan, dan Gambar 6.3f memperlihatkan penyimpanan yang gagal karena server tidak dapat dihubungi.
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-03 Formulir terisi" src="./assets/antarmuka/I-03a%20Formulir%20terisi.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.3a. Rancangan Antarmuka I-03 - Susun Jadwal (formulir terisi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-03 Memilih relawan" src="./assets/antarmuka/I-03b%20Memilih%20relawan.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.3b. Rancangan Antarmuka I-03 - Susun Jadwal (memilih relawan)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-03 Kapasitas relawan penuh" src="./assets/antarmuka/I-03c%20Kapasitas%20relawan%20penuh.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.3c. Rancangan Antarmuka I-03 - Susun Jadwal (kapasitas relawan penuh)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-03 Jadwal tersimpan" src="./assets/antarmuka/I-03d%20Jadwal%20tersimpan.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.3d. Rancangan Antarmuka I-03 - Susun Jadwal (jadwal tersimpan)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-03 Belum ada rekomendasi" src="./assets/antarmuka/I-03e%20Belum%20ada%20rekomendasi.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.3e. Rancangan Antarmuka I-03 - Susun Jadwal (belum ada rekomendasi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-03 Gagal menyimpan" src="./assets/antarmuka/I-03f%20Gagal%20menyimpan.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.3f. Rancangan Antarmuka I-03 - Susun Jadwal (gagal menyimpan)</i>
+</p>
+
+Tabel 6.3. Spesifikasi Objek Antarmuka I-03
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I03-01 | Image | Logo dan tulisan "SIGAP" | Identitas aplikasi. Tidak memiliki reaksi. |
+| I03-02 | Tab | "Peta risiko" | Membuka I-02. |
+| I03-03 | Tab | "Jadwal" | Penanda bahwa layar yang sedang terbuka adalah I-03. Berwarna hitam selama aktif. |
+| I03-04 | Tab | "Antrean laporan" | Membuka I-04. |
+| I03-05 | Label | "Petugas posko" | Peran akun yang sedang masuk. |
+| I03-06 | Button | "Keluar" | Menghapus token sesi dari perangkat lalu membuka I-01. |
+| I03-07 | Label | "Susun jadwal" dan "n relawan aktif. Rekomendasi petak diperbarui tanggal, jam.", misalnya "5 relawan aktif. Rekomendasi petak diperbarui 26 Okt, 14.00." | Judul layar. Nilai n adalah banyaknya relawan pada `daftarRelawan` dari `JadwalController.bukaFormJadwal()`. |
+| I03-08 | Label | "Jadwal baru" | Judul kelompok isian form, ditampilkan oleh `tampilkanForm()` (KF05). |
+| I03-09 | Pop-up menu | Baris "Relawan" dengan nilai terpilih atau "Pilih relawan", dan daftar berjudul "Relawan aktif" | Menekan baris membuka daftar nama dari `tampilkanDaftarRelawanAktif(daftarRelawan)` (Gambar 6.3b). Daftar berasal dari `RelawanLapangan.ambilRelawanAktif()` (Q-012), diurutkan menurut nama, sehingga relawan nonaktif tidak bisa dipilih (KF05). Memilih nama menutup daftar dan mengisi baris. |
+| I03-10 | Date picker | Baris "Tanggal" dengan nilai, misalnya "Senin, 26 Okt 2026", atau "Pilih tanggal" | Memakai pemilih tanggal bawaan peramban (`input type="date"`). Nilai dikirim sebagai `dataJadwal.tanggal`. |
+| I03-11 | Pop-up menu | Baris "Petak" dengan nilai "Petak n, skor s", misalnya "Petak 214, skor 78", atau "Pilih petak" | Petak bisa dipilih manual dari menu ini atau terisi otomatis dari I03-16. Jika layar dibuka dari I02-24, baris ini sudah terisi petak yang dipilih di peta. |
+| I03-12 | Segmented control | "Jenis pekerjaan" dengan tiga opsi: "Patroli pencegahan", "Pembasahan sekat kanal", "Pengecekan titik panas" | Satu opsi aktif berlatar putih. Nilainya dikirim sebagai `dataJadwal.jenisPekerjaan` dan dibatasi `CHECK` constraint kolom `jenis_pekerjaan` (Algo-004). |
+| I03-13 | Label | "Relawan langsung menerima notifikasi tugas setelah jadwal disimpan." | Keterangan akibat menekan I03-14 (KF07). |
+| I03-14 | Button | "Simpan jadwal" | Memanggil `JadwalController.buatJadwal(dataJadwal)` (Algo-004) dengan {idRelawan, idPetak, jenisPekerjaan, tanggal}. Kapasitas diperiksa lewat `validasiKapasitas()` dan `RelawanLapangan.hitungTugasAktif()` (Q-013), lalu jadwal disimpan lewat `JadwalPekerjaan.simpan()` (Q-008) dan notifikasi dibuat oleh `kirimNotifikasiTugas()`. Balasan 201 menampilkan I03-19, balasan 409 menampilkan I03-20, dan balasan 400 atau gagal terhubung menampilkan I03-21. |
+| I03-15 | Label | "Rekomendasi petak" | Judul panel kanan. |
+| I03-16 | List | Setiap baris berisi lencana skor, "Petak n", "Risiko tingkat", dan tombol "Pilih", misalnya "78", "Petak 214", "Risiko tinggi" | Ditampilkan oleh `tampilkanRekomendasi(daftarPetak)` dengan data dari `buatRekomendasi()`, yaitu `PetakLahan.ambilRekomendasi(5)` (Q-003, KF17). Lencana berwarna merah untuk risiko tinggi dan kuning untuk sedang. Menekan "Pilih" mengisi I03-11 dan mengganti tombol baris itu menjadi tanda centang "Dipilih". |
+| I03-17 | Label | "Petak berskor tertinggi yang belum punya tugas aktif, maksimal 5." | Keterangan isi I03-16. Petak yang masih punya tugas 'ditugaskan' atau 'menunggu verifikasi' tidak masuk rekomendasi. |
+| I03-18 | Label | "Belum ada rekomendasi" dan "Semua petak sudah punya tugas aktif. Petak tetap bisa dipilih manual lewat kolom Petak." | Menggantikan I03-16 jika `daftarPetak` kosong (Gambar 6.3e). I03-11 tetap bisa dipakai. |
+| I03-19 | Alert | Ikon centang, "Jadwal #n tersimpan", dan "Nama relawan sudah menerima notifikasi tugas jenis pekerjaan di Petak x, tanggal.", misalnya "Jadwal #128 tersimpan" | Ditampilkan oleh `tampilkanPesanBerhasil()` setelah balasan 201 (Gambar 6.3d). Nilai n adalah `idJadwal` dari `RETURNING *` pada Q-008. Isian form dikosongkan dan I03-16 dimuat ulang, sehingga petak yang baru dijadwalkan keluar dari rekomendasi. |
+| I03-20 | Alert | Nama relawan berwarna merah pada I03-09 dan pesan "Nama relawan sudah punya 3 tugas aktif. Pilih relawan lain atau tunggu sampai salah satu tugasnya selesai." | Ditampilkan oleh `tampilkanPesanKapasitasPenuh()` ketika server membalas 409 (KF06, UC02 skenario alternatif 1, Gambar 6.3c). Isian lain tidak dikosongkan, jadi petugas cukup mengganti relawan lalu menekan I03-14 lagi. |
+| I03-21 | Alert | "Jadwal belum tersimpan karena server tidak dapat dihubungi. Isian tidak hilang, coba simpan lagi." | Ditampilkan oleh `tampilkanPesanGagal(pesan)` ketika permintaan gagal atau server membalas 400/500 (Gambar 6.3f). Untuk balasan 400, isi pesan mengikuti pesan server, misalnya "Semua isian jadwal wajib diisi". Isian form tidak dikosongkan. |
 
 ## 6.4 Rancangan Antarmuka I-04
 
@@ -2327,9 +2455,62 @@ Tabel 6.8. Spesifikasi Objek Antarmuka I-08
 | I08-09 | Label | "Terkirim 14.20" | Status pengiriman dari aplikasi pesan ponsel, bukan dari SIGAP. Sistem tidak membalas dengan pesan konfirmasi |
 
 
-## 6.X Rancangan Antarmuka [ID Layar X]
+## 6.7 Rancangan Antarmuka I-07
 
-*[Ulangi pola 6.1 untuk layar berikutnya sampai semua layar teridentifikasi]*
+**Antarmuka:** *I-07*  
+**Nama Layar:** *Dialog Tandai Keliru*
+
+Relawan membuka dialog ini dengan tombol "Tandai keliru" (I05-16) pada detail tugas berjenis 'pengecekan titik panas'. Layar I-07 merealisasikan UC06 dan memenuhi KF14 serta KF15. Dialog muncul dari bawah layar di atas detail tugas yang digelapkan. Skenario normal UC06 berjalan dari Gambar 6.7a ke 6.7b lalu 6.7e. Gambar 6.7c memperlihatkan keterangan yang belum diisi (skenario alternatif 1), dan Gambar 6.7d memperlihatkan pengiriman yang gagal karena perangkat luring.
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-07 Dialog tandai keliru" src="./assets/antarmuka/I-07a%20Dialog%20terbuka.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.7a. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (dialog dibuka)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-07 Keterangan terisi" src="./assets/antarmuka/I-07b%20Keterangan%20terisi.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.7b. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (keterangan terisi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-07 Keterangan kosong" src="./assets/antarmuka/I-07c%20Keterangan%20kosong.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.7c. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (keterangan belum diisi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-07 Gagal mengirim" src="./assets/antarmuka/I-07d%20Gagal%20mengirim.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.7d. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (gagal mengirim karena luring)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-07 Berhasil ditandai" src="./assets/antarmuka/I-07e%20Berhasil%20ditandai.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.7e. Rancangan Antarmuka I-07 - Dialog Tandai Keliru (berhasil ditandai)</i>
+</p>
+
+Tabel 6.7. Spesifikasi Objek Antarmuka I-07
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I07-01 | Label | "Tandai titik panas ini keliru?" | Judul dialog, ditampilkan oleh `tampilkanForm()`. Bagian layar di belakangnya menjadi gelap. |
+| I07-02 | Label | "Titik panas di Petak n tidak dihitung dalam skor risiko Petak n selama 24 jam, kecuali ada deteksi baru dalam radius 500 m.", misalnya Petak 214 | Keterangan akibat penandaan (KF15, Algo-003). Nilai n adalah petak tugas yang sedang dibuka. |
+| I07-03 | Text Area | Label "Keterangan (wajib)" dengan teks petunjuk "Contoh: asap dari pembakaran sampah di tepi jalan" | Diisi relawan, maksimal 200 karakter. Isinya tetap ada saat pengiriman gagal (Gambar 6.7d). |
+| I07-04 | Label | "n/200", misalnya "0/200" | Penghitung karakter I07-03 yang diperbarui setiap kali isian berubah. |
+| I07-05 | Alert | Ikon peringatan dan "Keterangan wajib diisi. Tulis apa yang terlihat di lokasi." | Ditampilkan oleh `tampilkanPeringatanKeteranganKosong()` jika I07-03 kosong atau hanya berisi spasi saat I07-06 ditekan, atau server membalas 400 dari `validasiKeterangan()` (UC06 skenario alternatif 1, Gambar 6.7c). Dialog tetap terbuka. |
+| I07-06 | Button | "Kirim penandaan" | Memanggil `DeteksiKeliruController.tandaiKeliru(idTitikPanas, keterangan)`. Server memeriksa keterangan dengan `validasiKeterangan()` lalu memanggil `TitikPanas.tandaiKeliru()` (Q-007). Balasan 200 menampilkan I07-09, balasan 400 menampilkan I07-05, dan gagal terhubung menampilkan I07-08. |
+| I07-07 | Button | "Batal" | Menutup dialog tanpa mengubah status titik panas. |
+| I07-08 | Alert | Ikon peringatan dan "Penandaan butuh koneksi internet. Keterangan tetap tersimpan, kirim lagi setelah ada sinyal." | Ditampilkan oleh `tampilkanPesanGagal(pesan)` ketika permintaan tidak sampai ke server (Gambar 6.7d). Penandaan tidak disimpan di perangkat untuk dikirim otomatis, karena penyimpanan luring hanya berlaku untuk laporan bukti kerja (KF12). |
+| I07-09 | Alert | Ikon centang, "Ditandai keliru", dan "Titik panas ini tidak dihitung dalam skor risiko selama 24 jam, kecuali ada deteksi baru dalam radius 500 m." | Ditampilkan oleh `tampilkanPesanBerhasil()` di atas detail tugas setelah dialog tertutup (Gambar 6.7e, KF15). |
+| I07-10 | Button (nonaktif) | "Sudah ditandai" | Menggantikan I05-16 setelah penandaan berhasil sehingga titik yang sama tidak ditandai dua kali dari layar ini. I05-15 "Buat laporan" dan I05-17 "Batalkan tugas" tetap tampil karena status tugas tidak berubah. |
 
 ## 6.Y Rancangan Antarmuka Keseluruhan
 
