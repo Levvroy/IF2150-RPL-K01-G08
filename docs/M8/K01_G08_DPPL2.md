@@ -2032,7 +2032,7 @@ Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh ap
 <img alt="Antarmuka I-08" src="./assets/diagram/I-08a SMS peringatan diterima.png" width="25%">
 </p>
 <p align="center">
-<i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini</i>
+<i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini (pesan diterima dan balasan STOP diketik)</i>
 </p>
 
 <p align="center">
@@ -2051,8 +2051,8 @@ Tabel 6.8. Spesifikasi Objek Antarmuka I-08
 | I08-03 | Label | "Peringatan dini kebakaran, simulasi" | Keterangan pengirim. Kata "simulasi" menandakan pesan berasal dari `SMSGatewaySimulasi` |
 | I08-04 | Label | "Hari ini, 14.03" | Waktu pesan diterima. Sesuai dengan `waktuKirim` yang dicatat oleh `PeringatanSMS.catat()` (Q-025) |
 | I08-05 | Message bubble (pesan masuk) | "PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan" | Dikirim oleh `PeringatanSMSController.cekAmbangRisiko()` (Algo-012) ke warga berstatus 'aktif' di sekitar petak yang naik ke tingkat 'tinggi'. Angka 214 adalah `idPetak` dan berubah sesuai petak. Tiap pengiriman dicatat dengan status 'terkirim' atau 'gagal' (Q-025) |
-| I08-06 | Text field | "STOP" (placeholder: "Pesan teks") | Warga mengetik balasan. Hanya balasan "STOP" (setelah spasi di tepi dibuang, tanpa membedakan huruf besar-kecil) yang diproses oleh sistem, selain itu diabaikan |
-| I08-07 | Button (ikon panah kirim) | Panah ke atas | Aktif (hitam) jika kolom teks terisi. Saat ditekan, balasan dikirim ke gateway, lalu sistem menjalankan `PeringatanSMSController.prosesBalasanSTOP()`, yang memanggil `Warga.cariByNomor()` (Q-021) lalu `Warga.cabutPersetujuan()` (Q-022). Layar berganti menjadi Gambar 6.8b (UC07 skenario alternatif 2) |
+| I08-06 | Text field | "STOP" (placeholder: "Pesan teks") | Warga mengetik balasan. Hanya balasan "STOP" (tanpa membedakan huruf besar-kecil) yang diproses oleh sistem, selain itu diabaikan. Kembali kosong setelah I08-07 ditekan |
+| I08-07 | Button (ikon panah kirim) | Panah ke atas | Aktif (hitam) selama I08-06 terisi, dan nonaktif (abu-abu) saat kosong. Saat ditekan, balasan dikirim ke gateway, lalu sistem menjalankan `PeringatanSMSController.prosesBalasanSTOP()`, yang memanggil `Warga.cariByNomor()` (Q-021) lalu `Warga.cabutPersetujuan()` (Q-022). Layar berganti menjadi Gambar 6.8b (UC07 skenario alternatif 2) |
 | I08-08 | Message bubble (pesan keluar) | "STOP" | Balasan warga yang sudah dikirim, muncul setelah I08-07 ditekan (Gambar 6.8b). Setelah balasan diterima sistem, status persetujuan warga menjadi 'dicabut' sehingga warga tidak lagi menerima SMS peringatan (KF16) |
 | I08-09 | Label | "Terkirim 14.20" | Status pengiriman dari aplikasi pesan ponsel, bukan dari SIGAP. Sistem tidak membalas dengan pesan konfirmasi |
 
