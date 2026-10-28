@@ -732,7 +732,7 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 | C06 | `JadwalController` | - | `+bukaFormJadwal(): Object`<br>`+buatJadwal(dataJadwal: Object): JadwalPekerjaan`<br>`-buatRekomendasi(): PetakLahan[]`<br>`-validasiKapasitas(idRelawan: Number): Boolean`<br>`-kirimNotifikasiTugas(idRelawan: Number, idJadwal: Number): void` |
 | C07 | `JadwalPekerjaan` | `-idJadwal: Number`<br>`-jenisPekerjaan: String`<br>`-status: String ('ditugaskan' / 'menunggu verifikasi' / 'selesai' / 'dibatalkan')`<br>`-tanggal: Date`<br>`-alasanPembatalan: String` | `+simpan(dataJadwal: Object): JadwalPekerjaan`<br>`+ambilAktifByRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+perbaruiStatus(idJadwal: Number, status: String): void`<br>`+batalkan(idJadwal: Number, alasan: String): Boolean` |
 | C08 | `RelawanLapangan` | `-idRelawan: Number`<br>`-nama: String`<br>`-kontak: String`<br>`-statusAktif: Boolean` | `+ambilRelawanAktif(): RelawanLapangan[]`<br>`+hitungTugasAktif(idRelawan: Number): Number` |
-| C09 | `HalamanAntreanLaporan` | - | `+tampilkanAntrean(daftarLaporan: LaporanBuktiKerja[]): void`<br>`+tampilkanDetailLaporan(laporan: LaporanBuktiKerja, jarak: Number): void`<br>`+tampilkanPeringatanJarak(jarak: Number): void`<br>`+tampilkanAntreanKosong(): void` |
+| C09 | `HalamanAntreanLaporan` | - | `+tampilkanAntrean(daftarLaporan: LaporanBuktiKerja[]): void`<br>`+tampilkanDetailLaporan(laporan: LaporanBuktiKerja, jarak: Number): void`<br>`+tampilkanPeringatanJarak(jarak: Number): void`<br>`+tampilkanAntreanKosong(): void`<br>`+tampilkanPesanGagal(pesan: String): void`<br>`+tampilkanPesanBerhasil(pesan: String): void` |
 | C10 | `VerifikasiLaporanController` | - | `+ambilAntrean(): LaporanBuktiKerja[]`<br>`+ambilDetailLaporan(idLaporan: String): Object`<br>`+verifikasiLaporan(idLaporan: String): void`<br>`+tolakLaporan(idLaporan: String, alasan: String): void`<br>`-hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number` |
 | C11 | `LaporanBuktiKerja` | `-idLaporan: String (UUID)`<br>`-foto: Blob (klien) / Buffer (server)`<br>`-koordinatUnggah: Object {lat, lng}`<br>`-waktuUnggah: Date`<br>`-status: String ('menunggu verifikasi' / 'terverifikasi' / 'ditolak')`<br>`-alasanPenolakan: String`<br>`-waktuVerifikasi: Date` | `+simpan(laporan: Object): void`<br>`+cekUUIDAda(uuid: String): Boolean`<br>`+ambilMenungguVerifikasi(): LaporanBuktiKerja[]`<br>`+ambilById(idLaporan: String): LaporanBuktiKerja`<br>`+setujui(idLaporan: String, idPetugas: Number): Boolean`<br>`+tolak(idLaporan: String, alasan: String): Boolean` |
 | C12 | `HalamanDaftarTugas` | - | `+tampilkanDaftarTugas(daftarTugas: JadwalPekerjaan[]): void`<br>`+tampilkanDetailTugas(tugas: JadwalPekerjaan): void`<br>`+tampilkanPenandaLuring(waktuSinkron: Date): void`<br>`+tampilkanBelumAdaTugas(): void`<br>`+tampilkanFormPembatalan(): void`<br>`+tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void`<br>`+tampilkanPesanGagal(pesan: String): void` |
@@ -1142,6 +1142,8 @@ Tabel 5.9.1. Operasi Kelas HalamanAntreanLaporan
 | tampilkanDetailLaporan(laporan: LaporanBuktiKerja, jarak: Number): void | Public | Menampilkan foto, koordinat unggahan, petak lokasi tugas, dan jarak koordinat ke batas petak dalam meter (0 berarti koordinat berada di dalam petak), beserta tombol setuju dan tolak. Tombol tolak memunculkan kolom alasan penolakan, dan tombol kirim penolakan baru aktif setelah alasan terisi (KF08, KF09) |
 | tampilkanPeringatanJarak(jarak: Number): void | Public | Menampilkan peringatan bahwa lokasi bukti kerja berada sejauh `jarak` meter dari batas petak tugas, melebihi batas 200 meter. Peringatan tidak menonaktifkan tombol setuju dan tolak karena keputusan tetap berada di tangan petugas (KF09, UC03 skenario alternatif 1) |
 | tampilkanAntreanKosong(): void | Public | Menampilkan pesan bahwa antrean laporan sedang kosong (UC03 skenario alternatif 3) |
+| tampilkanPesanGagal(pesan: String): void | Public | Menampilkan pesan ketika permintaan tidak berhasil: laporan sudah diproses petugas lain (respons 409), alasan penolakan kosong atau lebih dari 300 karakter (400), laporan tidak ditemukan (404), atau server tidak dapat dihubungi saat memuat antrean maupun mengirim keputusan. Untuk respons 400, kolom alasan tetap terbuka dan isinya tidak hilang. Untuk respons 409 dan 404, halaman memuat ulang antrean lewat VerifikasiLaporanController.ambilAntrean() agar laporan itu hilang dari daftar (KF08, KF10) |
+| tampilkanPesanBerhasil(pesan: String): void | Public | Menggantikan panel detail dengan hasil keputusan setelah server membalas 200: laporan disetujui dan tugas berstatus 'selesai', atau laporan ditolak dan alasannya dikirim ke relawan. Laporan tersebut tidak lagi muncul di antrean (KF10, KF24) |
 
 Tabel 5.9.2. Atribut Kelas HalamanAntreanLaporan
 
@@ -1165,7 +1167,7 @@ Tabel 5.10.1. Operasi Kelas VerifikasiLaporanController
 | ambilAntrean(): LaporanBuktiKerja[] | Public | Mengambil laporan berstatus 'menunggu verifikasi' melalui LaporanBuktiKerja.ambilMenungguVerifikasi(). Halaman menampilkannya dengan tampilkanAntrean(), atau tampilkanAntreanKosong() jika daftar kosong (KF08) |
 | ambilDetailLaporan(idLaporan: String): Object | Public | Mengambil laporan melalui LaporanBuktiKerja.ambilById() dan batas wilayah petak tugas melalui PetakLahan.ambilById(), menghitung jarak dengan hitungJarak(), lalu mengembalikan {laporan, petak, jarak, melebihiBatas}. Nilai melebihiBatas bernilai TRUE jika jarak lebih dari 200 meter, dan halaman memanggil tampilkanPeringatanJarak() untuk kondisi itu (KF09, KNF06). Membalas 404 jika laporan tidak ditemukan |
 | verifikasiLaporan(idLaporan: String): void | Public | Menyetujui laporan, mengubah status tugas menjadi 'selesai', dan mengirim notifikasi ke relawan pengunggah (KF10, KF24). Lihat Algo-006 |
-| tolakLaporan(idLaporan: String, alasan: String): void | Public | Memvalidasi alasan (membalas 400 jika kosong setelah spasi di tepi dihapus), lalu mengikuti pola Algo-006: memeriksa status laporan, memanggil LaporanBuktiKerja.tolak() dan membalas 409 jika hasilnya FALSE, mengembalikan status tugas menjadi 'ditugaskan' lewat JadwalPekerjaan.perbaruiStatus(idJadwal, 'ditugaskan', 'menunggu verifikasi'), dan mengirim notifikasi berisi alasan penolakan ke relawan agar relawan dapat mengunggah ulang bukti kerja (KF24, UC03 skenario alternatif 2) |
+| tolakLaporan(idLaporan: String, alasan: String): void | Public | Memvalidasi alasan (membalas 400 jika kosong setelah spasi di tepi dihapus atau lebih dari 300 karakter), lalu mengikuti pola Algo-006: memeriksa status laporan, dalam satu transaksi memanggil LaporanBuktiKerja.tolak() lalu mengembalikan status tugas menjadi 'ditugaskan' lewat JadwalPekerjaan.perbaruiStatus(idJadwal, 'ditugaskan', 'menunggu verifikasi', NULL), membatalkan transaksi dan membalas 409 jika salah satunya FALSE, kemudian mengirim notifikasi berisi alasan penolakan ke relawan agar relawan dapat mengunggah ulang bukti kerja (KF24, UC03 skenario alternatif 2) |
 | hitungJarak(koordinatUnggah: Object, batasWilayah: Object): Number | Private | Menghitung jarak dalam meter dari koordinat unggahan ke titik terdekat pada batas petak dengan rumus haversine. Bernilai 0 jika koordinat berada di dalam petak (KF09, KNF06). Lihat Algo-005 |
 
 Tabel 5.10.2. Atribut Kelas VerifikasiLaporanController
@@ -1221,18 +1223,23 @@ IF laporan.status != 'menunggu verifikasi' THEN
     RETURN respons 409 "Laporan sudah diproses"
 END IF
 
+MULAI TRANSAKSI
 berhasil = LaporanBuktiKerja.setujui(idLaporan, idPetugas)
+IF berhasil THEN
+    berhasil = JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'selesai', 'menunggu verifikasi', NULL)
+END IF
 IF NOT berhasil THEN
+    BATALKAN TRANSAKSI
     RETURN respons 409 "Laporan sudah diproses"
 END IF
-JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'selesai', 'menunggu verifikasi')
+SELESAIKAN TRANSAKSI
 
 isiPesan = "Laporan untuk tugas #" + laporan.idJadwal + " disetujui petugas posko. Tugas dinyatakan selesai."
 Notifikasi.buat(laporan.idRelawan, isiPesan)
 RETURN respons 200 "Laporan disetujui"
 ```
 
-Pemeriksaan status di awal hanya memberi pesan yang jelas. Yang mencegah laporan diproses dua kali adalah `rowCount` Q-018: ketika dua petugas menekan setuju bersamaan, UPDATE kedua tidak mengubah baris karena klausa WHERE hanya mengenai laporan 'menunggu verifikasi', sehingga setujui() mengembalikan FALSE dan balasan 409 dikirim tanpa mengubah status tugas atau mengirim notifikasi lagi. Laporan yang disetujui berstatus 'terverifikasi' dan tidak dapat diubah relawan (KF10). Nilai idPetugas diambil dari token sesi, bukan dari masukan klien.
+Pemeriksaan status di awal hanya memberi pesan yang jelas. Yang mencegah laporan diproses dua kali adalah `rowCount` Q-018: ketika dua petugas menekan setuju bersamaan, UPDATE kedua tidak mengubah baris karena klausa WHERE hanya mengenai laporan 'menunggu verifikasi', sehingga setujui() mengembalikan FALSE dan balasan 409 dikirim tanpa mengubah status tugas atau mengirim notifikasi lagi. Persetujuan laporan dan perubahan status tugas dijalankan dalam satu transaksi (`BEGIN` dan `COMMIT` pada satu *client* `pg` dari *pool*), sama seperti Algo-011. Jika salah satunya bernilai FALSE, keduanya dibatalkan, sehingga tidak ada laporan 'terverifikasi' dengan tugas yang belum 'selesai'. Argumen `idRelawan` pada perbaruiStatus() diisi NULL karena petugas yang memverifikasi tidak perlu menjadi pemilik tugas (Q-010). Laporan yang disetujui berstatus 'terverifikasi' dan tidak dapat diubah relawan (KF10). Nilai idPetugas diambil dari token sesi, bukan dari masukan klien.
 
 ## 5.11 Kelas LaporanBuktiKerja
 
@@ -1715,13 +1722,13 @@ RETURN daftarWargaAktif
 ```
 
 
-### 5.19.2 Algoritma/Query
+### 5.19.2 Query
 
 Tabel 5.19.3. Query Operasi Warga
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-020 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE id_petak = $1 <br> AND status_persetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
+| Q-020 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> warga WHERE id_petak = $1 <br> AND status_persetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
 | Q-021 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE nomor_hp = $1 <br> LIMIT 1 | Mencari data warga berdasarkan nomor HP |
 | Q-022 | UPDATE Warga SET <br> status_persetujuan = 'dicabut', <br> waktu_dicabut = NOW() <br> WHERE id_warga = $1 AND status_persetujuan = 'aktif' | Mencatat pencabutan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
 | Q-023 | DELETE FROM Warga WHERE <br> status_persetujuan = 'dicabut' <br> AND waktu_dicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING id_warga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
@@ -1739,7 +1746,7 @@ Tabel 5.20.1. Operasi Kelas PeringatanSMS
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan kedalam basis data. `status` bernilai 'terkirim' atau 'gagal' (KF16). Memakai Q-025 |
+| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan ke dalam basis data. `status` bernilai 'terkirim' atau 'gagal' (KF16). Memakai Q-025 |
 | adaDalam24Jam(idPetak: Number): Boolean | Public | Mengembalikan TRUE apabila ada SMS peringatan yang berstatus 'terkirim' untuk suatu petak lahan dalam 24 jam terakhir (KF16). Lihat Algo-014. Memakai Q-024 |
 
 Tabel 5.20.2. Atribut Kelas PeringatanSMS
@@ -1809,8 +1816,8 @@ Tabel 5.22.1. Operasi Kelas AutentikasiController
 | login(username: String, password: String): Object | Public | (Server) Memanggil `verifikasiKredensial()`. Jika gagal, membalas 401. Jika berhasil, membalas 200 berisi token sesi dan data pengguna tanpa `passwordHash` (KF18). Lihat Algo-015 |
 | periksaSesi(): Boolean | Public | (Klien) Membaca token sesi di perangkat dan memeriksa bahwa token ada dan juga belum melewati 7 hari, sehingga relawan yang luring tetap bisa masuk (KF20). Klien tidak memverifikasi tanda tangan token. Verifikasi tanda tangan dan pembatasan peran (KNF05) dilakukan middleware Express pada setiap endpoint server |
 | arahkanSesuaiPeran(peran: String): void | Public | (Klien) Mengarahkan pengguna berperan 'petugas' ke HalamanPetaRisiko dan 'relawan' ke HalamanDaftarTugas |
-| verifikasiKredensial(username: String, password: String): Pengguna | Private | (Server) Memanggil `Pengguna.cariByUsername()` lalu `Pengguna.cekPassword()`. Mengembalikan NULL apaila username tidak ditemukan atau password tidak cocok (KF18, KNF11) |
-| buatSesi(pengguna: Pengguna): String | Private | 	(Server) Menerbitkan JWT dengan `jsonwebtoken` berisi idPengguna, peran, dan waktu kedaluwarsa 7 hari sejak login (KF20) |
+| verifikasiKredensial(username: String, password: String): Pengguna | Private | (Server) Memanggil `Pengguna.cariByUsername()` lalu `Pengguna.cekPassword()`. Mengembalikan NULL apabila username tidak ditemukan atau password tidak cocok (KF18, KNF11) |
+| buatSesi(pengguna: Pengguna): String | Private | (Server) Menerbitkan JWT dengan `jsonwebtoken` berisi idPengguna, peran, dan waktu kedaluwarsa 7 hari sejak login (KF20) |
 
 Tabel 5.22.2. Atribut Kelas AutentikasiController
 
@@ -2002,36 +2009,70 @@ Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 | I04-03 | Tab | "Jadwal" | Membuka I-03. |
 | I04-04 | Tab | "Antrean laporan" | Penanda bahwa layar yang sedang terbuka adalah I-04. |
 | I04-05 | Label | "Petugas posko" | Peran akun yang sedang masuk. |
-| I04-06 | Button | "Keluar" | Mengakhiri sesi petugas posko dan membuka I-01. |
+| I04-06 | Button | "Keluar" | Menghapus token sesi dari perangkat lalu membuka I-01. |
 | I04-07 | Label | "Antrean laporan" | Judul layar. |
 | I04-08 | Label | "n laporan menunggu verifikasi. Pilih laporan untuk melihat foto dan lokasinya." | Nilai n adalah banyaknya laporan dari `ambilAntrean()`. Berganti menjadi "Tidak ada laporan yang menunggu verifikasi." saat antrean kosong (I04-30) dan "Antrean belum bisa ditampilkan." saat antrean gagal dimuat (I04-34). |
 | I04-09 | Label | "Menunggu verifikasi (n)" | Judul daftar antrean dengan jumlah laporan. |
 | I04-10 | List | Setiap baris berisi nama relawan, "Petak x, jenis pekerjaan", dan waktu unggah, misalnya "Arga Simanjuntak", "Petak 187, patroli pencegahan", "25 Okt, 17.20" | Ditampilkan oleh `tampilkanAntrean()` dengan waktu unggah paling lama di atas (KF08). Memilih satu baris menyorot baris itu dan memanggil `ambilDetailLaporan(idLaporan)`, lalu `tampilkanDetailLaporan()` mengisi panel detail. |
 | I04-11 | Label | "Laporan terlama di atas. Laporan yang sudah diputuskan keluar dari antrean." | Keterangan urutan antrean. Laporan yang disetujui atau ditolak tidak lagi tampil pada I04-10. |
 | I04-12 | Label | "Detail laporan" | Judul panel detail. |
-| I04-13 | Image | Foto bukti kerja | Foto dari laporan yang dipilih, diambil melalui `LaporanBuktiKerja.ambilById()`. |
+| I04-13 | Image | Foto bukti kerja | Foto dari laporan yang dipilih, diterima dari `ambilDetailLaporan(idLaporan)` yang memakai `LaporanBuktiKerja.ambilById()` (Q-017). |
 | I04-14 | Badge | Skor risiko petak, misalnya "46" atau "78" | Skor risiko petak lokasi tugas. Warna lencana mengikuti tingkat risiko petak. |
 | I04-15 | Label | "Petak x, jenis pekerjaan" dan "nama relawan, diunggah tanggal, jam", misalnya "Petak 187, patroli pencegahan" dan "Arga Simanjuntak, diunggah 25 Okt, 17.20" | Identitas laporan yang sedang dibuka. |
 | I04-16 | Label | "Koordinat" dan nilainya, misalnya "0,5381° LS, 101,4602° BT" | Koordinat unggahan laporan. |
 | I04-17 | Label | "Jarak ke petak" dan nilainya, misalnya "0 m, di dalam petak" atau "340 m dari batas petak" | Jarak dihitung `hitungJarak()` dengan rumus haversine terhadap batas petak (Algo-005, KNF06). Nilai 0 berarti koordinat berada di dalam petak (KF09). Nilai berwarna merah jika lebih dari 200 m. |
 | I04-18 | Label | "Tanggal tugas" dan nilainya, misalnya "Sabtu, 25 Okt 2026" | Tanggal pelaksanaan tugas yang dilaporkan. |
-| I04-19 | Label | "Foto" dan nilainya, misalnya "388 KB, dari kamera" | Ukuran berkas foto dan sumber pengambilannya. |
+| I04-19 | Label | "Foto" dan nilainya, misalnya "388 KB, dari kamera" | Ukuran dihitung dari data foto pada laporan. Teks "dari kamera" selalu sama karena foto bukti kerja hanya diambil lewat kamera pada `FormLaporanBuktiKerja.ambilFoto()` (C14). |
 | I04-20 | Alert | "Lokasi foto n m dari Petak x" dan "Melebihi batas 200 m. Bandingkan foto dengan lokasi tugas sebelum memutuskan." | Hanya muncul jika `melebihiBatas` bernilai TRUE, ditampilkan oleh `tampilkanPeringatanJarak(jarak)`. I04-21 dan I04-23 tetap aktif (KF09, UC03 skenario alternatif 1). |
-| I04-21 | Button | "Setujui laporan" | Memanggil `verifikasiLaporan(idLaporan)` (Algo-006): status laporan menjadi 'terverifikasi', status tugas menjadi 'selesai', dan notifikasi dikirim ke relawan (KF10, KF24). Jika berhasil, panel detail berganti menjadi I04-28. |
+| I04-21 | Button | "Setujui laporan" | Memanggil `verifikasiLaporan(idLaporan)` (Algo-006): status laporan menjadi 'terverifikasi', status tugas menjadi 'selesai', dan notifikasi dikirim ke relawan (KF10, KF24). Jika berhasil, `tampilkanPesanBerhasil()` mengganti panel detail menjadi I04-28. |
 | I04-22 | Label | "Laporan yang disetujui terkunci dan status tugas menjadi Selesai." | Keterangan akibat menekan I04-21. |
 | I04-23 | Button | "Tolak" | Memunculkan I04-24 sampai I04-27. |
 | I04-24 | Text Area | Label "Alasan penolakan (wajib)" dan teks petunjuk "Tulis apa yang perlu diperbaiki relawan, misalnya lokasi atau isi foto." | Diisi petugas. Isinya dikirim ke relawan bersama notifikasi penolakan. |
 | I04-25 | Label | "n/300. Alasan dikirim ke relawan lewat notifikasi." | Penghitung karakter I04-24 yang diperbarui setiap kali isian berubah. |
-| I04-26 | Button | "Kirim penolakan" | Nonaktif selama I04-24 kosong dan aktif setelah alasan terisi. Memanggil `tolakLaporan(idLaporan, alasan)`: status laporan menjadi 'ditolak', status tugas kembali menjadi 'ditugaskan', dan notifikasi berisi alasan dikirim ke relawan (UC03 skenario alternatif 2). |
+| I04-26 | Button | "Kirim penolakan" | Nonaktif selama I04-24 kosong dan aktif setelah alasan terisi. Memanggil `tolakLaporan(idLaporan, alasan)`: status laporan menjadi 'ditolak', status tugas kembali menjadi 'ditugaskan', dan notifikasi berisi alasan dikirim ke relawan (UC03 skenario alternatif 2). Jika berhasil, `tampilkanPesanBerhasil()` mengganti panel detail dengan pesan bahwa laporan ditolak dan laporan itu keluar dari I04-10. Jika server membalas 400, `tampilkanPesanGagal()` menampilkan pesannya dan isi I04-24 tidak hilang. |
 | I04-27 | Button | "Batal" | Menutup I04-24 sampai I04-26 dan kembali ke tampilan detail tanpa mengubah laporan. |
-| I04-28 | Label | "Laporan Petak n disetujui" dan "Tugas jenis pekerjaan di Petak n berstatus Selesai dan laporan terkunci. Nama relawan sudah menerima notifikasi hasil verifikasi." | Menggantikan panel detail setelah I04-21 berhasil. |
+| I04-28 | Label | "Laporan Petak n disetujui" dan "Tugas jenis pekerjaan di Petak n berstatus Selesai dan laporan terkunci. Nama relawan sudah menerima notifikasi hasil verifikasi." | Ditampilkan oleh `tampilkanPesanBerhasil()` setelah I04-21 berhasil. |
 | I04-29 | Button | "Buka laporan berikutnya" | Membuka detail laporan paling atas pada antrean yang tersisa. |
 | I04-30 | Label | "Antrean kosong" dan "Semua laporan bukti kerja sudah diverifikasi. Laporan baru dari relawan muncul di sini, yang terlama paling atas." | Ditampilkan oleh `tampilkanAntreanKosong()` jika `ambilAntrean()` mengembalikan daftar kosong (UC03 skenario alternatif 3). |
 | I04-31 | Button | "Buka peta risiko" | Membuka I-02. |
-| I04-32 | Alert | "Laporan ini sudah diproses petugas lain. Muat ulang antrean untuk data terbaru." | Muncul ketika server membalas 409 "Laporan sudah diproses" pada `verifikasiLaporan()` atau `tolakLaporan()` (Algo-006). |
+| I04-32 | Alert | "Laporan ini sudah diproses petugas lain. Muat ulang antrean untuk data terbaru." | Ditampilkan oleh `tampilkanPesanGagal()` ketika server membalas 409 "Laporan sudah diproses" pada `verifikasiLaporan()` atau `tolakLaporan()` (Algo-006). |
 | I04-33 | Button | "Muat ulang antrean" | Memanggil `ambilAntrean()` lagi untuk memuat data terbaru. |
-| I04-34 | Label | "Server tidak terjangkau" dan "Periksa koneksi laptop lalu coba lagi. Belum ada keputusan verifikasi yang berubah." | Muncul ketika permintaan antrean ke server gagal. |
+| I04-34 | Label | "Server tidak terjangkau" dan "Periksa koneksi laptop lalu coba lagi. Belum ada keputusan verifikasi yang berubah." | Ditampilkan oleh `tampilkanPesanGagal()` ketika permintaan antrean ke server gagal. |
 | I04-35 | Button | "Coba lagi" | Mengulang `ambilAntrean()`. |
+
+## 6.8 Rancangan Antarmuka I-08
+**Antarmuka:** I-08  
+**Nama Layar:** SMS Peringatan Dini
+
+Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh aplikasi web SIGAP. SIGAP hanya menentukan isi dari pesan (Algo-012) dan memproses balasan yang masuk melalui `SMSGatewaySimulasi`. Layar ini mendukung UC07 (KF16): Gambar 6.8a untuk Skenario Normal dan awal Skenario Alternatif 2, Gambar 6.8b untuk akhir Skenario Alternatif 2 (warga berhenti berlangganan).
+
+<p align="center">
+<img alt="Antarmuka I-08" src="./assets/diagram/I-08a SMS peringatan diterima.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini (pesan diterima dan balasan STOP diketik)</i>
+</p>
+
+<p align="center">
+<img alt="Antarmuka I-08-2" src="./assets/diagram/I-08b Warga membalas STOP.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.8b. Rancangan Antarmuka I-08 - SMS Peringatan Dini (Balasan STOP terkirim)</i>
+</p>
+
+Tabel 6.8. Spesifikasi Objek Antarmuka I-08
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I08-01 | Button (ikon panah) dan Label | "< Pesan" | Kembali ke daftar percakapan. Ditangani aplikasi pesan ponsel |
+| I08-02 | Label | "SIGAP" | Nama pengirim pesan peringatan |
+| I08-03 | Label | "Peringatan dini kebakaran, simulasi" | Keterangan pengirim. Kata "simulasi" menandakan pesan berasal dari `SMSGatewaySimulasi` |
+| I08-04 | Label | "Hari ini, 14.03" | Waktu pesan diterima. Sesuai dengan `waktuKirim` yang dicatat oleh `PeringatanSMS.catat()` (Q-025) |
+| I08-05 | Message bubble (pesan masuk) | "PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan" | Dikirim oleh `PeringatanSMSController.cekAmbangRisiko()` (Algo-012) ke warga berstatus 'aktif' di sekitar petak yang naik ke tingkat 'tinggi'. Angka 214 adalah `idPetak` dan berubah sesuai petak. Tiap pengiriman dicatat dengan status 'terkirim' atau 'gagal' (Q-025) |
+| I08-06 | Text field | "STOP" (placeholder: "Pesan teks") | Warga mengetik balasan. Hanya balasan "STOP" (tanpa membedakan huruf besar-kecil) yang diproses oleh sistem, selain itu diabaikan. Kembali kosong setelah I08-07 ditekan |
+| I08-07 | Button (ikon panah kirim) | Panah ke atas | Aktif (hitam) selama I08-06 terisi, dan nonaktif (abu-abu) saat kosong. Saat ditekan, balasan dikirim ke gateway, lalu sistem menjalankan `PeringatanSMSController.prosesBalasanSTOP()`, yang memanggil `Warga.cariByNomor()` (Q-021) lalu `Warga.cabutPersetujuan()` (Q-022). Layar berganti menjadi Gambar 6.8b (UC07 skenario alternatif 2) |
+| I08-08 | Message bubble (pesan keluar) | "STOP" | Balasan warga yang sudah dikirim, muncul setelah I08-07 ditekan (Gambar 6.8b). Setelah balasan diterima sistem, status persetujuan warga menjadi 'dicabut' sehingga warga tidak lagi menerima SMS peringatan (KF16) |
+| I08-09 | Label | "Terkirim 14.20" | Status pengiriman dari aplikasi pesan ponsel, bukan dari SIGAP. Sistem tidak membalas dengan pesan konfirmasi |
 
 
 ## 6.X Rancangan Antarmuka [ID Layar X]
@@ -2049,6 +2090,7 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
 | *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
 | I-04 | <img src="./assets/diagram/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
+| I-08 | <img src="./assets/diagram/I-08a SMS peringatan diterima.png" alt="SMS Peringatan diterima" width="200"> |
 | *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
 
 <br>
