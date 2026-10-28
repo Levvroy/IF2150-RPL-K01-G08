@@ -176,7 +176,7 @@
 | 28-10-2026 | Reinhard | Mengisi form asistensi dan merevisi AI Usage | <1 Jam | Done | - |
 | 28-10-2026 | Arga, Rafiif | Menambahkan AI Usage dan merapikan DPPL2 | <1 Jam | Done | - |
 | 28-10-2026 | Lewi | Memeriksa ulang DPPL2 terhadap template dan catatan asistensi, merevisi bagian yang belum konsisten, dan memperbarui diagram kelas serta tiga sequence diagram | 1 Jam | Done | Banyak diagram masih versi milestone 7 dan belum memuat perubahan metode di bab 5 |
-| 28-10-2026 | (isi nama) | Mengisi logbook | <1 Jam | Done | - |
+| 28-10-2026 | Lewi | Mengisi logbook | <1 Jam | Done | - |
 
 **Catatan/Evaluasi Milestone 8:**
 * Sebagian besar pekerjaan menumpuk di hari terakhir (28-10-2026). Untuk milestone berikutnya, revisi dari asistensi sebaiknya langsung dibagi dan dikerjakan pada hari yang sama.
