@@ -1927,56 +1927,56 @@ Tabel 6.1. Spesifikasi Objek Antarmuka [ID Layar]
 **Nama Layar:** *Antrean Laporan Bukti Kerja*
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan dibuka" src="./assets/diagram/I-04a_Laporan_dibuka.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan dibuka" src="./assets/diagram/I-04a%20Laporan%20dibuka.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4a. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan dibuka)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, lokasi di luar batas" src="./assets/diagram/I-04b_Lokasi_di_luar_batas.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, lokasi di luar batas" src="./assets/diagram/I-04b%20Lokasi%20di%20luar%20batas.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4b. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (lokasi foto di luar batas 200 m)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan kosong" src="./assets/diagram/I-04c_Menolak__alasan_kosong.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan kosong" src="./assets/diagram/I-04c%20Menolak%2C%20alasan%20kosong.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4c. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan masih kosong)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan terisi" src="./assets/diagram/I-04d_Menolak__alasan_terisi.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan terisi" src="./assets/diagram/I-04d%20Menolak%2C%20alasan%20terisi.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4d. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan terisi)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan disetujui" src="./assets/diagram/I-04e_Laporan_disetujui.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan disetujui" src="./assets/diagram/I-04e%20Laporan%20disetujui.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4e. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan disetujui)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, sudah diproses petugas lain" src="./assets/diagram/I-04f_Sudah_diproses_petugas_lain.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, sudah diproses petugas lain" src="./assets/diagram/I-04f%20Sudah%20diproses%20petugas%20lain.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4f. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan sudah diproses petugas lain)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, antrean kosong" src="./assets/diagram/I-04g_Antrean_kosong.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, antrean kosong" src="./assets/diagram/I-04g%20Antrean%20kosong.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4g. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean kosong)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, gagal memuat antrean" src="./assets/diagram/I-04h_Gagal_memuat_antrean.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, gagal memuat antrean" src="./assets/diagram/I-04h%20Gagal%20memuat%20antrean.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4h. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean gagal dimuat)</i>
@@ -2037,7 +2037,7 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | :--- | :--- |
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
 | *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
-| I-04 | <img src="./assets/diagram/I-04a_Laporan_dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
+| I-04 | <img src="./assets/diagram/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
 | *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
 
 <br>
