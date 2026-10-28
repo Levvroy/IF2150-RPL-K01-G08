@@ -724,10 +724,10 @@ Tabel 4.1. Daftar Kelas Perancangan Keseluruhan
 
 | ID Kelas | Nama Kelas | Atribut | Metode/Operasi |
 | :--- | :--- | :--- | :--- |
-| C01 | `HalamanPetaRisiko` | - | `+tampilkanPeta(daftarPetak: PetakLahan[]): void`<br>`+tampilkanKeteranganCache(waktuUpdate: Date): void`<br>`+tampilkanAtribusi(waktuUpdate: Date): void` |
-| C02 | `PetaRisikoController` | - | `+perbaruiData(token: String): Object`<br>`+ambilDataPeta(): Object`<br>`-ambilDataTitikPanas(): Object[]`<br>`-ambilDataCuaca(): Object`<br>`-hitungSkorRisiko(titikBerlaku: TitikPanas[], dataCurahHujan: Object): Object[]`<br>`-isDataUsang(waktuUpdateTerakhir: Date): Boolean`<br>`-picuCekAmbang(daftarPetakNaik: PetakLahan[]): void` |
+| C01 | `HalamanPetaRisiko` | - | `+tampilkanPeta(daftarPetak: PetakLahan[]): void`<br>`+tampilkanKeteranganCache(waktuUpdate: Date): void`<br>`+tampilkanAtribusi(waktuUpdate: Date): void`<br>`+tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void` |
+| C02 | `PetaRisikoController` | - | `+perbaruiData(token: String): Object`<br>`+ambilDataPeta(): Object`<br>`+tandaiNotifikasiDibaca(idNotifikasi: Number): void`<br>`-ambilDataTitikPanas(): Object[]`<br>`-ambilDataCuaca(): Object`<br>`-hitungSkorRisiko(titikBerlaku: TitikPanas[], dataCurahHujan: Object): Object[]`<br>`-isDataUsang(waktuUpdateTerakhir: Date): Boolean`<br>`-picuCekAmbang(daftarPetakNaik: PetakLahan[]): void` |
 | C03 | `PetakLahan` | `-idPetak: Number`<br>`-batasWilayah: Object {latMin, latMaks, lngMin, lngMaks}`<br>`-skorRisiko: Number`<br>`-tingkatRisiko: String ('rendah' / 'sedang' / 'tinggi')`<br>`-waktuUpdateTerakhir: Date` | `+ambilSemua(): PetakLahan[]`<br>`+ambilById(idPetak: Number): PetakLahan`<br>`+ambilRekomendasi(batas: Number): PetakLahan[]`<br>`+perbaruiSkor(idPetak: Number, skor: Number, tingkat: String): void` |
-| C04 | `TitikPanas` | `-idTitikPanas: Number`<br>`-koordinat: Object {lat, lng}`<br>`-waktuDeteksi: Date`<br>`-statusValiditas: String ('valid' / 'keliru')`<br>`-keterangan: String`<br>`-waktuTandaiKeliru: Date` | `+simpanBaru(daftarTitik: Object[]): Number`<br>`+ambilTitikBerlaku(): TitikPanas[]`<br>`-isDikecualikan(titik: TitikPanas, titikBaru: TitikPanas[]): Boolean`<br>`+tandaiKeliru(idTitikPanas: Number, keterangan: String): void` |
+| C04 | `TitikPanas` | `-idTitikPanas: Number`<br>`-koordinat: Object {lat, lng}`<br>`-waktuDeteksi: Date`<br>`-statusValiditas: String ('valid' / 'keliru')`<br>`-keterangan: String`<br>`-waktuTandaiKeliru: Date` | `+simpanBaru(daftarTitik: Object[]): Number`<br>`+ambilTitikBerlaku(): TitikPanas[]`<br>`-isDikecualikan(titik: TitikPanas, titikBaru: TitikPanas[]): Boolean`<br>`+tandaiKeliru(idTitikPanas: Number, keterangan: String): Boolean` |
 | C05 | `FormPenyusunanJadwal` | - | `+tampilkanForm(): void`<br>`+tampilkanDaftarRelawanAktif(daftarRelawan: RelawanLapangan[]): void`<br>`+tampilkanRekomendasi(daftarPetak: PetakLahan[]): void`<br>`+tampilkanPesanKapasitasPenuh(): void`<br>`+tampilkanPesanBerhasil(): void` |
 | C06 | `JadwalController` | - | `+bukaFormJadwal(): Object`<br>`+buatJadwal(dataJadwal: Object): JadwalPekerjaan`<br>`-buatRekomendasi(): PetakLahan[]`<br>`-validasiKapasitas(idRelawan: Number): Boolean`<br>`-kirimNotifikasiTugas(idRelawan: Number, idJadwal: Number): void` |
 | C07 | `JadwalPekerjaan` | `-idJadwal: Number`<br>`-jenisPekerjaan: String`<br>`-status: String ('ditugaskan' / 'menunggu verifikasi' / 'selesai' / 'dibatalkan')`<br>`-tanggal: Date`<br>`-alasanPembatalan: String` | `+simpan(dataJadwal: Object): JadwalPekerjaan`<br>`+ambilAktifByRelawan(idRelawan: Number): JadwalPekerjaan[]`<br>`+perbaruiStatus(idJadwal: Number, status: String): void`<br>`+batalkan(idJadwal: Number, alasan: String): Boolean` |
@@ -779,7 +779,7 @@ Tabel 5.1.1. Operasi Kelas HalamanPetaRisiko
 | tampilkanPeta(daftarPetak: PetakLahan[]): void | Public | Menampilkan peta interaktif Leaflet dengan setiap petak lahan diberi warna sesuai tingkat risiko terakhir ('rendah', 'sedang', 'tinggi') yang diterima dari controller (KF01) |
 | tampilkanKeteranganCache(waktuUpdate: Date): void | Public | Menampilkan pesan keterangan bahwa data yang tampil berasal dari cache hasil pembaruan terakhir beserta waktu pembaruan tersebut ketika pengambilan data API eksternal gagal (KF04) |
 | tampilkanAtribusi(waktuUpdate: Date): void | Public | Menampilkan atribusi sumber data (NASA FIRMS & Open-Meteo), waktu pembaruan data terakhir, serta pernyataan batasan bahwa skor risiko adalah alat bantu keputusan (KF23) |
-| tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void | Public | Menampilkan notifikasi dalam aplikasi untuk petugas posko, misalnya pemberitahuan pembatalan tugas oleh relawan karena kondisi tidak aman (KF21) |
+| tampilkanNotifikasi(daftarNotifikasi: Notifikasi[]): void | Public | Menampilkan notifikasi dalam aplikasi untuk petugas posko, misalnya pemberitahuan pembatalan tugas oleh relawan karena kondisi tidak aman. Daftar notifikasi berasal dari respons `PetaRisikoController.ambilDataPeta()`. Ketika petugas membuka sebuah notifikasi, halaman memanggil `PetaRisikoController.tandaiNotifikasiDibaca(idNotifikasi)` lalu menghapus notifikasi itu dari tampilan (KF21) |
 
 Tabel 5.1.2. Atribut Kelas HalamanPetaRisiko
 
@@ -798,12 +798,13 @@ Tabel 5.2.1. Operasi Kelas PetaRisikoController
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| perbaruiData(token: String): Object | Public | (Server) Endpoint yang dipanggil oleh `CronEksternal` setiap 3 jam. Memvalidasi token rahasia, mengambil data titik panas dan cuaca, menghitung skor risiko baru, memperbarui database, serta memicu pengecekan SMS peringatan (KF02, KF16). Lihat Algo-001 |
-| ambilDataPeta(): Object | Public | (Server) Mengambil seluruh petak lahan dari `PetakLahan.ambilSemua()`. Jika data usang (> 3 jam) akibat pembaruan cron sebelumnya gagal, respons menyertakan penanda *cache* (KF01, KF04). Lihat Algo-002 |
+| perbaruiData(token: String): Object | Public | (Server) Endpoint yang dipanggil oleh `CronEksternal` setiap 3 jam. Memvalidasi token rahasia, mengambil data titik panas dan cuaca, menghitung skor risiko baru, memperbarui database, serta memicu pengecekan SMS peringatan (KF02, KF16). Tingkat risiko lama seluruh petak dibaca sekali lewat `PetakLahan.ambilSemua()` sebelum skor diperbarui, bukan satu per satu. Lihat Algo-001 |
+| ambilDataPeta(): Object | Public | (Server) Mengambil seluruh petak lahan dari `PetakLahan.ambilSemua()` dan notifikasi belum dibaca milik petugas pada token sesi dari `Notifikasi.ambilBelumDibaca()`. Jika data usang (> 3 jam) akibat pembaruan cron sebelumnya gagal, respons menyertakan penanda *cache*. Nilai idPengguna diambil dari token sesi, bukan dari masukan klien (KF01, KF04, KF21). Lihat Algo-002 |
+| tandaiNotifikasiDibaca(idNotifikasi: Number): void | Public | (Server) Dipanggil ketika petugas membuka notifikasi pada `HalamanPetaRisiko`. Memanggil `Notifikasi.tandaiDibaca(idNotifikasi, idPengguna)` dengan idPengguna dari token sesi, sehingga petugas tidak dapat menandai notifikasi milik pengguna lain (KF21) |
 | ambilDataTitikPanas(): Object[] | Private | (Server) Memanggil NASA FIRMS Area API untuk *bounding box* wilayah percontohan dan mengembalikan daftar titik panas NRT 24 jam terakhir (KF02, KF03) |
-| ambilDataCuaca(): Object | Private | (Server) Memanggil Open-Meteo Forecast API untuk mengambil total curah hujan 24 jam terakhir dan riwayat hari sebelumnya guna menghitung jumlah hari kering (KF02) |
-| hitungSkorRisiko(titikBerlaku: TitikPanas[], dataCurahHujan: Object): Object[] | Private | (Server) Menghitung skor risiko per petak dengan rumus $\text{skor} = w_1 \times \text{jumlahTitik} + w_3 \times \text{hariKering} - w_2 \times \text{curahHujan}$, lalu menentukan `tingkatRisiko` ('rendah', 'sedang', 'tinggi') (KF02) |
-| isDataUsang(waktuUpdateTerakhir: Date): Boolean | Private | (Server) Memeriksa apakah selisih waktu saat ini dengan `waktuUpdateTerakhir` melebihi 3 jam (KF04) |
+| ambilDataCuaca(): Object | Private | (Server) Memanggil Open-Meteo Forecast API untuk mengambil total curah hujan 24 jam terakhir dan riwayat hari sebelumnya (parameter `past_days`) guna menghitung jumlah hari kering (KF02) |
+| hitungSkorRisiko(titikBerlaku: TitikPanas[], dataCurahHujan: Object): Object[] | Private | (Server) Menghitung skor risiko per petak dengan rumus $\text{skor} = w_1 \times \text{jumlahTitik} + w_3 \times \text{hariKering} - w_2 \times \text{curahHujan}$, lalu menentukan `tingkatRisiko` ('rendah', 'sedang', 'tinggi') (KF02). Langkahnya: (1) membaca seluruh petak dari `PetakLahan.ambilSemua()`; (2) `jumlahTitik` adalah banyaknya titik berlaku yang masuk ke petak, yaitu latMin ≤ lat < latMaks dan lngMin ≤ lng < lngMaks (batas atas dikecualikan agar titik tepat di garis batas tidak terhitung di dua petak); (3) `hariKering` dihitung mundur dari hari ini selama curah hujan harian < 1 mm, berhenti pada hari pertama yang berhujan atau pada hari terlama yang tersedia di data `past_days`; (4) bobot $w_1$, $w_2$, $w_3$ serta ambang tingkat 'sedang' dan 'tinggi' dibaca dari konfigurasi sistem (nilainya mengacu SKPL), bukan ditulis langsung di kode. Skor di bawah ambang 'sedang' menghasilkan 'rendah', skor mulai ambang 'sedang' hingga di bawah ambang 'tinggi' menghasilkan 'sedang', dan skor mulai ambang 'tinggi' menghasilkan 'tinggi' |
+| isDataUsang(waktuUpdateTerakhir: Date): Boolean | Private | (Server) Memeriksa apakah selisih waktu saat ini dengan `waktuUpdateTerakhir` melebihi 3 jam (KF04). Jika `waktuUpdateTerakhir` kosong (petak belum pernah diperbarui), hasilnya TRUE karena data dianggap usang |
 | picuCekAmbang(daftarPetakNaik: PetakLahan[]): void | Private | (Server) Memanggil `PeringatanSMSController.cekAmbangRisiko()` untuk daftar petak yang mengalami kenaikan tingkat risiko ke 'tinggi' (KF16) |
 
 Tabel 5.2.2. Atribut Kelas PetaRisikoController
@@ -828,26 +829,27 @@ END IF
 TRY
     dataTitik = ambilDataTitikPanas()
     dataCuaca = ambilDataCuaca()
-    
+
     TitikPanas.simpanBaru(dataTitik)
     titikBerlaku = TitikPanas.ambilTitikBerlaku()
-    
+
+    daftarPetakLama = PetakLahan.ambilSemua()    // tingkat risiko lama, dibaca sekali sebelum diperbarui
     hasilSkor = hitungSkorRisiko(titikBerlaku, dataCuaca)
     daftarPetakNaik = []
-    
+
     FOR EACH item IN hasilSkor DO
-        petakLama = PetakLahan.ambilById(item.idPetak)
+        petakLama = CARI petak DI daftarPetakLama DENGAN idPetak == item.idPetak
         PetakLahan.perbaruiSkor(item.idPetak, item.skor, item.tingkatRisiko)
-        
+
         IF petakLama.tingkatRisiko != 'tinggi' AND item.tingkatRisiko == 'tinggi' THEN
             TAMBAH item KE daftarPetakNaik
         END IF
     END FOR
-    
+
     IF daftarPetakNaik TIDAK KOSONG THEN
         picuCekAmbang(daftarPetakNaik)
     END IF
-    
+
     RETURN respons 200 "Pembaruan skor berhasil"
 CATCH galat API atau Database
     RETURN respons 500 "Pembaruan skor gagal, menggunakan data cache terakhir"
@@ -861,21 +863,26 @@ END TRY
 **ID Algoritma:** Algo-002
 
 ```text
+idPetugas = id pengguna di token sesi
+
 daftarPetak = PetakLahan.ambilSemua()
 IF daftarPetak KOSONG THEN
-    RETURN { status: 404, pesan: "Data petak belum dikonfigurasi" }
+    RETURN respons 404 "Data petak belum dikonfigurasi"
 END IF
 
-waktuTerakhir = daftarPetak[0].waktuUpdateTerakhir
+waktuTerakhir = waktuUpdateTerakhir TERLAMA di antara seluruh daftarPetak    // kosong dianggap paling lama
 isUsang = isDataUsang(waktuTerakhir)
+daftarNotifikasi = Notifikasi.ambilBelumDibaca(idPetugas)
 
-RETURN {
-    status: 200,
+RETURN respons 200 {
     isUsang: isUsang,
     waktuUpdate: waktuTerakhir,
-    daftarPetak: daftarPetak
+    daftarPetak: daftarPetak,
+    daftarNotifikasi: daftarNotifikasi
 }
 ```
+
+*Catatan:* Data dianggap usang bila salah satu petak belum diperbarui dalam 3 jam, sehingga pembaruan yang berhenti di tengah daftar petak tetap terdeteksi.
 
 ## 5.3 Kelas PetakLahan
 
@@ -886,8 +893,8 @@ Tabel 5.3.1. Operasi Kelas PetakLahan
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| ambilSemua(): PetakLahan[] | Public | Mengambil seluruh data petak lahan di dalam batas wilayah percontohan (Q-001) |
-| ambilById(idPetak: Number): PetakLahan | Public | Mengambil data detail satu petak lahan berdasarkan ID (Q-002) |
+| ambilSemua(): PetakLahan[] | Public | Mengambil seluruh data petak lahan di dalam batas wilayah percontohan. Dipanggil oleh `PetaRisikoController.ambilDataPeta()` dan oleh `PetaRisikoController.perbaruiData()` untuk membaca tingkat risiko lama seluruh petak sekaligus (Q-001) |
+| ambilById(idPetak: Number): PetakLahan | Public | Mengambil data detail satu petak lahan berdasarkan ID. Dipanggil oleh `DaftarTugasController.ambilTugasRelawan()` untuk melengkapi setiap tugas dengan skor risiko dan batas wilayah (Q-002) |
 | ambilRekomendasi(batas: Number): PetakLahan[] | Public | Mengambil petak lahan berskor risiko tertinggi yang belum memiliki tugas aktif berstatus 'ditugaskan' atau 'menunggu verifikasi', maksimal sebanyak jumlah `batas` (KF17, Q-003) |
 | perbaruiSkor(idPetak: Number, skor: Number, tingkat: String): void | Public | Memperbarui nilai skor risiko, tingkat risiko, dan mencatat `waktuUpdateTerakhir` dengan waktu saat ini (KF02, Q-004) |
 
@@ -921,10 +928,10 @@ Tabel 5.4.1. Operasi Kelas TitikPanas
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| simpanBaru(daftarTitik: Object[]): Number | Public | Menyimpan titik panas baru hasil penarikan data FIRMS yang belum pernah tercatat di basis data server (Q-005) |
-| ambilTitikBerlaku(): TitikPanas[] | Public | Mengambil seluruh titik panas terdeteksi dalam 24 jam terakhir yang tidak dikecualikan dari perhitungan skor (KF02, KF15, Q-006) |
-| isDikecualikan(titik: TitikPanas, titikBaru: TitikPanas[]): Boolean | Private | Memeriksa apakah suatu titik panas ditandai 'keliru' dalam 24 jam terakhir TANPA adanya titik panas baru dalam radius 500 meter dari koordinat titik tersebut (KF15). Lihat Algo-003 |
-| tandaiKeliru(idTitikPanas: Number, keterangan: String): void | Public | Mengubah `statusValiditas` menjadi 'keliru', mencatat `keterangan`, dan menyimpan `waktuTandaiKeliru` (KF14, Q-007) |
+| simpanBaru(daftarTitik: Object[]): Number | Public | Menyimpan titik panas baru hasil penarikan data FIRMS yang belum pernah tercatat di basis data server. Query dijalankan sekali per titik dalam `daftarTitik`; titik dengan kombinasi latitude, longitude, dan waktu deteksi yang sama diabaikan oleh *constraint* UNIQUE pada tabel `titik_panas`. Nilai kembalian adalah jumlah `rowCount` seluruh eksekusi, yaitu banyaknya titik yang benar-benar baru (KF02, Q-005) |
+| ambilTitikBerlaku(): TitikPanas[] | Public | Mengambil seluruh titik panas terdeteksi dalam 24 jam terakhir (Q-006), lalu menyaring titik yang dikecualikan dari perhitungan skor. Hasil Q-006 dipakai sekaligus sebagai `titikBaru`, sehingga setiap titik disaring dengan `isDikecualikan(titik, hasilQ006)` (KF02, KF15) |
+| isDikecualikan(titik: TitikPanas, titikBaru: TitikPanas[]): Boolean | Private | Memeriksa apakah suatu titik panas ditandai 'keliru' dalam 24 jam terakhir TANPA adanya titik panas lain yang terdeteksi setelah waktu penandaan dalam radius 500 meter dari koordinat titik tersebut. Titik itu sendiri dan titik yang terdeteksi sebelum atau saat penandaan tidak dihitung sebagai deteksi baru (KF15). Lihat Algo-003 |
+| tandaiKeliru(idTitikPanas: Number, keterangan: String): Boolean | Public | Mengubah `statusValiditas` menjadi 'keliru', mencatat `keterangan`, dan menyimpan `waktuTandaiKeliru`. Mengembalikan TRUE jika satu baris berubah (`rowCount` > 0) dan FALSE jika titik tidak ditemukan, sehingga pemanggil dapat membalas 404 (KF14, Q-007) |
 
 Tabel 5.4.2. Atribut Kelas TitikPanas
 
@@ -953,9 +960,14 @@ IF selisihWaktu > 24 THEN
     RETURN FALSE
 END IF
 
-FOR EACH titikPanasBaru IN titikBaru DO
-    jarak = HITUNG_HAVERSINE(titik.koordinat, titikPanasBaru.koordinat)
-    IF jarak <= 0.5 THEN
+FOR EACH t IN titikBaru DO
+    IF t.idTitikPanas == titik.idTitikPanas THEN
+        LANJUT                                   // lewati titik itu sendiri
+    END IF
+    IF t.waktuDeteksi <= titik.waktuTandaiKeliru THEN
+        LANJUT                                   // bukan deteksi baru
+    END IF
+    IF HITUNG_HAVERSINE(titik.koordinat, t.koordinat) <= 0.5 THEN
         RETURN FALSE
     END IF
 END FOR
@@ -963,7 +975,7 @@ END FOR
 RETURN TRUE
 ```
 
-*Catatan:* Jika penandaan keliru sudah lewat dari 24 jam atau ditemukan deteksi satelit baru dalam radius 500 m ($0,5\text{ km}$), fungsi mengembalikan `FALSE` sehingga titik panas tersebut kembali dihitung dalam kalkulasi skor risiko.
+*Catatan:* `titikBaru` berisi seluruh titik 24 jam terakhir (hasil Q-006), sehingga titik yang sedang diperiksa ikut berada di dalamnya dengan jarak 0 km ke dirinya sendiri. Karena itu titik itu sendiri dan titik yang terdeteksi sebelum atau saat penandaan dilewati. Hanya titik lain yang terdeteksi setelah `waktuTandaiKeliru` dalam radius 500 m ($0,5\text{ km}$) yang dihitung sebagai deteksi baru. Jika ada, atau jika penandaan keliru sudah lewat dari 24 jam, fungsi mengembalikan `FALSE` sehingga titik panas tersebut kembali dihitung dalam kalkulasi skor risiko.
 
 ### 5.4.2 Query
 
@@ -971,10 +983,9 @@ Tabel 5.4.3. Query Operasi TitikPanas
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-005 | INSERT INTO titik_panas (latitude, longitude, waktu_deteksi, status_validitas) <br> VALUES ($1, $2, $3, 'valid') <br> ON CONFLICT DO NOTHING | Menyimpan data titik panas baru dari FIRMS |
+| Q-005 | INSERT INTO titik_panas (latitude, longitude, waktu_deteksi, status_validitas) <br> VALUES ($1, $2, $3, 'valid') <br> ON CONFLICT (latitude, longitude, waktu_deteksi) DO NOTHING | Menyimpan satu titik panas baru dari FIRMS. Tabel `titik_panas` memiliki `UNIQUE (latitude, longitude, waktu_deteksi)`. FIRMS mengembalikan data 24 jam dan cron berjalan tiap 3 jam, sehingga tanpa *constraint* ini satu titik tersimpan berulang kali dan jumlah titik per petak membengkak. Dijalankan sekali per titik; `rowCount` bernilai 1 untuk titik baru dan 0 untuk titik yang sudah tercatat |
 | Q-006 | SELECT id_titik_panas, latitude, longitude, waktu_deteksi, status_validitas, keterangan, waktu_tandai_keliru <br> FROM titik_panas <br> WHERE waktu_deteksi >= NOW() - INTERVAL '24 hours' | Mengambil seluruh titik panas terdeteksi 24 jam terakhir |
-| Q-007 | UPDATE titik_panas <br> SET status_validitas = 'keliru', keterangan = $2, waktu_tandai_keliru = NOW() <br> WHERE id_titik_panas = $1 | Mengubah status titik panas menjadi deteksi keliru |
-
+| Q-007 | UPDATE titik_panas <br> SET status_validitas = 'keliru', keterangan = $2, waktu_tandai_keliru = NOW() <br> WHERE id_titik_panas = $1 | Mengubah status titik panas menjadi deteksi keliru. `rowCount` dipakai sebagai nilai kembalian `tandaiKeliru`: 0 berarti titik tidak ditemukan |
 ## 5.5 Kelas FormPenyusunanJadwal
  
 **Nama Kelas:** FormPenyusunanJadwal  
@@ -2075,4 +2086,4 @@ Tabel 7.1. Matriks Kerunutan Kelas terhadap Use Case
 | C21-HalamanLogin | UC08-Masuk ke Sistem |
 | C22-AutentikasiController | UC08-Masuk ke Sistem |
 | C23-Pengguna | UC03-Memverifikasi Laporan Bukti Kerja, UC04-Melihat Daftar Tugas Prioritas, UC08-Masuk ke Sistem |
-| C24-Notifikasi | UC02-Menyusun dan Menugaskan Jadwal Pencegahan, UC03-Memverifikasi Laporan Bukti Kerja, UC04-Melihat Daftar Tugas Prioritas |
+| C24-Notifikasi | UC01-Memantau Peta Risiko Kebakaran, UC02-Menyusun dan Menugaskan Jadwal Pencegahan, UC03-Memverifikasi Laporan Bukti Kerja, UC04-Melihat Daftar Tugas Prioritas |
