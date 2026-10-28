@@ -1921,6 +1921,108 @@ Tabel 6.1. Spesifikasi Objek Antarmuka [ID Layar]
 | *...* | *...* | *...* | *...* |
 
 
+## 6.4 Rancangan Antarmuka I-04
+
+**Antarmuka:** *I-04*  
+**Nama Layar:** *Antrean Laporan Bukti Kerja*
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan dibuka" src="./assets/diagram/I-04a_Laporan_dibuka.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4a. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan dibuka)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, lokasi di luar batas" src="./assets/diagram/I-04b_Lokasi_di_luar_batas.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4b. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (lokasi foto di luar batas 200 m)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan kosong" src="./assets/diagram/I-04c_Menolak__alasan_kosong.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4c. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan masih kosong)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan terisi" src="./assets/diagram/I-04d_Menolak__alasan_terisi.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4d. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan terisi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan disetujui" src="./assets/diagram/I-04e_Laporan_disetujui.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4e. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan disetujui)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, sudah diproses petugas lain" src="./assets/diagram/I-04f_Sudah_diproses_petugas_lain.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4f. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan sudah diproses petugas lain)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, antrean kosong" src="./assets/diagram/I-04g_Antrean_kosong.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4g. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean kosong)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, gagal memuat antrean" src="./assets/diagram/I-04h_Gagal_memuat_antrean.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.4h. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean gagal dimuat)</i>
+</p>
+
+Tabel 6.4. Spesifikasi Objek Antarmuka I-04
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I04-01 | Image | Logo dan tulisan "SIGAP" | Identitas aplikasi. Tidak memiliki reaksi. |
+| I04-02 | Tab | "Peta risiko" | Membuka I-02. |
+| I04-03 | Tab | "Jadwal" | Membuka I-03. |
+| I04-04 | Tab | "Antrean laporan" | Penanda bahwa layar yang sedang terbuka adalah I-04. |
+| I04-05 | Label | "Petugas posko" | Peran akun yang sedang masuk. |
+| I04-06 | Button | "Keluar" | Mengakhiri sesi petugas posko dan membuka I-01. |
+| I04-07 | Label | "Antrean laporan" | Judul layar. |
+| I04-08 | Label | "n laporan menunggu verifikasi. Pilih laporan untuk melihat foto dan lokasinya." | Nilai n adalah banyaknya laporan dari `ambilAntrean()`. Berganti menjadi "Tidak ada laporan yang menunggu verifikasi." saat antrean kosong (I04-30) dan "Antrean belum bisa ditampilkan." saat antrean gagal dimuat (I04-34). |
+| I04-09 | Label | "Menunggu verifikasi (n)" | Judul daftar antrean dengan jumlah laporan. |
+| I04-10 | List | Setiap baris berisi nama relawan, "Petak x, jenis pekerjaan", dan waktu unggah, misalnya "Arga Simanjuntak", "Petak 187, patroli pencegahan", "25 Okt, 17.20" | Ditampilkan oleh `tampilkanAntrean()` dengan waktu unggah paling lama di atas (KF08). Memilih satu baris menyorot baris itu dan memanggil `ambilDetailLaporan(idLaporan)`, lalu `tampilkanDetailLaporan()` mengisi panel detail. |
+| I04-11 | Label | "Laporan terlama di atas. Laporan yang sudah diputuskan keluar dari antrean." | Keterangan urutan antrean. Laporan yang disetujui atau ditolak tidak lagi tampil pada I04-10. |
+| I04-12 | Label | "Detail laporan" | Judul panel detail. |
+| I04-13 | Image | Foto bukti kerja | Foto dari laporan yang dipilih, diambil melalui `LaporanBuktiKerja.ambilById()`. |
+| I04-14 | Badge | Skor risiko petak, misalnya "46" atau "78" | Skor risiko petak lokasi tugas. Warna lencana mengikuti tingkat risiko petak. |
+| I04-15 | Label | "Petak x, jenis pekerjaan" dan "nama relawan, diunggah tanggal, jam", misalnya "Petak 187, patroli pencegahan" dan "Arga Simanjuntak, diunggah 25 Okt, 17.20" | Identitas laporan yang sedang dibuka. |
+| I04-16 | Label | "Koordinat" dan nilainya, misalnya "0,5381° LS, 101,4602° BT" | Koordinat unggahan laporan. |
+| I04-17 | Label | "Jarak ke petak" dan nilainya, misalnya "0 m, di dalam petak" atau "340 m dari batas petak" | Jarak dihitung `hitungJarak()` dengan rumus haversine terhadap batas petak (Algo-005, KNF06). Nilai 0 berarti koordinat berada di dalam petak (KF09). Nilai berwarna merah jika lebih dari 200 m. |
+| I04-18 | Label | "Tanggal tugas" dan nilainya, misalnya "Sabtu, 25 Okt 2026" | Tanggal pelaksanaan tugas yang dilaporkan. |
+| I04-19 | Label | "Foto" dan nilainya, misalnya "388 KB, dari kamera" | Ukuran berkas foto dan sumber pengambilannya. |
+| I04-20 | Alert | "Lokasi foto n m dari Petak x" dan "Melebihi batas 200 m. Bandingkan foto dengan lokasi tugas sebelum memutuskan." | Hanya muncul jika `melebihiBatas` bernilai TRUE, ditampilkan oleh `tampilkanPeringatanJarak(jarak)`. I04-21 dan I04-23 tetap aktif (KF09, UC03 skenario alternatif 1). |
+| I04-21 | Button | "Setujui laporan" | Memanggil `verifikasiLaporan(idLaporan)` (Algo-006): status laporan menjadi 'terverifikasi', status tugas menjadi 'selesai', dan notifikasi dikirim ke relawan (KF10, KF24). Jika berhasil, panel detail berganti menjadi I04-28. |
+| I04-22 | Label | "Laporan yang disetujui terkunci dan status tugas menjadi Selesai." | Keterangan akibat menekan I04-21. |
+| I04-23 | Button | "Tolak" | Memunculkan I04-24 sampai I04-27. |
+| I04-24 | Text Area | Label "Alasan penolakan (wajib)" dan teks petunjuk "Tulis apa yang perlu diperbaiki relawan, misalnya lokasi atau isi foto." | Diisi petugas. Isinya dikirim ke relawan bersama notifikasi penolakan. |
+| I04-25 | Label | "n/300. Alasan dikirim ke relawan lewat notifikasi." | Penghitung karakter I04-24 yang diperbarui setiap kali isian berubah. |
+| I04-26 | Button | "Kirim penolakan" | Nonaktif selama I04-24 kosong dan aktif setelah alasan terisi. Memanggil `tolakLaporan(idLaporan, alasan)`: status laporan menjadi 'ditolak', status tugas kembali menjadi 'ditugaskan', dan notifikasi berisi alasan dikirim ke relawan (UC03 skenario alternatif 2). |
+| I04-27 | Button | "Batal" | Menutup I04-24 sampai I04-26 dan kembali ke tampilan detail tanpa mengubah laporan. |
+| I04-28 | Label | "Laporan Petak n disetujui" dan "Tugas jenis pekerjaan di Petak n berstatus Selesai dan laporan terkunci. Nama relawan sudah menerima notifikasi hasil verifikasi." | Menggantikan panel detail setelah I04-21 berhasil. |
+| I04-29 | Button | "Buka laporan berikutnya" | Membuka detail laporan paling atas pada antrean yang tersisa. |
+| I04-30 | Label | "Antrean kosong" dan "Semua laporan bukti kerja sudah diverifikasi. Laporan baru dari relawan muncul di sini, yang terlama paling atas." | Ditampilkan oleh `tampilkanAntreanKosong()` jika `ambilAntrean()` mengembalikan daftar kosong (UC03 skenario alternatif 3). |
+| I04-31 | Button | "Buka peta risiko" | Membuka I-02. |
+| I04-32 | Alert | "Laporan ini sudah diproses petugas lain. Muat ulang antrean untuk data terbaru." | Muncul ketika server membalas 409 "Laporan sudah diproses" pada `verifikasiLaporan()` atau `tolakLaporan()` (Algo-006). |
+| I04-33 | Button | "Muat ulang antrean" | Memanggil `ambilAntrean()` lagi untuk memuat data terbaru. |
+| I04-34 | Label | "Server tidak terjangkau" dan "Periksa koneksi laptop lalu coba lagi. Belum ada keputusan verifikasi yang berubah." | Muncul ketika permintaan antrean ke server gagal. |
+| I04-35 | Button | "Coba lagi" | Mengulang `ambilAntrean()`. |
+
+
 ## 6.X Rancangan Antarmuka [ID Layar X]
 
 *[Ulangi pola 6.1 untuk layar berikutnya sampai semua layar teridentifikasi]*
@@ -1935,6 +2037,7 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | :--- | :--- |
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
 | *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
+| I-04 | <img src="./assets/diagram/I-04a_Laporan_dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
 | *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
 
 <br>
