@@ -2521,7 +2521,7 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | No | Tampilan Antarmuka |
 | :--- | :--- |
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
-| I-02 | <img src="./assets/antarmuka/I-02a_Peta_risiko.png" alt="Peta Risiko" width="400"> |
+| I-02 | <img src="./assets/antarmuka/I-02a Peta risiko.png" alt="Peta Risiko" width="400"> |
 | I-04 | <img src="./assets/antarmuka/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
 | I-05 | <img src="./assets/antarmuka/I-05a%20Daftar%20tugas%20(daring).png" alt="Daftar Tugas Relawan" width="200"> |
 | I-06 | <img src="./assets/antarmuka/I-06a%20Form%20laporan%20(siap%20kirim).png" alt="Form Laporan Bukti Kerja" width="200"> |
