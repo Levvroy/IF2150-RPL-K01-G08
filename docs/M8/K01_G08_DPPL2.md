@@ -1945,56 +1945,56 @@ Tabel 6.1. Spesifikasi Objek Antarmuka [ID Layar]
 **Nama Layar:** *Antrean Laporan Bukti Kerja*
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan dibuka" src="./assets/diagram/I-04a%20Laporan%20dibuka.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan dibuka" src="./assets/antarmuka/I-04a%20Laporan%20dibuka.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4a. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan dibuka)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, lokasi di luar batas" src="./assets/diagram/I-04b%20Lokasi%20di%20luar%20batas.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, lokasi di luar batas" src="./assets/antarmuka/I-04b%20Lokasi%20di%20luar%20batas.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4b. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (lokasi foto di luar batas 200 m)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan kosong" src="./assets/diagram/I-04c%20Menolak%2C%20alasan%20kosong.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan kosong" src="./assets/antarmuka/I-04c%20Menolak%2C%20alasan%20kosong.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4c. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan masih kosong)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan terisi" src="./assets/diagram/I-04d%20Menolak%2C%20alasan%20terisi.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, menolak dengan alasan terisi" src="./assets/antarmuka/I-04d%20Menolak%2C%20alasan%20terisi.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4d. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (menolak, alasan terisi)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan disetujui" src="./assets/diagram/I-04e%20Laporan%20disetujui.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, laporan disetujui" src="./assets/antarmuka/I-04e%20Laporan%20disetujui.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4e. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan disetujui)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, sudah diproses petugas lain" src="./assets/diagram/I-04f%20Sudah%20diproses%20petugas%20lain.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, sudah diproses petugas lain" src="./assets/antarmuka/I-04f%20Sudah%20diproses%20petugas%20lain.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4f. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (laporan sudah diproses petugas lain)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, antrean kosong" src="./assets/diagram/I-04g%20Antrean%20kosong.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, antrean kosong" src="./assets/antarmuka/I-04g%20Antrean%20kosong.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4g. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean kosong)</i>
 </p>
 
 <p align="center">
-<img alt="Rancangan Antarmuka I-04 Antrean Laporan, gagal memuat antrean" src="./assets/diagram/I-04h%20Gagal%20memuat%20antrean.png" width="50%">
+<img alt="Rancangan Antarmuka I-04 Antrean Laporan, gagal memuat antrean" src="./assets/antarmuka/I-04h%20Gagal%20memuat%20antrean.png" width="50%">
 </p>
 <p align="center">
 <i>Gambar 6.4h. Rancangan Antarmuka I-04 - Antrean Laporan Bukti Kerja (antrean gagal dimuat)</i>
@@ -2040,6 +2040,183 @@ Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 | I04-34 | Label | "Server tidak terjangkau" dan "Periksa koneksi laptop lalu coba lagi. Belum ada keputusan verifikasi yang berubah." | Ditampilkan oleh `tampilkanPesanGagal()` ketika permintaan antrean ke server gagal. |
 | I04-35 | Button | "Coba lagi" | Mengulang `ambilAntrean()`. |
 
+## 6.5 Rancangan Antarmuka I-05
+
+**Antarmuka:** *I-05*  
+**Nama Layar:** *Daftar Tugas Relawan*
+
+Relawan lapangan membuka layar ini lewat PWA SIGAP di ponsel. Layar I-05 merealisasikan UC04 dan memenuhi KF07, KF11, KF20, KF21, serta KF24. Skenario normal UC04 tergambar pada Gambar 6.5a. Gambar 6.5b memperlihatkan perangkat yang sedang luring (skenario alternatif 1), sedangkan Gambar 6.5c memperlihatkan relawan yang belum punya tugas (skenario alternatif 2). Alur pembatalan tugas karena kondisi tidak aman (skenario alternatif 3) berjalan dari Gambar 6.5d ke 6.5e, lalu berakhir di 6.5f jika gagal atau 6.5h jika berhasil. Gambar 6.5g berisi tab notifikasi.
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Daftar Tugas, daring" src="./assets/antarmuka/I-05a%20Daftar%20tugas%20(daring).png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5a. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (daring)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Daftar Tugas, luring" src="./assets/antarmuka/I-05b%20Daftar%20tugas%20(luring).png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5b. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (luring, dari salinan di perangkat)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Daftar Tugas, belum ada tugas" src="./assets/antarmuka/I-05c%20Belum%20ada%20tugas.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5c. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (belum ada tugas)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Detail Tugas" src="./assets/antarmuka/I-05d%20Detail%20tugas.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5d. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (detail tugas)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Form Pembatalan" src="./assets/antarmuka/I-05e%20Form%20pembatalan.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5e. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (form pembatalan tugas)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Pembatalan Gagal" src="./assets/antarmuka/I-05f%20Pembatalan%20gagal.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5f. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (pembatalan gagal karena luring)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Notifikasi" src="./assets/antarmuka/I-05g%20Notifikasi.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5g. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (tab notifikasi)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-05 Pembatalan Berhasil" src="./assets/antarmuka/I-05h%20Pembatalan%20berhasil.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.5h. Rancangan Antarmuka I-05 - Daftar Tugas Relawan (pembatalan berhasil)</i>
+</p>
+
+Tabel 6.5. Spesifikasi Objek Antarmuka I-05
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I05-01 | Image | Logo SIGAP | Identitas aplikasi, tanpa reaksi. |
+| I05-02 | Label | "Tugas saya" | Judul layar daftar tugas. |
+| I05-03 | Label | "Tersinkron tanggal, jam", misalnya "Tersinkron 25 Okt, 14.32" | Waktu sinkronisasi terakhir. `simpanSalinanLokal()` mencatat waktu ini setiap kali `muatDaftarTugas()` berhasil mengambil data dari server (Algo-007). |
+| I05-04 | Alert | Ikon sinyal terputus dan "Tidak ada koneksi" | Muncul lewat `tampilkanPenandaLuring(waktuSinkron)` saat permintaan ke server gagal, sehingga daftar yang tampil berasal dari `ambilSalinanLokal()` (UC04 skenario alternatif 1, KF20). Kalau perangkat belum pernah tersinkron (`waktuSinkron` bernilai NULL), penanda memberi tahu bahwa daftar tugas belum pernah tersinkron. Penanda hilang setelah `muatDaftarTugas()` kembali terhubung ke server. |
+| I05-05 | Label | "n tugas aktif, risiko tertinggi paling atas" | n menyatakan jumlah tugas pada daftar. Kalimat ini memberi tahu relawan bahwa daftar sudah diurutkan oleh `urutkanBerdasarkanSkorRisiko()` (KF11). |
+| I05-06 | List | Tiap baris memuat lencana skor risiko, jenis pekerjaan, "Petak x, risiko tingkat", dan status tugas, misalnya "78", "Pengecekan titik panas", "Petak 214, risiko tinggi", "Ditugaskan" | `tampilkanDaftarTugas(daftarTugas)` mengisi daftar ini dengan petak berskor risiko tertinggi di posisi paling atas (KF11). Lencana berwarna merah untuk risiko tinggi, kuning untuk sedang, dan hijau untuk rendah. Status "Menunggu verifikasi" tampil berwarna kuning tua dengan ikon jam. Relawan yang memilih satu baris akan melihat detail tugas (Gambar 6.5d) melalui `tampilkanDetailTugas(tugas)`. |
+| I05-07 | Image dan Label | Ikon daftar, "Belum ada tugas", dan "Tugas dari petugas posko akan muncul di sini." | Muncul lewat `tampilkanBelumAdaTugas()` jika daftar tugas dari server maupun dari salinan lokal kosong (UC04 skenario alternatif 2). |
+| I05-08 | Tab | "Tugas" | Membuka daftar tugas (Gambar 6.5a). Berwarna hitam selama aktif. |
+| I05-09 | Tab | "Notifikasi" dengan lencana jumlah belum dibaca, misalnya "1" | Membuka tab notifikasi (Gambar 6.5g). Angka pada lencana berasal dari `Notifikasi.ambilBelumDibaca()`, yang ikut dikirim dalam respons `ambilTugasRelawan()`. Lencana hilang setelah relawan membaca semua notifikasi. |
+| I05-10 | Button (ikon panah) dan Label | "< Tugas" | Kembali ke daftar tugas. |
+| I05-11 | Badge | Skor risiko petak, misalnya "78" | Skor risiko petak tujuan, dengan warna sesuai tingkat risikonya. |
+| I05-12 | Label | Jenis pekerjaan dan "Risiko tingkat, skor n", misalnya "Pengecekan titik panas" dan "Risiko tinggi, skor 78" | Identitas tugas yang sedang dibuka. |
+| I05-13 | Label | "Data tugas" yang memuat "Petak", "Tanggal", "Status", dan "Titik tengah", misalnya "214", "Senin, 26 Okt 2026", "Ditugaskan", "0,5124° LS, 101,4471° BT" | Data dari `JadwalPekerjaan`, dilengkapi server dengan hasil `PetakLahan.ambilById()`. Relawan memakai titik tengah sebagai patokan menuju petak. |
+| I05-14 | Label | "Tandai keliru hanya untuk tugas pengecekan titik panas." | Keterangan untuk I05-16. Hanya muncul pada tugas berjenis 'pengecekan titik panas'. |
+| I05-15 | Button | Ikon kamera dan "Buat laporan" | Memanggil `UploadLaporanController.mulaiLaporan(idJadwal)`, kemudian membuka I-06. Tombol ini hanya ada selama status tugas 'ditugaskan'. |
+| I05-16 | Button | "Tandai keliru" | Hanya ada pada tugas berjenis 'pengecekan titik panas'. Tombol membuka dialog tandai keliru (I-07) sambil membawa `idTitikPanas` milik tugas tersebut (KF14, UC06). |
+| I05-17 | Button | "Batalkan tugas" (teks merah) | Hanya ada selama status tugas 'ditugaskan' (KF21). Saat ditekan, `tampilkanFormPembatalan()` memunculkan I05-18 sampai I05-22 (Gambar 6.5e). |
+| I05-18 | Label | "Batalkan tugas ini?" dan "Status tugas menjadi Dibatalkan dan petugas posko menerima notifikasi." | Judul dan keterangan *bottom sheet* pembatalan. Bagian layar di belakangnya menjadi gelap. |
+| I05-19 | Text Area | Label "Alasan (wajib)" dan teks petunjuk "Contoh: api sudah membesar, asap terlalu pekat" | Relawan mengisi alasan di sini. Sistem menyertakan alasan itu dalam notifikasi pembatalan untuk petugas posko (Algo-008). |
+| I05-20 | Button | "Kirim pembatalan" | Memanggil `DaftarTugasController.batalkanTugasTidakAman(idJadwal, alasan)` (Algo-008). Server membalas 400 "Alasan pembatalan wajib diisi" apabila alasan kosong setelah spasi di tepinya dibuang. Jika pembatalan berhasil, klien memanggil `muatDaftarTugas()` dan layar berganti ke Gambar 6.5h. |
+| I05-21 | Button | "Kembali" | Menutup *bottom sheet*; status tugas tetap seperti semula. |
+| I05-22 | Alert | Ikon peringatan dan pesan gagal, misalnya "Pembatalan butuh koneksi internet. Alasan tetap tersimpan, kirim lagi setelah ada sinyal." | `tampilkanPesanGagal(pesan)` menampilkan pesan ini ketika perangkat luring atau server membalas 400/409. Contoh balasan 409 adalah "Tugas tidak dapat dibatalkan", yang muncul jika tugas sudah tidak berstatus 'ditugaskan'. *Bottom sheet* tidak tertutup dan isi I05-19 tetap ada (Gambar 6.5f). Berbeda dengan laporan pada I-06, sistem tidak menyimpan pembatalan untuk dikirim ulang secara otomatis. |
+| I05-23 | Label | "Tugas dibatalkan", "Alasan: isi alasan", keterangan bahwa petugas posko sudah menerima notifikasi, dan waktu pembatalan, misalnya "Hari ini, 15.02" | Muncul setelah pembatalan berhasil (Gambar 6.5h). Status pada I05-13 berganti menjadi "Dibatalkan", sedangkan I05-15 sampai I05-17 tidak tampil lagi. |
+| I05-24 | Button | "Kembali ke daftar tugas" | Membuka daftar tugas. Tugas yang sudah dibatalkan tidak ada lagi di daftar karena `ambilAktifByRelawan()` hanya mengambil tugas aktif. |
+| I05-25 | Label | "Notifikasi" dan "n belum dibaca" | Judul tab notifikasi beserta jumlah notifikasi yang belum dibaca. |
+| I05-26 | Label | "Terbaru di atas" | Keterangan urutan notifikasi. |
+| I05-27 | List | Tiap baris memuat isi notifikasi dan waktunya, misalnya "Laporan Petak 187 ditolak. Alasan: foto diambil di tepi jalan desa. Ambil ulang foto dari dalam petak." dan "Hari ini, 15.20" | `tampilkanNotifikasi(daftarNotifikasi)` mengisi daftar ini dengan notifikasi penugasan baru (KF07) dan hasil verifikasi laporan (KF24). Notifikasi yang belum dibaca bertanda "Baru" dan bercetak tebal. Saat relawan memilih satu baris, sistem memanggil `tandaiNotifikasiDibaca(idNotifikasi)` lalu membuka detail tugas yang bersangkutan. |
+
+## 6.6 Rancangan Antarmuka I-06
+
+**Antarmuka:** *I-06*  
+**Nama Layar:** *Form Laporan Bukti Kerja*
+
+Relawan sampai di layar ini setelah menekan tombol "Buat laporan" (I05-15). Layar I-06 merealisasikan UC05 dan memenuhi KF12, KF13, KNF03, serta KNF09. Pada skenario normal, relawan mengisi form seperti Gambar 6.6a lalu menerima konfirmasi seperti Gambar 6.6e. Jika GPS mati, form tampil seperti Gambar 6.6b. Laporan yang gagal terkirim karena perangkat luring tersimpan di ponsel (Gambar 6.6c) dan terkirim sendiri begitu sinyal kembali (Gambar 6.6g). Gambar 6.6d memperlihatkan kondisi ketika ponsel sudah menampung 20 laporan tertunda, dan Gambar 6.6f memperlihatkan laporan yang ditolak server.
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 Form Laporan, siap kirim" src="./assets/antarmuka/I-06a%20Form%20laporan%20(siap%20kirim).png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6a. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (siap kirim)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 GPS belum aktif" src="./assets/antarmuka/I-06b%20GPS%20belum%20aktif.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6b. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (GPS belum aktif)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 Menunggu dikirim" src="./assets/antarmuka/I-06c%20Menunggu%20dikirim%20(luring).png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6c. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (tersimpan, menunggu dikirim)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 Penyimpanan penuh" src="./assets/antarmuka/I-06d%20Penyimpanan%20penuh.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6d. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (penyimpanan perangkat penuh)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 Terkirim" src="./assets/antarmuka/I-06e%20Terkirim.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6e. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (terkirim)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 Ditolak server" src="./assets/antarmuka/I-06f%20Ditolak%20server.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6f. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (ditolak server)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-06 Terkirim otomatis" src="./assets/antarmuka/I-06g%20Terkirim%20otomatis.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.6g. Rancangan Antarmuka I-06 - Form Laporan Bukti Kerja (terkirim otomatis setelah sinyal kembali)</i>
+</p>
+
+Tabel 6.6. Spesifikasi Objek Antarmuka I-06
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I06-01 | Button (ikon panah) dan Label | "< Detail" | Kembali ke detail tugas (Gambar 6.5d). Laporan tidak terkirim dan tidak tersimpan. |
+| I06-02 | Label | "Buat laporan" dan "jenis pekerjaan di Petak x", misalnya "Pengecekan titik panas di Petak 214" | Judul form dan tugas yang sedang dilaporkan, diisi oleh `tampilkanForm(uuid, koordinat)`. |
+| I06-03 | Label | "Lokasi", koordinat, dan "Diambil otomatis pukul jam", misalnya "0,5124° LS, 101,4471° BT" dan "Diambil otomatis pukul 14.40" | Koordinat hasil `ambilKoordinatGPS()` ketika form terbuka (SKPL batasan 12). Relawan tidak bisa mengubahnya. Ikon centang hijau berarti koordinat sudah terisi. |
+| I06-04 | Alert | Ikon peringatan, "GPS belum aktif", dan "Nyalakan lokasi di ponsel, lalu coba lagi." | `tampilkanPeringatanGPS()` memunculkan peringatan ini ketika `ambilKoordinatGPS()` mengembalikan null, entah karena GPS mati, izin lokasi ditolak, atau waktu tunggu habis (Gambar 6.6b). |
+| I06-05 | Button | "Coba ambil lokasi lagi" | Memanggil `ambilKoordinatGPS()` sekali lagi. Jika kali ini berhasil, I06-03 menggantikan I06-04. |
+| I06-06 | Button | Ikon kamera dan "Ambil foto" | Memanggil `ambilFoto()`, yang langsung membuka kamera belakang (`capture="environment"`); relawan tidak bisa memilih foto dari galeri. `UploadLaporanController.kompresFoto()` lalu memampatkan foto hingga paling besar 500 KB (KNF09). |
+| I06-07 | Image | Pratinjau foto lapangan | Foto yang sudah dikompres. Muncul setelah I06-06 berhasil. |
+| I06-08 | Button | Ikon kamera dan "Ambil ulang foto" | Memanggil `ambilFoto()` lagi, lalu foto baru menggantikan foto pada I06-07. |
+| I06-09 | Label | "Foto dikompres menjadi n KB. ID laporan xxxxxxxx.", misalnya "Foto dikompres menjadi 412 KB. ID laporan 7f3c9a2e." | Ukuran foto setelah `kompresFoto()` dan delapan karakter pertama UUID dari `generateUUID()`. Selama foto atau lokasi belum lengkap, teks ini berbunyi "Tombol kirim aktif setelah lokasi dan foto terisi." |
+| I06-10 | Button | "Kirim laporan" | Berwarna abu-abu dan tidak bisa ditekan sampai koordinat dan foto terisi. Saat ditekan, tombol memanggil `kirimLaporan(laporan)` (Algo-009) dengan objek {idLaporan, idJadwal, foto, koordinatUnggah, waktuUnggah}, dan server memprosesnya lewat `terimaLaporan()` (Algo-011). Balasan 200/201 membawa relawan ke Gambar 6.6e dan balasan 400/409/413 ke Gambar 6.6f. Galat jaringan, 5xx, atau 401 membuat laporan tersimpan di perangkat, lalu layar berganti ke Gambar 6.6c. |
+| I06-11 | Alert | Ikon peringatan dan "Tidak bisa disimpan: sudah ada 20 laporan belum terkirim. Cari area bersinyal agar laporan tertunda terkirim dulu." | `tampilkanPesanPenyimpananPenuh()` menampilkan pesan ini jika laporan gagal terkirim sementara `hitungLaporanTertunda()` sudah mencapai 20, atau jika penyimpanan perangkat menolak dengan `QuotaExceededError` (KNF09). Isi form tetap ada (Gambar 6.6d). |
+| I06-12 | Button | "Coba kirim lagi" | Menggantikan I06-10 selama I06-11 tampil. Tombol memanggil `kirimLaporan(laporan)` lagi dengan UUID yang sama, jadi server tidak akan mencatat laporan ganda (KNF03). |
+| I06-13 | Label | "Tersimpan" dan "Laporan belum terkirim karena perangkat luring." | Judul layar setelah `simpanLokal()` berhasil (Gambar 6.6c). |
+| I06-14 | Alert | Ikon jam, "Menunggu dikirim", dan "Terkirim otomatis saat sinyal kembali." | Muncul lewat `tampilkanStatusMenungguDikirim()` (KF12). Laporan berada di *object store* `laporanTertunda` sampai berhasil terkirim. |
+| I06-15 | Label | Ikon centang, "Terkirim", dan "Status tugas sekarang Menunggu verifikasi. Hasil verifikasi petugas akan muncul di notifikasi." | `tampilkanPesanTerkirim()` menampilkan layar ini setelah server membalas 200/201 (Gambar 6.6e). Pada I05-06, status tugas berubah menjadi "Menunggu verifikasi". |
+| I06-16 | Label | Ikon centang, "Terkirim otomatis", dan "Sinyal kembali pukul jam, laporan yang tersimpan di perangkat langsung terkirim. Status tugas sekarang Menunggu verifikasi." | Muncul setelah `sinkronOtomatis()` (Algo-010) mengirim laporan tertunda, baik karena event `online` maupun karena aplikasi dibuka. Laporan baru dihapus dari `laporanTertunda` setelah server membalas 200/201 (KF13, Gambar 6.6g). |
+| I06-17 | Label | "Tidak terkirim" dan "Server menolak laporan ini, jadi laporan tidak disimpan untuk dikirim ulang." | Judul layar ketika server membalas 400, 409, atau 413 (Gambar 6.6f). |
+| I06-18 | Alert | Judul alasan penolakan (teks merah) beserta penjelasannya, misalnya "Tugas ini sudah dibatalkan" dan "Tugas Petak 214 sudah dibatalkan sebelum laporan sampai ke server. Laporan ini tidak perlu dikirim ulang." | `tampilkanPesanDitolak(pesan)` menampilkan pesan dari server, baik saat `kirimLaporan()` maupun saat `sinkronOtomatis()` berjalan. Contohnya, server membalas 409 jika tugas tidak lagi berstatus 'ditugaskan' dan 413 jika foto lebih dari 500 KB. Klien menghapus laporan itu dari `laporanTertunda` supaya tidak menghabiskan jatah 20 laporan. |
+| I06-19 | Card | "Laporan" yang memuat gambar mini foto, "Petak x", jenis pekerjaan, koordinat, dan "Dibuat jam, n KB", misalnya "Petak 214", "Pengecekan titik panas", "0,5124° LS, 101,4471° BT", "Dibuat 14.42, 412 KB" | Ringkasan laporan yang terkirim, tersimpan, atau ditolak. Tanpa reaksi. |
+| I06-20 | Button | "Kembali ke daftar tugas" | Membuka daftar tugas I-05 sekaligus memanggil `muatDaftarTugas()` (Algo-007). |
+| I06-21 | Button (ikon panah) dan Label | "< Tugas" | Pada layar hasil (Gambar 6.6c, 6.6e, 6.6f, dan 6.6g), tombol ini berfungsi sama dengan I06-20. |
+
 ## 6.8 Rancangan Antarmuka I-08
 **Antarmuka:** I-08  
 **Nama Layar:** SMS Peringatan Dini
@@ -2047,14 +2224,14 @@ Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh aplikasi web SIGAP. SIGAP hanya menentukan isi dari pesan (Algo-012) dan memproses balasan yang masuk melalui `SMSGatewaySimulasi`. Layar ini mendukung UC07 (KF16): Gambar 6.8a untuk Skenario Normal dan awal Skenario Alternatif 2, Gambar 6.8b untuk akhir Skenario Alternatif 2 (warga berhenti berlangganan).
 
 <p align="center">
-<img alt="Antarmuka I-08" src="./assets/diagram/I-08a SMS peringatan diterima.png" width="25%">
+<img alt="Antarmuka I-08" src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini (pesan diterima dan balasan STOP diketik)</i>
 </p>
 
 <p align="center">
-<img alt="Antarmuka I-08-2" src="./assets/diagram/I-08b Warga membalas STOP.png" width="25%">
+<img alt="Antarmuka I-08-2" src="./assets/antarmuka/I-08b%20Warga%20membalas%20STOP.png" width="25%">
 </p>
 <p align="center">
 <i>Gambar 6.8b. Rancangan Antarmuka I-08 - SMS Peringatan Dini (Balasan STOP terkirim)</i>
@@ -2089,8 +2266,10 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | :--- | :--- |
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
 | *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
-| I-04 | <img src="./assets/diagram/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
-| I-08 | <img src="./assets/diagram/I-08a SMS peringatan diterima.png" alt="SMS Peringatan diterima" width="200"> |
+| I-04 | <img src="./assets/antarmuka/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
+| I-05 | <img src="./assets/antarmuka/I-05a%20Daftar%20tugas%20(daring).png" alt="Daftar Tugas Relawan" width="200"> |
+| I-06 | <img src="./assets/antarmuka/I-06a%20Form%20laporan%20(siap%20kirim).png" alt="Form Laporan Bukti Kerja" width="200"> |
+| I-08 | <img src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" alt="SMS Peringatan diterima" width="200"> |
 | *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
 
 <br>
