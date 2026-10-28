@@ -1704,13 +1704,13 @@ RETURN daftarWargaAktif
 ```
 
 
-### 5.19.2 Algoritma/Query
+### 5.19.2 Query
 
 Tabel 5.19.3. Query Operasi Warga
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-020 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE id_petak = $1 <br> AND status_persetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
+| Q-020 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> warga WHERE id_petak = $1 <br> AND status_persetujuan = 'aktif' | Mengambil daftar warga aktif di satu petak lahan |
 | Q-021 | SELECT id_warga, nomor_hp, <br> status_persetujuan, waktu_dicabut FROM <br> Warga WHERE nomor_hp = $1 <br> LIMIT 1 | Mencari data warga berdasarkan nomor HP |
 | Q-022 | UPDATE Warga SET <br> status_persetujuan = 'dicabut', <br> waktu_dicabut = NOW() <br> WHERE id_warga = $1 AND status_persetujuan = 'aktif' | Mencatat pencabutan persetujuan saat warga membalas SMS peringatan dengan 'STOP' |
 | Q-023 | DELETE FROM Warga WHERE <br> status_persetujuan = 'dicabut' <br> AND waktu_dicabut < <br> NOW() - ($1 * INTERVAL '1 day') <br> RETURNING id_warga | Menghapus data warga secara permanen jika masa pencabutan telah melewati batas hari ($1) |
@@ -1728,7 +1728,7 @@ Tabel 5.20.1. Operasi Kelas PeringatanSMS
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan kedalam basis data. `status` bernilai 'terkirim' atau 'gagal' (KF16). Memakai Q-025 |
+| catat(idWarga: Number, idPetak: Number, isiPesan: String, status: String): void | Public | Menyimpan log pengiriman SMS peringatan ke dalam basis data. `status` bernilai 'terkirim' atau 'gagal' (KF16). Memakai Q-025 |
 | adaDalam24Jam(idPetak: Number): Boolean | Public | Mengembalikan TRUE apabila ada SMS peringatan yang berstatus 'terkirim' untuk suatu petak lahan dalam 24 jam terakhir (KF16). Lihat Algo-014. Memakai Q-024 |
 
 Tabel 5.20.2. Atribut Kelas PeringatanSMS
@@ -1798,8 +1798,8 @@ Tabel 5.22.1. Operasi Kelas AutentikasiController
 | login(username: String, password: String): Object | Public | (Server) Memanggil `verifikasiKredensial()`. Jika gagal, membalas 401. Jika berhasil, membalas 200 berisi token sesi dan data pengguna tanpa `passwordHash` (KF18). Lihat Algo-015 |
 | periksaSesi(): Boolean | Public | (Klien) Membaca token sesi di perangkat dan memeriksa bahwa token ada dan juga belum melewati 7 hari, sehingga relawan yang luring tetap bisa masuk (KF20). Klien tidak memverifikasi tanda tangan token. Verifikasi tanda tangan dan pembatasan peran (KNF05) dilakukan middleware Express pada setiap endpoint server |
 | arahkanSesuaiPeran(peran: String): void | Public | (Klien) Mengarahkan pengguna berperan 'petugas' ke HalamanPetaRisiko dan 'relawan' ke HalamanDaftarTugas |
-| verifikasiKredensial(username: String, password: String): Pengguna | Private | (Server) Memanggil `Pengguna.cariByUsername()` lalu `Pengguna.cekPassword()`. Mengembalikan NULL apaila username tidak ditemukan atau password tidak cocok (KF18, KNF11) |
-| buatSesi(pengguna: Pengguna): String | Private | 	(Server) Menerbitkan JWT dengan `jsonwebtoken` berisi idPengguna, peran, dan waktu kedaluwarsa 7 hari sejak login (KF20) |
+| verifikasiKredensial(username: String, password: String): Pengguna | Private | (Server) Memanggil `Pengguna.cariByUsername()` lalu `Pengguna.cekPassword()`. Mengembalikan NULL apabila username tidak ditemukan atau password tidak cocok (KF18, KNF11) |
+| buatSesi(pengguna: Pengguna): String | Private | (Server) Menerbitkan JWT dengan `jsonwebtoken` berisi idPengguna, peran, dan waktu kedaluwarsa 7 hari sejak login (KF20) |
 
 Tabel 5.22.2. Atribut Kelas AutentikasiController
 
@@ -2022,6 +2022,40 @@ Tabel 6.4. Spesifikasi Objek Antarmuka I-04
 | I04-34 | Label | "Server tidak terjangkau" dan "Periksa koneksi laptop lalu coba lagi. Belum ada keputusan verifikasi yang berubah." | Muncul ketika permintaan antrean ke server gagal. |
 | I04-35 | Button | "Coba lagi" | Mengulang `ambilAntrean()`. |
 
+## 6.8 Rancangan Antarmuka I-08
+**Antarmuka:** I-08  
+**Nama Layar:** SMS Peringatan Dini
+
+Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh aplikasi web SIGAP. SIGAP hanya menentukan isi dari pesan (Algo-012) dan memproses balasan yang masuk melalui `SMSGatewaySimulasi`. Layar ini mendukung UC07 (KF16): Gambar 6.8a untuk Skenario Normal dan awal Skenario Alternatif 2, Gambar 6.8b untuk akhir Skenario Alternatif 2 (warga berhenti berlangganan).
+
+<p align="center">
+<img alt="Antarmuka I-08" src="./assets/diagram/I-08a SMS peringatan diterima.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini</i>
+</p>
+
+<p align="center">
+<img alt="Antarmuka I-08-2" src="./assets/diagram/I-08b Warga membalas STOP.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.8b. Rancangan Antarmuka I-08 - SMS Peringatan Dini (Balasan STOP terkirim)</i>
+</p>
+
+Tabel 6.8. Spesifikasi Objek Antarmuka I-08
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I08-01 | Button (ikon panah) dan Label | "< Pesan" | Kembali ke daftar percakapan. Ditangani aplikasi pesan ponsel |
+| I08-02 | Label | "SIGAP" | Nama pengirim pesan peringatan |
+| I08-03 | Label | "Peringatan dini kebakaran, simulasi" | Keterangan pengirim. Kata "simulasi" menandakan pesan berasal dari `SMSGatewaySimulasi` |
+| I08-04 | Label | "Hari ini, 14.03" | Waktu pesan diterima. Sesuai dengan `waktuKirim` yang dicatat oleh `PeringatanSMS.catat()` (Q-025) |
+| I08-05 | Message bubble (pesan masuk) | "PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan" | Dikirim oleh `PeringatanSMSController.cekAmbangRisiko()` (Algo-012) ke warga berstatus 'aktif' di sekitar petak yang naik ke tingkat 'tinggi'. Angka 214 adalah `idPetak` dan berubah sesuai petak. Tiap pengiriman dicatat dengan status 'terkirim' atau 'gagal' (Q-025) |
+| I08-06 | Text field | "STOP" (placeholder: "Pesan teks") | Warga mengetik balasan. Hanya balasan "STOP" (setelah spasi di tepi dibuang, tanpa membedakan huruf besar-kecil) yang diproses oleh sistem, selain itu diabaikan |
+| I08-07 | Button (ikon panah kirim) | Panah ke atas | Aktif (hitam) jika kolom teks terisi. Saat ditekan, balasan dikirim ke gateway, lalu sistem menjalankan `PeringatanSMSController.prosesBalasanSTOP()`, yang memanggil `Warga.cariByNomor()` (Q-021) lalu `Warga.cabutPersetujuan()` (Q-022). Layar berganti menjadi Gambar 6.8b (UC07 skenario alternatif 2) |
+| I08-08 | Message bubble (pesan keluar) | "STOP" | Balasan warga yang sudah dikirim, muncul setelah I08-07 ditekan (Gambar 6.8b). Setelah balasan diterima sistem, status persetujuan warga menjadi 'dicabut' sehingga warga tidak lagi menerima SMS peringatan (KF16) |
+| I08-09 | Label | "Terkirim 14.20" | Status pengiriman dari aplikasi pesan ponsel, bukan dari SIGAP. Sistem tidak membalas dengan pesan konfirmasi |
+
 
 ## 6.X Rancangan Antarmuka [ID Layar X]
 
@@ -2038,6 +2072,7 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
 | *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
 | I-04 | <img src="./assets/diagram/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
+| I-08 | <img src="./assets/diagram/I-08a SMS peringatan diterima.png" alt="SMS Peringatan diterima" width="200"> |
 | *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
 
 <br>
