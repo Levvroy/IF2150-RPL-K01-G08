@@ -100,7 +100,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 
 | Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
 |---|---|---|---|
-| Gemini | Memberikan cara-cara untuk mencari warga yang terhubung dengan petak tertentu | Model warga tidak memiliki idPetak, bagaimana cara mendapatkan daftar warga di petak tersebut | AI merekomendasikan untuk menambahkan atribut idPetak, namun supaya tidak mengubah kelas-kelasnya, usul tersebut ditolak. Usul yang diterima dari AI yaitu untuk membuat suatu tabel relasi perantara wargaPetak antara Warga dan PetakLahan untuk menghubungkan idWarga dengan idPetak |
+| Claude | Memberikan cara-cara untuk mencari warga yang terhubung dengan id petak lahan tertentu | Model warga tidak memiliki `idPetak`, bagaimanakah cara mendapatkan daftar warga yang terhubung dengan petak tersebut | AI merekomendasikan untuk menambahkan atribut `idPetak`, namun supaya tidak mengubah kelas-kelasnya, usul tersebut ditolak. Usul yang diterima dari AI yaitu untuk menyimpan relasi tersebut pada tabel database (menambahkan kolom `id_petak`) tanpa mencantumkannya sebagai atribut di dalam struktur kelas model. |
 
 
 ---
