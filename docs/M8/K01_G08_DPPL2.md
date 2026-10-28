@@ -1062,8 +1062,8 @@ Tabel 5.7.1. Operasi Kelas JadwalPekerjaan
 | :--- | :--- | :--- |
 | simpan(dataJadwal: Object): JadwalPekerjaan | Public | Dipanggil JadwalController.buatJadwal(). Menyimpan jadwal baru berstatus 'ditugaskan' dan mengembalikan objek JadwalPekerjaan beserta idJadwal yang dibuat database (KF07, Q-008) |
 | ambilAktifByRelawan(idRelawan: Number): JadwalPekerjaan[] | Public | Dipanggil DaftarTugasController.ambilTugasRelawan(). Mengambil tugas milik satu relawan yang berstatus 'ditugaskan' atau 'menunggu verifikasi' (KF11, Q-009) |
-| perbaruiStatus(idJadwal: Number, status: String): void | Public | Mengubah status satu tugas. Dipanggil UploadLaporanController.terimaLaporan() dengan status 'menunggu verifikasi', serta VerifikasiLaporanController dengan status 'selesai' ketika laporan disetujui atau 'ditugaskan' ketika laporan ditolak (KF13, KF24, Q-010) |
-| batalkan(idJadwal: Number, alasan: String): Boolean | Public | Dipanggil DaftarTugasController.batalkanTugasTidakAman(). Mengubah status menjadi 'dibatalkan' dan menyimpan alasan, hanya jika status tugas masih 'ditugaskan'. Bernilai FALSE jika tidak ada baris yang berubah (KF21, Q-011) |
+| perbaruiStatus(idJadwal: Number, statusBaru: String, statusLama: String, idRelawan: Number): Boolean | Public | Mengubah status satu tugas dari `statusLama` ke `statusBaru`. Bernilai FALSE jika tidak ada baris yang berubah, yaitu ketika tugas tidak ada, statusnya bukan lagi `statusLama`, atau bukan milik `idRelawan`. Dipanggil UploadLaporanController.terimaLaporan() dengan ('menunggu verifikasi', 'ditugaskan', idRelawan dari token sesi), VerifikasiLaporanController.verifikasiLaporan() dengan ('selesai', 'menunggu verifikasi'), dan VerifikasiLaporanController.tolakLaporan() dengan ('ditugaskan', 'menunggu verifikasi'). Pada dua pemanggilan dari petugas, idRelawan bernilai null karena petugas boleh memproses tugas relawan mana pun (KF13, KF24, Q-010) |
+| batalkan(idJadwal: Number, alasan: String, idRelawan: Number): Boolean | Public | Dipanggil DaftarTugasController.batalkanTugasTidakAman(). Mengubah status menjadi 'dibatalkan' dan menyimpan alasan, hanya jika tugas milik `idRelawan` dan statusnya masih 'ditugaskan'. Bernilai FALSE jika tidak ada baris yang berubah (KF21, Q-011) |
  
 Tabel 5.7.2. Atribut Kelas JadwalPekerjaan
  
@@ -1085,9 +1085,9 @@ Tabel 5.7.3. Query Operasi JadwalPekerjaan
 | :--- | :--- | :--- |
 | Q-008 | INSERT INTO jadwal_pekerjaan <br> (id_relawan, id_petak, jenis_pekerjaan, tanggal, status) <br> VALUES ($1, $2, $3, $4, 'ditugaskan') <br> RETURNING * | Menyimpan jadwal baru. `RETURNING *` mengembalikan baris baru beserta id_jadwal yang dibuat database, yang kemudian dipakai untuk isi notifikasi |
 | Q-009 | SELECT id_jadwal, id_petak, jenis_pekerjaan, status, tanggal <br> FROM jadwal_pekerjaan <br> WHERE id_relawan = $1 <br> AND status IN ('ditugaskan', 'menunggu verifikasi') | Mengambil tugas aktif satu relawan. Skor risiko dan batas petak dilengkapi DaftarTugasController lewat PetakLahan.ambilById() (Gambar 16). Karena tugas aktif paling banyak 3 (KF06), tambahan kueri per tugas juga paling banyak 3 |
-| Q-010 | UPDATE jadwal_pekerjaan <br> SET status = $2 <br> WHERE id_jadwal = $1 | Mengubah status tugas. Nilai $2 dibatasi `CHECK` constraint pada kolom status |
-| Q-011 | UPDATE jadwal_pekerjaan <br> SET status = 'dibatalkan', alasan_pembatalan = $2 <br> WHERE id_jadwal = $1 AND status = 'ditugaskan' | Membatalkan tugas. Syarat status ditaruh di `WHERE` agar pengecekan dan perubahan terjadi dalam satu perintah. batalkan() mengembalikan TRUE jika `rowCount` lebih dari 0 |
- 
+| Q-010 | UPDATE jadwal_pekerjaan <br> SET status = $2 <br> WHERE id_jadwal = $1 <br> AND status = $3 <br> AND ($4::int IS NULL OR id_relawan = $4) | Mengubah status tugas hanya jika status saat ini sama dengan `statusLama` ($3). Jika $4 diisi, tugas juga harus milik relawan tersebut. Seperti Q-011, pengecekan dan perubahan terjadi dalam satu perintah, sehingga dua permintaan bersamaan tidak bisa sama-sama berhasil. perbaruiStatus() mengembalikan TRUE jika `rowCount` lebih dari 0. Nilai $2 dibatasi `CHECK` constraint pada kolom status |
+| Q-011 | UPDATE jadwal_pekerjaan <br> SET status = 'dibatalkan', alasan_pembatalan = $2 <br> WHERE id_jadwal = $1 <br> AND id_relawan = $3 <br> AND status = 'ditugaskan' | Membatalkan tugas milik relawan pada token sesi. Syarat pemilik dan status ditaruh di `WHERE` agar pengecekan dan perubahan terjadi dalam satu perintah. batalkan() mengembalikan TRUE jika `rowCount` lebih dari 0 |
+
 ## 5.8 Kelas RelawanLapangan
  
 **Nama Kelas:** RelawanLapangan  
