@@ -1856,9 +1856,9 @@ Tabel 5.23.1. Operasi Kelas Pengguna
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| cariByUsername(username: String): Pengguna | Public | Mengambil akun beserta passwordHash berdasarkan username untuk proses login di AutentikasiController.verifikasiKredensial(). Mengembalikan null jika username tidak terdaftar (KF18). Memakai Q-027 |
+| cariByUsername(username: String): Pengguna | Public | Mengambil akun beserta passwordHash berdasarkan username untuk proses login di AutentikasiController.verifikasiKredensial(). Mengembalikan null jika username tidak terdaftar (KF18). Memakai Q-026 |
 | cekPassword(password: String, passwordHash: String): Boolean | Public | Membandingkan password masukan dengan passwordHash melalui `bcrypt.compare()`. Tidak memerlukan query (KF18) |
-| ambilByPeran(peran: String): Pengguna[] | Public | Mengambil seluruh akun dengan peran tertentu tanpa passwordHash, misalnya seluruh petugas posko yang perlu menerima notifikasi pembatalan tugas (Algo-008). Memakai Q-028 |
+| ambilByPeran(peran: String): Pengguna[] | Public | Mengambil seluruh akun dengan peran tertentu tanpa passwordHash, misalnya seluruh petugas posko yang perlu menerima notifikasi pembatalan tugas (Algo-008). Memakai Q-027 |
 
 Tabel 5.23.2. Atribut Kelas Pengguna
 
@@ -1875,8 +1875,8 @@ Tabel 5.23.3. Query Operasi Pengguna
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-027 | SELECT id_pengguna, username, <br> password_hash, peran <br> FROM pengguna <br> WHERE username = $1 | Mencari akun berdasarkan username saat login |
-| Q-028 | SELECT id_pengguna, username, peran <br> FROM pengguna <br> WHERE peran = $1 | Mengambil daftar akun dengan peran tertentu tanpa hash password |
+| Q-026 | SELECT id_pengguna, username, <br> password_hash, peran <br> FROM pengguna <br> WHERE username = $1 | Mencari akun berdasarkan username saat login |
+| Q-027 | SELECT id_pengguna, username, peran <br> FROM pengguna <br> WHERE peran = $1 | Mengambil daftar akun dengan peran tertentu tanpa hash password |
 
 ## 5.24 Kelas Notifikasi
 
@@ -1889,9 +1889,9 @@ Tabel 5.24.1. Operasi Kelas Notifikasi
 
 | Nama Operasi | Visibility (private, public) | Keterangan |
 | :--- | :--- | :--- |
-| buat(idPengguna: Number, isiPesan: String): void | Public | Menyimpan notifikasi baru yang belum dibaca untuk satu pengguna. Dipanggil saat jadwal baru dibuat (KF07), saat relawan membatalkan tugas (KF21), dan saat laporan disetujui atau ditolak (KF24). Memakai Q-029 |
-| ambilBelumDibaca(idPengguna: Number): Notifikasi[] | Public | Mengambil notifikasi yang belum dibaca milik satu pengguna, diurutkan dari yang terbaru. Dipanggil oleh DaftarTugasController.ambilTugasRelawan() untuk relawan dan oleh PetaRisikoController.ambilDataPeta() untuk petugas posko (KF07, KF21, KF24). Memakai Q-030 |
-| tandaiDibaca(idNotifikasi: Number, idPengguna: Number): void | Public | Mengubah status notifikasi menjadi sudah dibaca ketika pengguna membuka notifikasi tersebut. Nilai idPengguna berasal dari token sesi dan dicek pada klausa WHERE, sehingga pengguna tidak dapat menandai notifikasi milik pengguna lain. Dipanggil oleh DaftarTugasController.tandaiNotifikasiDibaca() untuk relawan dan oleh PetaRisikoController.tandaiNotifikasiDibaca() untuk petugas posko. Memakai Q-031 |
+| buat(idPengguna: Number, isiPesan: String): void | Public | Menyimpan notifikasi baru yang belum dibaca untuk satu pengguna. Dipanggil saat jadwal baru dibuat (KF07), saat relawan membatalkan tugas (KF21), dan saat laporan disetujui atau ditolak (KF24). Memakai Q-028 |
+| ambilBelumDibaca(idPengguna: Number): Notifikasi[] | Public | Mengambil notifikasi yang belum dibaca milik satu pengguna, diurutkan dari yang terbaru. Dipanggil oleh DaftarTugasController.ambilTugasRelawan() untuk relawan dan oleh PetaRisikoController.ambilDataPeta() untuk petugas posko (KF07, KF21, KF24). Memakai Q-029 |
+| tandaiDibaca(idNotifikasi: Number, idPengguna: Number): void | Public | Mengubah status notifikasi menjadi sudah dibaca ketika pengguna membuka notifikasi tersebut. Nilai idPengguna berasal dari token sesi dan dicek pada klausa WHERE, sehingga pengguna tidak dapat menandai notifikasi milik pengguna lain. Dipanggil oleh DaftarTugasController.tandaiNotifikasiDibaca() untuk relawan dan oleh PetaRisikoController.tandaiNotifikasiDibaca() untuk petugas posko. Memakai Q-030 |
 
 Tabel 5.24.2. Atribut Kelas Notifikasi
 
@@ -1908,9 +1908,9 @@ Tabel 5.24.3. Query Operasi Notifikasi
 
 | No Query | Query | Keterangan |
 | :--- | :--- | :--- |
-| Q-029 | INSERT INTO notifikasi <br> (id_pengguna, isi_pesan, <br> waktu_dibuat, sudah_dibaca) <br> VALUES ($1, $2, NOW(), FALSE) | Menyimpan notifikasi baru |
-| Q-030 | SELECT id_notifikasi, isi_pesan, <br> waktu_dibuat <br> FROM notifikasi <br> WHERE id_pengguna = $1 <br> AND sudah_dibaca = FALSE <br> ORDER BY waktu_dibuat DESC | Mengambil notifikasi yang belum dibaca milik satu pengguna |
-| Q-031 | UPDATE notifikasi <br> SET sudah_dibaca = TRUE <br> WHERE id_notifikasi = $1 <br> AND id_pengguna = $2 | Menandai satu notifikasi sudah dibaca, hanya jika notifikasi itu milik pengguna yang meminta |
+| Q-028 | INSERT INTO notifikasi <br> (id_pengguna, isi_pesan, <br> waktu_dibuat, sudah_dibaca) <br> VALUES ($1, $2, NOW(), FALSE) | Menyimpan notifikasi baru |
+| Q-029 | SELECT id_notifikasi, isi_pesan, <br> waktu_dibuat <br> FROM notifikasi <br> WHERE id_pengguna = $1 <br> AND sudah_dibaca = FALSE <br> ORDER BY waktu_dibuat DESC | Mengambil notifikasi yang belum dibaca milik satu pengguna |
+| Q-030 | UPDATE notifikasi <br> SET sudah_dibaca = TRUE <br> WHERE id_notifikasi = $1 <br> AND id_pengguna = $2 | Menandai satu notifikasi sudah dibaca, hanya jika notifikasi itu milik pengguna yang meminta |
 
 ---
 
@@ -2063,8 +2063,8 @@ Tabel 6.2. Spesifikasi Objek Antarmuka I-02
 | I02-24 | Button | "Susun jadwal untuk petak ini" | Membuka I-03 dengan petak yang dipilih sudah terisi pada form penyusunan jadwal (UC02). |
 | I02-25 | Alert | Ikon jam, "Data belum diperbarui", dan "Pembaruan data terakhir belum berhasil. Peta memakai hasil tanggal, jam." | Ditampilkan oleh `tampilkanKeteranganCache(waktuUpdate)` hanya jika `isUsang` bernilai TRUE, yaitu `waktuUpdateTerakhir` terlama sudah lebih dari 3 jam (KF04, UC01 skenario alternatif 1). Jam pada kalimat adalah `waktuUpdate`. Penyebab kegagalan tidak ditampilkan karena server tidak menyimpan status gagal (subbab 3.1.2). Peta, ringkasan, dan daftar tetap menampilkan data terakhir yang tersimpan (Gambar 6.2c). Peringatan hilang begitu `perbaruiData()` berhasil dan peta dimuat ulang. |
 | I02-26 | Skeleton | Kerangka abu-abu pada subjudul, peta, ringkasan wilayah, dan daftar petak, dengan label "Tinggi", "Sedang", "Rendah" tetap terbaca | Tampil selama permintaan `ambilDataPeta()` belum dijawab server (Gambar 6.2d). Digantikan I02-08 sampai I02-18 setelah respons 200 diterima. Tab pada I02-02 sampai I02-04 tetap dapat dipakai. |
-| I02-27 | Label | "Notifikasi (n baru)", misalnya "Notifikasi (1 baru)" | Judul panel notifikasi. Nilai n adalah banyaknya notifikasi pada `daftarNotifikasi` dari `Notifikasi.ambilBelumDibaca()` (Q-030). Panel ini menggantikan I02-15 dan I02-16 selama ada notifikasi belum dibaca, sedangkan I02-17 dan I02-18 tetap tampil di bawahnya (Gambar 6.2e). |
-| I02-28 | Card | Isi notifikasi dan waktunya, misalnya "Tugas #12 dibatalkan relawan karena kondisi tidak aman. Alasan: api masih menyala di tepi kanal, jalan masuk tertutup asap." dan "Hari ini, 15.02" | Ditampilkan oleh `tampilkanNotifikasi(daftarNotifikasi)` setelah relawan membatalkan tugas lewat `batalkanTugasTidakAman()` (KF21, Algo-008). Teks berasal dari `isiPesan` dan waktu dari `waktuDibuat` (Q-030). Angka setelah tanda # adalah `idJadwal`. Notifikasi dibuat untuk seluruh petugas posko, sehingga semua petugas melihat kartu yang sama. |
+| I02-27 | Label | "Notifikasi (n baru)", misalnya "Notifikasi (1 baru)" | Judul panel notifikasi. Nilai n adalah banyaknya notifikasi pada `daftarNotifikasi` dari `Notifikasi.ambilBelumDibaca()` (Q-029). Panel ini menggantikan I02-15 dan I02-16 selama ada notifikasi belum dibaca, sedangkan I02-17 dan I02-18 tetap tampil di bawahnya (Gambar 6.2e). |
+| I02-28 | Card | Isi notifikasi dan waktunya, misalnya "Tugas #12 dibatalkan relawan karena kondisi tidak aman. Alasan: api masih menyala di tepi kanal, jalan masuk tertutup asap." dan "Hari ini, 15.02" | Ditampilkan oleh `tampilkanNotifikasi(daftarNotifikasi)` setelah relawan membatalkan tugas lewat `batalkanTugasTidakAman()` (KF21, Algo-008). Teks berasal dari `isiPesan` dan waktu dari `waktuDibuat` (Q-029). Angka setelah tanda # adalah `idJadwal`. Notifikasi dibuat untuk seluruh petugas posko, sehingga semua petugas melihat kartu yang sama. |
 | I02-29 | Button | "Susun ulang jadwal" | Memanggil `tandaiNotifikasiDibaca(idNotifikasi)`, menghapus kartu dari tampilan, lalu membuka I-03. Petak yang dibatalkan kembali muncul pada rekomendasi di I-03 karena Q-003 hanya mengecualikan petak yang masih punya tugas 'ditugaskan' atau 'menunggu verifikasi'. Jika tidak ada notifikasi lain, panel kembali menampilkan I02-15 sampai I02-18. |
 
 ## 6.3 Rancangan Antarmuka I-03
@@ -2420,41 +2420,6 @@ Tabel 6.6. Spesifikasi Objek Antarmuka I-06
 | I06-20 | Button | "Kembali ke daftar tugas" | Membuka daftar tugas I-05 sekaligus memanggil `muatDaftarTugas()` (Algo-007). |
 | I06-21 | Button (ikon panah) dan Label | "< Tugas" | Pada layar hasil (Gambar 6.6c, 6.6e, 6.6f, dan 6.6g), tombol ini berfungsi sama dengan I06-20. |
 
-## 6.8 Rancangan Antarmuka I-08
-**Antarmuka:** I-08  
-**Nama Layar:** SMS Peringatan Dini
-
-Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh aplikasi web SIGAP. SIGAP hanya menentukan isi dari pesan (Algo-012) dan memproses balasan yang masuk melalui `SMSGatewaySimulasi`. Layar ini mendukung UC07 (KF16): Gambar 6.8a untuk Skenario Normal dan awal Skenario Alternatif 2, Gambar 6.8b untuk akhir Skenario Alternatif 2 (warga berhenti berlangganan).
-
-<p align="center">
-<img alt="Antarmuka I-08" src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" width="25%">
-</p>
-<p align="center">
-<i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini (pesan diterima dan balasan STOP diketik)</i>
-</p>
-
-<p align="center">
-<img alt="Antarmuka I-08-2" src="./assets/antarmuka/I-08b%20Warga%20membalas%20STOP.png" width="25%">
-</p>
-<p align="center">
-<i>Gambar 6.8b. Rancangan Antarmuka I-08 - SMS Peringatan Dini (Balasan STOP terkirim)</i>
-</p>
-
-Tabel 6.8. Spesifikasi Objek Antarmuka I-08
-
-| Id_Objek | Jenis | Konten | Keterangan |
-| :--- | :--- | :--- | :--- |
-| I08-01 | Button (ikon panah) dan Label | "< Pesan" | Kembali ke daftar percakapan. Ditangani aplikasi pesan ponsel |
-| I08-02 | Label | "SIGAP" | Nama pengirim pesan peringatan |
-| I08-03 | Label | "Peringatan dini kebakaran, simulasi" | Keterangan pengirim. Kata "simulasi" menandakan pesan berasal dari `SMSGatewaySimulasi` |
-| I08-04 | Label | "Hari ini, 14.03" | Waktu pesan diterima. Sesuai dengan `waktuKirim` yang dicatat oleh `PeringatanSMS.catat()` (Q-025) |
-| I08-05 | Message bubble (pesan masuk) | "PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan" | Dikirim oleh `PeringatanSMSController.cekAmbangRisiko()` (Algo-012) ke warga berstatus 'aktif' di sekitar petak yang naik ke tingkat 'tinggi'. Angka 214 adalah `idPetak` dan berubah sesuai petak. Tiap pengiriman dicatat dengan status 'terkirim' atau 'gagal' (Q-025) |
-| I08-06 | Text field | "STOP" (placeholder: "Pesan teks") | Warga mengetik balasan. Hanya balasan "STOP" (tanpa membedakan huruf besar-kecil) yang diproses oleh sistem, selain itu diabaikan. Kembali kosong setelah I08-07 ditekan |
-| I08-07 | Button (ikon panah kirim) | Panah ke atas | Aktif (hitam) selama I08-06 terisi, dan nonaktif (abu-abu) saat kosong. Saat ditekan, balasan dikirim ke gateway, lalu sistem menjalankan `PeringatanSMSController.prosesBalasanSTOP()`, yang memanggil `Warga.cariByNomor()` (Q-021) lalu `Warga.cabutPersetujuan()` (Q-022). Layar berganti menjadi Gambar 6.8b (UC07 skenario alternatif 2) |
-| I08-08 | Message bubble (pesan keluar) | "STOP" | Balasan warga yang sudah dikirim, muncul setelah I08-07 ditekan (Gambar 6.8b). Setelah balasan diterima sistem, status persetujuan warga menjadi 'dicabut' sehingga warga tidak lagi menerima SMS peringatan (KF16) |
-| I08-09 | Label | "Terkirim 14.20" | Status pengiriman dari aplikasi pesan ponsel, bukan dari SIGAP. Sistem tidak membalas dengan pesan konfirmasi |
-
-
 ## 6.7 Rancangan Antarmuka I-07
 
 **Antarmuka:** *I-07*  
@@ -2512,21 +2477,56 @@ Tabel 6.7. Spesifikasi Objek Antarmuka I-07
 | I07-09 | Alert | Ikon centang, "Ditandai keliru", dan "Titik panas ini tidak dihitung dalam skor risiko selama 24 jam, kecuali ada deteksi baru dalam radius 500 m." | Ditampilkan oleh `tampilkanPesanBerhasil()` di atas detail tugas setelah dialog tertutup (Gambar 6.7e, KF15). |
 | I07-10 | Button (nonaktif) | "Sudah ditandai" | Menggantikan I05-16 setelah penandaan berhasil sehingga titik yang sama tidak ditandai dua kali dari layar ini. I05-15 "Buat laporan" dan I05-17 "Batalkan tugas" tetap tampil karena status tugas tidak berubah. |
 
-## 6.Y Rancangan Antarmuka Keseluruhan
+## 6.8 Rancangan Antarmuka I-08
+**Antarmuka:** I-08  
+**Nama Layar:** SMS Peringatan Dini
 
-Tuliskan daftar gambar seluruh antarmuka. Berikan ID unik untuk setiap tampilan dan gunakan ID yang sama pada subbab perancangan antarmuka masing-masing.
+Layar ini ditampilkan oleh aplikasi pesan bawaan ponsel warga, dan bukan oleh aplikasi web SIGAP. SIGAP hanya menentukan isi dari pesan (Algo-012) dan memproses balasan yang masuk melalui `SMSGatewaySimulasi`. Layar ini mendukung UC07 (KF16): Gambar 6.8a untuk Skenario Normal dan awal Skenario Alternatif 2, Gambar 6.8b untuk akhir Skenario Alternatif 2 (warga berhenti berlangganan).
 
-Tabel 6.Y. Rancangan Antarmuka Keseluruhan
+<p align="center">
+<img alt="Antarmuka I-08" src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.8a. Rancangan Antarmuka I-08 - SMS Peringatan Dini (pesan diterima dan balasan STOP diketik)</i>
+</p>
+
+<p align="center">
+<img alt="Antarmuka I-08-2" src="./assets/antarmuka/I-08b%20Warga%20membalas%20STOP.png" width="25%">
+</p>
+<p align="center">
+<i>Gambar 6.8b. Rancangan Antarmuka I-08 - SMS Peringatan Dini (Balasan STOP terkirim)</i>
+</p>
+
+Tabel 6.8. Spesifikasi Objek Antarmuka I-08
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I08-01 | Button (ikon panah) dan Label | "< Pesan" | Kembali ke daftar percakapan. Ditangani aplikasi pesan ponsel |
+| I08-02 | Label | "SIGAP" | Nama pengirim pesan peringatan |
+| I08-03 | Label | "Peringatan dini kebakaran, simulasi" | Keterangan pengirim. Kata "simulasi" menandakan pesan berasal dari `SMSGatewaySimulasi` |
+| I08-04 | Label | "Hari ini, 14.03" | Waktu pesan diterima. Sesuai dengan `waktuKirim` yang dicatat oleh `PeringatanSMS.catat()` (Q-025) |
+| I08-05 | Message bubble (pesan masuk) | "PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan" | Dikirim oleh `PeringatanSMSController.cekAmbangRisiko()` (Algo-012) ke warga berstatus 'aktif' di sekitar petak yang naik ke tingkat 'tinggi'. Angka 214 adalah `idPetak` dan berubah sesuai petak. Tiap pengiriman dicatat dengan status 'terkirim' atau 'gagal' (Q-025) |
+| I08-06 | Text field | "STOP" (placeholder: "Pesan teks") | Warga mengetik balasan. Hanya balasan "STOP" (tanpa membedakan huruf besar-kecil) yang diproses oleh sistem, selain itu diabaikan. Kembali kosong setelah I08-07 ditekan |
+| I08-07 | Button (ikon panah kirim) | Panah ke atas | Aktif (hitam) selama I08-06 terisi, dan nonaktif (abu-abu) saat kosong. Saat ditekan, balasan dikirim ke gateway, lalu sistem menjalankan `PeringatanSMSController.prosesBalasanSTOP()`, yang memanggil `Warga.cariByNomor()` (Q-021) lalu `Warga.cabutPersetujuan()` (Q-022). Layar berganti menjadi Gambar 6.8b (UC07 skenario alternatif 2) |
+| I08-08 | Message bubble (pesan keluar) | "STOP" | Balasan warga yang sudah dikirim, muncul setelah I08-07 ditekan (Gambar 6.8b). Setelah balasan diterima sistem, status persetujuan warga menjadi 'dicabut' sehingga warga tidak lagi menerima SMS peringatan (KF16) |
+| I08-09 | Label | "Terkirim 14.20" | Status pengiriman dari aplikasi pesan ponsel, bukan dari SIGAP. Sistem tidak membalas dengan pesan konfirmasi |
+
+## 6.9 Rancangan Antarmuka Keseluruhan
+
+Tabel 6.9 memuat tampilan utama setiap layar antarmuka SIGAP. ID layar sama dengan ID pada subbab 6.1 sampai 6.8.
+
+Tabel 6.9. Rancangan Antarmuka Keseluruhan
 
 | No | Tampilan Antarmuka |
 | :--- | :--- |
-| *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
-| I-02 | <img src="./assets/antarmuka/I-02a Peta risiko.png" alt="Peta Risiko" width="400"> |
+| I-01 | <img src="./assets/antarmuka/I-01a%20Login%20kosong.png" alt="Halaman Login" width="200"> |
+| I-02 | <img src="./assets/antarmuka/I-02a%20Peta%20risiko.png" alt="Peta Risiko" width="400"> |
+| I-03 | <img src="./assets/antarmuka/I-03a%20Formulir%20terisi.png" alt="Formulir Penyusunan Jadwal" width="400"> |
 | I-04 | <img src="./assets/antarmuka/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
 | I-05 | <img src="./assets/antarmuka/I-05a%20Daftar%20tugas%20(daring).png" alt="Daftar Tugas Relawan" width="200"> |
 | I-06 | <img src="./assets/antarmuka/I-06a%20Form%20laporan%20(siap%20kirim).png" alt="Form Laporan Bukti Kerja" width="200"> |
-| I-08 | <img src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" alt="SMS Peringatan diterima" width="200"> |
-| *[I-XX]* | *[Sisipkan gambar antarmuka berikutnya]* |
+| I-07 | <img src="./assets/antarmuka/I-07a%20Dialog%20terbuka.png" alt="Dialog Tandai Keliru" width="200"> |
+| I-08 | <img src="./assets/antarmuka/I-08a%20SMS%20peringatan%20diterima.png" alt="SMS Peringatan Dini" width="200"> |
 
 <br>
 
