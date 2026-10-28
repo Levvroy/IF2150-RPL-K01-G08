@@ -1938,6 +1938,81 @@ Tabel 6.1. Spesifikasi Objek Antarmuka [ID Layar]
 | *[ID objek]* | *[Jenis objek]* | *[Konten yang ditampilkan]* | *[Reaksi sistem atau nama file terkait beserta deskripsi ringkasnya]* |
 | *...* | *...* | *...* | *...* |
 
+## 6.2 Rancangan Antarmuka I-02
+
+**Antarmuka:** *I-02*  
+**Nama Layar:** *Peta Risiko*
+
+Petugas posko membuka layar ini lewat tab "Peta risiko" setelah masuk ke sistem, lalu peta menjadi layar utama selama petugas memantau wilayah. Layar I-02 merealisasikan UC01 dan memenuhi KF01, KF04, KF21, serta KF23. Skenario normal UC01 tergambar pada Gambar 6.2a, dan Gambar 6.2b memperlihatkan petugas yang memilih satu petak untuk melihat data petak itu. Gambar 6.2c memperlihatkan pembaruan data yang gagal (skenario alternatif 1), sedangkan Gambar 6.2d memperlihatkan layar selagi data peta masih dimuat dari server. Gambar 6.2e memperlihatkan notifikasi pembatalan tugas oleh relawan karena kondisi tidak aman (KF21, UC04 skenario alternatif 3).
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-02 Peta Risiko" src="./assets/antarmuka/I-02a Peta risiko.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.2a. Rancangan Antarmuka I-02 - Peta Risiko (data terbaru)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-02 Peta Risiko, petak dipilih" src="./assets/antarmuka/I-02b Petak dipilih.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.2b. Rancangan Antarmuka I-02 - Peta Risiko (petak dipilih)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-02 Peta Risiko, data belum diperbarui" src="./assets/antarmuka/I-02c Data belum diperbarui.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.2c. Rancangan Antarmuka I-02 - Peta Risiko (data belum diperbarui, memakai cache)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-02 Peta Risiko, memuat peta" src="./assets/antarmuka/I-02d Memuat peta.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.2d. Rancangan Antarmuka I-02 - Peta Risiko (memuat peta)</i>
+</p>
+
+<p align="center">
+<img alt="Rancangan Antarmuka I-02 Peta Risiko, notifikasi pembatalan" src="./assets/antarmuka/I-02e Notifikasi pembatalan.png" width="50%">
+</p>
+<p align="center">
+<i>Gambar 6.2e. Rancangan Antarmuka I-02 - Peta Risiko (notifikasi pembatalan tugas oleh relawan)</i>
+</p>
+
+Tabel 6.2. Spesifikasi Objek Antarmuka I-02
+
+| Id_Objek | Jenis | Konten | Keterangan |
+| :--- | :--- | :--- | :--- |
+| I02-01 | Image | Logo dan tulisan "SIGAP" | Identitas aplikasi. Tidak memiliki reaksi. |
+| I02-02 | Tab | "Peta risiko" | Penanda bahwa layar yang sedang terbuka adalah I-02. Berwarna hitam selama aktif. |
+| I02-03 | Tab | "Jadwal" | Membuka I-03. |
+| I02-04 | Tab | "Antrean laporan" | Membuka I-04. |
+| I02-05 | Label | "Petugas posko" | Peran akun yang sedang masuk. |
+| I02-06 | Button | "Keluar" | Menghapus token sesi dari perangkat lalu membuka I-01. |
+| I02-07 | Label | "Peta risiko" | Judul layar. |
+| I02-08 | Label | "Diperbarui tanggal, jam. Wilayah percontohan n petak 1 km.", misalnya "Diperbarui 26 Okt, 14.00. Wilayah percontohan 99 petak 1 km." | Ditampilkan oleh `tampilkanAtribusi(waktuUpdate)`. Nilai tanggal dan jam berasal dari `waktuUpdate` pada respons `ambilDataPeta()` (Algo-002), sedangkan n adalah banyaknya petak pada `daftarPetak`. Saat I02-25 tampil, kalimat ini berganti menjadi "Hasil perhitungan terakhir tanggal, jam" lewat `tampilkanKeteranganCache(waktuUpdate)`. |
+| I02-09 | Map | Peta Leaflet dengan petak lahan berbentuk persegi 1 km yang menutupi wilayah percontohan | Ditampilkan oleh `tampilkanPeta(daftarPetak)` dengan data dari `PetaRisikoController.ambilDataPeta()` (KF01). Peta dapat digeser dan diperbesar. Selama data dimuat, peta diganti kerangka abu-abu seperti Gambar 6.2d (I02-26). |
+| I02-10 | Button | "+" dan "−" | Memperbesar dan memperkecil peta. Tidak mengubah data petak. |
+| I02-11 | Label | Skala peta, misalnya "1 km" | Skala jarak bawaan Leaflet. Panjang garisnya menyesuaikan tingkat perbesaran. |
+| I02-12 | Label | "Leaflet \| © OpenStreetMap, NASA FIRMS, Open-Meteo" | Atribusi sumber peta dan data, ditampilkan oleh `tampilkanAtribusi(waktuUpdate)` (KF23). Tidak memiliki reaksi. |
+| I02-13 | Map layer | Persegi petak berwarna sesuai tingkat risiko: merah untuk 'tinggi', kuning untuk 'sedang', hijau untuk 'rendah' | Satu persegi mewakili satu `PetakLahan` yang digambar dari `batasWilayah`, dengan warna mengikuti `tingkatRisiko`. Memilih satu petak memberi garis tepi hitam pada petak itu, memunculkan I02-14, dan mengganti panel kanan menjadi detail petak (I02-20 sampai I02-24, Gambar 6.2b). Memilih petak lain memindahkan pilihan. |
+| I02-14 | Label (tooltip) | "Petak n, skor s", misalnya "Petak 214, skor 78" | Muncul di atas petak yang dipilih. Nilai n adalah `idPetak` dan s adalah `skorRisiko`. |
+| I02-15 | Label | "Ringkasan wilayah (n petak)" | Judul ringkasan wilayah. Nilai n adalah banyaknya petak pada `daftarPetak`. Panel ini tampil selama tidak ada petak yang dipilih dan tidak ada notifikasi baru. |
+| I02-16 | List | Tiga baris berisi kotak warna, tingkat, dan jumlah petak: "Tinggi", "Sedang", "Rendah", misalnya "3 petak", "13 petak", "83 petak" | Jumlah dihitung dari `tingkatRisiko` setiap petak pada `daftarPetak`, sehingga totalnya sama dengan n pada I02-15. Warna kotak sama dengan warna petak pada I02-13. |
+| I02-17 | Label | "Petak risiko tertinggi" | Judul daftar petak berskor tertinggi. |
+| I02-18 | List | Setiap baris berisi lencana skor, "Petak n", dan "Risiko tingkat", misalnya "78", "Petak 214", "Risiko tinggi" | Berisi lima petak dengan `skorRisiko` tertinggi dari `daftarPetak`, skor tertinggi di atas. Lencana berwarna merah untuk risiko tinggi dan kuning untuk sedang. Memilih satu baris sama dengan memilih petak itu pada I02-13. |
+| I02-19 | Label | "Skor risiko adalah alat bantu keputusan. Tidak adanya peringatan tidak menjamin lahan aman." | Pernyataan batasan skor risiko (KF23). Selalu tampil di panel kanan pada semua keadaan layar. |
+| I02-20 | Button (ikon panah) dan Label | "< Semua petak" | Membatalkan pilihan petak dan mengembalikan panel kanan ke I02-15 sampai I02-18, atau ke I02-27 jika masih ada notifikasi baru. |
+| I02-21 | Badge | Skor risiko petak, misalnya "78" | Nilai `skorRisiko` petak yang dipilih, dengan warna sesuai tingkat risikonya. |
+| I02-22 | Label | "Petak n" dan "Risiko tingkat, skor s", misalnya "Petak 214" dan "Risiko tinggi, skor 78" | Identitas petak yang sedang dibuka. |
+| I02-23 | List | Label "Data petak" dan dua baris: "Titik tengah" dan "Diperbarui", misalnya "0,5124° LS, 101,4471° BT" dan "26 Okt, 14.00" | Titik tengah adalah rata-rata `latMin` dengan `latMaks` dan rata-rata `lngMin` dengan `lngMaks` pada `batasWilayah`. Nilai "Diperbarui" adalah `waktuUpdateTerakhir` petak itu. Keduanya sudah ada pada `daftarPetak` dari `ambilDataPeta()`, sehingga tidak ada permintaan tambahan ke server. |
+| I02-24 | Button | "Susun jadwal untuk petak ini" | Membuka I-03 dengan petak yang dipilih sudah terisi pada form penyusunan jadwal (UC02). |
+| I02-25 | Alert | Ikon jam, "Data belum diperbarui", dan "Pembaruan data terakhir belum berhasil. Peta memakai hasil tanggal, jam." | Ditampilkan oleh `tampilkanKeteranganCache(waktuUpdate)` hanya jika `isUsang` bernilai TRUE, yaitu `waktuUpdateTerakhir` terlama sudah lebih dari 3 jam (KF04, UC01 skenario alternatif 1). Jam pada kalimat adalah `waktuUpdate`. Penyebab kegagalan tidak ditampilkan karena server tidak menyimpan status gagal (subbab 3.1.2). Peta, ringkasan, dan daftar tetap menampilkan data terakhir yang tersimpan (Gambar 6.2c). Peringatan hilang begitu `perbaruiData()` berhasil dan peta dimuat ulang. |
+| I02-26 | Skeleton | Kerangka abu-abu pada subjudul, peta, ringkasan wilayah, dan daftar petak, dengan label "Tinggi", "Sedang", "Rendah" tetap terbaca | Tampil selama permintaan `ambilDataPeta()` belum dijawab server (Gambar 6.2d). Digantikan I02-08 sampai I02-18 setelah respons 200 diterima. Tab pada I02-02 sampai I02-04 tetap dapat dipakai. |
+| I02-27 | Label | "Notifikasi (n baru)", misalnya "Notifikasi (1 baru)" | Judul panel notifikasi. Nilai n adalah banyaknya notifikasi pada `daftarNotifikasi` dari `Notifikasi.ambilBelumDibaca()` (Q-030). Panel ini menggantikan I02-15 dan I02-16 selama ada notifikasi belum dibaca, sedangkan I02-17 dan I02-18 tetap tampil di bawahnya (Gambar 6.2e). |
+| I02-28 | Card | Isi notifikasi dan waktunya, misalnya "Tugas #12 dibatalkan relawan karena kondisi tidak aman. Alasan: api masih menyala di tepi kanal, jalan masuk tertutup asap." dan "Hari ini, 15.02" | Ditampilkan oleh `tampilkanNotifikasi(daftarNotifikasi)` setelah relawan membatalkan tugas lewat `batalkanTugasTidakAman()` (KF21, Algo-008). Teks berasal dari `isiPesan` dan waktu dari `waktuDibuat` (Q-030). Angka setelah tanda # adalah `idJadwal`. Notifikasi dibuat untuk seluruh petugas posko, sehingga semua petugas melihat kartu yang sama. |
+| I02-29 | Button | "Susun ulang jadwal" | Memanggil `tandaiNotifikasiDibaca(idNotifikasi)`, menghapus kartu dari tampilan, lalu membuka I-03. Petak yang dibatalkan kembali muncul pada rekomendasi di I-03 karena Q-003 hanya mengecualikan petak yang masih punya tugas 'ditugaskan' atau 'menunggu verifikasi'. Jika tidak ada notifikasi lain, panel kembali menampilkan I02-15 sampai I02-18. |
 
 ## 6.4 Rancangan Antarmuka I-04
 
@@ -2265,7 +2340,7 @@ Tabel 6.Y. Rancangan Antarmuka Keseluruhan
 | No | Tampilan Antarmuka |
 | :--- | :--- |
 | *[I-01]* | <img src="./assets/diagram/contoh-design.png" alt="Contoh Desain" width="400"> |
-| *[I-02]* | *[Sisipkan gambar antarmuka I-02]* |
+| I-02 | <img src="./assets/antarmuka/I-02a_Peta_risiko.png" alt="Peta Risiko" width="400"> |
 | I-04 | <img src="./assets/antarmuka/I-04a%20Laporan%20dibuka.png" alt="Antrean Laporan Bukti Kerja" width="400"> |
 | I-05 | <img src="./assets/antarmuka/I-05a%20Daftar%20tugas%20(daring).png" alt="Daftar Tugas Relawan" width="200"> |
 | I-06 | <img src="./assets/antarmuka/I-06a%20Form%20laporan%20(siap%20kirim).png" alt="Form Laporan Bukti Kerja" width="200"> |
