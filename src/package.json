@@ -1,0 +1,24 @@
+{
+  "name": "sigap",
+  "version": "0.9.0",
+  "private": true,
+  "description": "SIGAP: sistem pencegahan kebakaran lahan gambut",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node --env-file=.env server.js",
+    "dev": "node --watch --env-file=.env server.js",
+    "seed": "node --env-file=.env sql/seed.js",
+    "perbarui": "node --env-file=.env scripts/perbarui.js",
+    "test": "node --test \"tests/*.test.js\""
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.5.0",
+    "pg": "^8.23.1"
+  }
+}
