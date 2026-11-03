@@ -86,12 +86,12 @@ npm test
 
 ## 5. Akun uji
 
-Semua akun memakai password `sigap123`.
+Semua akun memakai password `sigap12345`.
 
 | Peran | Username |
 | :--- | :--- |
 | Petugas posko | `petugas1`, `petugas2` |
-| Relawan lapangan | `relawan1`, `relawan2`, `relawan3` |
+| Relawan lapangan | `relawan1`, `relawan2`, `relawan3`, `relawan4`, `relawan5` |
 
 ## 6. Modul dan pembagian anggota
 

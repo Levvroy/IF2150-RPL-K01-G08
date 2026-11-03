@@ -18,13 +18,13 @@ const SKOR_AWAL = {
 };
 
 const PASSWORD_UJI = 'sigap12345';
-const PETUGAS = ['petugas.posko'];
+const PETUGAS = ['petugas1', 'petugas2'];
 const RELAWAN = [
-  { username: 'arga.simanjuntak', nama: 'Arga Simanjuntak', kontak: '081200000001' },
-  { username: 'jonathan.lewie', nama: 'Jonathan Lewie', kontak: '081200000002' },
-  { username: 'rafi.abrar', nama: 'Rafi Abrar', kontak: '081200000003' },
-  { username: 'rafiif.ansyadya', nama: 'Rafiif Ansyadya', kontak: '081200000004' },
-  { username: 'reinhard.tandra', nama: 'Reinhard Tandra', kontak: '081200000005' }
+  { username: 'relawan1', nama: 'Arga Simanjuntak', kontak: '081200000001' },
+  { username: 'relawan2', nama: 'Jonathan Lewie', kontak: '081200000002' },
+  { username: 'relawan3', nama: 'Rafi Abrar', kontak: '081200000003' },
+  { username: 'relawan4', nama: 'Rafiif Ansyadya', kontak: '081200000004' },
+  { username: 'relawan5', nama: 'Reinhard Tandra', kontak: '081200000005' }
 ];
 const WARGA = [
   { idPetak: 214, nomorHp: '081300000001' },
@@ -33,15 +33,11 @@ const WARGA = [
   { idPetak: 233, nomorHp: '081300000004' }
 ];
 const JADWAL = [
-  { relawan: 'arga.simanjuntak', idPetak: 187, jenis: 'patroli', tanggal: '2026-10-25',
-    laporan: { waktu: '2026-10-25T17:20:00+07:00' } },
-  { relawan: 'reinhard.tandra', idPetak: 209, jenis: 'pembasahan sekat kanal', tanggal: '2026-10-26',
-    laporan: { waktu: '2026-10-26T09:30:00+07:00' } },
-  { relawan: 'rafiif.ansyadya', idPetak: 221, jenis: 'patroli', tanggal: '2026-10-26',
-    laporan: { waktu: '2026-10-26T11:05:00+07:00' } },
-  { relawan: 'arga.simanjuntak', idPetak: 214, jenis: 'pengecekan titik panas', tanggal: '2026-10-26',
-    laporan: { waktu: '2026-10-26T14:42:00+07:00', lat: -0.5124, lng: 101.4471 } },
-  { relawan: 'arga.simanjuntak', idPetak: 233, jenis: 'patroli', tanggal: '2026-10-27' }
+  { relawan: 'relawan1', idPetak: 187, jenis: 'patroli', tanggal: '2026-10-25', laporan: { waktu: '2026-10-25T17:20:00+07:00' } },
+  { relawan: 'relawan5', idPetak: 209, jenis: 'pembasahan sekat kanal', tanggal: '2026-10-26', laporan: { waktu: '2026-10-26T09:30:00+07:00' } },
+  { relawan: 'relawan4', idPetak: 221, jenis: 'patroli', tanggal: '2026-10-26', laporan: { waktu: '2026-10-26T11:05:00+07:00' } },
+  { relawan: 'relawan1', idPetak: 214, jenis: 'pengecekan titik panas', tanggal: '2026-10-26', laporan: { waktu: '2026-10-26T14:42:00+07:00', lat: -0.5124, lng: 101.4471 } },
+  { relawan: 'relawan1', idPetak: 233, jenis: 'patroli', tanggal: '2026-10-27' }
 ];
 
 export function batasPetak(idPetak) {
