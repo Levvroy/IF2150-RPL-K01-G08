@@ -1,0 +1,119 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/vendor/inter/inter-latin-wght-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --ground: #f2f2f7;
+  --cell: #ffffff;
+  --ink: #111111;
+  --ink2: #4a4a4f;
+  --sep: #c6c6c8;
+  --primary: #111111;
+  --on-dark: #ffffff;
+  --tinggi: #c2410c;
+  --sedang: #f5b800;
+  --rendah: #1f6f3a;
+  --negative: #b42318;
+  --wait-bg: #fff4cc;
+  --wait-ink: #7a4a00;
+  --photo: #d1d1d6;
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --radius-16: 16px;
+  --radius-26: 26px;
+  --touch-48: 48px;
+  --row-52: 52px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 22px;
+  color: var(--ink);
+  background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.teks-judul {
+  font-size: 34px;
+  line-height: 41px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.teks-sub {
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--ink2);
+}
+
+.teks-catatan {
+  font-size: 13px;
+  line-height: 17px;
+  color: var(--ink2);
+}
+
+.ikon {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tombol-utama {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--row-52);
+  padding: 0 var(--space-20);
+  border: none;
+  border-radius: var(--radius-26);
+  background: var(--primary);
+  color: var(--on-dark);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tombol-utama:disabled {
+  background: var(--photo);
+  color: var(--ink2);
+  cursor: default;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-16);
+  background: var(--wait-bg);
+  color: var(--wait-ink);
+  font-weight: 600;
+}
