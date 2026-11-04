@@ -1,0 +1,287 @@
+.latar {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.latar::before {
+  content: '';
+  position: absolute;
+  inset: -60px;
+  background: url('/gambar/latar-login.jpg') center / cover;
+  filter: blur(24px);
+}
+
+.latar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgb(242 242 247 / 0.25) 0%,
+    rgb(242 242 247 / 0.55) 22%,
+    rgb(242 242 247 / 0.88) 42%,
+    var(--ground) 60%);
+}
+
+.form-masuk {
+  background: var(--cell);
+  border-radius: var(--radius-16);
+}
+
+.baris {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: var(--row-52);
+  padding: 0 var(--space-16);
+}
+
+.baris + .baris {
+  position: relative;
+}
+
+.baris + .baris::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--space-16);
+  right: 0;
+  border-top: 1px solid var(--sep);
+}
+
+.baris label {
+  flex: none;
+  width: 92px;
+}
+
+.baris input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+}
+
+.baris input::placeholder {
+  color: var(--ink2);
+}
+
+.baris.ada-mata {
+  padding-right: var(--space-4);
+}
+
+.tombol-mata {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-48);
+  height: var(--touch-48);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ink2);
+  cursor: pointer;
+}
+
+.pesan-gagal {
+  display: flex;
+  gap: var(--space-8);
+  padding: 0 var(--space-16);
+  color: var(--negative);
+  font-weight: 500;
+}
+
+.hp {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 480px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 48px var(--space-16) var(--space-24);
+}
+
+.hp .logo {
+  display: block;
+  width: 136px;
+  height: 136px;
+  margin-bottom: 28px;
+}
+
+.hp .keterangan {
+  margin-top: var(--space-4);
+}
+
+.hp .banner,
+.hp .form-masuk {
+  margin-top: var(--space-20);
+}
+
+.hp .bawah {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding-top: var(--space-24);
+}
+
+.hp[data-keadaan='memeriksa'] .keterangan,
+.hp[data-keadaan='gagal'] .keterangan,
+.hp[data-keadaan='luring'] .keterangan {
+  display: none;
+}
+
+.laptop {
+  display: grid;
+  grid-template-columns: minmax(400px, 493fr) 699fr;
+  gap: var(--space-24);
+  min-height: 100vh;
+  padding: var(--space-32);
+}
+
+.kolom-masuk {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-24);
+}
+
+.merek {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-weight: 600;
+}
+
+.merek img {
+  width: 44px;
+  height: 44px;
+}
+
+.laptop .isi {
+  width: 400px;
+  max-width: 100%;
+}
+
+.laptop .keterangan {
+  margin-top: var(--space-4);
+}
+
+.laptop .banner,
+.laptop .form-masuk {
+  margin-top: var(--space-24);
+}
+
+.laptop .banner + .form-masuk {
+  margin-top: var(--space-16);
+}
+
+.laptop .pesan-gagal {
+  margin-top: var(--space-24);
+}
+
+.laptop .tombol-utama {
+  margin-top: var(--space-24);
+}
+
+.laptop .pesan-gagal:not([hidden]) + .tombol-utama {
+  margin-top: var(--space-12);
+}
+
+.kolom-masuk > .teks-catatan {
+  max-width: 400px;
+}
+
+.laptop .bantuan {
+  margin-top: var(--space-12);
+}
+
+.panel-peta {
+  --lebar-grid: min(100%, max(240px, calc((100vh - 280px) * 4 / 3)));
+  display: grid;
+  grid-template-columns: var(--lebar-grid);
+  justify-content: center;
+  align-content: center;
+  gap: var(--space-16);
+  padding: var(--space-32);
+  border-radius: var(--radius-16);
+  background: var(--cell);
+}
+
+.panel-peta h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.grid-petak {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.grid-petak span,
+.legenda i {
+  aspect-ratio: 1;
+  border: 1px solid;
+}
+
+.legenda {
+  display: flex;
+  gap: var(--space-24);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.legenda span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.legenda i {
+  width: 16px;
+  border-radius: 4px;
+}
+
+.rendah { background: rgb(31 111 58 / 0.45); border-color: var(--rendah) !important; }
+.sedang { background: rgb(245 184 0 / 0.45); border-color: var(--sedang) !important; }
+.tinggi { background: rgb(194 65 12 / 0.45); border-color: var(--tinggi) !important; }
+
+.latar.lebar::before {
+  filter: none;
+}
+
+.latar.lebar::after {
+  background: linear-gradient(to bottom,
+    rgb(242 242 247 / 0.35) 0%,
+    rgb(242 242 247 / 0.62) 30%,
+    rgb(242 242 247 / 0.88) 75%,
+    rgb(242 242 247 / 0.95) 100%);
+}
+
+@media (max-width: 900px) {
+  .laptop {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel-peta {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .laptop {
+    padding: 48px var(--space-16) var(--space-24);
+  }
+
+  .laptop .isi {
+    width: 100%;
+  }
+}
