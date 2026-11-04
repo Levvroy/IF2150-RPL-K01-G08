@@ -73,6 +73,7 @@ npm start          # http://localhost:3000
 | Halaman | Alamat |
 | :--- | :--- |
 | Petugas posko | http://localhost:3000/petugas/ |
+| Antrean laporan (petugas) | http://localhost:3000/petugas/antrean.html |
 | PWA relawan | http://localhost:3000/relawan/ |
 | Simulasi SMS warga | http://localhost:3000/simulasi-sms/ |
 
@@ -81,7 +82,8 @@ Mencoba PWA di ponsel Android tanpa deploy: aktifkan USB debugging, sambungkan k
 Menjalankan tes:
 
 ```bash
-npm test
+npm test          # tes unit, tanpa database
+npm run test:db   # tes integrasi UC03, MENGHAPUS dan mengisi ulang database di .env
 ```
 
 ## 5. Akun uji
