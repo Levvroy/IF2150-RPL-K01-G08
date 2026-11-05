@@ -33,7 +33,7 @@ const WARGA = [
   { idPetak: 233, nomorHp: '081300000004' }
 ];
 const JADWAL = [
-  { relawan: 'relawan1', idPetak: 187, jenis: 'patroli', tanggal: '2026-10-25', laporan: { waktu: '2026-10-25T17:20:00+07:00' } },
+  { relawan: 'relawan1', idPetak: 187, jenis: 'patroli', tanggal: '2026-10-25', laporan: { waktu: '2026-10-25T17:20:00+07:00', lat: -0.4935, lng: 101.44605 } },
   { relawan: 'relawan5', idPetak: 209, jenis: 'pembasahan sekat kanal', tanggal: '2026-10-26', laporan: { waktu: '2026-10-26T09:30:00+07:00' } },
   { relawan: 'relawan4', idPetak: 221, jenis: 'patroli', tanggal: '2026-10-26', laporan: { waktu: '2026-10-26T11:05:00+07:00' } },
   { relawan: 'relawan1', idPetak: 214, jenis: 'pengecekan titik panas', tanggal: '2026-10-26', laporan: { waktu: '2026-10-26T14:42:00+07:00', lat: -0.5124, lng: 101.4471 } },
@@ -71,7 +71,7 @@ function bacaCsvFirms(isi) {
   });
 }
 
-async function seed() {
+export async function seed() {
   const schema = await readFile(new URL('./schema.sql', import.meta.url), 'utf8');
   await pool.query(schema);
 
