@@ -1,0 +1,355 @@
+ul,
+dl,
+dd,
+h2 {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.layar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 480px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-16) 120px;
+}
+
+.layar > .banner {
+  margin-top: var(--space-8);
+}
+
+.logo-kecil {
+  width: 28px;
+  height: 28px;
+}
+
+.keterangan {
+  margin-top: var(--space-16);
+  padding: 0 var(--space-16);
+  font-size: 15px;
+  color: var(--ink2);
+}
+
+.grup {
+  background: var(--cell);
+  border-radius: var(--radius-16);
+}
+
+.grup > * + * {
+  border-top: 1px solid var(--sep);
+}
+
+/* daftar tugas dan notifikasi */
+.baris-tugas,
+.baris-notif {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  min-height: 88px;
+  padding: var(--space-12) var(--space-8) var(--space-12) var(--space-16);
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.isi {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.isi span {
+  color: var(--ink2);
+  font-size: 15px;
+}
+
+.panah {
+  color: var(--ink);
+}
+
+.lencana {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  color: var(--on-dark);
+  font-weight: 700;
+}
+
+.lencana.tinggi {
+  background: var(--tinggi);
+}
+
+.lencana.sedang {
+  background: var(--sedang);
+  color: var(--ink);
+}
+
+.lencana.rendah {
+  background: var(--rendah);
+}
+
+.lencana.besar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-16);
+  font-size: 22px;
+}
+
+.isi .status-tunggu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--wait-ink);
+}
+
+.baris-notif strong {
+  font-weight: 400;
+}
+
+.baris-notif.baru strong {
+  font-weight: 700;
+}
+
+.tanda-baru {
+  display: none;
+  font-size: 13px;
+}
+
+.baris-notif.baru .tanda-baru {
+  display: block;
+  color: var(--ink);
+}
+
+.kosong {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  text-align: center;
+  color: var(--ink2);
+}
+
+.kosong strong {
+  color: var(--ink);
+  font-size: 20px;
+}
+
+/* tab bar */
+.tab-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--space-12) + env(safe-area-inset-bottom));
+  display: flex;
+  width: min(280px, calc(100% - 32px));
+  padding: var(--space-4);
+  transform: translateX(-50%);
+  border: 1px solid var(--sep);
+  border-radius: 32px;
+  background: var(--cell);
+}
+
+.tab {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  min-height: 56px;
+  justify-content: center;
+  border: none;
+  border-radius: 28px;
+  background: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tab[aria-selected='true'] {
+  background: var(--primary);
+  color: var(--on-dark);
+}
+
+.ikon-notif {
+  position: relative;
+}
+
+.lencana-angka {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--negative);
+  color: var(--on-dark);
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* detail tugas */
+.layar-detail {
+  padding-bottom: var(--space-16);
+}
+
+.tombol-teks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--touch-48);
+  padding: 0;
+  border: none;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tombol-teks.tengah {
+  justify-content: center;
+  width: 100%;
+}
+
+.kepala-detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.judul-detail {
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.kartu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding: var(--space-16);
+  border-radius: var(--radius-16);
+  background: var(--cell);
+}
+
+.data-tugas > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-12);
+  min-height: var(--row-52);
+  align-items: center;
+  padding: var(--space-8) var(--space-16);
+}
+
+.data-tugas dd {
+  color: var(--ink2);
+  text-align: right;
+}
+
+.data-tugas .bertumpuk {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.aksi-bawah {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-top: auto;
+}
+
+.tombol-sekunder {
+  height: var(--row-52);
+  border: none;
+  border-radius: var(--radius-26);
+  background: var(--cell);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.merah.tombol-sekunder {
+  color: var(--negative);
+}
+
+.merah.tombol-utama {
+  background: var(--negative);
+}
+
+.merah.tombol-utama:disabled {
+  background: var(--photo);
+}
+
+/* bottom sheet pembatalan */
+.latar-gelap {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.35);
+}
+
+.lembar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+  max-width: 480px;
+  padding: var(--space-8) var(--space-16) calc(var(--space-16) + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  border-radius: var(--radius-26) var(--radius-26) 0 0;
+  background: var(--ground);
+}
+
+.pegangan {
+  width: 36px;
+  height: 5px;
+  margin: 0 auto var(--space-8);
+  border-radius: 3px;
+  background: var(--photo);
+}
+
+.lembar h2 {
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.lembar .keterangan {
+  margin-top: var(--space-8);
+}
+
+.lembar textarea {
+  min-height: 100px;
+  padding: var(--space-12) var(--space-16);
+  border: none;
+  border-radius: var(--radius-16);
+  background: var(--cell);
+  font: inherit;
+  resize: vertical;
+}
+
+.pesan-gagal {
+  display: flex;
+  gap: var(--space-8);
+  padding: 0 var(--space-16);
+  color: var(--negative);
+  font-weight: 500;
+}
