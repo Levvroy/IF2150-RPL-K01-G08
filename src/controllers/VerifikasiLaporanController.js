@@ -8,13 +8,13 @@ import * as Notifikasi from '../models/Notifikasi.js';
 
 export const BATAS_JARAK_METER = 200;
 export const PANJANG_MAKS_ALASAN = 300;
+// Kolom id_laporan bertipe UUID. Postgres melempar galat 22P02 untuk teks yang bukan UUID,
+// sehingga tanpa pemeriksaan ini id asal-asalan dibalas 500, padahal seharusnya 404.
 const POLA_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const PESAN_TIDAK_DITEMUKAN = 'Laporan tidak ditemukan';
 const PESAN_SUDAH_DIPROSES = 'Laporan sudah diproses';
 const PESAN_GALAT_SERVER = 'Terjadi kesalahan di server';
-
-class LaporanSudahDiproses extends Error {}
 
 // Algo-005: jarak (meter) dari koordinat unggahan ke titik terdekat pada batas petak, 0 jika di dalam
 export function hitungJarak(koordinatUnggah, batasWilayah) {
@@ -43,25 +43,21 @@ export function validasiAlasan(alasan) {
   return rapi;
 }
 
-function jenisGambar(buffer) {
-  if (buffer[0] === 0x89 && buffer[1] === 0x50) return 'image/png';
-  if (buffer.subarray(8, 12).toString('ascii') === 'WEBP') return 'image/webp';
-  return 'image/jpeg';
-}
-
 function idValid(idLaporan) {
-  return typeof idLaporan === 'string' && POLA_UUID.test(idLaporan);
+  return POLA_UUID.test(idLaporan);
 }
 
-// Menjalankan `kerja(client)` dalam satu transaksi BEGIN/COMMIT. Jika kerja melempar galat,
-// transaksi di-ROLLBACK lalu galatnya diteruskan. Client selalu dikembalikan ke pool.
+// Menjalankan `kerja(client)` dalam satu transaksi. Jika kerja mengembalikan false, transaksi
+// di-ROLLBACK (Algo-006: BATALKAN TRANSAKSI); selain itu di-COMMIT. Client selalu dikembalikan ke pool.
+// ROLLBACK di blok catch dibungkus .catch karena ROLLBACK sendiri bisa gagal (misalnya koneksi putus);
+// tanpa itu galat ROLLBACK menimpa galat asli yang sebenarnya perlu dicatat.
 async function dalamTransaksi(kerja) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const hasil = await kerja(client);
-    await client.query('COMMIT');
-    return hasil;
+    const berhasil = await kerja(client);
+    await client.query(berhasil ? 'COMMIT' : 'ROLLBACK');
+    return berhasil;
   } catch (err) {
     await client.query('ROLLBACK').catch(() => {});
     throw err;
@@ -80,97 +76,97 @@ async function kirimNotifikasi(idRelawan, isiPesan) {
   }
 }
 
-// Pola Algo-006 dipakai bersama oleh setujui dan tolak
-async function putuskanLaporan(req, res, { ubahLaporan, statusTugasBaru, isiPesan, pesanBerhasil }) {
-  const { id: idLaporan } = req.params;
-  if (!idValid(idLaporan)) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
-
-  const laporan = await LaporanBuktiKerja.ambilById(idLaporan);
-  if (!laporan) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
-  if (laporan.status !== 'menunggu verifikasi') return res.status(409).json({ pesan: PESAN_SUDAH_DIPROSES });
-
-  try {
-    await dalamTransaksi(async (client) => {
-      const laporanBerubah = await ubahLaporan(client);
-      const tugasBerubah = laporanBerubah &&
-        await JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, statusTugasBaru, 'menunggu verifikasi', null, client);
-      if (!tugasBerubah) throw new LaporanSudahDiproses();
-    });
-  } catch (err) {
-    if (err instanceof LaporanSudahDiproses) return res.status(409).json({ pesan: PESAN_SUDAH_DIPROSES });
-    throw err;
-  }
-
-  await kirimNotifikasi(laporan.idRelawan, isiPesan(laporan));
-  res.json({ pesan: pesanBerhasil, idLaporan, idJadwal: laporan.idJadwal, statusTugas: statusTugasBaru });
-}
-
-function tanganiGalat(nama, handler) {
-  return async (req, res) => {
-    try {
-      await handler(req, res);
-    } catch (err) {
-      console.error(`Gagal ${nama}:`, err.message);
-      if (!res.headersSent) res.status(500).json({ pesan: PESAN_GALAT_SERVER });
-    }
-  };
-}
-
 // GET /api/laporan/antrean (KF08)
-export const ambilAntrean = tanganiGalat('mengambil antrean laporan', async (req, res) => {
-  const daftarLaporan = await LaporanBuktiKerja.ambilMenungguVerifikasi();
-  res.set('Cache-Control', 'no-store');
-  res.json({ jumlah: daftarLaporan.length, daftarLaporan });
-});
+export async function ambilAntrean(req, res) {
+  try {
+    const daftarLaporan = await LaporanBuktiKerja.ambilMenungguVerifikasi();
+    res.set('Cache-Control', 'no-store');
+    res.json({ jumlah: daftarLaporan.length, daftarLaporan });
+  } catch (err) {
+    console.error('Gagal mengambil antrean laporan:', err.message);
+    res.status(500).json({ pesan: PESAN_GALAT_SERVER });
+  }
+}
 
 // GET /api/laporan/:id (KF08, KF09, KNF06). Foto hanya dikirim lewat endpoint terautentikasi ini
-export const ambilDetailLaporan = tanganiGalat('mengambil detail laporan', async (req, res) => {
-  const { id: idLaporan } = req.params;
-  if (!idValid(idLaporan)) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
+export async function ambilDetailLaporan(req, res) {
+  try {
+    const idLaporan = req.params.id;
+    if (!idValid(idLaporan)) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
 
-  const laporan = await LaporanBuktiKerja.ambilById(idLaporan);
-  if (!laporan) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
+    const laporan = await LaporanBuktiKerja.ambilById(idLaporan);
+    if (!laporan) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
 
-  const petak = await PetakLahan.ambilById(laporan.idPetak);
-  const jarak = petak ? hitungJarak(laporan.koordinatUnggah, petak.batasWilayah) : null;
-  const { foto, ...dataLaporan } = laporan;
+    const petak = await PetakLahan.ambilById(laporan.idPetak);
+    const jarak = petak ? hitungJarak(laporan.koordinatUnggah, petak.batasWilayah) : null;
+    const { foto, ...dataLaporan } = laporan;
 
-  res.set('Cache-Control', 'no-store');
-  res.json({
-    laporan: {
-      ...dataLaporan,
-      foto: `data:${jenisGambar(foto)};base64,${foto.toString('base64')}`,
-      ukuranFoto: foto.length
-    },
-    petak,
-    jarak,
-    batasJarak: BATAS_JARAK_METER,
-    melebihiBatas: jarak !== null && jarak > BATAS_JARAK_METER
-  });
-});
+    res.set('Cache-Control', 'no-store');
+    res.json({
+      // Foto selalu JPEG karena dikompres lewat canvas.toBlob() pada kompresFoto() (C15)
+      laporan: { ...dataLaporan, foto: `data:image/jpeg;base64,${foto.toString('base64')}`, ukuranFoto: foto.length },
+      petak,
+      jarak,
+      batasJarak: BATAS_JARAK_METER,
+      melebihiBatas: jarak !== null && jarak > BATAS_JARAK_METER
+    });
+  } catch (err) {
+    console.error('Gagal mengambil detail laporan:', err.message);
+    res.status(500).json({ pesan: PESAN_GALAT_SERVER });
+  }
+}
 
 // POST /api/laporan/:id/setujui (KF10, KF24, Algo-006)
-export const verifikasiLaporan = tanganiGalat('menyetujui laporan', async (req, res) => {
-  const idPetugas = req.pengguna.idPengguna;
-  await putuskanLaporan(req, res, {
-    ubahLaporan: (client) => LaporanBuktiKerja.setujui(req.params.id, idPetugas, client),
-    statusTugasBaru: 'selesai',
-    isiPesan: (l) => `Laporan untuk tugas #${l.idJadwal} disetujui petugas posko. Tugas dinyatakan selesai.`,
-    pesanBerhasil: 'Laporan disetujui'
-  });
-});
+export async function verifikasiLaporan(req, res) {
+  try {
+    const idLaporan = req.params.id;
+    const idPetugas = req.pengguna.idPengguna;
+    if (!idValid(idLaporan)) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
+
+    const laporan = await LaporanBuktiKerja.ambilById(idLaporan);
+    if (!laporan) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
+    if (laporan.status !== 'menunggu verifikasi') return res.status(409).json({ pesan: PESAN_SUDAH_DIPROSES });
+
+    const berhasil = await dalamTransaksi(async (client) => {
+      const disetujui = await LaporanBuktiKerja.setujui(idLaporan, idPetugas, client);
+      return disetujui && JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'selesai', 'menunggu verifikasi', null, client);
+    });
+    if (!berhasil) return res.status(409).json({ pesan: PESAN_SUDAH_DIPROSES });
+
+    const isiPesan = `Laporan untuk tugas #${laporan.idJadwal} disetujui petugas posko. Tugas dinyatakan selesai.`;
+    await kirimNotifikasi(laporan.idRelawan, isiPesan);
+    res.json({ pesan: 'Laporan disetujui', idLaporan, idJadwal: laporan.idJadwal, statusTugas: 'selesai' });
+  } catch (err) {
+    console.error('Gagal menyetujui laporan:', err.message);
+    res.status(500).json({ pesan: PESAN_GALAT_SERVER });
+  }
+}
 
 // POST /api/laporan/:id/tolak (KF24, UC03 skenario alternatif 2)
-export const tolakLaporan = tanganiGalat('menolak laporan', async (req, res) => {
-  const alasan = validasiAlasan(req.body?.alasan);
-  if (!alasan) {
-    return res.status(400).json({ pesan: `Alasan penolakan wajib diisi, paling banyak ${PANJANG_MAKS_ALASAN} karakter` });
+export async function tolakLaporan(req, res) {
+  try {
+    const idLaporan = req.params.id;
+    const alasan = validasiAlasan(req.body?.alasan);
+    if (!alasan) {
+      return res.status(400).json({ pesan: `Alasan penolakan wajib diisi, paling banyak ${PANJANG_MAKS_ALASAN} karakter` });
+    }
+    if (!idValid(idLaporan)) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
+
+    const laporan = await LaporanBuktiKerja.ambilById(idLaporan);
+    if (!laporan) return res.status(404).json({ pesan: PESAN_TIDAK_DITEMUKAN });
+    if (laporan.status !== 'menunggu verifikasi') return res.status(409).json({ pesan: PESAN_SUDAH_DIPROSES });
+
+    const berhasil = await dalamTransaksi(async (client) => {
+      const ditolak = await LaporanBuktiKerja.tolak(idLaporan, alasan, client);
+      return ditolak && JadwalPekerjaan.perbaruiStatus(laporan.idJadwal, 'ditugaskan', 'menunggu verifikasi', null, client);
+    });
+    if (!berhasil) return res.status(409).json({ pesan: PESAN_SUDAH_DIPROSES });
+
+    const isiPesan = `Laporan untuk tugas #${laporan.idJadwal} ditolak petugas posko. Alasan: ${alasan.replace(/[.!?]+$/, '')}. Silakan unggah ulang bukti kerja.`;
+    await kirimNotifikasi(laporan.idRelawan, isiPesan);
+    res.json({ pesan: 'Laporan ditolak', idLaporan, idJadwal: laporan.idJadwal, statusTugas: 'ditugaskan' });
+  } catch (err) {
+    console.error('Gagal menolak laporan:', err.message);
+    res.status(500).json({ pesan: PESAN_GALAT_SERVER });
   }
-  const idPetugas = req.pengguna.idPengguna;
-  await putuskanLaporan(req, res, {
-    ubahLaporan: (client) => LaporanBuktiKerja.tolak(req.params.id, alasan, idPetugas, client),
-    statusTugasBaru: 'ditugaskan',
-    isiPesan: (l) => `Laporan untuk tugas #${l.idJadwal} ditolak petugas posko. Alasan: ${alasan.replace(/[.!?]+$/, '')}. Silakan unggah ulang bukti kerja.`,
-    pesanBerhasil: 'Laporan ditolak'
-  });
-});
+}

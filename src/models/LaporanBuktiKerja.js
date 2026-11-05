@@ -96,13 +96,13 @@ export async function setujui(idLaporan, idPetugas, db = pool) {
   return hasil.rowCount > 0;
 }
 
-// Q-019. id_petugas_verifikasi ikut dicatat agar jejak petugas penolak tidak hilang
-export async function tolak(idLaporan, alasan, idPetugas = null, db = pool) {
+// Q-019
+export async function tolak(idLaporan, alasan, db = pool) {
   const hasil = await db.query(
     `UPDATE laporan_bukti_kerja
-     SET status = 'ditolak', alasan_penolakan = $2, id_petugas_verifikasi = $3, waktu_verifikasi = NOW()
+     SET status = 'ditolak', alasan_penolakan = $2, waktu_verifikasi = NOW()
      WHERE id_laporan = $1 AND status = 'menunggu verifikasi'`,
-    [idLaporan, alasan, idPetugas]
+    [idLaporan, alasan]
   );
   return hasil.rowCount > 0;
 }

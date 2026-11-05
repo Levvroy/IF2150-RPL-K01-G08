@@ -125,7 +125,7 @@ h2 {
 
 .tata-letak {
   display: grid;
-  grid-template-columns: minmax(300px, 512px) 1fr;
+  grid-template-columns: minmax(300px, 440px) 1fr;
   gap: 30px;
   margin-top: 56px;
   align-items: start;
@@ -190,7 +190,7 @@ h2 {
 
 .detail {
   display: grid;
-  grid-template-columns: minmax(220px, 400px) 1fr;
+  grid-template-columns: minmax(220px, 360px) 1fr;
   gap: 30px;
   padding: var(--space-24);
 }

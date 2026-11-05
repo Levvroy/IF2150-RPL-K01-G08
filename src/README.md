@@ -82,8 +82,7 @@ Mencoba PWA di ponsel Android tanpa deploy: aktifkan USB debugging, sambungkan k
 Menjalankan tes:
 
 ```bash
-npm test          # tes unit, tanpa database
-npm run test:db   # tes integrasi UC03, MENGHAPUS dan mengisi ulang database di .env
+npm test
 ```
 
 ## 5. Akun uji
