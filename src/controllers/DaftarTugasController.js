@@ -77,7 +77,10 @@ export async function tandaiNotifikasiDibaca(req, res) {
     return res.status(400).json({ pesan: 'Notifikasi tidak valid' });
   }
   try {
-    await Notifikasi.tandaiDibaca(idNotifikasi, req.pengguna.idPengguna);
+    const berhasil = await Notifikasi.tandaiDibaca(idNotifikasi, req.pengguna.idPengguna);
+    if (!berhasil) {
+      return res.status(404).json({ pesan: 'Notifikasi tidak ditemukan' });
+    }
     res.json({ pesan: 'Notifikasi ditandai dibaca' });
   } catch (err) {
     console.error('Gagal menandai notifikasi:', err.message);
