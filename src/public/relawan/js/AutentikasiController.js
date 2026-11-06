@@ -32,6 +32,10 @@ export function ambilPeran() {
   return bacaIsiToken(localStorage.getItem(KUNCI_TOKEN)).peran;
 }
 
+export function ambilIdPengguna() {
+  return bacaIsiToken(localStorage.getItem(KUNCI_TOKEN)).idPengguna;
+}
+
 export function ambilToken() {
   return localStorage.getItem(KUNCI_TOKEN);
 }

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f2f7">
+  <title>Tugas saya - SIGAP</title>
+  <link rel="stylesheet" href="/sigap.css">
+  <link rel="stylesheet" href="/relawan/tugas.css">
+  <link rel="manifest" href="/relawan/manifest.json">
+</head>
+<body>
+  <!-- I-05a, I-05b, I-05c -->
+  <main class="layar" data-layar="daftar">
+    <img class="logo-kecil" src="/gambar/logo-sigap.png" alt="Logo SIGAP">
+    <h1 class="teks-judul">Tugas saya</h1>
+    <p id="waktu-sinkron" class="teks-sub"></p>
+    <div id="pesan-luring" class="banner" role="status" hidden>
+      <svg class="ikon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 20h.01" /><path d="M8.5 16.429a5 5 0 0 1 7 0" /><path d="M5 12.859a10 10 0 0 1 5.17-2.69" />
+        <path d="M19 12.859a10 10 0 0 0-2.007-1.523" /><path d="M2 8.82a15 15 0 0 1 4.177-2.643" />
+        <path d="M22 8.82a15 15 0 0 0-11.288-3.764" /><path d="m2 2 20 20" />
+      </svg>
+      <span>Tidak ada koneksi</span>
+    </div>
+    <div id="isi-daftar" hidden>
+      <p id="jumlah-tugas" class="keterangan"></p>
+      <ul id="daftar-tugas" class="grup"></ul>
+    </div>
+    <div id="belum-ada-tugas" class="kosong" hidden>
+      <svg class="ikon" width="44" height="44" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" /><path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" />
+      </svg>
+      <strong>Belum ada tugas</strong>
+      <p class="teks-sub">Tugas dari petugas posko akan muncul di sini.</p>
+    </div>
+  </main>
+
+  <!-- I-05g -->
+  <main class="layar" data-layar="notifikasi" hidden>
+    <img class="logo-kecil" src="/gambar/logo-sigap.png" alt="Logo SIGAP">
+    <h1 class="teks-judul">Notifikasi</h1>
+    <p id="jumlah-belum-dibaca" class="teks-sub">0 belum dibaca</p>
+    <p class="keterangan">Terbaru di atas</p>
+    <ul id="daftar-notifikasi" class="grup"></ul>
+    <p id="notif-kosong" class="teks-sub">Tidak ada notifikasi baru.</p>
+  </main>
+
+  <!-- I-05d, I-05e, I-05f, I-05h -->
+  <main class="layar layar-detail" data-layar="detail" hidden>
+    <button type="button" id="tombol-kembali" class="tombol-teks">
+      <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      Tugas
+    </button>
+    <div class="kepala-detail">
+      <span id="detail-lencana"></span>
+      <div>
+        <h1 id="detail-jenis" class="judul-detail"></h1>
+        <p id="detail-risiko" class="teks-sub"></p>
+      </div>
+    </div>
+    <section id="kartu-dibatalkan" class="kartu" hidden>
+      <strong>Tugas dibatalkan</strong>
+      <p id="dibatalkan-alasan"></p>
+      <p>Petugas posko sudah menerima notifikasi dan bisa menjadwalkan ulang petak ini.</p>
+      <p id="dibatalkan-waktu" class="teks-catatan"></p>
+    </section>
+    <p class="keterangan">Data tugas</p>
+    <dl class="grup data-tugas">
+      <div><dt>Petak</dt><dd id="detail-petak"></dd></div>
+      <div><dt>Tanggal</dt><dd id="detail-tanggal"></dd></div>
+      <div><dt>Status</dt><dd id="detail-status"></dd></div>
+      <div class="bertumpuk"><dt>Titik tengah</dt><dd id="detail-titik" class="teks-catatan"></dd></div>
+    </dl>
+    <div class="aksi-bawah">
+      <button type="button" id="tombol-batalkan" class="tombol-sekunder merah">Batalkan tugas</button>
+      <button type="button" id="tombol-kembali-daftar" class="tombol-utama" hidden>Kembali ke daftar tugas</button>
+    </div>
+  </main>
+
+  <div id="lembar-batal" hidden>
+    <div id="latar-lembar" class="latar-gelap"></div>
+    <form id="form-batal" class="lembar" novalidate>
+      <span class="pegangan" aria-hidden="true"></span>
+      <h2>Batalkan tugas ini?</h2>
+      <p>Status tugas menjadi Dibatalkan dan petugas posko menerima notifikasi.</p>
+      <label for="alasan" class="keterangan">Alasan (wajib)</label>
+      <textarea id="alasan" rows="3" maxlength="300" placeholder="Contoh: api sudah membesar, asap terlalu pekat"></textarea>
+      <p id="pesan-gagal-batal" class="pesan-gagal teks-catatan" role="alert" hidden>
+        <svg class="ikon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" />
+        </svg>
+        <span></span>
+      </p>
+      <button type="submit" id="tombol-kirim-batal" class="tombol-utama merah" disabled>Kirim pembatalan</button>
+      <button type="button" id="tombol-tutup-batal" class="tombol-teks tengah">Kembali</button>
+    </form>
+  </div>
+
+  <nav id="tab-bar" class="tab-bar" aria-label="Menu">
+    <button type="button" class="tab" data-ke="daftar" aria-selected="true">
+      <svg class="ikon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" /><path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" />
+      </svg>
+      Tugas
+    </button>
+    <button type="button" class="tab" data-ke="notifikasi" aria-selected="false">
+      <span class="ikon-notif">
+        <svg class="ikon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+        </svg>
+        <span id="lencana-notif" class="lencana-angka" hidden>0</span>
+      </span>
+      Notifikasi
+    </button>
+  </nav>
+
+  <script type="module" src="/relawan/js/DaftarTugasController.js"></script>
+</body>
+</html>

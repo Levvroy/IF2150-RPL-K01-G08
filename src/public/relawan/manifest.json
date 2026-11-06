@@ -1,7 +1,7 @@
 {
   "name": "SIGAP Relawan",
   "short_name": "SIGAP",
-  "start_url": "/relawan/login.html",
+  "start_url": "/relawan/",
   "scope": "/relawan/",
   "display": "standalone",
   "background_color": "#f2f2f7",
