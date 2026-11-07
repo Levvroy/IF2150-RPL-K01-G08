@@ -23,6 +23,8 @@
       </svg>
       <span>Tidak ada koneksi</span>
     </div>
+    <!-- Hasil sinkronOtomatis() laporan tertunda (Algo-010) -->
+    <p id="pesan-sinkron" class="kartu teks-sub" role="status" hidden></p>
     <div id="isi-daftar" hidden>
       <p id="jumlah-tugas" class="keterangan"></p>
       <ul id="daftar-tugas" class="grup"></ul>
@@ -73,6 +75,11 @@
       <div class="bertumpuk"><dt>Titik tengah</dt><dd id="detail-titik" class="teks-catatan"></dd></div>
     </dl>
     <div class="aksi-bawah">
+      <!-- I05-15 -->
+      <button type="button" id="tombol-buat-laporan" class="tombol-utama">
+        <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></svg>
+        Buat laporan
+      </button>
       <button type="button" id="tombol-batalkan" class="tombol-sekunder merah">Batalkan tugas</button>
       <button type="button" id="tombol-kembali-daftar" class="tombol-utama" hidden>Kembali ke daftar tugas</button>
     </div>

@@ -1,5 +1,6 @@
 import * as Halaman from './HalamanDaftarTugas.js';
 import * as PenyimpananLokal from './PenyimpananLokal.js';
+import { sinkronOtomatis } from './UploadLaporanController.js';
 import { periksaSesi, ambilToken, ambilIdPengguna, keluar } from './AutentikasiController.js';
 
 const PESAN_LURING_BATAL = 'Pembatalan butuh koneksi internet. Alasan tetap tersimpan, kirim lagi setelah ada sinyal.';
@@ -122,8 +123,15 @@ Halaman.pasangPenangan({
   bacaNotifikasi: tandaiNotifikasiDibaca
 });
 
+async function sinkronLaluMuat() {
+  const hasil = await sinkronOtomatis();
+  if (hasil.terkirim.length > 0 || hasil.ditolak.length > 0) Halaman.tampilkanHasilSinkron(hasil);
+  await muatDaftarTugas();
+}
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/relawan/sw.js');
 }
 
-muatDaftarTugas();
+window.addEventListener('online', sinkronLaluMuat);
+sinkronLaluMuat();
