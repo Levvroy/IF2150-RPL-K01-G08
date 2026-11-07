@@ -1,0 +1,138 @@
+/* I-06 Form laporan bukti kerja. Memakai variabel dari sigap.css */
+a.tombol-teks,
+a.tombol-utama {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.tombol-utama {
+  color: var(--on-dark);
+}
+
+.baris-lokasi {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+}
+
+.baris-lokasi.peringatan {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.hijau {
+  color: var(--rendah);
+}
+
+.merah {
+  color: var(--negative);
+}
+
+.tombol-baris {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  min-height: var(--row-52);
+  padding: 0 var(--space-16);
+  border: none;
+  border-top: 1px solid var(--sep);
+  background: none;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.kotak-foto {
+  padding: var(--space-12) var(--space-12) 0;
+}
+
+.foto-kosong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  margin-bottom: var(--space-12);
+  border-radius: var(--radius-16);
+  background: var(--ground);
+}
+
+.tombol-pil {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--touch-48);
+  padding: 0 var(--space-20);
+  border: none;
+  border-radius: var(--radius-26);
+  background: var(--cell);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pratinjau-foto {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: var(--radius-16);
+}
+
+.kotak-foto .tombol-baris {
+  margin-top: var(--space-12);
+}
+
+.info-foto {
+  padding: 0 var(--space-16);
+}
+
+#hasil-pesan.tunggu {
+  background: var(--wait-bg);
+  color: var(--wait-ink);
+}
+
+#hasil-pesan.ditolak strong {
+  color: var(--negative);
+}
+
+.judul-ikon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.ringkasan {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-16);
+}
+
+.ringkasan img {
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--photo);
+}
+
+.ringkasan p {
+  margin: 0;
+}
+
+/* kartu ringkasan berisi gambar dan teks berdampingan, bukan baris bertumpuk */
+.ringkasan > * + * {
+  border-top: none;
+}
+
+#hasil-pesan-judul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+#hasil-pesan.tunggu p {
+  padding-left: 30px;
+  color: var(--ink);
+}
