@@ -10,7 +10,7 @@ export const BATAS_JARAK_METER = 200;
 export const PANJANG_MAKS_ALASAN = 300;
 // Kolom id_laporan bertipe UUID. Postgres melempar galat 22P02 untuk teks yang bukan UUID,
 // sehingga tanpa pemeriksaan ini id asal-asalan dibalas 500, padahal seharusnya 404.
-const POLA_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export const POLA_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const PESAN_TIDAK_DITEMUKAN = 'Laporan tidak ditemukan';
 const PESAN_SUDAH_DIPROSES = 'Laporan sudah diproses';
@@ -51,7 +51,7 @@ function idValid(idLaporan) {
 // di-ROLLBACK (Algo-006: BATALKAN TRANSAKSI); selain itu di-COMMIT. Client selalu dikembalikan ke pool.
 // ROLLBACK di blok catch dibungkus .catch karena ROLLBACK sendiri bisa gagal (misalnya koneksi putus);
 // tanpa itu galat ROLLBACK menimpa galat asli yang sebenarnya perlu dicatat.
-async function dalamTransaksi(kerja) {
+export async function dalamTransaksi(kerja) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
