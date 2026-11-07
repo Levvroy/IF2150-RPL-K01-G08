@@ -3,6 +3,7 @@ import pool from './db.js';
 import { login } from './controllers/AutentikasiController.js';
 import { cekLogin, cekPeran } from './middleware/auth.js';
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
+import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
 
 const app = express();
@@ -23,6 +24,9 @@ app.post('/api/laporan/:id/tolak', hanyaPetugas, tolakLaporan);
 const hanyaRelawan = [cekLogin, cekPeran('relawan')];
 app.get('/api/tugas', hanyaRelawan, ambilTugasRelawan);
 app.post('/api/tugas/:id/batal', hanyaRelawan, batalkanTugasTidakAman);
+
+// UC05: login dicek dulu, baru foto dibaca multer (413 jika > 500 KB). UUID ganda dibalas 200
+app.post('/api/laporan', hanyaRelawan, terimaFoto, terimaLaporan);
 app.post('/api/notifikasi/:id/baca', cekLogin, tandaiNotifikasiDibaca);
 
 const port = process.env.PORT || 3000;

@@ -353,3 +353,7 @@ button {
   color: var(--negative);
   font-weight: 500;
 }
+
+.aksi-bawah .tombol-utama {
+  gap: var(--space-8);
+}

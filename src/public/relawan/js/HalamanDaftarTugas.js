@@ -140,6 +140,7 @@ export function tampilkanDetailTugas(tugas) {
     el('dibatalkan-waktu').textContent = formatWaktu(tugas.waktuDibatalkan);
   }
 
+  el('tombol-buat-laporan').hidden = tugas.status !== 'ditugaskan';
   el('tombol-batalkan').hidden = tugas.status !== 'ditugaskan';
   el('tombol-kembali-daftar').hidden = !dibatalkan;
 
@@ -202,6 +203,17 @@ function perbaruiTombolKirim() {
   el('tombol-kirim-batal').disabled = el('alasan').value.trim() === '';
 }
 
+export function tampilkanHasilSinkron({ terkirim, ditolak }) {
+  const kalimat = [];
+  if (terkirim.length > 0) kalimat.push(`${terkirim.length} laporan tertunda sudah terkirim.`);
+  for (const { laporan, pesan } of ditolak) kalimat.push(`Laporan tugas #${laporan.idJadwal} ditolak server: ${pesan}.`);
+  el('pesan-sinkron').textContent = kalimat.join(' ');
+  el('pesan-sinkron').hidden = kalimat.length === 0;
+}
+
+el('tombol-buat-laporan').addEventListener('click', () => {
+  location.href = `/relawan/laporan.html?jadwal=${tugasTerbuka.idJadwal}`;
+});
 el('tombol-batalkan').addEventListener('click', tampilkanFormPembatalan);
 el('tombol-tutup-batal').addEventListener('click', tutupFormPembatalan);
 el('latar-lembar').addEventListener('click', tutupFormPembatalan);

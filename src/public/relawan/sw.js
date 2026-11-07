@@ -1,5 +1,5 @@
 // Service Worker PWA relawan. Scope-nya /relawan/
-const NAMA_CACHE = 'sigap-v2';
+const NAMA_CACHE = 'sigap-v3';
 const DAFTAR_BERKAS = [
   '/relawan/',
   '/relawan/index.html',
@@ -7,6 +7,10 @@ const DAFTAR_BERKAS = [
   '/relawan/js/DaftarTugasController.js',
   '/relawan/js/HalamanDaftarTugas.js',
   '/relawan/js/PenyimpananLokal.js',
+  '/relawan/laporan.html',
+  '/relawan/laporan.css',
+  '/relawan/js/FormLaporanBuktiKerja.js',
+  '/relawan/js/UploadLaporanController.js',
   '/relawan/login.html',
   '/relawan/login.css',
   '/relawan/js/HalamanLogin.js',
