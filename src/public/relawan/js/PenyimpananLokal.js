@@ -31,9 +31,21 @@ async function jalankan(namaStore, mode, aksi) {
 }
 
 export function simpan(namaStore, kunci, nilai) {
-  return jalankan(namaStore, 'readwrite', (store) => store.put(nilai, kunci));
+  return jalankan(namaStore, 'readwrite', (store) => (kunci === null ? store.put(nilai) : store.put(nilai, kunci)));
 }
 
 export function ambil(namaStore, kunci) {
   return jalankan(namaStore, 'readonly', (store) => store.get(kunci));
+}
+
+export function ambilSemua(namaStore) {
+  return jalankan(namaStore, 'readonly', (store) => store.getAll());
+}
+
+export function hitung(namaStore) {
+  return jalankan(namaStore, 'readonly', (store) => store.count());
+}
+
+export function hapus(namaStore, kunci) {
+  return jalankan(namaStore, 'readwrite', (store) => store.delete(kunci));
 }
