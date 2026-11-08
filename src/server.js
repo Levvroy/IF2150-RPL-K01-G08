@@ -5,6 +5,7 @@ import { cekLogin, cekPeran } from './middleware/auth.js';
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
+import { tandaiKeliru } from './controllers/DeteksiKeliruController.js';
 
 const app = express();
 
@@ -28,6 +29,9 @@ app.post('/api/tugas/:id/batal', hanyaRelawan, batalkanTugasTidakAman);
 // UC05: login dicek dulu, baru foto dibaca multer (413 jika > 500 KB). UUID ganda dibalas 200
 app.post('/api/laporan', hanyaRelawan, terimaFoto, terimaLaporan);
 app.post('/api/notifikasi/:id/baca', cekLogin, tandaiNotifikasiDibaca);
+
+// UC06: hanya relawan (DPPL2 C17)
+app.patch('/api/titik-panas/:id/keliru', hanyaRelawan, tandaiKeliru);
 
 const port = process.env.PORT || 3000;
 
