@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f2f7">
+  <title>Buat laporan - SIGAP</title>
+  <link rel="stylesheet" href="/sigap.css">
+  <link rel="stylesheet" href="/relawan/tugas.css">
+  <link rel="stylesheet" href="/relawan/laporan.css">
+  <link rel="manifest" href="/relawan/manifest.json">
+</head>
+<body>
+  <!-- I-06a, I-06b, I-06d -->
+  <main class="layar layar-detail" data-layar="form" hidden>
+    <a href="/relawan/" class="tombol-teks">
+      <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      Tugas
+    </a>
+    <h1 class="teks-judul">Buat laporan</h1>
+    <p id="judul-tugas" class="teks-sub"></p>
+
+    <p class="keterangan">Lokasi</p>
+    <div id="lokasi-ada" class="grup baris-lokasi" hidden>
+      <div>
+        <strong id="teks-koordinat"></strong>
+        <p id="teks-waktu-lokasi" class="teks-sub"></p>
+      </div>
+      <svg class="ikon hijau" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+    </div>
+    <div id="lokasi-mati" class="grup" hidden>
+      <div class="baris-lokasi peringatan">
+        <svg class="ikon merah" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" />
+        </svg>
+        <div>
+          <strong>GPS belum aktif</strong>
+          <p class="teks-sub">Nyalakan lokasi di ponsel, lalu coba lagi.</p>
+        </div>
+      </div>
+      <button type="button" id="tombol-coba-lokasi" class="tombol-baris">Coba ambil lokasi lagi</button>
+    </div>
+    <p id="lokasi-memuat" class="teks-sub">Mengambil lokasi…</p>
+
+    <p class="keterangan">Foto lapangan</p>
+    <div class="grup kotak-foto">
+      <div id="foto-kosong" class="foto-kosong">
+        <button type="button" id="tombol-ambil-foto" class="tombol-pil">
+          <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></svg>
+          Ambil foto
+        </button>
+      </div>
+      <img id="pratinjau-foto" class="pratinjau-foto" alt="Pratinjau foto lapangan" hidden>
+      <button type="button" id="tombol-ulang-foto" class="tombol-baris" hidden>
+        <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></svg>
+        Ambil ulang foto
+      </button>
+    </div>
+    <p id="info-foto" class="teks-catatan info-foto">Tombol kirim aktif setelah lokasi dan foto terisi.</p>
+    <!-- capture="environment" langsung membuka kamera belakang (I06-06) -->
+    <input type="file" id="input-foto" accept="image/*" capture="environment" hidden>
+
+    <p id="pesan-penuh" class="pesan-gagal teks-catatan" role="alert" hidden>
+      <svg class="ikon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" />
+      </svg>
+      <span>Tidak bisa disimpan: sudah ada 20 laporan belum terkirim. Cari area bersinyal agar laporan tertunda terkirim dulu.</span>
+    </p>
+    <div class="aksi-bawah">
+      <button type="button" id="tombol-kirim" class="tombol-utama" disabled>Kirim laporan</button>
+    </div>
+  </main>
+
+  <!-- I-06c, I-06e, I-06f, I-06g -->
+  <main class="layar layar-detail" data-layar="hasil" hidden>
+    <a href="/relawan/" class="tombol-teks">
+      <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      Tugas
+    </a>
+    <h1 id="hasil-judul" class="teks-judul"></h1>
+    <p id="hasil-sub" class="teks-sub"></p>
+    <div id="hasil-pesan" class="kartu" hidden>
+      <strong id="hasil-pesan-judul"></strong>
+      <p id="hasil-pesan-isi"></p>
+    </div>
+    <p class="keterangan">Laporan</p>
+    <div class="grup ringkasan">
+      <img id="ringkasan-foto" alt="">
+      <div>
+        <strong id="ringkasan-petak"></strong>
+        <p id="ringkasan-jenis"></p>
+        <p id="ringkasan-koordinat" class="teks-sub"></p>
+        <p id="ringkasan-dibuat" class="teks-catatan"></p>
+      </div>
+    </div>
+    <div class="aksi-bawah">
+      <a href="/relawan/" class="tombol-utama">Kembali ke daftar tugas</a>
+    </div>
+  </main>
+
+  <main class="layar" data-layar="tidak-ada" hidden>
+    <a href="/relawan/" class="tombol-teks">
+      <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      Tugas
+    </a>
+    <h1 class="teks-judul">Buat laporan</h1>
+    <p class="teks-sub">Tugas ini tidak ada di daftar tugas aktif atau sudah tidak berstatus Ditugaskan.</p>
+  </main>
+
+  <script type="module" src="/relawan/js/FormLaporanBuktiKerja.js"></script>
+</body>
+</html>
