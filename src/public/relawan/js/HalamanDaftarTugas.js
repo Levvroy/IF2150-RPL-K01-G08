@@ -1,3 +1,5 @@
+import * as DialogTandaiKeliru from './DialogTandaiKeliru.js';
+
 const JENIS = {
   'patroli': 'Patroli pencegahan',
   'pembasahan sekat kanal': 'Pembasahan sekat kanal',
@@ -143,9 +145,21 @@ export function tampilkanDetailTugas(tugas) {
   el('tombol-buat-laporan').hidden = tugas.status !== 'ditugaskan';
   el('tombol-batalkan').hidden = tugas.status !== 'ditugaskan';
   el('tombol-kembali-daftar').hidden = !dibatalkan;
+  tampilkanTombolTandaiKeliru(tugas, dibatalkan);
 
   tutupFormPembatalan();
+  DialogTandaiKeliru.tutupForm();
   bukaLayar('detail');
+}
+
+// I05-16 hanya untuk tugas pengecekan titik panas yang punya idTitikPanas (KF14, UC06)
+function tampilkanTombolTandaiKeliru(tugas, dibatalkan) {
+  const tombol = el('tombol-tandai-keliru');
+  const sudah = DialogTandaiKeliru.isSudahDitandai(tugas.idTitikPanas);
+  tombol.hidden = dibatalkan || tugas.jenisPekerjaan !== 'pengecekan titik panas' || !tugas.idTitikPanas;
+  tombol.disabled = sudah;
+  tombol.textContent = sudah ? 'Sudah ditandai' : 'Tandai keliru';
+  el('kartu-keliru').hidden = true;
 }
 
 export function tampilkanFormPembatalan() {
@@ -215,6 +229,7 @@ el('tombol-buat-laporan').addEventListener('click', () => {
   location.href = `/relawan/laporan.html?jadwal=${tugasTerbuka.idJadwal}`;
 });
 el('tombol-batalkan').addEventListener('click', tampilkanFormPembatalan);
+el('tombol-tandai-keliru').addEventListener('click', () => DialogTandaiKeliru.tampilkanForm(tugasTerbuka));
 el('tombol-tutup-batal').addEventListener('click', tutupFormPembatalan);
 el('latar-lembar').addEventListener('click', tutupFormPembatalan);
 el('alasan').addEventListener('input', perbaruiTombolKirim);
