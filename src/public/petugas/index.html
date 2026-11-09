@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peta risiko - SIGAP</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/sigap.css">
+  <link rel="stylesheet" href="/petugas/petugas.css">
+</head>
+<body>
+  <header class="kepala">
+    <div class="merek">
+      <img src="/gambar/logo-sigap.png" alt="" width="40" height="40">
+      <span>SIGAP</span>
+    </div>
+    <nav class="tab" aria-label="Menu petugas">
+      <a href="/petugas/" aria-current="page">Peta risiko</a>
+      <a href="/petugas/jadwal.html">Jadwal</a>
+      <a href="/petugas/antrean.html">Antrean laporan</a>
+    </nav>
+    <div class="akun">
+      <span class="teks-sub">Petugas posko</span>
+      <button id="tombol-keluar" class="tombol-teks" type="button">Keluar</button>
+    </div>
+  </header>
+
+  <main class="halaman" id="halaman" data-keadaan="memuat">
+    <h1 class="teks-judul">Peta risiko</h1>
+    <p id="ringkasan" class="teks-sub ringkasan">Memuat peta risiko…</p>
+
+    <!-- I02-25: peringatan data belum diperbarui (> 3 jam) -->
+    <div id="peringatan-cache" class="banner peringatan banner-peta" role="alert" hidden>
+      <svg class="ikon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+      <div>
+        <p>Data belum diperbarui</p>
+        <p id="peringatan-cache-isi" class="peringatan-isi"></p>
+      </div>
+    </div>
+
+    <div class="tata-letak-peta">
+      <section class="kolom-peta" aria-label="Peta wilayah percontohan">
+        <div id="peta" class="kanvas-peta"></div>
+      </section>
+
+      <aside class="kolom-samping">
+        <!-- I02-27 & I02-28: Notifikasi pembatalan tugas -->
+        <section id="bagian-notifikasi" hidden>
+          <h2 id="judul-notifikasi" class="judul-bagian">Notifikasi (0 baru)</h2>
+          <div id="daftar-notifikasi" class="daftar-notifikasi"></div>
+        </section>
+
+        <!-- I02-15 s.d. I02-18: Ringkasan wilayah & Petak risiko tertinggi -->
+        <div id="panel-ringkasan">
+          <section id="bagian-ringkasan-wilayah">
+            <h2 id="judul-ringkasan" class="judul-bagian">Ringkasan wilayah (0 petak)</h2>
+            <ul class="kartu daftar daftar-ringkasan-risiko">
+              <li>
+                <span class="label-tingkat"><span class="kotak-warna tinggi"></span>Tinggi</span>
+                <strong id="jumlah-tinggi">0 petak</strong>
+              </li>
+              <li>
+                <span class="label-tingkat"><span class="kotak-warna sedang"></span>Sedang</span>
+                <strong id="jumlah-sedang">0 petak</strong>
+              </li>
+              <li>
+                <span class="label-tingkat"><span class="kotak-warna rendah"></span>Rendah</span>
+                <strong id="jumlah-rendah">0 petak</strong>
+              </li>
+            </ul>
+          </section>
+
+          <section class="bagian-tertinggi">
+            <h2 class="judul-bagian">Petak risiko tertinggi</h2>
+            <ul id="daftar-tertinggi" class="kartu daftar"></ul>
+          </section>
+        </div>
+
+        <!-- I02-20 s.d. I02-24: Detail satu petak saat dipilih -->
+        <section id="panel-detail-petak" hidden>
+          <button id="tombol-semua-petak" class="tombol-kembali-petak" type="button">&lt; Semua petak</button>
+          <div class="kartu kartu-detail-petak">
+            <div class="identitas">
+              <span id="detail-skor" class="lencana"></span>
+              <div>
+                <h2 id="detail-nama" class="judul-laporan"></h2>
+                <p id="detail-tingkat" class="teks-sub"></p>
+              </div>
+            </div>
+            <h3 class="judul-sub-data">Data petak</h3>
+            <dl class="rincian">
+              <div><dt>Titik tengah</dt><dd id="detail-tengah"></dd></div>
+              <div><dt>Diperbarui</dt><dd id="detail-waktu"></dd></div>
+            </dl>
+            <a id="tombol-susun-jadwal" class="tombol-utama" href="/petugas/jadwal.html">Susun jadwal untuk petak ini</a>
+          </div>
+        </section>
+
+        <!-- I02-19: Pernyataan batasan skor risiko (KF23) -->
+        <p class="teks-catatan keterangan-batasan">
+          Skor risiko adalah alat bantu keputusan. Tidak adanya peringatan tidak menjamin lahan aman.
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="/petugas/js/HalamanPetaRisiko.js"></script>
+</body>
+</html>

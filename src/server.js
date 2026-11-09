@@ -2,6 +2,7 @@ import express from 'express';
 import pool from './db.js';
 import { login } from './controllers/AutentikasiController.js';
 import { cekLogin, cekPeran } from './middleware/auth.js';
+import { ambilDataPeta, perbaruiData } from './controllers/PetaRisikoController.js';
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
@@ -13,8 +14,13 @@ app.use(express.static('public'));
 app.get('/', (req, res) => res.redirect('/petugas/login.html'));
 app.post('/api/login', login);
 
-// UC03: hanya petugas (KNF05). /antrean dipasang sebelum /:id agar tidak tertangkap sebagai id
 const hanyaPetugas = [cekLogin, cekPeran('petugas')];
+
+// UC01: peta risiko petugas dan pembaruan skor
+app.get('/api/peta', hanyaPetugas, ambilDataPeta);
+app.post('/api/perbarui', perbaruiData);
+
+// UC03: hanya petugas (KNF05). /antrean dipasang sebelum /:id agar tidak tertangkap sebagai id
 app.get('/api/laporan/antrean', hanyaPetugas, ambilAntrean);
 app.get('/api/laporan/:id', hanyaPetugas, ambilDetailLaporan);
 app.post('/api/laporan/:id/setujui', hanyaPetugas, verifikasiLaporan);
