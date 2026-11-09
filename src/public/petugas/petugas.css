@@ -318,6 +318,119 @@ button:disabled {
   cursor: default;
 }
 
+/* Layar I-02: Peta Risiko */
+.banner-peta {
+  margin-top: var(--space-24);
+}
+
+.tata-letak-peta {
+  display: grid;
+  grid-template-columns: 1fr minmax(320px, 400px);
+  gap: 30px;
+  margin-top: var(--space-32);
+  align-items: start;
+}
+
+.kanvas-peta {
+  width: 100%;
+  height: 620px;
+  border-radius: var(--radius-16);
+  background: var(--photo);
+  overflow: hidden;
+}
+
+.kolom-samping {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.daftar-ringkasan-risiko li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px var(--space-20);
+}
+
+.daftar-ringkasan-risiko li + li {
+  box-shadow: inset 0 1px var(--sep);
+}
+
+.label-tingkat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.kotak-warna {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.kotak-warna.tinggi { background: var(--tinggi); }
+.kotak-warna.sedang { background: var(--sedang); }
+.kotak-warna.rendah { background: var(--rendah); }
+
+.bagian-tertinggi {
+  margin-top: var(--space-24);
+}
+
+.baris-petak-kiri {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.lencana-kecil {
+  width: 44px;
+  height: 44px;
+  font-size: 17px;
+}
+
+.tombol-kembali-petak {
+  margin-bottom: var(--space-12);
+  padding: var(--space-8) 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.kartu-detail-petak {
+  padding: var(--space-24);
+}
+
+.judul-sub-data {
+  margin: var(--space-20) 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+.kartu-detail-petak .rincian {
+  margin: var(--space-8) 0 var(--space-20);
+}
+
+.daftar-notifikasi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.kartu-notifikasi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-20);
+}
+
+.keterangan-batasan {
+  margin: 0 var(--space-4);
+}
+
 @media (max-width: 1100px) {
   .kepala {
     grid-template-columns: auto 1fr;
@@ -347,4 +460,22 @@ button:disabled {
   .tombol-pendek {
     min-width: 0;
   }
+
+  .tata-letak-peta {
+    grid-template-columns: 1fr;
+  }
+
+  .kanvas-peta {
+    height: 420px;
+  }
 }
+
+/* I02-26: kerangka abu-abu selama ambilDataPeta() belum dijawab */
+[data-keadaan="memuat"] .kanvas-peta,
+[data-keadaan="memuat"] #daftar-tertinggi,
+[data-keadaan="memuat"] .daftar-ringkasan-risiko strong {
+  background: #e5e7eb;
+  color: transparent;
+  border-radius: 8px;
+}
+[data-keadaan="memuat"] #daftar-tertinggi { min-height: 200px; }
