@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { haversine, isDikecualikan } from '../models/TitikPanas.js';
-import { hitungSkorRisiko, isDataUsang, perbaruiData } from '../controllers/PetaRisikoController.js';
+import {
+  hitungSkorRisiko,
+  hitungHariKering,
+  isDataUsang,
+  perbaruiData
+} from '../controllers/PetaRisikoController.js';
 
 test('haversine menghasilkan jarak 0 km untuk titik yang sama', () => {
   const k = { lat: -0.5124, lng: 101.4471 };
@@ -43,6 +48,41 @@ test('isDikecualikan mengembalikan false bila ada deteksi baru <= 500 m setelah 
   assert.equal(isDikecualikan(titikKeliru, [titikKeliru, titikBaru], sekarang), false);
 });
 
+test('isDikecualikan mengembalikan false jika ditandai keliru lebih dari 24 jam lalu (Algo-003)', () => {
+  const sekarang = new Date('2026-11-02T10:00:01Z');
+  const titikKeliru = {
+    idTitikPanas: 10,
+    koordinat: { lat: -0.51, lng: 101.44 },
+    waktuDeteksi: new Date('2026-11-01T08:00:00Z'),
+    statusValiditas: 'keliru',
+    waktuTandaiKeliru: new Date('2026-11-01T10:00:00Z')
+  };
+  assert.equal(isDikecualikan(titikKeliru, [titikKeliru], sekarang), false);
+});
+
+test('isDikecualikan mengabaikan titik yang terdeteksi sebelum waktu penandaan walaupun jarak < 500 m', () => {
+  const sekarang = new Date('2026-11-01T12:00:00Z');
+  const titikKeliru = {
+    idTitikPanas: 10,
+    koordinat: { lat: -0.51, lng: 101.44 },
+    waktuDeteksi: new Date('2026-11-01T08:00:00Z'),
+    statusValiditas: 'keliru',
+    waktuTandaiKeliru: new Date('2026-11-01T09:00:00Z')
+  };
+  const titikSebelum = {
+    idTitikPanas: 12,
+    koordinat: { lat: -0.5105, lng: 101.4405 },
+    waktuDeteksi: new Date('2026-11-01T08:30:00Z'),
+    statusValiditas: 'valid'
+  };
+  assert.equal(isDikecualikan(titikKeliru, [titikKeliru, titikSebelum], sekarang), true);
+});
+
+test('hitungHariKering menghitung hari berturut-turut dari akhir dengan curah hujan < 1 mm', () => {
+  assert.equal(hitungHariKering([5, 0.2, 0, 0.5]), 3);
+  assert.equal(hitungHariKering([0, 0, 2]), 0);
+});
+
 test('hitungSkorRisiko menghitung skor dan tingkat risiko per petak sesuai rumus', () => {
   const daftarPetak = [
     {
@@ -67,6 +107,7 @@ test('hitungSkorRisiko menghitung skor dan tingkat risiko per petak sesuai rumus
 
   assert.equal(p214.skor, 70);
   assert.equal(p214.tingkatRisiko, 'tinggi');
+  assert.equal(p214.skorRisiko, undefined);
   assert.equal(p233.skor, 10);
   assert.equal(p233.tingkatRisiko, 'rendah');
 });

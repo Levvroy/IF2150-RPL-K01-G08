@@ -2,7 +2,7 @@ import express from 'express';
 import pool from './db.js';
 import { login } from './controllers/AutentikasiController.js';
 import { cekLogin, cekPeran } from './middleware/auth.js';
-import { ambilDataPeta, perbaruiData } from './controllers/PetaRisikoController.js';
+import { ambilDataPeta, perbaruiDataHandler } from './controllers/PetaRisikoController.js';
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
@@ -18,7 +18,7 @@ const hanyaPetugas = [cekLogin, cekPeran('petugas')];
 
 // UC01: peta risiko petugas dan pembaruan skor
 app.get('/api/peta', hanyaPetugas, ambilDataPeta);
-app.post('/api/perbarui', perbaruiData);
+app.post('/api/perbarui', perbaruiDataHandler);
 
 // UC03: hanya petugas (KNF05). /antrean dipasang sebelum /:id agar tidak tertangkap sebagai id
 app.get('/api/laporan/antrean', hanyaPetugas, ambilAntrean);

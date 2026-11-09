@@ -1,12 +1,12 @@
 import * as PetakLahan from '../models/PetakLahan.js';
 import * as TitikPanas from '../models/TitikPanas.js';
 import * as Notifikasi from '../models/Notifikasi.js';
-import { tandaiNotifikasiDibaca as tandaiDibacaHandler } from './DaftarTugasController.js';
 
+// KF02: bobot dan ambang ditetapkan tim (SKPL batasan 8)
 export const KONFIG_SKOR = {
-  w1: Number(process.env.BOBOT_TITIK ?? 20),
-  w2: Number(process.env.BOBOT_HUJAN ?? 1),
-  w3: Number(process.env.BOBOT_KERING ?? 5),
+  w1: 20,
+  w2: 1,
+  w3: 5,
   ambangSedang: 30,
   ambangTinggi: 60
 };
@@ -43,10 +43,9 @@ export function hitungSkorRisiko(titikBerlaku, dataCurahHujan = {}, daftarPetak 
     dataCurahHujan.hariKering ?? hitungHariKering(dataCurahHujan.riwayatHarian ?? []);
 
   return daftarPetak.map((petak) => {
-    const b = petak.batasWilayah ?? petak;
+    const b = petak.batasWilayah;
     const jumlahTitik = titikBerlaku.filter((t) => {
-      const lat = t.koordinat?.lat ?? t.latitude ?? t.lat;
-      const lng = t.koordinat?.lng ?? t.longitude ?? t.lng;
+      const { lat, lng } = t.koordinat;
       return lat >= b.latMin && lat < b.latMaks && lng >= b.lngMin && lng < b.lngMaks;
     }).length;
 
@@ -59,7 +58,6 @@ export function hitungSkorRisiko(titikBerlaku, dataCurahHujan = {}, daftarPetak 
     return {
       idPetak: petak.idPetak,
       skor,
-      skorRisiko: skor,
       tingkatRisiko: tingkatDariSkor(skor)
     };
   });
@@ -75,14 +73,25 @@ async function ambilDataTitikPanas() {
     if (!res.ok) return [];
 
     const isi = await res.text();
-    const baris = isi.trim().split('\n').slice(1);
+    const [header, ...baris] = isi.trim().split('\n');
+    if (!header || baris.length === 0) return [];
+
+    const kolom = header.split(',');
+    const iLat = kolom.indexOf('latitude');
+    const iLng = kolom.indexOf('longitude');
+    const iTanggal = kolom.indexOf('acq_date');
+    const iJam = kolom.indexOf('acq_time');
+
     return baris
       .filter(Boolean)
       .map((b) => {
-        const [lat, lng, tanggal, jam] = b.split(',');
-        const jamPad = (jam || '0000').padStart(4, '0');
-        const waktuDeteksi = new Date(`${tanggal}T${jamPad.slice(0, 2)}:${jamPad.slice(2, 4)}:00Z`);
-        return { latitude: Number(lat), longitude: Number(lng), waktuDeteksi };
+        const isiBaris = b.split(',');
+        const jam = (isiBaris[iJam] || '0000').padStart(4, '0');
+        return {
+          latitude: Number(isiBaris[iLat]),
+          longitude: Number(isiBaris[iLng]),
+          waktuDeteksi: new Date(`${isiBaris[iTanggal]}T${jam.slice(0, 2)}:${jam.slice(2)}:00Z`)
+        };
       })
       .filter((t) => !Number.isNaN(t.latitude) && !Number.isNaN(t.longitude));
   } catch {
@@ -91,63 +100,32 @@ async function ambilDataTitikPanas() {
 }
 
 async function ambilDataCuaca() {
-  try {
-    const url =
-      `https://api.open-meteo.com/v1/forecast?latitude=${PUSAT_WILAYAH.lat}&longitude=${PUSAT_WILAYAH.lng}` +
-      '&daily=precipitation_sum&past_days=7&forecast_days=1&timezone=GMT';
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
-    if (!res.ok) throw new Error('Gagal memuat cuaca');
-
-    const json = await res.json();
-    const riwayatHarian = json?.daily?.precipitation_sum ?? [];
-    const curahHujan = riwayatHarian.at(-1) ?? 0;
-    return { curahHujan, hariKering: hitungHariKering(riwayatHarian), riwayatHarian };
-  } catch {
-    return { curahHujan: 0, hariKering: 2, riwayatHarian: [0, 0] };
-  }
+  const url =
+    `https://api.open-meteo.com/v1/forecast?latitude=${PUSAT_WILAYAH.lat}&longitude=${PUSAT_WILAYAH.lng}` +
+    '&daily=precipitation_sum&past_days=7&forecast_days=1&timezone=Asia%2FJakarta';
+  const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+  if (!res.ok) throw new Error(`Open-Meteo membalas ${res.status}`);
+  const json = await res.json();
+  // elemen terakhir = hari ini (belum lengkap), jadi pakai sampai kemarin
+  const sampaiKemarin = json.daily.precipitation_sum.slice(0, -1);
+  return {
+    curahHujan: sampaiKemarin.at(-1) ?? 0,
+    hariKering: hitungHariKering(sampaiKemarin)
+  };
 }
 
 async function picuCekAmbang(daftarPetakNaik) {
-  try {
-    const modul = await import('./PeringatanSMSController.js');
-    const fn = modul.cekAmbangRisiko ?? modul.default?.cekAmbangRisiko;
-    if (fn) await fn(daftarPetakNaik);
-  } catch {
-    // PeringatanSMSController belum di-merge
-  }
+  // TODO(C18): panggil PeringatanSMSController.cekAmbangRisiko(daftarPetakNaik) setelah UC07 di-merge
 }
 
 async function jalankanHapusNomorDicabut() {
-  try {
-    const modul = await import('./PeringatanSMSController.js');
-    const fn = modul.hapusNomorDicabut ?? modul.default?.hapusNomorDicabut;
-    if (fn) await fn();
-  } catch {
-    // PeringatanSMSController belum di-merge
-  }
+  // TODO(C18): panggil PeringatanSMSController.hapusNomorDicabut() setelah UC07 di-merge
 }
 
-function ekstrakTokenCron(req) {
-  const auth = req.headers.authorization || '';
-  if (auth.startsWith('Bearer ')) return auth.slice(7).trim();
-  return (
-    req.headers['x-cron-token'] ||
-    req.headers['cron-token'] ||
-    auth ||
-    req.body?.token ||
-    ''
-  );
-}
-
-// Algo-001 (POST /api/perbarui dan npm run perbarui)
-export async function perbaruiData(tokenAtauReq, res) {
-  const adalahExpress =
-    tokenAtauReq && typeof tokenAtauReq === 'object' && 'headers' in tokenAtauReq;
-  const token = adalahExpress ? ekstrakTokenCron(tokenAtauReq) : tokenAtauReq;
-
+// C02 perbaruiData(token): Object, sesuai DPPL (Algo-001)
+export async function perbaruiData(token) {
   if (!process.env.CRON_TOKEN || token !== process.env.CRON_TOKEN) {
-    const hasil = { status: 401, pesan: 'Token rahasia tidak valid' };
-    return res ? res.status(401).json({ pesan: hasil.pesan }) : hasil;
+    return { status: 401, pesan: 'Token rahasia tidak valid' };
   }
 
   try {
@@ -181,21 +159,26 @@ export async function perbaruiData(tokenAtauReq, res) {
     }
     await jalankanHapusNomorDicabut();
 
-    const hasil = {
+    return {
       status: 200,
       pesan: 'Pembaruan skor berhasil',
       jumlahPetak: hasilSkor.length,
       jumlahTitik: titikBerlaku.length
     };
-    return res ? res.status(200).json(hasil) : hasil;
   } catch (err) {
     console.error('Gagal memperbarui skor:', err.message);
-    const hasil = {
+    return {
       status: 500,
       pesan: 'Pembaruan skor gagal, menggunakan data cache terakhir'
     };
-    return res ? res.status(500).json({ pesan: hasil.pesan }) : hasil;
   }
+}
+
+// Pembungkus untuk POST /api/perbarui (cron eksternal)
+export async function perbaruiDataHandler(req, res) {
+  const token = (req.headers.authorization || '').replace('Bearer ', '');
+  const hasil = await perbaruiData(token);
+  res.status(hasil.status).json(hasil);
 }
 
 // Algo-002 (GET /api/peta)
@@ -232,5 +215,3 @@ export async function ambilDataPeta(req, res) {
     return res.status(500).json({ pesan: 'Terjadi kesalahan di server' });
   }
 }
-
-export const tandaiNotifikasiDibaca = tandaiDibacaHandler;

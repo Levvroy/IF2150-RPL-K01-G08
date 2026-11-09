@@ -82,7 +82,12 @@ function perbaruiGayaPersegi() {
       weight: dipilih ? 3 : 1,
       fillOpacity: dipilih ? 0.85 : 0.72
     });
-    if (dipilih) rect.bringToFront();
+    if (dipilih) {
+      rect.bringToFront();
+      rect.openTooltip();
+    } else {
+      rect.closeTooltip();
+    }
   }
 }
 
@@ -252,7 +257,10 @@ export function tampilkanNotifikasi(notifikasi = []) {
 async function muatPeta() {
   try {
     const { status, data } = await minta('/api/peta');
-    if (status !== 200) return;
+    if (status !== 200) {
+        el.ringkasan.textContent = data.pesan ?? 'Peta belum bisa ditampilkan. Coba muat ulang.';
+        return;
+    }   
 
     tampilkanPeta(data.daftarPetak);
     tampilkanAtribusi(data.waktuUpdate);

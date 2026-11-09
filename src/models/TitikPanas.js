@@ -18,16 +18,11 @@ function keObjek(b) {
 }
 
 export function haversine(k1, k2) {
-  const lat1 = k1.lat ?? k1.latitude;
-  const lng1 = k1.lng ?? k1.longitude;
-  const lat2 = k2.lat ?? k2.latitude;
-  const lng2 = k2.lng ?? k2.longitude;
-
-  const selisihLat = keRadian(lat2 - lat1);
-  const selisihLng = keRadian(lng2 - lng1);
+  const selisihLat = keRadian(k2.lat - k1.lat);
+  const selisihLng = keRadian(k2.lng - k1.lng);
   const a =
     Math.sin(selisihLat / 2) ** 2 +
-    Math.cos(keRadian(lat1)) * Math.cos(keRadian(lat2)) * Math.sin(selisihLng / 2) ** 2;
+    Math.cos(keRadian(k1.lat)) * Math.cos(keRadian(k2.lat)) * Math.sin(selisihLng / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R_BUMI_KM * c;
 }
@@ -44,14 +39,11 @@ export function isDikecualikan(titik, titikBaru = [], sekarang = new Date()) {
     return false;
   }
 
-  const kAsal = titik.koordinat ?? { lat: titik.latitude, lng: titik.longitude };
-
   for (const t of titikBaru) {
     if (t.idTitikPanas === titik.idTitikPanas) continue;
     if (new Date(t.waktuDeteksi) <= waktuKeliru) continue;
 
-    const kPembanding = t.koordinat ?? { lat: t.latitude, lng: t.longitude };
-    if (haversine(kAsal, kPembanding) <= 0.5) {
+    if (haversine(titik.koordinat, t.koordinat) <= 0.5) {
       return false;
     }
   }
@@ -63,14 +55,11 @@ export function isDikecualikan(titik, titikBaru = [], sekarang = new Date()) {
 export async function simpanBaru(daftarTitik, db = pool) {
   let jumlahBaru = 0;
   for (const t of daftarTitik) {
-    const lat = t.koordinat?.lat ?? t.latitude ?? t.lat;
-    const lng = t.koordinat?.lng ?? t.longitude ?? t.lng;
-    const waktu = t.waktuDeteksi ?? t.waktu;
     const hasil = await db.query(
       `INSERT INTO titik_panas (latitude, longitude, waktu_deteksi, status_validitas)
        VALUES ($1, $2, $3, 'valid')
        ON CONFLICT (latitude, longitude, waktu_deteksi) DO NOTHING`,
-      [lat, lng, waktu]
+      [t.latitude, t.longitude, t.waktuDeteksi]
     );
     jumlahBaru += hasil.rowCount;
   }
