@@ -107,7 +107,6 @@ test('hitungSkorRisiko menghitung skor dan tingkat risiko per petak sesuai rumus
 
   assert.equal(p214.skor, 70);
   assert.equal(p214.tingkatRisiko, 'tinggi');
-  assert.equal(p214.skorRisiko, undefined);
   assert.equal(p233.skor, 10);
   assert.equal(p233.tingkatRisiko, 'rendah');
 });

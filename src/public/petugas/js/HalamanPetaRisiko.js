@@ -258,9 +258,10 @@ async function muatPeta() {
   try {
     const { status, data } = await minta('/api/peta');
     if (status !== 200) {
-        el.ringkasan.textContent = data.pesan ?? 'Peta belum bisa ditampilkan. Coba muat ulang.';
-        return;
-    }   
+      el.halaman.dataset.keadaan = 'gagal';
+      el.ringkasan.textContent = data.pesan ?? 'Peta belum bisa ditampilkan. Coba muat ulang.';
+      return;
+    }
 
     tampilkanPeta(data.daftarPetak);
     tampilkanAtribusi(data.waktuUpdate);
@@ -271,6 +272,7 @@ async function muatPeta() {
     }
     tampilkanNotifikasi(data.daftarNotifikasi);
   } catch {
+    el.halaman.dataset.keadaan = 'gagal';
     el.ringkasan.textContent = 'Peta belum bisa ditampilkan. Periksa koneksi laptop lalu muat ulang.';
   }
 }

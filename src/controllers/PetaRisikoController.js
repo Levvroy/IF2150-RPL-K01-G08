@@ -39,8 +39,7 @@ export function hitungHariKering(riwayatHujanHarian = []) {
 
 export function hitungSkorRisiko(titikBerlaku, dataCurahHujan = {}, daftarPetak = []) {
   const curahHujan = dataCurahHujan.curahHujan ?? 0;
-  const hariKering =
-    dataCurahHujan.hariKering ?? hitungHariKering(dataCurahHujan.riwayatHarian ?? []);
+  const hariKering = dataCurahHujan.hariKering ?? 0;
 
   return daftarPetak.map((petak) => {
     const b = petak.batasWilayah;
@@ -93,7 +92,12 @@ async function ambilDataTitikPanas() {
           waktuDeteksi: new Date(`${isiBaris[iTanggal]}T${jam.slice(0, 2)}:${jam.slice(2)}:00Z`)
         };
       })
-      .filter((t) => !Number.isNaN(t.latitude) && !Number.isNaN(t.longitude));
+      .filter(
+        (t) =>
+            !Number.isNaN(t.latitude) &&
+            !Number.isNaN(t.longitude) &&
+            !Number.isNaN(t.waktuDeteksi.getTime())
+      );
   } catch {
     return [];
   }
