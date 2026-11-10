@@ -1,6 +1,7 @@
 import * as PetakLahan from '../models/PetakLahan.js';
 import * as TitikPanas from '../models/TitikPanas.js';
 import * as Notifikasi from '../models/Notifikasi.js';
+import * as PeringatanSMSController from './PeringatanSMSController.js';
 
 // KF02: bobot dan ambang ditetapkan tim (SKPL batasan 8)
 export const KONFIG_SKOR = {
@@ -119,11 +120,15 @@ async function ambilDataCuaca() {
 }
 
 async function picuCekAmbang(daftarPetakNaik) {
-  // TODO(C18): panggil PeringatanSMSController.cekAmbangRisiko(daftarPetakNaik) setelah UC07 di-merge
+  await PeringatanSMSController.cekAmbangRisiko(daftarPetakNaik);
 }
 
 async function jalankanHapusNomorDicabut() {
-  // TODO(C18): panggil PeringatanSMSController.hapusNomorDicabut() setelah UC07 di-merge
+  try {
+    await PeringatanSMSController.hapusNomorDicabut();
+  } catch (err) {
+    console.error('Gagal menghapus nomor warga yang dicabut:', err.message);
+  }
 }
 
 // C02 perbaruiData(token): Object, sesuai DPPL (Algo-001)
