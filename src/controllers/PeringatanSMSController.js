@@ -15,6 +15,16 @@ async function kirimSMS(nomorHP, isiPesan) {
   }
 }
 
+// Memeriksa apakah petak sudah dikirimi SMS dalam 24 jam terakhir (Algo-014).
+async function cekPeringatanTerakhir(idPetak) {
+  return await PeringatanSMS.adaDalam24Jam(idPetak);
+}
+
+// Mengambil warga berstatus 'aktif' di petak itu (Algo-013).
+async function identifikasiWargaTerdampak(idPetak) {
+  return await Warga.ambilAktifByPetak(idPetak);
+}
+
 // Algo-012. Dipanggil dari perbaruiData untuk petak yang naik ke tingkat 'tinggi'.
 export async function cekAmbangRisiko(daftarPetakNaik) {
   for (const petak of daftarPetakNaik) {
@@ -24,12 +34,12 @@ export async function cekAmbangRisiko(daftarPetakNaik) {
 
     const id = petak.idPetak;
     try {
-      const sudahDikirim = await PeringatanSMS.adaDalam24Jam(id);
+      const sudahDikirim = await cekPeringatanTerakhir(id);
       if (sudahDikirim) {
         continue;
       }
 
-      const daftarWarga = await Warga.ambilAktifByPetak(id);
+      const daftarWarga = await identifikasiWargaTerdampak(id);
       for (const warga of daftarWarga) {
         const pesan =
           'PERINGATAN!! Petak Lahan ' + id + ' yang dekat dengan anda berisiko tinggi terjadinya karhutla. ' +

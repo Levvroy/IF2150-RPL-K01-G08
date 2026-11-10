@@ -1,16 +1,15 @@
 // Tes UC07 terhadap database sungguhan (butuh Postgres dari docker-compose menyala dan tabel sudah dibuat).
-// Jalankan dari folder src: node --env-file=.env --test tests/peringatanSMS.test.js
 import { test, before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
-import pool from '../db.js';
-import { cekAmbangRisiko, prosesBalasanSTOP } from '../controllers/PeringatanSMSController.js';
+import pool from '../../db.js';
+import { cekAmbangRisiko, prosesBalasanSTOP } from '../../controllers/PeringatanSMSController.js';
  
 const NOMOR_1 = '089900000001';
 const NOMOR_2 = '089900000002';
 const NOMOR_TIDAK_AKTIF = '089900000099';
 const LAT_PENANDA = -89.123; // penanda petak uji, supaya sisa tes yang gagal bisa dibersihkan
 const PETAK_TINGGI = () => [{ idPetak: idPetak, tingkatRisiko: 'tinggi' }];
- 
+
 let idPetak;
 let envLama;
  
@@ -135,4 +134,3 @@ test('warga yang sudah STOP tidak dikirimi SMS lagi', async () => {
   assert.equal(await hitungLog(NOMOR_1, 'terkirim'), 1);
   assert.equal(await hitungLog(NOMOR_2, 'terkirim'), 2);
 });
- 

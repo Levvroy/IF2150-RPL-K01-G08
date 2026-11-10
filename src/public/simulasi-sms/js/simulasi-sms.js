@@ -1,55 +1,217 @@
-const daftar = document.getElementById('daftar');
-const lokal = new Map(); // nomor -> balasan keluar yang sudah dikirim dari halaman ini
- 
-const jam = (s) => new Date(s).toLocaleString('id-ID', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
- 
-function el(tag, cls, teks) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (teks !== undefined) e.textContent = teks; // textContent: isi pesan tidak pernah jadi HTML
-  return e;
+// Halaman simulasi SMS (I-08): meniru aplikasi pesan di ponsel warga.
+// Tanpa parameter  : daftar nomor yang pernah menerima SMS.
+// Dengan ?nomor=...: satu percakapan untuk nomor itu.
+
+const tampilan = document.getElementById('tampilan');
+const nomorDipilih = new URLSearchParams(window.location.search).get('nomor');
+
+let daftarPesan = [];      // SMS terkirim dari server, yang terbaru di urutan pertama
+let balasanTerkirim = [];  // balasan yang sudah dikirim dari halaman ini (hilang jika halaman dimuat ulang)
+
+const NAMA_BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+function buatElemen(tag, kelas, teks) {
+  const elemen = document.createElement(tag);
+  if (kelas) {
+    elemen.className = kelas;
+  }
+  if (teks !== undefined) {
+    elemen.textContent = teks;
+  }
+  return elemen;
 }
+
+function dua(angka) {
+  if (angka < 10) {
+    return '0' + angka;
+  }
+  return String(angka);
+}
+
+function formatJam(tanggal) {
+  return dua(tanggal.getHours()) + '.' + dua(tanggal.getMinutes());
+}
+
+function formatWaktu(teksWaktu) {
+  const tanggal = new Date(teksWaktu);
+  const sekarang = new Date();
+  if (tanggal.toDateString() === sekarang.toDateString()) {
+    return 'Hari ini, ' + formatJam(tanggal);
+  }
+  return tanggal.getDate() + ' ' + NAMA_BULAN[tanggal.getMonth()] + ', ' + formatJam(tanggal);
+}
+
+function buatKepala(adaTombolKembali) {
+  const kepala = buatElemen('header', 'kepala');
+  if (adaTombolKembali) {
+    const kembali = buatElemen('a', 'kembali', '< Pesan');
+    kembali.href = './';
+    kepala.appendChild(kembali);
+  }
+  kepala.appendChild(buatElemen('div', 'nama-pengirim', 'SIGAP'));
+  kepala.appendChild(buatElemen('div', 'keterangan-pengirim', 'Peringatan dini kebakaran, simulasi'));
+  return kepala;
+}
+
+function ambilDaftarNomor() {
+  const hasil = [];
+  for (const pesan of daftarPesan) {
+    if (!hasil.includes(pesan.nomorHP)) {
+      hasil.push(pesan.nomorHP);
+    }
+  }
+  return hasil;
+}
+
+function gambarDaftarNomor() {
+  tampilan.replaceChildren();
+  tampilan.appendChild(buatKepala(false));
  
-function render(pesan) {
-  daftar.replaceChildren();
-  if (!pesan.length) { daftar.append(el('div', 'kosong', 'Belum ada SMS terkirim.')); return; }
-  const perNomor = new Map();
-  for (const p of pesan) { if (!perNomor.has(p.nomorHP)) perNomor.set(p.nomorHP, []); perNomor.get(p.nomorHP).push(p); }
-  for (const [nomor, daftarPesan] of perNomor) {
-    const g = el('section', 'grup');
-    g.append(el('div', 'nomor', 'Ke ' + nomor));
-    for (const p of daftarPesan.slice().reverse()) {
-      const b = el('div', 'bubble', p.isiPesan);
-      b.append(el('div', 'waktu', jam(p.waktuKirim)));
-      g.append(b);
-    }
-    for (const balasan of lokal.get(nomor) ?? []) {
-      const b = el('div', 'bubble out', balasan.teks);
-      b.append(el('div', 'waktu', 'Terkirim ' + balasan.jam));
-      g.append(b);
-    }
-    const f = document.createElement('form');
-    const input = el('input'); input.placeholder = 'Pesan teks'; input.setAttribute('aria-label', 'Balasan untuk ' + nomor);
-    const tombol = el('button', '', '↑'); tombol.disabled = true; tombol.setAttribute('aria-label', 'Kirim');
-    input.addEventListener('input', () => { tombol.disabled = !input.value.trim(); });
-    f.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const teks = input.value.trim(); if (!teks) return;
-      tombol.disabled = true;
-      try {
-        const r = await fetch('/api/simulasi-sms/balasan', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ nomorHP:nomor, isiBalasan:teks }) });
-        if (!r.ok) throw new Error();
-        const jamKirim = new Date().toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
-        lokal.set(nomor, [...(lokal.get(nomor) ?? []), { teks, jam: jamKirim }]);
-        render(pesan);
-      } catch { tombol.disabled = false; alert('Balasan belum terkirim. Coba lagi.'); }
+  const isi = buatElemen('div', 'isi');
+  isi.appendChild(buatElemen('div', 'banner', 'Prototipe: data historis dan SMS disimulasikan.'));
+ 
+  const daftarNomor = ambilDaftarNomor();
+  if (daftarNomor.length === 0) {
+    isi.appendChild(buatElemen('div', 'kosong', 'Belum ada SMS terkirim.'));
+  }
+  for (const nomor of daftarNomor) {
+    const tautan = buatElemen('a', 'baris-nomor', nomor);
+    tautan.href = '?nomor=' + encodeURIComponent(nomor);
+    isi.appendChild(tautan);
+  }
+  tampilan.appendChild(isi);
+}
+
+// Mengirim balasan ke server. Bernilai true jika server menerima.
+async function kirimBalasan(nomor, teks) {
+  try {
+    const respons = await fetch('/api/simulasi-sms/balasan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nomorHP: nomor, isiBalasan: teks })
     });
-    f.append(input, tombol); g.append(f); daftar.append(g);
+    if (!respons.ok) {
+      alert('Balasan belum terkirim. Coba lagi.');
+      return false;
+    }
+    balasanTerkirim.push({ teks: teks, waktu: new Date() });
+    return true;
+  } catch (err) {
+    console.error('Gagal mengirim balasan:', err);
+    alert('Balasan belum terkirim. Coba lagi.');
+    return false;
   }
 }
- 
-async function muat() {
-  try { const r = await fetch('/api/simulasi-sms/pesan'); if (r.ok) render(await r.json()); } catch {}
+
+function buatFormBalasan(nomor) {
+  const form = buatElemen('form', 'bar-input');
+
+  const input = buatElemen('input');
+  input.type = 'text';
+  input.placeholder = 'Pesan teks';
+  input.setAttribute('aria-label', 'Balasan untuk ' + nomor);
+
+  const tombol = buatElemen('button', 'tombol-kirim', '↑');
+  tombol.type = 'submit';
+  tombol.disabled = true;
+  tombol.setAttribute('aria-label', 'Kirim');
+
+  // Tombol aktif hanya jika kolom terisi (I08-07)
+  input.addEventListener('input', function () {
+    tombol.disabled = input.value.trim() === '';
+  });
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    const teks = input.value.trim();
+    if (teks === '') {
+      return;
+    }
+
+    tombol.disabled = true;
+    const berhasil = await kirimBalasan(nomor, teks);
+    if (berhasil) {
+      gambar();
+    } else {
+      tombol.disabled = false;
+    }
+  });
+
+  form.appendChild(input);
+  form.appendChild(tombol);
+  return form;
 }
-muat(); setInterval(muat, 10000);
- 
+
+function gambarPercakapan(nomor) {
+  tampilan.replaceChildren();
+  tampilan.appendChild(buatKepala(true));
+
+  const isi = buatElemen('div', 'isi');
+
+  // Server mengirim yang terbaru dulu, percakapan ditampilkan dari yang terlama
+  for (let i = daftarPesan.length - 1; i >= 0; i--) {
+    const pesan = daftarPesan[i];
+    if (pesan.nomorHP !== nomor) {
+      continue;
+    }
+    isi.appendChild(buatElemen('div', 'waktu-tengah', formatWaktu(pesan.waktuKirim)));
+    isi.appendChild(buatElemen('div', 'bubble-masuk', pesan.isiPesan));
+  }
+
+  for (const balasan of balasanTerkirim) {
+    isi.appendChild(buatElemen('div', 'bubble-keluar', balasan.teks));
+    isi.appendChild(buatElemen('div', 'status-kirim', 'Terkirim ' + formatJam(balasan.waktu)));
+  }
+
+  if (isi.children.length === 0) {
+    isi.appendChild(buatElemen('div', 'kosong', 'Belum ada pesan untuk nomor ini.'));
+  }
+
+  tampilan.appendChild(isi);
+  tampilan.appendChild(buatFormBalasan(nomor));
+  isi.scrollTop = isi.scrollHeight;
+}
+
+function gambar() {
+  if (nomorDipilih === null || nomorDipilih === '') {
+    gambarDaftarNomor();
+  } else {
+    gambarPercakapan(nomorDipilih);
+  }
+}
+
+function sedangMengetik() {
+  const aktif = document.activeElement;
+  if (aktif && aktif.tagName === 'INPUT') {
+    return true;
+  }
+
+  const semuaInput = document.querySelectorAll('input');
+  for (const input of semuaInput) {
+    if (input.value.trim() !== '') {
+      return true;
+    }
+  }
+  return false;
+}
+
+async function muat() {
+  try {
+    const respons = await fetch('/api/simulasi-sms/pesan');
+    if (!respons.ok) {
+      console.error('Gagal memuat pesan, status ' + respons.status);
+      return;
+    }
+
+    daftarPesan = await respons.json();
+    if (sedangMengetik()) {
+      return;
+    }
+    gambar();
+  } catch (err) {
+    console.error('Gagal memuat pesan:', err);
+  }
+}
+
+muat();
+setInterval(muat, 10000);

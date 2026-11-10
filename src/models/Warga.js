@@ -1,6 +1,6 @@
 import pool from '../db.js';
 
-// Algo-013 and Q-020
+// Algo-013 dan Q-020
 export async function ambilAktifByPetak(idPetak) {
   const daftarWargaAktif = [];
   const { rows: hasilQuery } = await pool.query(
@@ -50,7 +50,7 @@ export async function cabutPersetujuan(idWarga) {
     [idWarga]
   );
 }
- 
+
 // Q-023 (KNF12)
 export async function hapusDicabutLama(batasHari) {
   const { rowCount } = await pool.query(
@@ -62,4 +62,3 @@ export async function hapusDicabutLama(batasHari) {
   );
   return rowCount;
 }
-

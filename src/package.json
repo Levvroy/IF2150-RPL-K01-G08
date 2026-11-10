@@ -12,7 +12,8 @@
     "dev": "node --watch --env-file=.env server.js",
     "seed": "node --env-file=.env sql/seed.js",
     "perbarui": "node --env-file=.env scripts/perbarui.js",
-    "test": "node --test \"tests/*.test.js\""
+    "test": "node --test \"tests/*.test.js\"",
+    "test:db": "node --env-file=.env --test \"tests/db/*.test.js\""
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

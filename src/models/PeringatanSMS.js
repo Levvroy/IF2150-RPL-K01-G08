@@ -9,7 +9,7 @@ export async function catat(idWarga, idPetak, isiPesan, status) {
   );
 }
 
-// Algo-014 and Q-024
+// Algo-014 dan Q-024
 export async function adaDalam24Jam(idPetak) {
   const { rows } = await pool.query(
     `SELECT COUNT(id_peringatan)::int AS jumlah

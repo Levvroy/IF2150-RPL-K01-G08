@@ -7,7 +7,6 @@ import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
 import { ambilPesanSimulasi, balasSimulasi } from './controllers/SimulasiSMSController.js';
 
-
 const app = express();
 
 app.use(express.json());
