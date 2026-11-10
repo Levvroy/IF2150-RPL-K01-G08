@@ -23,8 +23,9 @@ export async function ambilBelumDibaca(idPengguna, db = pool) {
 
 // Q-030
 export async function tandaiDibaca(idNotifikasi, idPengguna, db = pool) {
-  await db.query(
+  const { rowCount } = await db.query(
     'UPDATE notifikasi SET sudah_dibaca = TRUE WHERE id_notifikasi = $1 AND id_pengguna = $2',
     [idNotifikasi, idPengguna]
   );
+  return rowCount > 0;
 }
