@@ -1,5 +1,15 @@
 import pool from '../db.js';
 
+// Tambahan di luar DPPL untuk cek kepemilikan tugas pada tandai keliru (UC06). Lihat catatan deviasi.
+export async function adaTugasTitikPanas(idTitikPanas, idRelawan, db = pool) {
+  const hasil = await db.query(
+    `SELECT 1 FROM jadwal_pekerjaan
+     WHERE id_titik_panas = $1 AND id_relawan = $2 AND status <> 'dibatalkan'`,
+    [idTitikPanas, idRelawan]
+  );
+  return hasil.rows.length > 0;
+}
+
 // Q-010. idRelawan null berarti petugas boleh memproses tugas relawan mana pun.
 // Pengecekan status lama dan perubahan terjadi dalam satu perintah (KF13, KF24).
 export async function perbaruiStatus(idJadwal, statusBaru, statusLama, idRelawan = null, db = pool) {

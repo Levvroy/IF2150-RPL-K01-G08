@@ -1,4 +1,5 @@
 import * as TitikPanas from '../models/TitikPanas.js';
+import * as JadwalPekerjaan from '../models/JadwalPekerjaan.js';
 
 const PANJANG_MAKS_KETERANGAN = 200;
 
@@ -23,9 +24,19 @@ export async function tandaiKeliru(req, res) {
   }
 
   try {
+    // 404 jika titik tidak ada, 403 jika ada tapi bukan dari tugas relawan ini
+    const milikRelawan = await JadwalPekerjaan.adaTugasTitikPanas(idTitikPanas, req.pengguna.idPengguna);
+    if (!milikRelawan) {
+      const titik = await TitikPanas.ambilById(idTitikPanas);
+      if (!titik) {
+        return res.status(404).json({ pesan: 'Titik panas tidak ditemukan' });
+      }
+      return res.status(403).json({ pesan: 'Titik panas ini bukan dari tugas Anda' });
+    }
+
     const berhasil = await TitikPanas.tandaiKeliru(idTitikPanas, keterangan.trim());
     if (!berhasil) {
-      return res.status(404).json({ pesan: 'Titik panas tidak ditemukan' });
+      return res.status(409).json({ pesan: 'Titik panas ini sudah ditandai keliru' });
     }
     res.json({ pesan: 'Titik panas ditandai keliru' });
   } catch (err) {

@@ -77,12 +77,24 @@ export async function ambilTitikBerlaku(db = pool) {
   return hasilQ006.filter((titik) => !isDikecualikan(titik, hasilQ006));
 }
 
-// Q-007. rowCount 0 berarti titik tidak ditemukan, sehingga controller bisa membalas 404 (KF14)
+// Tambahan di luar DPPL untuk membedakan 404 dan 403 pada tandai keliru. Lihat catatan deviasi.
+export async function ambilById(idTitikPanas, db = pool) {
+  const hasil = await db.query(
+    `SELECT id_titik_panas, latitude, longitude, waktu_deteksi, status_validitas, keterangan, waktu_tandai_keliru
+     FROM titik_panas WHERE id_titik_panas = $1`,
+    [idTitikPanas]
+  );
+  return hasil.rows.length === 0 ? null : keObjek(hasil.rows[0]);
+}
+
+// Q-007. Titik yang sudah ditandai dalam 24 jam terakhir tidak diubah lagi, supaya masa
+// pengecualian dari skor risiko tidak bisa diperpanjang dengan menandai ulang (KF15)
 export async function tandaiKeliru(idTitikPanas, keterangan, db = pool) {
   const hasil = await db.query(
     `UPDATE titik_panas
      SET status_validitas = 'keliru', keterangan = $2, waktu_tandai_keliru = NOW()
-     WHERE id_titik_panas = $1`,
+     WHERE id_titik_panas = $1
+       AND (waktu_tandai_keliru IS NULL OR waktu_tandai_keliru < NOW() - INTERVAL '24 hours')`,
     [idTitikPanas, keterangan]
   );
   return hasil.rowCount > 0;
