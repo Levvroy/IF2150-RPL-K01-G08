@@ -49,3 +49,22 @@ export async function batalkan(idJadwal, alasan, idRelawan, db = pool) {
   );
   return hasil.rowCount > 0;
 }
+
+// Q-008. Untuk 'pengecekan titik panas', id_titik_panas diisi titik terbaru di dalam petak itu.
+// Tanggal dikembalikan sebagai teks seperti Q-009 supaya tidak bergeser zona waktu
+export async function simpan({ idRelawan, idPetak, jenisPekerjaan, tanggal }, db = pool) {
+  const hasil = await db.query(
+    `INSERT INTO jadwal_pekerjaan (id_relawan, id_petak, jenis_pekerjaan, tanggal, status, id_titik_panas)
+     VALUES ($1, $2, $3::text, $4, 'ditugaskan',
+       CASE WHEN $3::text = 'pengecekan titik panas' THEN (
+         SELECT t.id_titik_panas FROM titik_panas t, petak_lahan p
+         WHERE p.id_petak = $2
+           AND t.latitude >= p.lat_min AND t.latitude < p.lat_maks
+           AND t.longitude >= p.lng_min AND t.longitude < p.lng_maks
+         ORDER BY t.waktu_deteksi DESC LIMIT 1)
+       END)
+     RETURNING id_jadwal, id_petak, id_titik_panas, jenis_pekerjaan, status, TO_CHAR(tanggal, 'YYYY-MM-DD') AS tanggal`,
+    [idRelawan, idPetak, jenisPekerjaan, tanggal]
+  );
+  return keObjek(hasil.rows[0]);
+}
