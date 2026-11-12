@@ -6,6 +6,7 @@ import { ambilDataPeta, perbaruiDataHandler } from './controllers/PetaRisikoCont
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
+import { ambilPesanSimulasi, balasSimulasi } from './controllers/SimulasiSMSController.js';
 import { tandaiKeliru } from './controllers/DeteksiKeliruController.js';
 
 const app = express();
@@ -35,6 +36,10 @@ app.post('/api/tugas/:id/batal', hanyaRelawan, batalkanTugasTidakAman);
 // UC05: login dicek dulu, baru foto dibaca multer (413 jika > 500 KB). UUID ganda dibalas 200
 app.post('/api/laporan', hanyaRelawan, terimaFoto, terimaLaporan);
 app.post('/api/notifikasi/:id/baca', cekLogin, tandaiNotifikasiDibaca);
+
+// UC07: halaman simulasi SMS meniru ponsel warga, jadi sengaja tanpa login
+app.get('/api/simulasi-sms/pesan', ambilPesanSimulasi);
+app.post('/api/simulasi-sms/balasan', balasSimulasi);
 
 // UC06: hanya relawan (DPPL2 C17)
 app.patch('/api/titik-panas/:id/keliru', hanyaRelawan, tandaiKeliru);
