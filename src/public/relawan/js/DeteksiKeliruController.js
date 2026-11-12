@@ -23,6 +23,11 @@ export async function tandaiKeliru(idTitikPanas, keterangan) {
     location.replace('/relawan/login.html');
     return;
   }
+  // 409: titik sudah ditandai keliru sebelumnya, hasil akhirnya sama dengan berhasil
+  if (respons.status === 409) {
+    Dialog.tampilkanPesanBerhasil();
+    return;
+  }
   if (respons.status === 400) {
     Dialog.tampilkanPeringatanKeteranganKosong();
     return;

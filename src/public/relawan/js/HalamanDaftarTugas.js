@@ -155,10 +155,9 @@ export function tampilkanDetailTugas(tugas) {
 // I05-16 hanya untuk tugas pengecekan titik panas yang punya idTitikPanas (KF14, UC06)
 function tampilkanTombolTandaiKeliru(tugas, dibatalkan) {
   const tombol = el('tombol-tandai-keliru');
-  const sudah = DialogTandaiKeliru.isSudahDitandai(tugas.idTitikPanas);
   tombol.hidden = dibatalkan || tugas.jenisPekerjaan !== 'pengecekan titik panas' || !tugas.idTitikPanas;
-  tombol.disabled = sudah;
-  tombol.textContent = sudah ? 'Sudah ditandai' : 'Tandai keliru';
+  tombol.disabled = false;
+  tombol.textContent = 'Tandai keliru';
   el('kartu-keliru').hidden = true;
 }
 

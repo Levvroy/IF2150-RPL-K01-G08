@@ -369,6 +369,7 @@ button {
 }
 
 .tombol-sekunder:disabled {
+  background: var(--photo);
   color: var(--ink2);
   cursor: default;
 }
@@ -379,7 +380,31 @@ button {
   gap: var(--space-8);
 }
 
-.penghitung {
-  padding: 0 var(--space-16);
-  text-align: right;
+/* Penghitung I07-04 berada di dalam kotak isian, pojok kanan bawah */
+.isian-keterangan {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-12) var(--space-16) var(--space-8);
+  border-radius: var(--radius-16);
+  background: var(--cell);
+}
+
+.lembar .isian-keterangan textarea {
+  min-height: 72px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  resize: none;
+}
+
+.lembar .isian-keterangan textarea:focus {
+  outline: none;
+}
+
+.isian-keterangan:focus-within {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.isian-keterangan span {
+  align-self: flex-end;
 }

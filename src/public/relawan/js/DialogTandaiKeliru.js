@@ -3,23 +3,17 @@ const PANJANG_MAKS = 200;
 
 const el = (id) => document.getElementById(id);
 const penangan = {};
-// idTitikPanas yang sudah berhasil ditandai dari layar ini, supaya tombolnya jadi "Sudah ditandai" (I07-10)
-const sudahDitandai = new Set();
 let idTitikPanasTerbuka = null;
 
 export function pasangPenangan(daftar) {
   Object.assign(penangan, daftar);
 }
 
-export function isSudahDitandai(idTitikPanas) {
-  return sudahDitandai.has(idTitikPanas);
-}
-
 // operasi C16
 export function tampilkanForm(tugas) {
   idTitikPanasTerbuka = tugas.idTitikPanas;
   el('keliru-akibat').textContent =
-    `Titik panas di Petak ${tugas.idPetak} tidak dihitung dalam skor risiko Petak ${tugas.idPetak} selama 24 jam, kecuali ada deteksi baru dalam radius 500 m.`;
+    `Titik panas ini tidak dihitung dalam skor risiko Petak ${tugas.idPetak} selama 24 jam, kecuali ada deteksi baru dalam radius 500 m.`;
   el('keterangan-keliru').value = '';
   perbaruiPenghitung();
   sembunyikanPesan();
@@ -29,11 +23,11 @@ export function tampilkanForm(tugas) {
 }
 
 export function tampilkanPeringatanKeteranganKosong() {
-  tampilkanPesan('Keterangan wajib diisi. Tulis apa yang terlihat di lokasi.');
+  tampilkanPesan('Keterangan wajib diisi. Tulis apa yang Anda lihat di lokasi.');
 }
 
+// Dipanggil juga untuk balasan 409, karena titik itu memang sudah ditandai keliru (I07-10)
 export function tampilkanPesanBerhasil() {
-  sudahDitandai.add(idTitikPanasTerbuka);
   tutupForm();
   el('kartu-keliru').hidden = false;
   const tombol = el('tombol-tandai-keliru');
