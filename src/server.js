@@ -2,6 +2,7 @@ import express from 'express';
 import pool from './db.js';
 import { login } from './controllers/AutentikasiController.js';
 import { cekLogin, cekPeran } from './middleware/auth.js';
+import { bukaFormJadwal, buatJadwal } from './controllers/JadwalController.js';
 import { ambilDataPeta, perbaruiDataHandler } from './controllers/PetaRisikoController.js';
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
@@ -26,6 +27,10 @@ app.get('/api/laporan/antrean', hanyaPetugas, ambilAntrean);
 app.get('/api/laporan/:id', hanyaPetugas, ambilDetailLaporan);
 app.post('/api/laporan/:id/setujui', hanyaPetugas, verifikasiLaporan);
 app.post('/api/laporan/:id/tolak', hanyaPetugas, tolakLaporan);
+
+// UC02: hanya petugas (DPPL2 C06)
+app.get('/api/jadwal/form', hanyaPetugas, bukaFormJadwal);
+app.post('/api/jadwal', hanyaPetugas, buatJadwal);
 
 // UC04: hanya relawan. idRelawan diambil dari token sesi, bukan dari klien
 const hanyaRelawan = [cekLogin, cekPeran('relawan')];
