@@ -7,24 +7,27 @@ IMPLEMENTASI PERANGKAT LUNAK
 </h1>
 <br>
 
-## *Nama Perangkat Lunak*
-### *[Logo Perangkat Lunak]*
+## *SIGAP*
+<p align="center">
+<img alt="Logo SIGAP" src="../assets/logo-sigap.png" width="100%">
 
-### Untuk: *[Nama Asisten]*
+</p>
+
+### Untuk: *Amanda Aurellia Salsabilla*
 
 Dipersiapkan oleh:
 | Informasi | Keterangan |
 | --- | --- |
-| Kelas | *\[Kelas\]* |
-| Kelompok | *\[Nomor Kelompok\]*  |
+| Kelas | K-01 |
+| Kelompok | G-08 |
 
 | NIM | Nama |
 |---|---|
-| *[NIM 1]* | *[Nama Anggota 1]* |
-| *[NIM 2]* | *[Nama Anggota 2]* |
-| *[NIM 3]* | *[Nama Anggota 3]* |
-| *[NIM 4]* | *[Nama Anggota 4]* |
-| *[NIM 5]* | *[Nama Anggota 5]* |
+| 13525022 | Muhammad Rafi Insyan Syiham Abrar |
+| 13525037 | Muhammad Rafiif Ansyadya |
+| 13525076 | Reinhard Mikhael Tandra |
+| 13525094 | Arga Cyrano Simanjuntak |
+| 13525136 | Jonathan Lewie |
 ---
 
 > **Petunjuk pengerjaan:** *[Silahkan hapus bagian ini setelah selesai mengerjakan]*
@@ -190,8 +193,12 @@ Tabel B.1. Perubahan dari DPPL
 
 | No | Bagian DPPL | Rancangan Awal | Implementasi Akhir | Alasan |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | *[mis. Kelas C05, layar I-03, tabel `orders`]* | *[Yang direncanakan]* | *[Yang dibuat]* | *[Alasan perubahan]* |
-| *...* | *...* | *...* | *...* | *...* |
+| 1 | C18 `prosesBalasanStop` | `void` | Mengembalikan `boolean` (true jika persetujuan dicabut) | Dipakai halaman simulasi untuk memberi respons |
+| 2 | C20 `PeringatanSMS` | `catat` `adaDalam24Jam` | Menambah `ambilTerkirimTerbaru(batas)` | Halaman I-08 perlu menampilkan SMS yang terkirim |
+| 3 | `SMSGatewaySimulasi` | Komponen eksternal tiruan | `controllers/SimulasiSMSController.js` + endpoint `/api/simulasi-sms/*` tanpa login | SKPL batasan 4; halaman berperan sebagai ponsel warga, data fiktif |
+| 4 | Algo-001 (C02 `perbaruiData`) | `hapusNomorDicabut` tidak dibungkus `try/catch` | Dipanggil lewat `jalankanHapusNomorDicabut` dengan `try/catch`; Kegagalan hanya dicatat di log | Kegagalan dalam membersihkan nomor tidak boleh membuat `perbaruiData` membalas dengan 500 setelah skor semua petak disimpan |
+| 5 | Algo-012 (C18 `cekAmbangRisiko`) | Tidak ada `try/catch`; `statusPersetujuan` diperiksa lagi dalam perulangan warga | Setiap petak diproses dalam `try/catch` (kegagalan dicatat, petak berikutnya tetap diproses); pemeriksaan `statusPersetujuan` dalam perulangan tidak diulang | Satu petak bermasalah tidak boleh membatalkan petak lain. Pemeriksaan ulang tidak perlu karena Q-020 (Algo-013) sudah hanya mengambil warga `aktif` |
+
 
 ## B.2 Bukti Penerapan Best Practices
 
@@ -229,8 +236,11 @@ Tabel B.4. Kontribusi Anggota
 
 | NIM | Nama | Modul / Fitur yang Dikerjakan | Persentase Kontribusi |
 | :--- | :--- | :--- | :--- |
-| *[NIM 1]* | *[Nama]* | *[Modul/fitur]* | *[%]* |
-| *...* | *...* | *...* | *...* |
+| 13525022 | Muhammad Rafi Insyan Syiham Abrar | *...* | *...* |
+| 13525037 | Muhammad Rafiif Ansyadya | *...* | *...* |
+| 13525076 | Reinhard Mikhael Tandra | *...* | *...* |
+| 13525094 | Arga Cyrano Simanjuntak | *...* | *...* |
+| 13525136 | Jonathan Lewie | *...* | *...* |
 
 ## B.5 Traceability Kelas Perancangan ke Implementasi
 
@@ -241,9 +251,9 @@ Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 | ID Kelas | Nama Kelas Perancangan | Bentuk Implementasi | Lokasi (File dan Nama) | Keterangan |
 | :--- | :--- | :--- | :--- | :--- |
 | *[C01]* | *[Nama kelas pada DPPL]* | *[mis. Kelas / Fungsi / Komponen / Route / Tabel]* | *[mis. `src/models/user.py` - `User`]* | *[Cara atribut dan operasi kelas diwujudkan; "-" jika tidak ada penjelasan tambahan]* |
-| *[C02]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/components/LoginForm.tsx` - `LoginForm`]* | *[mis. atribut menjadi *state*, operasi menjadi *handler*]* |
-| *[C03]* | *[Nama kelas pada DPPL]* | *[Bentuk implementasi]* | *[mis. `src/routes/auth.js` - `POST /login`]* | *[Keterangan]* |
-| *...* | *...* | *...* | *...* | *...* |
+| C18 | `PeringatanSMSController` | Fungsi | `src/controllers/PeringatanSMSController.js` | Operasi publik menjadi fungsi `export` (`cekAmbangRisiko`, `prosesBalasanSTOP`, `hapusNomorDicabut`). Operasi privat menjadi fungsi biasa tanpa `export` (`kirimSMS`, `cekPeringatanTerakhir`, `identifikasiWargaTerdampak`). `kirimSMS` memanggil `kirimKeGateway` di `SimulasiSMSController.js`. Kelas tidak punya atribut |
+| C19 | `Warga` | Fungsi dan Tabel | `src/models/Warga.js`; tabel `warga` di `src/sql/` | Operasi menjadi fungsi `export` (`ambilAktifByPetak`, `cariByNomor`, `cabutPersetujuan`, `hapusDicabutLama`). Atribut menjadi kolom `id_warga`, `nomor_hp`, `status_persetujuan`, `waktu_dicabut`, `id_petak`, dan hasil query dipetakan ke objek JavaScript |
+| C20 | `PeringatanSMS` | Fungsi dan Tabel | `src/models/PeringatanSMS.js`; tabel `peringatan_sms` di `src/sql/` | Operasi menjadi fungsi `export` (`catat`, `adaDalam24Jam`, ditambah `ambilTerkirimTerbaru`). Atribut menjadi kolom `id_peringatan`, `id_warga`, `id_petak`, `isi_pesan`, `waktu_kirim`, `status` |
 
 Catatan:
 - Satu kelas perancangan boleh diwujudkan oleh beberapa file/unit, dan satu file/unit boleh mewujudkan beberapa kelas perancangan. Tuliskan semuanya.
