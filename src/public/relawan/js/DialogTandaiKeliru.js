@@ -64,7 +64,10 @@ function perbaruiPenghitung() {
   el('penghitung-keliru').textContent = `${el('keterangan-keliru').value.length}/${PANJANG_MAKS}`;
 }
 
-el('keterangan-keliru').addEventListener('input', perbaruiPenghitung);
+el('keterangan-keliru').addEventListener('input', () => {
+  perbaruiPenghitung();
+  sembunyikanPesan();
+});
 el('tombol-tutup-keliru').addEventListener('click', tutupForm);
 el('latar-keliru').addEventListener('click', tutupForm);
 el('form-keliru').addEventListener('submit', (e) => {
