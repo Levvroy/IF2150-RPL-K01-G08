@@ -30,164 +30,9 @@ Dipersiapkan oleh:
 | 13525136 | Jonathan Lewie |
 ---
 
-> **Petunjuk pengerjaan:** *[Silahkan hapus bagian ini setelah selesai mengerjakan]*
->
-> Dokumen ini adalah **spesifikasi sekaligus template laporan singkat** Tugas 9. Bagian **Ketentuan Implementasi** (Bagian A) adalah aturan yang harus kalian ikuti, boleh dihapus dari laporan akhir. Bagian **Laporan Implementasi** (Bagian B) adalah yang **wajib kalian isi**. Gunakan nama, ID, kebutuhan, use case, dan kelas yang konsisten dengan SKPL, APL, dan DPPL.
-
----
-
-**Deadline:** Rabu, 11 November 2026, 21.50 WIB
-**Asistensi akbar:** *[Hari, DD Bulan YYYY, HH.MM WIB, lokasi/link]*
-
----
-
-# BAGIAN A: Ketentuan Implementasi
-
-## A.1 Deskripsi Tugas
-
-Pada tugas ini, kalian mengimplementasikan perangkat lunak yang telah dirancang pada tugas-tugas sebelumnya (SKPL, APL, DPPL) menjadi aplikasi yang **dapat dijalankan**. Platform bebas (web, desktop, atau mobile) selama aplikasi dapat dijalankan ulang oleh asisten mengikuti petunjuk kalian.
-
-Ketentuan umum:
-- Setiap anggota bertanggung jawab atas **minimal satu fitur atau modul** dan harus terlihat jelas di riwayat commit/PR.
-- Implementasi harus **mengacu pada DPPL**. Jika ada yang berubah (kelas, layar, basis data, dsb.), catat di Bagian B.1. Perubahan itu wajar, tetapi harus tercatat dan beralasan.
-- Implementasi **tidak harus berupa kelas** (misalnya fungsi, komponen, *route/handler*, *stored procedure*, atau skrip). Namun, setiap kelas perancangan pada DPPL **wajib dapat ditelusuri** ke implementasinya, dan penelusuran ini dicatat di Bagian B.5.
-- Seluruh use case pada SKPL **diprioritaskan** untuk diimplementasikan. Status tiap use case akan dilaporkan pada HIUPL (Tugas 10).
-- Seluruh mahasiswa **wajib** mengikuti asistensi akbar.
-
-## A.2 Platform, Bahasa, dan Teknologi
-
-Kalian **bebas** memilih bahasa, framework, library, dan basis data, dengan syarat:
-
-1. **Dapat dijalankan ulang** oleh asisten pada mesin biasa dengan mengikuti README. Versi bahasa/runtime dan seluruh dependensi harus tertulis jelas.
-2. **Dependensi dikelola lewat file standar**, misalnya `package.json` + lockfile, `requirements.txt`/`pyproject.toml`, `pom.xml`/`build.gradle`, `composer.json`, `pubspec.yaml`, dan sejenisnya. Jangan meng-commit folder hasil instalasi (`node_modules/`, `venv/`, `build/`, dll.).
-3. **Jika memakai layanan eksternal** (basis data cloud, API pihak ketiga, auth, dll.), sediakan cara menjalankan tanpa akun pribadi kalian, atau sediakan data/akun uji pada README. Basis data **sangat disarankan** dapat dijalankan lokal (SQLite, atau Docker Compose untuk PostgreSQL/MySQL/MongoDB).
-4. **Arsitektur sesuai DPPL.** Pola arsitektur yang kalian pilih di APL/DPPL (MVC, layered, client-server, dll.) harus terlihat pada struktur kode.
-
-Ketentuan tambahan per platform:
-
-| Platform | Ketentuan |
-| :--- | :--- |
-| **Web** | Berjalan lokal lewat satu-dua perintah yang terdokumentasi. Boleh juga di-*deploy*; jika ya, cantumkan URL, tetapi **tetap wajib bisa dijalankan lokal** (URL deploy bisa mati). |
-| **Desktop** | Berjalan dari source lewat perintah yang terdokumentasi. Build/installer opsional. |
-| **Mobile** | Berjalan di emulator/simulator atau perangkat. Sertakan langkah menjalankan, dan **sangat disarankan** melampirkan APK/build di Release. |
-
-## A.3 Keamanan Repository
-
-Repo fork kelompok bersifat **public**, sehingga:
-
-- **Dilarang** meng-commit password, API key, token, `.env` asli, sertifikat/private key, atau data pribadi. Hal ini dapat mengurangi nilai.
-- Sediakan `.env.example` berisi nama variabel tanpa nilai rahasia, dan masukkan `.env` ke `.gitignore`.
-- Jika sudah terlanjur ter-commit, **cabut/ganti** kredensial tersebut. Menghapus commit saja tidak cukup.
-- Data uji/seed harus berupa data fiktif.
-
-## A.4 Struktur Folder
-
-Seluruh kode ditempatkan di `src/` pada repo fork. Jangan mengubah folder milestone lama.
-
-```
-src/                              # SELURUH kode implementasi
-	README.md                     # dokumentasi utama aplikasi (lihat A.5)
-	.env.example                  # jika memakai environment variable
-	<struktur kode kalian>        # bebas, mengikuti pola arsitektur DPPL
-	tests/                        # test case (jika ada)
-docs/
-	M9/
-		KXX_GYY_Implementasi.md   # laporan ini (Bagian B)
-		KXX_GYY_Form-Asistensi.md
-```
-
-Catatan:
-- `README.md` aplikasi diletakkan di **`src/README.md`**, bukan di root repo.
-- Jika kerangka kerja kalian mewajibkan struktur tertentu (misalnya Maven `src/main/java`, Flutter `lib/`, monorepo `frontend/` dan `backend/`), letakkan semuanya **di dalam `src/`**.
-- Nama file dan folder pada `docs/M9/` mengikuti aturan penamaan milestone sebelumnya (`KXX_GYY_...`).
-
-## A.5 Isi Minimal `src/README.md`
-
-README harus cukup bagi orang yang belum pernah melihat proyek kalian untuk menjalankan aplikasi dari nol. Minimal berisi:
-
-1. **Deskripsi singkat** aplikasi.
-2. **Teknologi yang digunakan** beserta versi (bahasa, framework, basis data).
-3. **Prasyarat dan instalasi** (software yang harus ada, perintah instalasi dependensi).
-4. **Konfigurasi** (environment variable, setup basis data, migrasi/seed) dan langkah demi langkah menjalankannya.
-5. **Cara menjalankan aplikasi** (dan cara menjalankan test, jika ada).
-6. **Akun/data uji** untuk mencoba tiap peran pengguna (jika ada login).
-7. **Daftar modul/fitur yang diimplementasi** beserta pembagian anggota.
-8. **Daftar tabel/koleksi basis data** beserta atributnya (atau tautan ke skema/ERD).
-
-## A.6 Best Practices
-
-Kalian dianjurkan menerapkan praktik berikut. Bukti penerapannya dirangkum pada Bagian B.2.
-
-### 1. Branching
-Sesuai aturan umum di README repository, `main` fork kelompok dijaga agar tetap bisa menerima sync dari asisten. Pada tugas ini **sangat disarankan** memakai branch per fitur dengan format `<tipe>/<nama-fitur>` (contoh: `feat/login-page`, `fix/null-cart`), lalu digabungkan ke `main` melalui Pull Request. Skema Gitflow penuh (dengan `develop`) boleh dipakai, tetapi tidak diwajibkan.
-
-### 2. Semantic Commit
-Gunakan format `<tipe>(<scope>): <deskripsi>`, misalnya `feat(auth): tambah validasi email`.
-
-| Tipe | Kegunaan |
-| :--- | :--- |
-| `feat` | Menambahkan fitur baru |
-| `fix` | Memperbaiki bug |
-| `docs` | Mengubah dokumentasi |
-| `style` | Perubahan format/spasi, tanpa mengubah logika |
-| `refactor` | Perubahan kode yang tidak menambah fitur atau memperbaiki bug |
-| `test` | Menambah/memperbaiki pengujian |
-| `chore` | Tugas rutin (build, dependensi, konfigurasi) |
-
-### 3. Track Tasks
-Gunakan **GitHub Issues** (dan opsional GitHub Projects) untuk membagi tugas dan melacak progres.
-- Pecah fitur besar menjadi issue yang lebih kecil dan tetapkan penanggung jawabnya.
-- Hubungkan PR dengan issue (`Closes #12`) dan tutup issue ketika selesai.
-
-### 4. Pull Request dan Code Review
-- Setiap PR berisi penjelasan deskriptif tentang apa yang dikerjakan, beserta bukti (tangkapan layar/rekaman/hasil test).
-- Setiap PR di-*review* minimal **1 anggota lain**, dengan komentar konstruktif atau approval.
-
-### 5. Pengujian dan Optimasi Performa
-- Tulis pengujian untuk logika inti (unit test dan/atau pengujian alur utama). Cakupan penuh tidak diwajibkan, tetapi pengujian pada logika utama dinilai.
-- Lakukan **profiling** pada setidaknya satu fitur yang berat (query besar, proses pengolahan data, render list panjang, dsb.), lalu catat temuan dan perbaikannya. Contoh alat:
-
-| Platform | Contoh alat |
-| :--- | :--- |
-| Web (frontend) | Chrome DevTools (Performance/Network), Lighthouse |
-| Web (backend) | Profiler bawaan bahasa, `EXPLAIN` pada query basis data, logging waktu respons |
-| Python | `cProfile`, `PyInstrument` |
-| Java | VisualVM, JProfiler |
-| Mobile | Android Studio Profiler, Flutter DevTools, Xcode Instruments |
-
-### 6. Penggunaan AI
-Penggunaan AI **tetap harus dicatat** pada `docs/KXX_GYY_AI-Usage.md` sesuai ketentuan yang sudah berlaku.
-
-## A.7 Pengumpulan
-
-Pengumpulan dinilai dari **tag release**, bukan commit terakhir.
-
-1. Pastikan seluruh pekerjaan sudah di-*commit* dan di-*push* ke `main` fork kelompok.
-2. Buat release dengan tag **`v9.0`** (revisi berikutnya `v9.1`, `v9.2`, dst.) dengan target branch `main`.
-3. Yang dinilai adalah **tag terakhir yang dibuat sebelum deadline**.
-
-## A.8 Aturan Tanya Jawab
-
-Agar semua kelompok mendapat jawaban yang sama, pertanyaan dibagi menjadi dua jalur:
-
-| Jenis Pertanyaan | Jalur |
-| :--- | :--- |
-| **Ketentuan tugas**, misalnya teknologi yang diperbolehkan, struktur folder, format pengumpulan, dan penilaian | **Sheets QnA:** *[tautan sheets QnA]* |
-| **Kendala teknis kelompok sendiri**, misalnya error, setup, dan penggunaan git | Grup kelompok bersama asisten masing-masing |
-
-Ketentuan:
-1. Pertanyaan tentang ketentuan tugas **wajib** diajukan melalui Sheets QnA. Periksa terlebih dahulu apakah pertanyaan serupa sudah dijawab.
-2. Jika pertanyaan tentang ketentuan tugas tetap diajukan langsung kepada asisten kelompok, asisten **berhak menolak menjawab** dan meminta kelompok memasukkan pertanyaannya ke Sheets QnA.
-3. Jika pertanyaan di Sheets QnA **belum dijawab dalam 24 jam**, kelompok boleh menghubungi asisten kelompok masing-masing. Cantumkan pertanyaan yang sudah diajukan di sheets tersebut.
-4. Jawaban pada Sheets QnA berlaku untuk **seluruh kelompok** dan menjadi acuan jika terjadi perbedaan pemahaman.
-
----
-
 # BAGIAN B: Laporan Implementasi
 
 ## B.1 Perubahan dari DPPL
-
-Catat semua perbedaan antara perancangan (DPPL) dan implementasi akhir. Jika tidak ada perubahan, tuliskan "Tidak ada perubahan".
 
 Tabel B.1. Perubahan dari DPPL
 
@@ -198,7 +43,11 @@ Tabel B.1. Perubahan dari DPPL
 | 3 | `SMSGatewaySimulasi` | Komponen eksternal tiruan | `controllers/SimulasiSMSController.js` + endpoint `/api/simulasi-sms/*` tanpa login | SKPL batasan 4; halaman berperan sebagai ponsel warga, data fiktif |
 | 4 | Algo-001 (C02 `perbaruiData`) | `hapusNomorDicabut` tidak dibungkus `try/catch` | Dipanggil lewat `jalankanHapusNomorDicabut` dengan `try/catch`; Kegagalan hanya dicatat di log | Kegagalan dalam membersihkan nomor tidak boleh membuat `perbaruiData` membalas dengan 500 setelah skor semua petak disimpan |
 | 5 | Algo-012 (C18 `cekAmbangRisiko`) | Tidak ada `try/catch`; `statusPersetujuan` diperiksa lagi dalam perulangan warga | Setiap petak diproses dalam `try/catch` (kegagalan dicatat, petak berikutnya tetap diproses); pemeriksaan `statusPersetujuan` dalam perulangan tidak diulang | Satu petak bermasalah tidak boleh membatalkan petak lain. Pemeriksaan ulang tidak perlu karena Q-020 (Algo-013) sudah hanya mengambil warga `aktif` |
-
+| 6 | C10 `hitungJarak` | Operasi privat (`-`) | Diekspor dari `VerifikasiLaporanController.js` | Agar Algo-005 bisa diuji langsung di `tests/verifikasi.test.js` tanpa menjalankan server dan database |
+| 7 | C10 (validasi `idLaporan`) | Tidak ada pemeriksaan format id | Fungsi `idValid` memeriksa pola UUID; id yang bukan UUID langsung dibalas 404 | Kolom `id_laporan` bertipe UUID, jadi Postgres melempar galat 22P02 untuk id asal-asalan dan server membalas 500, padahal yang tepat 404 |
+| 8 | Algo-006 dan C10 `tolakLaporan` | `Notifikasi.buat` dipanggil setelah transaksi selesai tanpa penanganan galat | Dipanggil lewat `kirimNotifikasi` dengan `try/catch`; kegagalannya hanya dicatat di log | Setelah COMMIT keputusan petugas sudah tersimpan. Kalau notifikasi gagal dibuat, petugas tidak boleh menerima 500 untuk laporan yang sebenarnya sudah diproses |
+| 9 | C10 `ambilDetailLaporan` | Mengembalikan `Object` berisi laporan dan jarak | Foto dikirim sebagai data URL JPEG (base64) di dalam JSON, ditambah `petak`, `batasJarak`, dan `melebihiBatas` | Halaman bisa langsung memasang foto di `<img>` tanpa endpoint foto terpisah. Foto selalu JPEG karena dikompres `kompresFoto()` (C15) |
+| 10 | C09 `HalamanAntreanLaporan` | `tampilkanPesanBerhasil(pesan: String)`; tidak ada operasi untuk antrean yang gagal dimuat | `tampilkanPesanBerhasil(judul, isi)` dan tambahan `tampilkanGagalMemuatAntrean()` | Panel I04-28 terdiri dari judul dan isi. Kondisi antrean gagal dimuat (Gambar 6.4h) ada di rancangan layar, tetapi belum punya operasi di Tabel 5.9.1 |
 
 ## B.2 Bukti Penerapan Best Practices
 
@@ -206,29 +55,23 @@ Tabel B.2. Bukti Best Practices
 
 | Praktik | Bukti | Keterangan |
 | :--- | :--- | :--- |
-| Branching | *[Tautan ke daftar branch / graph commit]* | *[Skema yang dipakai]* |
-| Semantic commit | *[Tautan ke riwayat commit]* | *[Ringkasan]* |
-| Track tasks | *[Tautan ke Issues/Projects]* | *[Jumlah issue, pembagian]* |
-| Pull request dan review | *[Tautan ke 2-3 PR representatif]* | *[Siapa me-review siapa]* |
-| Pengujian | *[Tautan ke `src/tests/` dan hasil test]* | *[Apa yang diuji, cara menjalankan]* |
+| Branching |  |  |
+| Semantic commit |  |  |
+| Track tasks |  |  |
+| Pull request dan review |  |  |
+| Pengujian |  |  |
 
 ### B.2.1 Profiling dan Optimasi
 
-Pilih minimal satu fitur yang diprofil.
-
 | Informasi | Keterangan |
 | :--- | :--- |
-| Fitur / proses yang diprofil | *[Nama fitur]* |
-| Alat | *[mis. Chrome DevTools, cProfile, EXPLAIN]* |
-| Temuan (sebelum) | *[Bottleneck yang ditemukan, sertakan angka/tangkapan layar]* |
-| Perbaikan | *[Yang diubah]* |
-| Hasil (sesudah) | *[Perbandingan dengan sebelumnya]* |
-
-Jika tidak ada perbaikan yang perlu dilakukan, jelaskan hasil profiling dan alasan kenapa fitur tersebut sudah memadai.
+| Fitur / proses yang diprofil |  |
+| Alat |  |
+| Temuan (sebelum) |  |
+| Perbaikan |  |
+| Hasil (sesudah) |  |
 
 ## B.3 Kendala dan Catatan Penting
-
-Tuliskan kendala yang ditemui, fitur yang belum sempurna (*known issues*), serta hal yang perlu diketahui asisten saat menjalankan atau menilai aplikasi (misalnya akun uji khusus, urutan menjalankan, atau batasan).
 
 ## B.4 Kontribusi Anggota
 
@@ -236,25 +79,22 @@ Tabel B.4. Kontribusi Anggota
 
 | NIM | Nama | Modul / Fitur yang Dikerjakan | Persentase Kontribusi |
 | :--- | :--- | :--- | :--- |
-| 13525022 | Muhammad Rafi Insyan Syiham Abrar | *...* | *...* |
-| 13525037 | Muhammad Rafiif Ansyadya | *...* | *...* |
-| 13525076 | Reinhard Mikhael Tandra | *...* | *...* |
-| 13525094 | Arga Cyrano Simanjuntak | *...* | *...* |
-| 13525136 | Jonathan Lewie | *...* | *...* |
+| 13525022 | Muhammad Rafi Insyan Syiham Abrar |  |  |
+| 13525037 | Muhammad Rafiif Ansyadya | UC03 Memverifikasi Laporan Bukti Kerja: layar I-04 antrean laporan (C09), `VerifikasiLaporanController` (C10), operasi verifikasi pada `LaporanBuktiKerja` (C11, Q-016 sampai Q-019), dan tes `tests/verifikasi.test.js` | 16% |
+| 13525076 | Reinhard Mikhael Tandra |  |  |
+| 13525094 | Arga Cyrano Simanjuntak |  |  |
+| 13525136 | Jonathan Lewie |  |  |
 
 ## B.5 Traceability Kelas Perancangan ke Implementasi
-
-Pemetaan dari **setiap kelas perancangan** pada DPPL (Tabel 4.1) ke wujud implementasinya. Bentuk implementasi bebas (kelas, fungsi, komponen, *route/handler*, *stored procedure*, skrip, dsb.), tetapi tiap kelas perancangan harus muncul pada tabel ini. Jika implementasi berupa kelas dengan nama yang sama, tetap dicantumkan.
 
 Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 
 | ID Kelas | Nama Kelas Perancangan | Bentuk Implementasi | Lokasi (File dan Nama) | Keterangan |
 | :--- | :--- | :--- | :--- | :--- |
-| *[C01]* | *[Nama kelas pada DPPL]* | *[mis. Kelas / Fungsi / Komponen / Route / Tabel]* | *[mis. `src/models/user.py` - `User`]* | *[Cara atribut dan operasi kelas diwujudkan; "-" jika tidak ada penjelasan tambahan]* |
+| C09 | `HalamanAntreanLaporan` | Fungsi dan Halaman | `src/public/petugas/antrean.html`; `src/public/petugas/js/HalamanAntreanLaporan.js` | Operasi menjadi fungsi di modul halaman (`tampilkanAntrean`, `tampilkanDetailLaporan`, `tampilkanPeringatanJarak`, `tampilkanAntreanKosong`, `tampilkanPesanGagal`, `tampilkanPesanBerhasil`). Panggilan ke C10 dilakukan lewat `fetch` di `ambilAntrean`, `bukaLaporan`, dan `kirimKeputusan`. Kelas tidak punya atribut |
+| C10 | `VerifikasiLaporanController` | Fungsi dan Route | `src/controllers/VerifikasiLaporanController.js`; route di `src/server.js` | `ambilAntrean` menjadi `GET /api/laporan/antrean`, `ambilDetailLaporan` menjadi `GET /api/laporan/:id`, `verifikasiLaporan` menjadi `POST /api/laporan/:id/setujui`, dan `tolakLaporan` menjadi `POST /api/laporan/:id/tolak`; keempatnya hanya bisa diakses petugas lewat middleware `hanyaPetugas`. `hitungJarak` mewujudkan Algo-005, sedangkan transaksi Algo-006 dijalankan oleh `dalamTransaksi`. Kelas tidak punya atribut |
+| C11 | `LaporanBuktiKerja` | Fungsi dan Tabel | `src/models/LaporanBuktiKerja.js`; tabel `laporan_bukti_kerja` di `src/sql/schema.sql` | Operasi menjadi fungsi `export`: `simpan` (Q-014), `cekUUIDAda` (Q-015), `ambilMenungguVerifikasi` (Q-016), `ambilById` (Q-017), `setujui` (Q-018), dan `tolak` (Q-019). `setujui` dan `tolak` mengembalikan `true` hanya jika `rowCount` bernilai 1. Atribut menjadi kolom `id_laporan`, `foto` (BYTEA), `lat_unggah` dan `lng_unggah` (untuk `koordinatUnggah`), `waktu_unggah`, `status`, `alasan_penolakan`, `waktu_verifikasi` |
 | C18 | `PeringatanSMSController` | Fungsi | `src/controllers/PeringatanSMSController.js` | Operasi publik menjadi fungsi `export` (`cekAmbangRisiko`, `prosesBalasanSTOP`, `hapusNomorDicabut`). Operasi privat menjadi fungsi biasa tanpa `export` (`kirimSMS`, `cekPeringatanTerakhir`, `identifikasiWargaTerdampak`). `kirimSMS` memanggil `kirimKeGateway` di `SimulasiSMSController.js`. Kelas tidak punya atribut |
 | C19 | `Warga` | Fungsi dan Tabel | `src/models/Warga.js`; tabel `warga` di `src/sql/` | Operasi menjadi fungsi `export` (`ambilAktifByPetak`, `cariByNomor`, `cabutPersetujuan`, `hapusDicabutLama`). Atribut menjadi kolom `id_warga`, `nomor_hp`, `status_persetujuan`, `waktu_dicabut`, `id_petak`, dan hasil query dipetakan ke objek JavaScript |
 | C20 | `PeringatanSMS` | Fungsi dan Tabel | `src/models/PeringatanSMS.js`; tabel `peringatan_sms` di `src/sql/` | Operasi menjadi fungsi `export` (`catat`, `adaDalam24Jam`, ditambah `ambilTerkirimTerbaru`). Atribut menjadi kolom `id_peringatan`, `id_warga`, `id_petak`, `isi_pesan`, `waktu_kirim`, `status` |
 
-Catatan:
-- Satu kelas perancangan boleh diwujudkan oleh beberapa file/unit, dan satu file/unit boleh mewujudkan beberapa kelas perancangan. Tuliskan semuanya.
-- Kelas perancangan yang **tidak diimplementasikan** atau **digabung/dipecah** tetap dicantumkan, dan alasannya dicatat di Bagian B.1.

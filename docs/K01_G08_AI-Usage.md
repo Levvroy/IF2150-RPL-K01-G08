@@ -34,6 +34,7 @@
   - [Milestone 6](#milestone-6)
   - [Milestone 7](#milestone-7)
   - [Milestone 8](#milestone-8)
+  - [Milestone 9](#milestone-9)
     - [Pernyataan Integritas dan Persetujuan](#pernyataan-integritas-dan-persetujuan)
 
 ---
@@ -104,6 +105,15 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Claude | Brainstorming perancangan algoritma penyaringan titik panas yang ditandai keliru berdasarkan batas waktu dan radius lokasi | Bagaimana merancang logika untuk mengabaikan titik panas yang ditandai keliru dalam 24 jam terakhir, tetapi tetap memperhitungkannya jika muncul titik api baru di sekitarnya? | AI merekomendasikan perhitungan jarak planar sederhana, lalu menerapkan rumus Haversine untuk verifikasi radius 500 meter (`<= 0.5 km`) serta ditambahkan validasi waktu agar deteksi baru setelah penandaan keliru tetap terhitung |
 | Claude | Brainstorming kondisi-kondisi layar (*state*) yang perlu dirancang pada setiap antarmuka | "Untuk setiap layar SIGAP (login, peta risiko, jadwal, antrean laporan, daftar tugas, form laporan, tandai keliru, SMS), kondisi apa saja selain kondisi normal yang perlu dibuatkan rancangan antarmukanya?" | AI memberikan daftar kondisi seperti data kosong, sedang memuat, gagal terhubung, luring, dan validasi input. Kami hanya memakai kondisi yang sesuai dengan skenario alternatif use case di SKPL, misalnya GPS belum aktif dan penyimpanan penuh pada I-06, lalu membuang kondisi yang tidak ada skenarionya. Desain tampilan dan isi tabel spesifikasi objek tetap kami susun sendiri |
 
+
+---
+
+## Milestone 9
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Claude | Mencocokkan implementasi UC03 (`VerifikasiLaporanController` dan `LaporanBuktiKerja`) dengan Algo-005, Algo-006, dan Q-016 sampai Q-019 di DPPL2 | "Cek apakah verifikasiLaporan dan tolakLaporan sudah sesuai Algo-006. Kalau dua petugas menekan setuju untuk laporan yang sama hampir bersamaan, apa yang terjadi?" | AI menjelaskan bahwa pemeriksaan status di awal saja tidak cukup dan yang menahan laporan diproses dua kali adalah `rowCount` dari Q-018. Kami mempertahankan transaksi sesuai DPPL, lalu menguji sendiri skenario dua petugas memutuskan laporan yang sama sampai petugas kedua mendapat 409. Usulan AI untuk menambah kelas error khusus dan fungsi pembungkus galat kami buang setelah review PR karena tidak ada di rancangan |
+| Claude | *Debugging* endpoint detail laporan yang membalas 500 saat dibuka dengan id sembarang | "GET /api/laporan/abc balasnya 500, padahal harusnya laporan tidak ditemukan. Kenapa?" | AI menunjukkan galat 22P02 dari Postgres karena kolom `id_laporan` bertipe UUID. Kami menambah pemeriksaan pola UUID di controller agar balasannya 404, lalu mencatat perubahan ini di Tabel B.1 laporan implementasi |
 
 ---
 
