@@ -1,0 +1,12 @@
+{
+  "name": "SIGAP Relawan",
+  "short_name": "SIGAP",
+  "start_url": "/relawan/",
+  "scope": "/relawan/",
+  "display": "standalone",
+  "background_color": "#f2f2f7",
+  "theme_color": "#f2f2f7",
+  "icons": [
+    { "src": "/gambar/logo-sigap.png", "sizes": "272x272", "type": "image/png" }
+  ]
+}

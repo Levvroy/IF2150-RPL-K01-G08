@@ -73,6 +73,8 @@ npm start          # http://localhost:3000
 | Halaman | Alamat |
 | :--- | :--- |
 | Petugas posko | http://localhost:3000/petugas/ |
+| Antrean laporan (petugas) | http://localhost:3000/petugas/antrean.html |
+| Susun jadwal (petugas) | http://localhost:3000/petugas/jadwal.html |
 | PWA relawan | http://localhost:3000/relawan/ |
 | Simulasi SMS warga | http://localhost:3000/simulasi-sms/ |
 
@@ -83,6 +85,90 @@ Menjalankan tes:
 ```bash
 npm test
 ```
+
+Menjalankan tes database (UC02, UC06, UC07) membutuhkan database sudah menyala dan sudah di-seed:
+
+```bash
+npm run test:db
+```
+
+Cara menguji UC07:
+
+```
+Skrip uji manual UC07: memicu pengiriman SMS untuk satu petak tanpa menunggu cron.
+
+CARA PAKAI (jalankan dari folder src)
+  Skrip : node --env-file=.env scripts/simulasiSMS.js     (terminal shell)
+  Server: node --env-file=.env server.js                   (terminal lain, biarkan jalan)
+  Halaman: http://localhost:3000/simulasi-sms/
+  SQL   : docker compose exec db psql -U sigap -d sigap
+
+DATA UJI (dari npm run seed): petak 214 punya warga 081300000001 dan 081300000002.
+
+LANGKAH UJI
+0. Persiapan: npm run seed (mereset semua data). Pastikan NOMOR_TIDAK_AKTIF di .env kosong.
+   Restart server setelah mengubah .env.
+
+1. SMS terkirim
+   Jalankan skrip, lalu refresh halaman.
+   Harapan: 2 pesan tampil, untuk ...0001 dan ...0002.
+   SQL: SELECT status, COUNT(*) FROM peringatan_sms GROUP BY status;
+   Harapan: terkirim = 2.
+
+2. Batas 24 jam
+   Jalankan skrip lagi.
+   Harapan: tidak ada baris baru (hitungan di langkah 1 tetap sama).
+
+3. Lewat 24 jam
+   SQL: UPDATE peringatan_sms SET waktu_kirim = NOW() - INTERVAL '25 hours';
+   Jalankan skrip lagi.
+   Harapan: pesan baru muncul untuk ...0001 dan ...0002 (terkirim = 4).
+
+4. Balasan selain STOP
+   Di halaman, ketik "halo" pada kolom ...0002, lalu kirim.
+   SQL: SELECT nomor_hp, status_persetujuan FROM warga WHERE id_petak = 214;
+   Harapan: kedua nomor tetap 'aktif'.
+
+5. Balasan STOP
+   Di halaman, ketik "stop" (huruf apa pun) pada kolom ...0001, lalu kirim.
+   SQL: SELECT nomor_hp, status_persetujuan FROM warga WHERE id_petak = 214;
+   Harapan: ...0001 menjadi 'dicabut', ...0002 tetap 'aktif'.
+
+6. Warga yang sudah STOP tidak dikirimi lagi
+   SQL: UPDATE peringatan_sms SET waktu_kirim = NOW() - INTERVAL '25 hours';
+   Jalankan skrip lagi.
+   SQL: SELECT w.nomor_hp, p.status, p.waktu_kirim
+        FROM peringatan_sms p JOIN warga w ON w.id_warga = p.id_warga
+        ORDER BY p.waktu_kirim;
+   Harapan: ...0001 tidak punya baris baru, ...0002 punya baris baru.
+   Catatan: pesan lama ...0001 tetap tampil di halaman karena halaman menampilkan riwayat.
+
+7. Kegagalan gateway (UC07 alternatif 1)
+   Isi .env: NOMOR_TIDAK_AKTIF=081300000002, lalu restart server.
+   SQL: UPDATE peringatan_sms SET waktu_kirim = NOW() - INTERVAL '25 hours';
+   Jalankan skrip lagi.
+   Harapan: ...0002 tercatat status 'gagal' dan tidak tampil di halaman.
+   Setelah selesai, kosongkan lagi NOMOR_TIDAK_AKTIF.
+CATATAN
+ - Skrip tetap mencetak "selesai" walau tidak ada penerima. Kalau halaman kosong,
+   cek apakah id petak di bawah punya warga: SELECT id_petak, nomor_hp FROM warga;
+ - Balasan di halaman (gelembung hitam) hilang saat refresh, tapi status di tabel warga tetap.
+```
+
+Cara menguji UC02 (login `petugas1`, buka http://localhost:3000/petugas/jadwal.html):
+
+1. Pilih relawan Arga Simanjuntak, isi tanggal, petak, dan jenis pekerjaan, lalu tekan Simpan jadwal. Harapan: nama merah dan pesan "Arga Simanjuntak sudah punya 3 tugas aktif. ..." (409).
+2. Ganti relawan ke Jonathan Lewie lalu simpan. Harapan: "Jadwal #n tersimpan", petak itu keluar dari Rekomendasi petak, dan notifikasi tugas muncul di tab Notifikasi `relawan2`.
+3. Kosongkan Petak lalu simpan. Harapan: pesan "Semua isian jadwal wajib diisi", lalu pesan hilang begitu salah satu isian diubah.
+4. Di halaman peta, klik sebuah petak lalu tekan "Susun jadwal untuk petak ini". Harapan: kolom Petak sudah terisi.
+
+Cara menguji UC06 (login `relawan1`, buka http://localhost:3000/relawan/):
+
+1. Buka tugas "Pengecekan titik panas" Petak 214, lalu tekan Tandai keliru.
+2. Tekan Kirim penandaan tanpa keterangan. Harapan: pesan "Keterangan wajib diisi. Tulis apa yang Anda lihat di lokasi." yang hilang begitu mulai mengetik.
+3. Isi keterangan lalu kirim. Harapan: kartu "Ditandai keliru" muncul dan tombol berubah menjadi "Sudah ditandai".
+4. Muat ulang halaman lalu tandai lagi titik yang sama. Harapan: server membalas 409 dan layar menampilkannya seperti berhasil (KF15, batas 24 jam).
+5. Buka tugas patroli. Harapan: tombol Tandai keliru tidak muncul.
 
 ## 5. Akun uji
 
@@ -97,12 +183,12 @@ Semua akun memakai password `sigap12345`.
 
 | Modul | Use case | Penanggung jawab |
 | :--- | :--- | :--- |
-| Fondasi (server, database, seed, autentikasi) | UC08 | *[nama]* |
-| Peta risiko | UC01 | *[nama]* |
-| Penyusunan jadwal dan tandai keliru | UC02, UC06 | *[nama]* |
-| Verifikasi laporan | UC03 | *[nama]* |
-| Daftar tugas dan laporan luring | UC04, UC05 | *[nama]* |
-| Peringatan SMS dan notifikasi | UC07 | *[nama]* |
+| Fondasi (server, database, seed, autentikasi) | UC08 | Jonathan Lewie |
+| Peta risiko | UC01 | Arga Cyrano Simanjuntak |
+| Penyusunan jadwal dan tandai keliru | UC02, UC06 | Muhammad Rafi Insyan Syiham Abrar |
+| Verifikasi laporan | UC03 | Muhammad Rafiif Ansyadya |
+| Daftar tugas dan laporan luring | UC04, UC05 | Jonathan Lewie |
+| Peringatan SMS dan notifikasi | UC07 | Reinhard Mikhael Tandra |
 
 ## 7. Basis data
 

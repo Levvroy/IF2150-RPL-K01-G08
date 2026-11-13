@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Antrean laporan - SIGAP</title>
+  <link rel="stylesheet" href="/sigap.css">
+  <link rel="stylesheet" href="/petugas/petugas.css">
+</head>
+<body>
+  <header class="kepala">
+    <div class="merek">
+      <img src="/gambar/logo-sigap.png" alt="" width="40" height="40">
+      <span>SIGAP</span>
+    </div>
+    <nav class="tab" aria-label="Menu petugas">
+      <a href="/petugas/">Peta risiko</a>
+      <a href="/petugas/jadwal.html">Jadwal</a>
+      <a href="/petugas/antrean.html" aria-current="page">Antrean laporan</a>
+    </nav>
+    <div class="akun">
+      <span class="teks-sub">Petugas posko</span>
+      <button id="tombol-keluar" class="tombol-teks" type="button">Keluar</button>
+    </div>
+  </header>
+
+  <main class="halaman" id="halaman" data-keadaan="memuat">
+    <h1 class="teks-judul">Antrean laporan</h1>
+    <p id="ringkasan" class="teks-sub ringkasan">Memuat antrean…</p>
+
+    <!-- I04-30: antrean kosong -->
+    <section id="panel-kosong" class="kartu panel-info" hidden>
+      <h2>Antrean kosong</h2>
+      <p class="teks-sub">Semua laporan bukti kerja sudah diverifikasi. Laporan baru dari relawan muncul di sini, yang terlama paling atas.</p>
+      <a class="tombol-utama tombol-pendek" href="/petugas/">Buka peta risiko</a>
+    </section>
+
+    <!-- I04-34: server tidak terjangkau -->
+    <section id="panel-gagal" class="kartu panel-info" role="alert" hidden>
+      <h2>Server tidak terjangkau</h2>
+      <p class="teks-sub">Periksa koneksi laptop lalu coba lagi. Belum ada keputusan verifikasi yang berubah.</p>
+      <button id="tombol-coba-lagi" class="tombol-utama tombol-pendek" type="button">Coba lagi</button>
+    </section>
+
+    <div id="tata-letak" class="tata-letak" hidden>
+      <section class="kolom-antrean" aria-labelledby="judul-antrean">
+        <h2 id="judul-antrean" class="judul-bagian">Menunggu verifikasi (0)</h2>
+        <ul id="daftar-antrean" class="kartu daftar"></ul>
+        <p class="teks-catatan keterangan">Laporan terlama di atas. Laporan yang sudah diputuskan keluar dari antrean.</p>
+      </section>
+
+      <section class="kolom-detail" aria-labelledby="judul-detail">
+        <h2 id="judul-detail" class="judul-bagian">Detail laporan</h2>
+
+        <p id="detail-petunjuk" class="kartu panel-info teks-sub">Pilih laporan di antrean untuk melihat foto dan lokasinya.</p>
+        <p id="detail-memuat" class="kartu panel-info teks-sub" hidden>Memuat detail laporan…</p>
+
+        <!-- I04-28: hasil keputusan -->
+        <div id="detail-berhasil" class="kartu panel-info" role="status" hidden>
+          <h2 id="berhasil-judul"></h2>
+          <p id="berhasil-isi" class="teks-sub"></p>
+          <button id="tombol-berikutnya" class="tombol-utama tombol-pendek" type="button">Buka laporan berikutnya</button>
+        </div>
+
+        <div id="detail" hidden>
+          <article class="kartu detail">
+            <img id="detail-foto" class="foto" alt="Foto bukti kerja">
+            <div class="detail-info">
+              <div class="identitas">
+                <span id="detail-skor" class="lencana"></span>
+                <div>
+                  <p id="detail-judul" class="judul-laporan"></p>
+                  <p id="detail-sub" class="teks-sub"></p>
+                </div>
+              </div>
+              <dl class="rincian">
+                <div><dt>Koordinat</dt><dd id="detail-koordinat"></dd></div>
+                <div><dt>Jarak ke petak</dt><dd id="detail-jarak"></dd></div>
+                <div><dt>Tanggal tugas</dt><dd id="detail-tanggal"></dd></div>
+                <div><dt>Foto</dt><dd id="detail-ukuran"></dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <!-- I04-20: peringatan jarak -->
+          <div id="peringatan-jarak" class="banner peringatan" role="alert" hidden>
+            <svg class="ikon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+            <div>
+              <p id="peringatan-judul"></p>
+              <p class="peringatan-isi">Melebihi batas 200 m. Bandingkan foto dengan lokasi tugas sebelum memutuskan.</p>
+            </div>
+          </div>
+
+          <!-- I04-32 dan galat lain saat mengirim keputusan -->
+          <p id="pesan-gagal" class="pesan-gagal" role="alert" hidden>
+            <svg class="ikon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+            <span></span>
+          </p>
+          <button id="tombol-muat-ulang" class="tombol-utama tombol-pendek" type="button" hidden>Muat ulang antrean</button>
+
+          <div id="aksi" class="aksi">
+            <div class="baris-tombol">
+              <button id="tombol-setujui" class="tombol-utama tombol-pendek" type="button">Setujui laporan</button>
+              <button id="tombol-tolak" class="tombol-kedua" type="button">Tolak</button>
+            </div>
+            <p class="teks-catatan">Laporan yang disetujui terkunci dan status tugas menjadi Selesai.</p>
+          </div>
+
+          <form id="form-tolak" class="form-tolak" novalidate hidden>
+            <label for="alasan">Alasan penolakan (wajib)</label>
+            <textarea id="alasan" maxlength="300" rows="3" placeholder="Tulis apa yang perlu diperbaiki relawan, misalnya lokasi atau isi foto."></textarea>
+            <p id="penghitung" class="teks-catatan">0/300. Alasan dikirim ke relawan lewat notifikasi.</p>
+            <div class="baris-tombol">
+              <button id="tombol-kirim-tolak" class="tombol-utama tombol-pendek tombol-bahaya" type="submit" disabled>Kirim penolakan</button>
+              <button id="tombol-batal" class="tombol-teks" type="button">Batal</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/petugas/js/HalamanAntreanLaporan.js"></script>
+</body>
+</html>
