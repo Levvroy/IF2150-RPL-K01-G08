@@ -21,8 +21,10 @@ async function validasiKapasitas(idRelawan) {
 async function kirimNotifikasiTugas(idRelawan, idJadwal) {
   try {
     await Notifikasi.buat(idRelawan, `Tugas baru #${idJadwal} sudah ditugaskan kepada Anda`);
+    return true;
   } catch (err) {
     console.error('Gagal membuat notifikasi tugas:', err.message);
+    return false;
   }
 }
 
@@ -62,7 +64,7 @@ export async function buatJadwal(req, res) {
       return res.status(409).json({ pesan: 'Relawan sudah memiliki 3 tugas aktif' });
     }
     const jadwal = await JadwalPekerjaan.simpan(dataJadwal);
-    await kirimNotifikasiTugas(dataJadwal.idRelawan, jadwal.idJadwal);
+    jadwal.notifikasiTerkirim = await kirimNotifikasiTugas(dataJadwal.idRelawan, jadwal.idJadwal);
     res.status(201).json(jadwal);
   } catch (err) {
     if (GALAT_DATA_TIDAK_VALID.includes(err.code)) {

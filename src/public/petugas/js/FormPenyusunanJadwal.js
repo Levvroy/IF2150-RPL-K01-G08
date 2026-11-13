@@ -138,8 +138,9 @@ function tampilkanPesanKapasitasPenuh() {
 
 function tampilkanPesanBerhasil(jadwal, nama, jenis, idPetak, tanggal) {
   $('berhasil-judul').textContent = `Jadwal #${jadwal.idJadwal} tersimpan`;
-  $('berhasil-isi').textContent =
-    `${nama} sudah menerima notifikasi tugas ${LABEL_JENIS[jenis]} di Petak ${idPetak}, ${formatTanggalTugas(tanggal)}.`;
+  $('berhasil-isi').textContent = jadwal.notifikasiTerkirim
+    ? `${nama} sudah menerima notifikasi tugas ${LABEL_JENIS[jenis]} di Petak ${idPetak}, ${formatTanggalTugas(tanggal)}.`
+    : 'Jadwal tersimpan, tapi notifikasi ke relawan gagal dikirim.';
   $('pesan-berhasil').hidden = false;
 }
 
