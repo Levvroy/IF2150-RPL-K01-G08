@@ -51,8 +51,8 @@ export async function batalkan(idJadwal, alasan, idRelawan, db = pool) {
 }
 
 // Q-008
-export async function simpan({ idRelawan, idPetak, jenisPekerjaan, tanggal }) {
-  const hasil = await pool.query(
+export async function simpan({ idRelawan, idPetak, jenisPekerjaan, tanggal }, db = pool) {
+  const hasil = await db.query(
     `INSERT INTO jadwal_pekerjaan (id_relawan, id_petak, jenis_pekerjaan, tanggal, status, id_titik_panas)
      VALUES ($1, $2, $3::text, $4, 'ditugaskan',
        CASE WHEN $3::text = 'pengecekan titik panas' THEN (

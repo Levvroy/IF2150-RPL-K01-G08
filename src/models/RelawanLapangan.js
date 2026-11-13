@@ -1,8 +1,8 @@
 import pool from '../db.js';
 
 // Q-012
-export async function ambilRelawanAktif() {
-  const hasil = await pool.query(
+export async function ambilRelawanAktif(db = pool) {
+  const hasil = await db.query(
     `SELECT id_relawan, nama
      FROM relawan_lapangan
      WHERE status_aktif = TRUE
@@ -12,8 +12,8 @@ export async function ambilRelawanAktif() {
 }
 
 // Q-013
-export async function hitungTugasAktif(idRelawan) {
-  const hasil = await pool.query(
+export async function hitungTugasAktif(idRelawan, db = pool) {
+  const hasil = await db.query(
     `SELECT COUNT(*)::int AS jumlah
      FROM jadwal_pekerjaan
      WHERE id_relawan = $1
