@@ -166,12 +166,12 @@ Semua akun memakai password `sigap12345`.
 
 | Modul | Use case | Penanggung jawab |
 | :--- | :--- | :--- |
-| Fondasi (server, database, seed, autentikasi) | UC08 | *[nama]* |
-| Peta risiko | UC01 | *[nama]* |
-| Penyusunan jadwal dan tandai keliru | UC02, UC06 | *[nama]* |
-| Verifikasi laporan | UC03 | *[nama]* |
-| Daftar tugas dan laporan luring | UC04, UC05 | *[nama]* |
-| Peringatan SMS dan notifikasi | UC07 | *[nama]* |
+| Fondasi (server, database, seed, autentikasi) | UC08 | Jonathan Lewie |
+| Peta risiko | UC01 | Arga Cyrano Simanjuntak |
+| Penyusunan jadwal dan tandai keliru | UC02, UC06 | Muhammad Rafi Insyan Syiham Abrar |
+| Verifikasi laporan | UC03 | Muhammad Rafiif Ansyadya |
+| Daftar tugas dan laporan luring | UC04, UC05 | Jonathan Lewie |
+| Peringatan SMS dan notifikasi | UC07 | Reinhard Mikhael Tandra |
 
 ## 7. Basis data
 
