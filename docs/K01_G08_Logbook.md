@@ -208,6 +208,7 @@
 | 13-11-2026 | Rafiif | Mengisi laporan implementasi M9 bagian UC03 dan AI Usage, lalu mengembalikan template laporan yang sempat terhapus | 2 Jam | Done | Template laporan sempat terhapus jadi harus dikembalikan dulu |
 | 13-11-2026 | Lewi | Melengkapi laporan implementasi dan profiling, serta menulis pembagian modul di README | 2 Jam | Done | - |
 | 13-11-2026 | Lewi | Mengisi logbook | <1 Jam | Done | - |
+| 13-11-2026 | Reinhard | Mengisi laporan implementasi M9 bagian C24 dan kendalanya  | <1 Jam | Done | - |
 
 **Catatan/Evaluasi Milestone 9:**
 * Tiap use case dikerjakan di branch masing-masing, lalu masuk ke develop lewat pull request yang direview anggota lain. UC02 dan UC06 baru selesai di-merge pada hari terakhir, jadi ke depannya PR sebaiknya dibuka lebih awal biar review tidak numpuk di akhir.
