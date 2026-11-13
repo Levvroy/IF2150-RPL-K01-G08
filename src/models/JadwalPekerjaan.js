@@ -50,10 +50,9 @@ export async function batalkan(idJadwal, alasan, idRelawan, db = pool) {
   return hasil.rowCount > 0;
 }
 
-// Q-008. Untuk 'pengecekan titik panas', id_titik_panas diisi titik terbaru di dalam petak itu.
-// Tanggal dikembalikan sebagai teks seperti Q-009 supaya tidak bergeser zona waktu
-export async function simpan({ idRelawan, idPetak, jenisPekerjaan, tanggal }, db = pool) {
-  const hasil = await db.query(
+// Q-008
+export async function simpan({ idRelawan, idPetak, jenisPekerjaan, tanggal }) {
+  const hasil = await pool.query(
     `INSERT INTO jadwal_pekerjaan (id_relawan, id_petak, jenis_pekerjaan, tanggal, status, id_titik_panas)
      VALUES ($1, $2, $3::text, $4, 'ditugaskan',
        CASE WHEN $3::text = 'pengecekan titik panas' THEN (

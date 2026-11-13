@@ -1,8 +1,8 @@
 import pool from '../db.js';
 
-// Q-012. Kontak tidak diambil karena formulir jadwal hanya menampilkan nama
-export async function ambilRelawanAktif(db = pool) {
-  const hasil = await db.query(
+// Q-012
+export async function ambilRelawanAktif() {
+  const hasil = await pool.query(
     `SELECT id_relawan, nama
      FROM relawan_lapangan
      WHERE status_aktif = TRUE
@@ -11,9 +11,9 @@ export async function ambilRelawanAktif(db = pool) {
   return hasil.rows.map((r) => ({ idRelawan: r.id_relawan, nama: r.nama }));
 }
 
-// Q-013. ::int karena COUNT bertipe bigint yang oleh pg dikembalikan sebagai string
-export async function hitungTugasAktif(idRelawan, db = pool) {
-  const hasil = await db.query(
+// Q-013
+export async function hitungTugasAktif(idRelawan) {
+  const hasil = await pool.query(
     `SELECT COUNT(*)::int AS jumlah
      FROM jadwal_pekerjaan
      WHERE id_relawan = $1

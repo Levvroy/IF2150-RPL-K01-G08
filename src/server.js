@@ -28,7 +28,7 @@ app.get('/api/laporan/:id', hanyaPetugas, ambilDetailLaporan);
 app.post('/api/laporan/:id/setujui', hanyaPetugas, verifikasiLaporan);
 app.post('/api/laporan/:id/tolak', hanyaPetugas, tolakLaporan);
 
-// UC02: hanya petugas (DPPL2 C06)
+// UC02: hanya petugas
 app.get('/api/jadwal/form', hanyaPetugas, bukaFormJadwal);
 app.post('/api/jadwal', hanyaPetugas, buatJadwal);
 

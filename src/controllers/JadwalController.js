@@ -5,8 +5,7 @@ import * as Notifikasi from '../models/Notifikasi.js';
 
 const BATAS_TUGAS_AKTIF = 3; // KF06
 const BATAS_REKOMENDASI = 5; // KF17
-// Kode galat PostgreSQL saat data ditolak: foreign key, CHECK, teks terlalu panjang,
-// format tanggal salah, dan tanggal di luar rentang (Algo-004)
+// Algo-004
 const GALAT_DATA_TIDAK_VALID = ['23503', '23514', '22001', '22007', '22008'];
 const PESAN_GALAT_SERVER = 'Terjadi kesalahan di server';
 
@@ -14,13 +13,11 @@ function buatRekomendasi() {
   return PetakLahan.ambilRekomendasi(BATAS_REKOMENDASI);
 }
 
-// TRUE jika relawan masih punya kurang dari 3 tugas aktif
-export async function validasiKapasitas(idRelawan, db) {
-  const jumlah = await RelawanLapangan.hitungTugasAktif(idRelawan, db);
+async function validasiKapasitas(idRelawan) {
+  const jumlah = await RelawanLapangan.hitungTugasAktif(idRelawan);
   return jumlah < BATAS_TUGAS_AKTIF;
 }
 
-// Jadwal sudah tersimpan, jadi kegagalan notifikasi cukup dicatat agar petugas tidak menyimpan ulang (KF07)
 async function kirimNotifikasiTugas(idRelawan, idJadwal) {
   try {
     await Notifikasi.buat(idRelawan, `Tugas baru #${idJadwal} sudah ditugaskan kepada Anda`);
@@ -40,7 +37,7 @@ function isianLengkap(dataJadwal) {
     && typeof tanggal === 'string' && tanggal !== '';
 }
 
-// GET /api/jadwal/form (KF05, KF17)
+// GET /api/jadwal/form
 export async function bukaFormJadwal(req, res) {
   try {
     const daftarRelawan = await RelawanLapangan.ambilRelawanAktif();
@@ -53,7 +50,7 @@ export async function bukaFormJadwal(req, res) {
   }
 }
 
-// POST /api/jadwal (Algo-004)
+// POST /api/jadwal
 export async function buatJadwal(req, res) {
   const dataJadwal = req.body ?? {};
   if (!isianLengkap(dataJadwal)) {
