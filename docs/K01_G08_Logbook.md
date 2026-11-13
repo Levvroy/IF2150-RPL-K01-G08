@@ -30,6 +30,7 @@
 * [Milestone 6](#milestone-6)
 * [Milestone 7](#milestone-7)
 * [Milestone 8](#milestone-8)
+* [Milestone 9](#milestone-9)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -117,7 +118,7 @@
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
 
 ### Milestone 6
-**Periode:** 30-09-2026 - 07-09-2026
+**Periode:** 30-09-2026 - 07-10-2026
 
 | Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / *Blocker* |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -125,9 +126,9 @@
 | *04-10-2026* | Reinhard | Mengisi draf milestone 6 bab 1 | <1 Jam | Done | - |
 | *06-10-2026* | Reinhard | Membuat tabel 2.1 | 1 Jam | Done | - |
 | *07-10-2026* | Rafiif | membuat bab 3 dan diagram | 2 Jam | Done | - |
-| *07-09-2026* | Rafi, Lewi, Arga | Memeriksa dan memfiksasi isi draft dan digram | 1 Jam | Done | - |
-| *07-09-2026* | Arga  | menyesuaikan diagram sesuai dengan format spesifikasi tugas | <1 Jam | Done | - |
-| *07-09-2026* | Arga  | mengisi logbook | <1 Jam | Done | - |
+| *07-10-2026* | Rafi, Lewi, Arga | Memeriksa dan memfiksasi isi draft dan digram | 1 Jam | Done | - |
+| *07-10-2026* | Arga  | menyesuaikan diagram sesuai dengan format spesifikasi tugas | <1 Jam | Done | - |
+| *07-10-2026* | Arga  | mengisi logbook | <1 Jam | Done | - |
 
 **Catatan/Evaluasi Milestone 6:**
 * *(Isi jika ada catatan khusus untuk asisten atau evaluasi singkat kerja tim)*
@@ -181,5 +182,35 @@
 **Catatan/Evaluasi Milestone 8:**
 * Sebagian besar pekerjaan menumpuk di hari terakhir (28-10-2026). Untuk milestone berikutnya, revisi dari asistensi sebaiknya langsung dibagi dan dikerjakan pada hari yang sama.
 
+
+### Milestone 9
+**Periode:** 28-10-2026 - 13-11-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / Blocker |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 30-10-2026 | Lewi | Menyiapkan dasar proyek, mulai dari inisialisasi Node.js, skema database dan docker-compose PostgreSQL, kerangka server Express beserta middleware autentikasi, data uji yang disamakan dengan prototipe Figma, sampai cara instalasi di README | 4 Jam | Done | - |
+| 03-11-2026 | Lewi | Menyamakan akun uji di seed dengan yang tertulis di README, lalu merge fondasi ke develop lewat PR #1 | <1 Jam | Done | - |
+| 03-11-2026 | Lewi | Mengerjakan UC08 Login, yaitu model pengguna, endpoint POST /api/login, halaman login untuk petugas dan relawan, stylesheet dasar, manifest dan service worker PWA, serta unit test autentikasinya (PR #12) | 3 Jam | Done | - |
+| 04-11-2026 | Rafiif | Mengerjakan UC03 Verifikasi Laporan oleh petugas, termasuk controller, model, halaman, dan tesnya | 4 Jam | Done | - |
+| 05-11-2026 | Rafiif | Memperbaiki UC03 berdasarkan hasil review dan merapikan berkas yang terkait (PR #13) | 2 Jam | Done | - |
+| 06-11-2026 | Lewi | Mengerjakan UC04 Daftar Tugas Relawan, berupa endpoint daftar tugas dan pembatalan tugas, penyimpanan lokal pakai IndexedDB, halaman daftar tugas, cache di service worker supaya tetap bisa dibuka saat offline, dan unit test (PR #14) | 3 Jam | Done | - |
+| 06-11-2026 | Reinhard | Menambahkan fitur notifikasi untuk kelas C24 (PR #15) | 1 Jam | Done | - |
+| 07-11-2026 | Lewi | Mengerjakan UC05 Laporan Luring, mencakup endpoint POST /api/laporan yang membatasi foto 500 KB dan menolak UUID ganda, antrean laporan di IndexedDB, form laporan dengan kompresi foto dan peringatan GPS, sinkronisasi laporan yang tertunda, serta unit test (PR #16) | 4 Jam | Done | - |
+| 08-11-2026 | Rafi | Mengerjakan UC06 Tandai Keliru, yaitu metode tandaiKeliru di model TitikPanas, endpoint PATCH /api/titik-panas/:id/keliru, dialog tandai keliru di PWA, dan tes validasinya | 3 Jam | Done | - |
+| 09-11-2026 | Arga | Mengerjakan UC01 peta risiko beserta pembaruan skor dan model kelas C01 sampai C04 | 4 Jam | Done | - |
+| 09-11-2026 | Arga | Memperbaiki C01 sampai C04 sesuai catatan code review, menambah unit test, dan mengganti Leaflet dari CDN dengan salinan lokal versi 1.9.4 (PR #17) | 2 Jam | Done | Leaflet dari CDN harus diganti salinan lokal |
+| 09-11-2026 | Reinhard | Mengerjakan UC07 Simulasi SMS | 3 Jam | Done | - |
+| 10-11-2026 | Reinhard | Memperbaiki UC07 sesuai hasil review dan menghubungkan peringatan SMS ke perbaruiData (PR #18) | 2 Jam | Done | - |
+| 12-11-2026 | Rafi | Merevisi UC06 supaya penandaan ulang dalam 24 jam ditolak dan kepemilikan tugas dicek, menambah tes database untuk respons 200, 403, 404, dan 409, lalu menyamakan tampilan dialog dengan Figma | 2 Jam | Done | - |
+| 12-11-2026 | Rafi | Mengerjakan UC02 Penyusunan Jadwal, mencakup model RelawanLapangan, penyimpanan jadwal di JadwalPekerjaan, endpoint GET /api/jadwal/form dan POST /api/jadwal, halaman susun jadwal untuk petugas, dan tes batas tiga tugas aktif | 3 Jam | Done | - |
+| 12-11-2026 | Reinhard | Mengisi laporan implementasi M9 untuk bagian UC07 | 1 Jam | Done | - |
+| 13-11-2026 | Rafi | Merapikan UC02 dan UC06 setelah direview, antara lain parameter db, format tanggal, pesan saat notifikasi gagal dibuat, dan pemindahan tes ke tes database, kemudian merge PR #19 dan #20 | 2 Jam | Done | - |
+| 13-11-2026 | Rafiif | Mengisi laporan implementasi M9 bagian UC03 dan AI Usage, lalu mengembalikan template laporan yang sempat terhapus | 2 Jam | Done | Template laporan sempat terhapus jadi harus dikembalikan dulu |
+| 13-11-2026 | Lewi | Melengkapi laporan implementasi dan profiling, serta menulis pembagian modul di README | 2 Jam | Done | - |
+| 13-11-2026 | Lewi | Mengisi logbook | <1 Jam | Done | - |
+| 13-11-2026 | Reinhard | Mengisi laporan implementasi M9 bagian C24 dan kendalanya  | <1 Jam | Done | - |
+
+**Catatan/Evaluasi Milestone 9:**
+* Tiap use case dikerjakan di branch masing-masing, lalu masuk ke develop lewat pull request yang direview anggota lain. UC02 dan UC06 baru selesai di-merge pada hari terakhir, jadi ke depannya PR sebaiknya dibuka lebih awal biar review tidak numpuk di akhir.
 
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
