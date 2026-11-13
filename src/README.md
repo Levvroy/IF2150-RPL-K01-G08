@@ -74,6 +74,7 @@ npm start          # http://localhost:3000
 | :--- | :--- |
 | Petugas posko | http://localhost:3000/petugas/ |
 | Antrean laporan (petugas) | http://localhost:3000/petugas/antrean.html |
+| Susun jadwal (petugas) | http://localhost:3000/petugas/jadwal.html |
 | PWA relawan | http://localhost:3000/relawan/ |
 | Simulasi SMS warga | http://localhost:3000/simulasi-sms/ |
 
@@ -85,7 +86,7 @@ Menjalankan tes:
 npm test
 ```
 
-Menjalankan tes Simulasi SMS membutuhkan database sudah menyala dan sudah di-seed:
+Menjalankan tes database (UC02, UC06, UC07) membutuhkan database sudah menyala dan sudah di-seed:
 
 ```bash
 npm run test:db
@@ -153,6 +154,22 @@ CATATAN
    cek apakah id petak di bawah punya warga: SELECT id_petak, nomor_hp FROM warga;
  - Balasan di halaman (gelembung hitam) hilang saat refresh, tapi status di tabel warga tetap.
 ```
+
+Cara menguji UC02 (login `petugas1`, buka http://localhost:3000/petugas/jadwal.html):
+
+1. Pilih relawan Arga Simanjuntak, isi tanggal, petak, dan jenis pekerjaan, lalu tekan Simpan jadwal. Harapan: nama merah dan pesan "Arga Simanjuntak sudah punya 3 tugas aktif. ..." (409).
+2. Ganti relawan ke Jonathan Lewie lalu simpan. Harapan: "Jadwal #n tersimpan", petak itu keluar dari Rekomendasi petak, dan notifikasi tugas muncul di tab Notifikasi `relawan2`.
+3. Kosongkan Petak lalu simpan. Harapan: pesan "Semua isian jadwal wajib diisi", lalu pesan hilang begitu salah satu isian diubah.
+4. Di halaman peta, klik sebuah petak lalu tekan "Susun jadwal untuk petak ini". Harapan: kolom Petak sudah terisi.
+
+Cara menguji UC06 (login `relawan1`, buka http://localhost:3000/relawan/):
+
+1. Buka tugas "Pengecekan titik panas" Petak 214, lalu tekan Tandai keliru.
+2. Tekan Kirim penandaan tanpa keterangan. Harapan: pesan "Keterangan wajib diisi. Tulis apa yang Anda lihat di lokasi." yang hilang begitu mulai mengetik.
+3. Isi keterangan lalu kirim. Harapan: kartu "Ditandai keliru" muncul dan tombol berubah menjadi "Sudah ditandai".
+4. Muat ulang halaman lalu tandai lagi titik yang sama. Harapan: server membalas 409 dan layar menampilkannya seperti berhasil (KF15, batas 24 jam).
+5. Buka tugas patroli. Harapan: tombol Tandai keliru tidak muncul.
+
 ## 5. Akun uji
 
 Semua akun memakai password `sigap12345`.

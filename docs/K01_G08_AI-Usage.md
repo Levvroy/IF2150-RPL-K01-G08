@@ -114,6 +114,7 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 |---|---|---|---|
 | Claude | Mencocokkan implementasi UC03 (`VerifikasiLaporanController` dan `LaporanBuktiKerja`) dengan Algo-005, Algo-006, dan Q-016 sampai Q-019 di DPPL2 | "Cek apakah verifikasiLaporan dan tolakLaporan sudah sesuai Algo-006. Kalau dua petugas menekan setuju untuk laporan yang sama hampir bersamaan, apa yang terjadi?" | AI menjelaskan bahwa pemeriksaan status di awal saja tidak cukup dan yang menahan laporan diproses dua kali adalah `rowCount` dari Q-018. Kami mempertahankan transaksi sesuai DPPL, lalu menguji sendiri skenario dua petugas memutuskan laporan yang sama sampai petugas kedua mendapat 409. Usulan AI untuk menambah kelas error khusus dan fungsi pembungkus galat kami buang setelah review PR karena tidak ada di rancangan |
 | Claude | *Debugging* endpoint detail laporan yang membalas 500 saat dibuka dengan id sembarang | "GET /api/laporan/abc balasnya 500, padahal harusnya laporan tidak ditemukan. Kenapa?" | AI menunjukkan galat 22P02 dari Postgres karena kolom `id_laporan` bertipe UUID. Kami menambah pemeriksaan pola UUID di controller agar balasannya 404, lalu mencatat perubahan ini di Tabel B.1 laporan implementasi |
+| Claude | Membantu menindaklanjuti hasil code review pada PR UC02 dan UC06 | Isi review dari reviewer | Saya memilah poin review yang perlu diubah dan yang cukup dijelaskan ke reviewer, menyelesaikan konflik dengan branch anggota lain, dan menguji ulang setiap revisi sebelum push |
 
 ---
 
