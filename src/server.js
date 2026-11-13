@@ -2,11 +2,13 @@ import express from 'express';
 import pool from './db.js';
 import { login } from './controllers/AutentikasiController.js';
 import { cekLogin, cekPeran } from './middleware/auth.js';
+import { bukaFormJadwal, buatJadwal } from './controllers/JadwalController.js';
 import { ambilDataPeta, perbaruiDataHandler } from './controllers/PetaRisikoController.js';
 import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } from './controllers/VerifikasiLaporanController.js';
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
 import { ambilPesanSimulasi, balasSimulasi } from './controllers/SimulasiSMSController.js';
+import { tandaiKeliru } from './controllers/DeteksiKeliruController.js';
 
 const app = express();
 
@@ -27,6 +29,10 @@ app.get('/api/laporan/:id', hanyaPetugas, ambilDetailLaporan);
 app.post('/api/laporan/:id/setujui', hanyaPetugas, verifikasiLaporan);
 app.post('/api/laporan/:id/tolak', hanyaPetugas, tolakLaporan);
 
+// UC02: hanya petugas
+app.get('/api/jadwal/form', hanyaPetugas, bukaFormJadwal);
+app.post('/api/jadwal', hanyaPetugas, buatJadwal);
+
 // UC04: hanya relawan. idRelawan diambil dari token sesi, bukan dari klien
 const hanyaRelawan = [cekLogin, cekPeran('relawan')];
 app.get('/api/tugas', hanyaRelawan, ambilTugasRelawan);
@@ -39,6 +45,9 @@ app.post('/api/notifikasi/:id/baca', cekLogin, tandaiNotifikasiDibaca);
 // UC07: halaman simulasi SMS meniru ponsel warga, jadi sengaja tanpa login
 app.get('/api/simulasi-sms/pesan', ambilPesanSimulasi);
 app.post('/api/simulasi-sms/balasan', balasSimulasi);
+
+// UC06: hanya relawan
+app.patch('/api/titik-panas/:id/keliru', hanyaRelawan, tandaiKeliru);
 
 const port = process.env.PORT || 3000;
 

@@ -1,0 +1,43 @@
+import * as TitikPanas from '../models/TitikPanas.js';
+import * as JadwalPekerjaan from '../models/JadwalPekerjaan.js';
+
+const PANJANG_MAKS_KETERANGAN = 200;
+
+export function validasiKeterangan(keterangan) {
+  if (typeof keterangan !== 'string') return false;
+  const rapi = keterangan.trim();
+  return rapi.length >= 1 && rapi.length <= PANJANG_MAKS_KETERANGAN;
+}
+
+// PATCH /api/titik-panas/:id/keliru
+export async function tandaiKeliru(req, res) {
+  const keterangan = req.body?.keterangan;
+  if (!validasiKeterangan(keterangan)) {
+    return res.status(400).json({ pesan: 'Keterangan wajib diisi, maksimal 200 karakter' });
+  }
+
+  const idTitikPanas = Number(req.params.id);
+  if (!Number.isInteger(idTitikPanas) || idTitikPanas <= 0) {
+    return res.status(404).json({ pesan: 'Titik panas tidak ditemukan' });
+  }
+
+  try {
+    const milikRelawan = await JadwalPekerjaan.adaTugasTitikPanas(idTitikPanas, req.pengguna.idPengguna);
+    if (!milikRelawan) {
+      const titik = await TitikPanas.ambilById(idTitikPanas);
+      if (!titik) {
+        return res.status(404).json({ pesan: 'Titik panas tidak ditemukan' });
+      }
+      return res.status(403).json({ pesan: 'Titik panas ini bukan dari tugas Anda' });
+    }
+
+    const berhasil = await TitikPanas.tandaiKeliru(idTitikPanas, keterangan.trim());
+    if (!berhasil) {
+      return res.status(409).json({ pesan: 'Titik panas ini sudah ditandai keliru' });
+    }
+    res.json({ pesan: 'Titik panas ditandai keliru' });
+  } catch (err) {
+    console.error('Gagal menandai titik panas keliru:', err.message);
+    res.status(500).json({ pesan: 'Terjadi kesalahan di server' });
+  }
+}

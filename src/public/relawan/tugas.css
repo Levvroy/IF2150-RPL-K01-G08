@@ -357,3 +357,53 @@ button {
 .aksi-bawah .tombol-utama {
   gap: var(--space-8);
 }
+
+/* tandai keliru (I-07) */
+.baris-aksi {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.baris-aksi > button {
+  flex: 1;
+}
+
+.tombol-sekunder:disabled {
+  background: var(--photo);
+  color: var(--ink2);
+  cursor: default;
+}
+
+.kartu-keliru strong {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.isian-keterangan {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-12) var(--space-16) var(--space-8);
+  border-radius: var(--radius-16);
+  background: var(--cell);
+}
+
+.lembar .isian-keterangan textarea {
+  min-height: 72px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  resize: none;
+}
+
+.lembar .isian-keterangan textarea:focus {
+  outline: none;
+}
+
+.isian-keterangan:focus-within {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.isian-keterangan span {
+  align-self: flex-end;
+}

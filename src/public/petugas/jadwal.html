@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Susun jadwal - SIGAP</title>
+  <link rel="stylesheet" href="/sigap.css">
+  <link rel="stylesheet" href="/petugas/petugas.css">
+</head>
+<body>
+  <header class="kepala">
+    <div class="merek">
+      <img src="/gambar/logo-sigap.png" alt="" width="40" height="40">
+      <span>SIGAP</span>
+    </div>
+    <nav class="tab" aria-label="Menu petugas">
+      <a href="/petugas/">Peta risiko</a>
+      <a href="/petugas/jadwal.html" aria-current="page">Jadwal</a>
+      <a href="/petugas/antrean.html">Antrean laporan</a>
+    </nav>
+    <div class="akun">
+      <span class="teks-sub">Petugas posko</span>
+      <button id="tombol-keluar" class="tombol-teks" type="button">Keluar</button>
+    </div>
+  </header>
+
+  <main class="halaman">
+    <h1 class="teks-judul">Susun jadwal</h1>
+    <p id="ringkasan" class="teks-sub ringkasan">Memuat formulir…</p>
+
+    <div class="tata-letak-jadwal">
+      <section>
+        <!-- I03-19 -->
+        <div id="pesan-berhasil" class="kartu pesan-berhasil" role="status" hidden>
+          <svg class="ikon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+          <div>
+            <strong id="berhasil-judul"></strong>
+            <p id="berhasil-isi" class="teks-sub"></p>
+          </div>
+        </div>
+
+        <h2 class="judul-bagian">Jadwal baru</h2>
+        <form id="form-jadwal" class="kartu form-jadwal" novalidate>
+          <!-- I03-09 dan I03-20 -->
+          <div class="baris-isian">
+            <label for="pilih-relawan">Relawan</label>
+            <select id="pilih-relawan">
+              <option value="">Pilih relawan</option>
+            </select>
+          </div>
+          <p id="pesan-kapasitas" class="pesan-gagal pesan-isian" role="alert" hidden>
+            <svg class="ikon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+            <span></span>
+          </p>
+
+          <!-- I03-10 -->
+          <div class="baris-isian">
+            <label for="pilih-tanggal">Tanggal</label>
+            <input id="pilih-tanggal" type="date">
+          </div>
+
+          <!-- I03-11 -->
+          <div class="baris-isian">
+            <label for="pilih-petak">Petak</label>
+            <select id="pilih-petak">
+              <option value="">Pilih petak</option>
+            </select>
+          </div>
+
+          <!-- I03-12 -->
+          <fieldset class="jenis-pekerjaan">
+            <legend>Jenis pekerjaan</legend>
+            <div class="segmen">
+              <label><input type="radio" name="jenis" value="patroli"><span>Patroli pencegahan</span></label>
+              <label><input type="radio" name="jenis" value="pembasahan sekat kanal"><span>Pembasahan sekat kanal</span></label>
+              <label><input type="radio" name="jenis" value="pengecekan titik panas"><span>Pengecekan titik panas</span></label>
+            </div>
+          </fieldset>
+
+          <div class="kaki-form">
+            <div>
+              <!-- I03-21 -->
+              <p id="pesan-gagal" class="pesan-gagal pesan-isian" role="alert" hidden>
+                <svg class="ikon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+                <span></span>
+              </p>
+              <p class="teks-catatan">Relawan langsung menerima notifikasi tugas setelah jadwal disimpan.</p>
+            </div>
+            <button id="tombol-simpan" class="tombol-utama tombol-simpan" type="submit">Simpan jadwal</button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <h2 class="judul-bagian">Rekomendasi petak</h2>
+        <ul id="daftar-rekomendasi" class="kartu daftar"></ul>
+        <!-- I03-18 -->
+        <div id="rekomendasi-kosong" class="kartu rekomendasi-kosong" hidden>
+          <strong>Belum ada rekomendasi</strong>
+          <p class="teks-sub">Semua petak sudah punya tugas aktif. Petak tetap bisa dipilih manual lewat kolom Petak.</p>
+        </div>
+        <p class="teks-catatan keterangan">Petak berskor tertinggi yang belum punya tugas aktif, maksimal 5.</p>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/petugas/js/FormPenyusunanJadwal.js"></script>
+</body>
+</html>
