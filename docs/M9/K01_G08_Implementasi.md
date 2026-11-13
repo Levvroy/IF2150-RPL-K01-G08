@@ -3,7 +3,7 @@ IF2150 REKAYASA PERANGKAT LUNAK
 <br>
 TUGAS 9
 <br>
-IMPLEMENTASI PERANGKAT LUNAK
+IMPLEMENTASI PERANGKAT LUNAK`
 </h1>
 <br>
 
@@ -77,6 +77,10 @@ Tabel B.1. Perubahan dari DPPL
 | 35 | I07-02, I07-05 | "Titik panas di Petak n tidak dihitung dalam skor risiko Petak n ..." dan "Tulis apa yang terlihat di lokasi." | "Titik panas ini tidak dihitung dalam skor risiko Petak n ..." dan "Tulis apa yang Anda lihat di lokasi." | Keputusan kelompok saat review PR #19: teks mengikuti Figma |
 | 36 | I07-05, I07-08 | Dua objek terpisah | Satu elemen peringatan yang isinya berganti | Keduanya berada di posisi yang sama di bawah kolom keterangan |
 | 37 | I07-10 | Tombol "Sudah ditandai" menggantikan I05-16 sehingga titik yang sama tidak ditandai dua kali dari layar ini | Tombol berubah menjadi "Sudah ditandai" setelah berhasil; setelah halaman dimuat ulang tombol kembali aktif, tetapi server membalas 409 dan klien menampilkannya seperti berhasil | Q-009 tidak mengembalikan `status_validitas`, jadi pencegahan penandaan ganda dipindah ke server (lihat no. 31) |
+| 38 | C24 `tandaiDibaca` | `void` | Mengembalikan `boolean` (true jika ada baris berubah) | Pemanggil perlu tahu notifikasi tidak ada atau bukan milik pengguna, agar bisa membalas 404. Query tetap Q-030 |
+| 39 | C13 `tandaiNotifikasiDibaca` | Memanggil `Notifikasi.tandaiDibaca` tanpa memeriksa hasil | Membalas 404 jika `tandaiDibaca` bernilai false | Respons lebih jelas bagi klien |
+| 40 | C24 `ambilBelumDibaca` | Mengembalikan baris hasil Q-029 apa adanya | Hasil dipetakan ke camelCase (`idNotifikasi`, `isiPesan`, `waktuDibuat`) | Sesuai nama atribut di DPPL dan kebutuhan frontend relawan, karena kolom basis data memakai snake_case |
+| 41 | C24 `buat`, `ambilBelumDibaca`, `tandaiDibaca` | Tanpa parameter koneksi | Menambahkan parameter opsional `db = pool` | Agar dapat dijalankan di dalam transaksi database tanpa mengubah perilaku bawaan |
 
 
 ## B.2 Bukti Penerapan Best Practices
@@ -127,6 +131,15 @@ Tuliskan kendala yang ditemui, fitur yang belum sempurna (*known issues*), serta
 - Objek I05-14 (catatan "Tandai keliru hanya untuk tugas pengecekan titik panas") pada layar detail tugas belum dibuat. Tombol I05-16 sudah disembunyikan untuk tugas selain pengecekan titik panas.
 - Pemeriksaan kapasitas relawan dan penyimpanan jadwal tidak berada dalam satu transaksi, sehingga dua petugas yang menyimpan jadwal untuk relawan yang sama pada saat bersamaan bisa menghasilkan 4 tugas aktif. Risiko ini sudah diterima di DPPL (Algo-004).
 
+**UC07 Simulasi SMS dan C24 Notifikasi (Reinhard Mikhael Tandra)**
+
+- Tes `tests/db/peringatanSMS.test.js` memakai PostgreSQL sehingga tidak ikut `npm test`. Sebelum menjalankan `npm run test:db`, jalankan `docker compose up -d` lalu `npm run seed`.
+- Halaman I-08 Simulasi SMS berperan sebagai ponsel warga dan dapat dibuka tanpa login, karena endpoint `/api/simulasi-sms/*` sengaja tidak dijaga autentikasi (SKPL batasan 4). Tidak ada SMS sungguhan yang dikirim. `SMSGatewaySimulasi` diwujudkan oleh `SimulasiSMSController.js` (`kirimKeGateway`), dan seluruh nomor serta isi pesan adalah data fiktif.
+- Kegagalan pengiriman pada satu petak di `cekAmbangRisiko` hanya dicatat di log dan petak lain tetap diproses. Begitu juga kegagalan `hapusNomorDicabut` saat `perbaruiData` (Algo-001). Kegagalan seperti ini tidak terlihat di layar, jadi periksa log server jika SMS yang diharapkan tidak muncul.
+- C24 `Notifikasi` tidak memiliki controller maupun route sendiri. Notifikasi dibuat oleh UC02, UC03, dan UC04, lalu ditandai dibaca lewat `POST /api/notifikasi/:id/baca` milik C13. Route tersebut membalas 404 jika notifikasi tidak ada atau bukan milik pengguna.
+- Masalah yang belum selesai: halaman I-08 tidak menyimpan balasan yang ditulis warga. Jika halaman ditutup atau dimuat ulang, balasan "STOP" yang sudah ditulis tidak tampil lagi dan percakapannya kembali kosong. Hanya SMS peringatan terkirim yang tetap tampil karena diambil dari basis data lewat `ambilTerkirimTerbaru`. Untuk mendemonstrasikan alur STOP, tulis balasan dan lihat hasilnya tanpa berpindah atau memuat ulang halaman.
+
+
 ## B.4 Kontribusi Anggota
 
 Tabel B.4. Kontribusi Anggota
@@ -135,7 +148,7 @@ Tabel B.4. Kontribusi Anggota
 | :--- | :--- | :--- | :--- |
 | 13525022 | Muhammad Rafi Insyan Syiham Abrar | UC02 Penyusunan jadwal dan penugasan relawan: layar I-03 (C05), `JadwalController` (C06), `simpan` pada `JadwalPekerjaan` (C07, Q-008), `RelawanLapangan` (C08, Q-012 dan Q-013), tes `tests/jadwal.test.js` dan `tests/db/jadwal.test.js`. UC06 Tandai titik panas sebagai deteksi keliru: dialog I-07 (C16), `DeteksiKeliruController` (C17), Q-007 pada `TitikPanas`, tes `tests/deteksi-keliru.test.js` dan `tests/db/deteksiKeliru.test.js` | 16% |
 | 13525037 | Muhammad Rafiif Ansyadya | UC03 Memverifikasi Laporan Bukti Kerja: layar I-04 antrean laporan (C09), `VerifikasiLaporanController` (C10), operasi verifikasi pada `LaporanBuktiKerja` (C11, Q-016 sampai Q-019), dan tes `tests/verifikasi.test.js` | 16% |
-| 13525076 | Reinhard Mikhael Tandra | *...* | *...* |
+| 13525076 | Reinhard Mikhael Tandra | UC07 Simulasi SMS: layar I-08 Halaman SimulasiSMS, `PeringatanSMSController` (C18), `Warga` (C19, Q-020 sampai Q-023), `PeringatanSMS` (C20, Q-024 dan Q-025), `Notifikasi` (C24, Q-028 sampai Q-030), dan tes `tests/db/peringatanSMS.test.js` | 16% |
 | 13525094 | Arga Cyrano Simanjuntak | *...* | *...* |
 | 13525136 | Jonathan Lewie | Fondasi proyek (inisialisasi Node.js dan Express, `schema.sql`, `docker-compose.yml`, `seed.js`, `db.js`, middleware `auth.js`, dan README), UC08 Login petugas dan relawan (C21, C22, C23, beserta PWA `manifest.json` dan `sw.js`), UC04 Daftar tugas relawan luring (C12, C13, serta operasi `ambilAktifByRelawan` dan `batalkan` pada C07), UC05 Laporan bukti kerja luring dan sinkron (C14, C15, operasi `simpan` dan `cekUUIDAda` pada C11, dan `PenyimpananLokal.js`), tes `autentikasi`, `daftar-tugas`, `laporan`, dan `seed`, pembuatan issue #2 sampai #11, serta review seluruh PR | 30% |
 
@@ -167,6 +180,7 @@ Tabel B.5. Traceability Kelas Perancangan ke Implementasi
 | C21 | `HalamanLogin` | Fungsi dan Halaman | `src/public/relawan/login.html`, `src/public/petugas/login.html`; `src/public/relawan/js/HalamanLogin.js` | Operasi diwujudkan sebagai fungsi `tampilkanFormLogin`, `tampilkanPesanGagal`, dan `tampilkanPesanPerluKoneksi`. Keadaan halaman (isi, memeriksa, gagal, dan luring) diatur oleh `perbaruiTampilan` melalui atribut `data-keadaan`. Satu modul ini dipakai oleh dua halaman login (lihat B.1 nomor 13). Kelas ini tidak memiliki atribut |
 | C22 | `AutentikasiController` | Fungsi, Route, dan Middleware | Bagian server di `src/controllers/AutentikasiController.js` (route `POST /api/login`) dan `src/middleware/auth.js`, bagian klien di `src/public/relawan/js/AutentikasiController.js` | Di server, `login` memeriksa input, memanggil `verifikasiKredensial` (yang memakai `cariByUsername` dan `cekPassword` dari C23), lalu mengirim token hasil `buatSesi`. Token tersebut berupa JWT berisi `idPengguna` dan `peran` yang berlaku 7 hari. Kredensial yang salah dibalas 401 dengan pesan yang sama, baik untuk username maupun password. Di klien, `login` menyimpan token, `periksaSesi` mengecek keberadaan token dan masa berlakunya, dan `arahkanSesuaiPeran` mengarahkan petugas ke `/petugas/` serta relawan ke `/relawan/`. Setiap endpoint dijaga oleh `cekLogin` dan `cekPeran` (lihat B.1 nomor 11 dan 12). Kelas ini tidak memiliki atribut |
 | C23 | `Pengguna` | Fungsi dan Tabel | `src/models/Pengguna.js`; tabel `pengguna` di `src/sql/schema.sql` | Operasi diwujudkan sebagai fungsi `export`, yaitu `cariByUsername`, `cekPassword` yang memakai bcrypt, dan `ambilByPeran` yang dipakai untuk mengirim notifikasi ke semua petugas. Atribut kelas menjadi kolom `id_pengguna`, `username`, `password_hash`, dan `peran`. Atribut `passwordHash` yang bersifat protected di DPPL hanya dibaca di dalam proses login dan tidak pernah dikirim ke klien |
+| C24 | `Notifikasi` | Fungsi dan Tabel | `src/models/Notifikasi.js`; tabel `notifikasi` di `src/sql/` | Operasi menjadi fungsi `export` (`buat`, `ambilBelumDibaca`, `tandaiDibaca`). Atribut menjadi kolom `id_notifikasi`, `id_pengguna`, `isi_pesan`, `waktu_dibuat`, `sudah_dibaca` |
 
 Catatan:
 - Satu kelas perancangan boleh diwujudkan oleh beberapa file/unit, dan satu file/unit boleh mewujudkan beberapa kelas perancangan. Tuliskan semuanya.
