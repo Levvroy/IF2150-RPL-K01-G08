@@ -8,6 +8,7 @@ import { ambilAntrean, ambilDetailLaporan, verifikasiLaporan, tolakLaporan } fro
 import { terimaFoto, terimaLaporan } from './controllers/UploadLaporanController.js';
 import { ambilTugasRelawan, batalkanTugasTidakAman, tandaiNotifikasiDibaca } from './controllers/DaftarTugasController.js';
 import { ambilPesanSimulasi, balasSimulasi } from './controllers/SimulasiSMSController.js';
+import { tandaiKeliru } from './controllers/DeteksiKeliruController.js';
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.post('/api/notifikasi/:id/baca', cekLogin, tandaiNotifikasiDibaca);
 // UC07: halaman simulasi SMS meniru ponsel warga, jadi sengaja tanpa login
 app.get('/api/simulasi-sms/pesan', ambilPesanSimulasi);
 app.post('/api/simulasi-sms/balasan', balasSimulasi);
+
+// UC06: hanya relawan
+app.patch('/api/titik-panas/:id/keliru', hanyaRelawan, tandaiKeliru);
 
 const port = process.env.PORT || 3000;
 
