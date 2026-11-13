@@ -1,4 +1,4 @@
-// C05 FormPenyusunanJadwal (I-03). JadwalController seluruhnya berjalan di server
+// C05 FormPenyusunanJadwal (I-03)
 import { periksaSesi, ambilPeran, ambilToken, keluar } from '/relawan/js/AutentikasiController.js';
 
 const PESAN_SERVER_MATI = 'Jadwal belum tersimpan karena server tidak dapat dihubungi. Isian tidak hilang, coba simpan lagi.';
@@ -7,22 +7,24 @@ const LABEL_JENIS = {
   'pembasahan sekat kanal': 'Pembasahan sekat kanal',
   'pengecekan titik panas': 'Pengecekan titik panas'
 };
-const ZONA = 'Asia/Jakarta';
-const fmtTanggal = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', timeZone: ZONA });
-const fmtJam = new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: ZONA });
-const fmtTanggalTugas = new Intl.DateTimeFormat('id-ID', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
 const $ = (id) => document.getElementById(id);
 let rekomendasiTerakhir = [];
 
-// ---------- format ----------
-const formatWaktu = (iso) => {
-  const w = new Date(iso);
-  return `${fmtTanggal.format(w)}, ${fmtJam.format(w).replace(':', '.')}`;
-};
-const formatTanggalTugas = (tanggal) => fmtTanggalTugas.format(new Date(`${tanggal}T00:00:00Z`));
+function formatWaktu(waktu) {
+  const w = new Date(waktu);
+  const jam = `${String(w.getHours()).padStart(2, '0')}.${String(w.getMinutes()).padStart(2, '0')}`;
+  return `${w.getDate()} ${BULAN[w.getMonth()]}, ${jam}`;
+}
 
-// ---------- komunikasi server ----------
+function formatTanggalTugas(teks) {
+  const [t, b, h] = teks.split('-').map(Number);
+  const tanggal = new Date(t, b - 1, h);
+  return `${HARI[tanggal.getDay()]}, ${h} ${BULAN[b - 1]} ${t}`;
+}
+
 async function minta(url, opsi = {}) {
   const res = await fetch(url, {
     ...opsi,
@@ -37,8 +39,8 @@ async function minta(url, opsi = {}) {
   return { status: res.status, data };
 }
 
-// ---------- operasi C05 ----------
-async function tampilkanForm() {
+// operasi C05
+async function tampilkanForm(petakAwal) {
   let hasil;
   try {
     hasil = await minta('/api/jadwal/form');
@@ -54,9 +56,17 @@ async function tampilkanForm() {
   const { daftarRelawan, rekomendasi, daftarPetak } = hasil.data;
   tampilkanDaftarRelawanAktif(daftarRelawan);
   isiPilihanPetak(daftarPetak);
+  if (petakAwal) {
+    $('pilih-petak').value = petakAwal;
+  }
   tampilkanRekomendasi(rekomendasi);
 
-  const waktuUpdate = daftarPetak.map((p) => p.waktuUpdateTerakhir).filter(Boolean).sort().at(-1);
+  let waktuUpdate = null;
+  for (const p of daftarPetak) {
+    if (p.waktuUpdateTerakhir && (!waktuUpdate || p.waktuUpdateTerakhir > waktuUpdate)) {
+      waktuUpdate = p.waktuUpdateTerakhir;
+    }
+  }
   $('ringkasan').textContent = waktuUpdate
     ? `${daftarRelawan.length} relawan aktif. Rekomendasi petak diperbarui ${formatWaktu(waktuUpdate)}.`
     : `${daftarRelawan.length} relawan aktif.`;
@@ -70,7 +80,6 @@ function tampilkanDaftarRelawanAktif(daftarRelawan) {
   pilihan.value = terpilih;
 }
 
-// Pilihan petak manual (I03-11)
 function isiPilihanPetak(daftarPetak) {
   const pilihan = $('pilih-petak');
   const terpilih = pilihan.value;
@@ -146,7 +155,6 @@ function sembunyikanPesan() {
   $('pilih-relawan').classList.remove('penuh');
 }
 
-// ---------- simpan jadwal (I03-14) ----------
 async function simpanJadwal(e) {
   e.preventDefault();
   const tombol = $('tombol-simpan');
@@ -175,15 +183,18 @@ async function simpanJadwal(e) {
 
   if (!hasil) return tampilkanPesanGagal(PESAN_SERVER_MATI);
   if (hasil.status === 409) return tampilkanPesanKapasitasPenuh();
-  if (hasil.status !== 201) return tampilkanPesanGagal(hasil.data.pesan ?? PESAN_SERVER_MATI);
+  if (hasil.status === 400) return tampilkanPesanGagal(hasil.data.pesan ?? PESAN_SERVER_MATI);
+  if (hasil.status !== 201) return tampilkanPesanGagal(PESAN_SERVER_MATI);
 
   tampilkanPesanBerhasil(hasil.data, nama, dataJadwal.jenisPekerjaan, dataJadwal.idPetak, dataJadwal.tanggal);
   $('form-jadwal').reset();
-  // Muat ulang rekomendasi supaya petak yang baru dijadwalkan keluar dari daftar
   await tampilkanForm();
 }
 
 $('form-jadwal').addEventListener('submit', simpanJadwal);
+$('form-jadwal').addEventListener('input', () => {
+  $('pesan-gagal').hidden = true;
+});
 $('pilih-relawan').addEventListener('change', () => {
   $('pesan-kapasitas').hidden = true;
   $('pilih-relawan').classList.remove('penuh');
@@ -194,15 +205,9 @@ $('tombol-keluar').addEventListener('click', () => {
   location.href = '/petugas/login.html';
 });
 
-// ---------- mulai ----------
 if (!periksaSesi() || ambilPeran() !== 'petugas') {
   location.replace('/petugas/login.html');
 } else {
-  await tampilkanForm();
-  // Dibuka dari tombol "Susun jadwal untuk petak ini" di peta (I02-24) lewat ?idPetak=n
-  const petakDariPeta = new URLSearchParams(location.search).get('idPetak');
-  if (petakDariPeta) {
-    $('pilih-petak').value = petakDariPeta;
-    tampilkanRekomendasi(rekomendasiTerakhir);
-  }
+  // I02-24
+  tampilkanForm(new URLSearchParams(location.search).get('idPetak'));
 }
