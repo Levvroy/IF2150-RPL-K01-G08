@@ -77,7 +77,7 @@ export async function ambilTitikBerlaku(db = pool) {
   return hasilQ006.filter((titik) => !isDikecualikan(titik, hasilQ006));
 }
 
-// Tambahan di luar DPPL untuk membedakan 404 dan 403 pada tandai keliru. Lihat catatan deviasi.
+// Tambahan di luar DPPL
 export async function ambilById(idTitikPanas, db = pool) {
   const hasil = await db.query(
     `SELECT id_titik_panas, latitude, longitude, waktu_deteksi, status_validitas, keterangan, waktu_tandai_keliru
@@ -87,8 +87,7 @@ export async function ambilById(idTitikPanas, db = pool) {
   return hasil.rows.length === 0 ? null : keObjek(hasil.rows[0]);
 }
 
-// Q-007. Titik yang sudah ditandai dalam 24 jam terakhir tidak diubah lagi, supaya masa
-// pengecualian dari skor risiko tidak bisa diperpanjang dengan menandai ulang (KF15)
+// Q-007
 export async function tandaiKeliru(idTitikPanas, keterangan, db = pool) {
   const hasil = await db.query(
     `UPDATE titik_panas

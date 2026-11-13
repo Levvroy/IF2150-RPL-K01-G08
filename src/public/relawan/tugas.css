@@ -358,7 +358,7 @@ button {
   gap: var(--space-8);
 }
 
-/* UC06: tombol tandai keliru dan dialog I-07 */
+/* tandai keliru (I-07) */
 .baris-aksi {
   display: flex;
   gap: var(--space-8);
@@ -380,7 +380,6 @@ button {
   gap: var(--space-8);
 }
 
-/* Penghitung I07-04 berada di dalam kotak isian, pojok kanan bawah */
 .isian-keterangan {
   display: flex;
   flex-direction: column;

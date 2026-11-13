@@ -41,7 +41,7 @@ app.post('/api/notifikasi/:id/baca', cekLogin, tandaiNotifikasiDibaca);
 app.get('/api/simulasi-sms/pesan', ambilPesanSimulasi);
 app.post('/api/simulasi-sms/balasan', balasSimulasi);
 
-// UC06: hanya relawan (DPPL2 C17)
+// UC06: hanya relawan
 app.patch('/api/titik-panas/:id/keliru', hanyaRelawan, tandaiKeliru);
 
 const port = process.env.PORT || 3000;

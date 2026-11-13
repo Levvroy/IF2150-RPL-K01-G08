@@ -3,8 +3,7 @@ import { ambilToken, keluar } from './AutentikasiController.js';
 
 const PESAN_LURING = 'Penandaan butuh koneksi internet. Keterangan tetap tersimpan, kirim lagi setelah ada sinyal.';
 
-// Bagian klien C17. Penandaan tidak disimpan di perangkat saat luring,
-// karena penyimpanan luring hanya untuk laporan bukti kerja (KF12)
+// Bagian klien C17
 export async function tandaiKeliru(idTitikPanas, keterangan) {
   let respons;
   try {
@@ -23,7 +22,6 @@ export async function tandaiKeliru(idTitikPanas, keterangan) {
     location.replace('/relawan/login.html');
     return;
   }
-  // 409: titik sudah ditandai keliru sebelumnya, hasil akhirnya sama dengan berhasil
   if (respons.status === 409) {
     Dialog.tampilkanPesanBerhasil();
     return;

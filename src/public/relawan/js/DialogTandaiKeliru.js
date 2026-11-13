@@ -26,7 +26,6 @@ export function tampilkanPeringatanKeteranganKosong() {
   tampilkanPesan('Keterangan wajib diisi. Tulis apa yang Anda lihat di lokasi.');
 }
 
-// Dipanggil juga untuk balasan 409, karena titik itu memang sudah ditandai keliru (I07-10)
 export function tampilkanPesanBerhasil() {
   tutupForm();
   el('kartu-keliru').hidden = false;
@@ -35,7 +34,6 @@ export function tampilkanPesanBerhasil() {
   tombol.textContent = 'Sudah ditandai';
 }
 
-// Dialog tetap terbuka dan isi keterangan tidak dihapus (I07-08)
 export function tampilkanPesanGagal(pesan) {
   tampilkanPesan(pesan);
 }
@@ -44,7 +42,6 @@ export function tutupForm() {
   el('lembar-keliru').hidden = true;
 }
 
-// bantuan tampilan
 function tampilkanPesan(pesan) {
   el('pesan-keliru').querySelector('span').textContent = pesan;
   el('pesan-keliru').hidden = false;

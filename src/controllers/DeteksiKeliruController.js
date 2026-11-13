@@ -3,15 +3,13 @@ import * as JadwalPekerjaan from '../models/JadwalPekerjaan.js';
 
 const PANJANG_MAKS_KETERANGAN = 200;
 
-// TRUE jika keterangan berisi 1 sampai 200 karakter setelah spasi di tepi dibuang.
-// Keterangan berisi spasi saja dianggap kosong (UC06 alternatif 1)
 export function validasiKeterangan(keterangan) {
   if (typeof keterangan !== 'string') return false;
   const rapi = keterangan.trim();
   return rapi.length >= 1 && rapi.length <= PANJANG_MAKS_KETERANGAN;
 }
 
-// PATCH /api/titik-panas/:id/keliru (KF14, KF15). Peran relawan dicek di server.js
+// PATCH /api/titik-panas/:id/keliru
 export async function tandaiKeliru(req, res) {
   const keterangan = req.body?.keterangan;
   if (!validasiKeterangan(keterangan)) {
@@ -24,7 +22,6 @@ export async function tandaiKeliru(req, res) {
   }
 
   try {
-    // 404 jika titik tidak ada, 403 jika ada tapi bukan dari tugas relawan ini
     const milikRelawan = await JadwalPekerjaan.adaTugasTitikPanas(idTitikPanas, req.pengguna.idPengguna);
     if (!milikRelawan) {
       const titik = await TitikPanas.ambilById(idTitikPanas);

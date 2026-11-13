@@ -152,7 +152,7 @@ export function tampilkanDetailTugas(tugas) {
   bukaLayar('detail');
 }
 
-// I05-16 hanya untuk tugas pengecekan titik panas yang punya idTitikPanas (KF14, UC06)
+// I05-16
 function tampilkanTombolTandaiKeliru(tugas, dibatalkan) {
   const tombol = el('tombol-tandai-keliru');
   tombol.hidden = dibatalkan || tugas.jenisPekerjaan !== 'pengecekan titik panas' || !tugas.idTitikPanas;

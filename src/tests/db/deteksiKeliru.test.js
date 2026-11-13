@@ -1,10 +1,10 @@
-// Tes UC06 terhadap database sungguhan (butuh Postgres dari docker-compose menyala dan tabel sudah dibuat).
+// Butuh Postgres dari docker compose
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import pool from '../../db.js';
 import { tandaiKeliru } from '../../controllers/DeteksiKeliruController.js';
 
-const LAT_PENANDA = -88.456; // penanda data uji, supaya sisa tes yang gagal bisa dibersihkan
+const LAT_PENANDA = -88.456;
 let idPemilik;
 let idRelawanLain;
 let idTitik;

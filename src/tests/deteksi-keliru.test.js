@@ -16,7 +16,6 @@ test('validasiKeterangan menerima 1 sampai 200 karakter setelah trim', () => {
   assert.equal(validasiKeterangan('  Asap dari pembakaran sampah  '), true);
   assert.equal(validasiKeterangan('a'.repeat(200)), true);
   assert.equal(validasiKeterangan('a'.repeat(201)), false);
-  // spasi di tepi tidak ikut dihitung
   assert.equal(validasiKeterangan(`  ${'a'.repeat(200)}  `), true);
 });
 

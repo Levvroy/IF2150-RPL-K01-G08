@@ -1,6 +1,6 @@
 import pool from '../db.js';
 
-// Tambahan di luar DPPL untuk cek kepemilikan tugas pada tandai keliru (UC06). Lihat catatan deviasi.
+// Tambahan di luar DPPL
 export async function adaTugasTitikPanas(idTitikPanas, idRelawan, db = pool) {
   const hasil = await db.query(
     `SELECT 1 FROM jadwal_pekerjaan
