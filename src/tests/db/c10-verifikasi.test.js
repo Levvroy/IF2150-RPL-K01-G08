@@ -275,7 +275,7 @@ test('C10-UT34 dalamTransaksi: kerja melempar galat, perubahan di-ROLLBACK dan g
   assert.equal(pool.totalCount, pool.idleCount, 'client harus dikembalikan ke pool');
 });
 
-// tolakLaporan: keputusan lain masuk di antara pengecekan status dan transaksi
+// Keputusan lain masuk di antara pengecekan status dan transaksi
 test('C10-UT35 tolakLaporan: laporan disetujui petugas lain setelah dicek, transaksi dibalas 409 dan alasan tidak tersimpan', async () => {
   const laporan = await buatLaporan(relawan.id, petak);
   selaSetelahQuery('nama_relawan', (query) =>
@@ -301,4 +301,16 @@ test('C10-UT36 tolakLaporan: status tugas sudah berubah setelah dicek, penolakan
   const baris = await barisLaporan(laporan.idLaporan);
   assert.equal(baris.status, 'menunggu verifikasi');
   assert.equal(baris.alasan_penolakan, null);
+});
+
+test('C10-UT37 verifikasiLaporan: laporan ditolak petugas lain setelah dicek, transaksi dibalas 409 dan tugas tidak selesai', async () => {
+  const laporan = await buatLaporan(relawan.id, petak);
+  selaSetelahQuery('nama_relawan', (query) =>
+    query(`UPDATE laporan_bukti_kerja SET status = 'ditolak', alasan_penolakan = 'uji-setup', waktu_verifikasi = NOW() WHERE id_laporan = $1`, [laporan.idLaporan])
+  );
+  const res = await panggil(verifikasiLaporan, req(laporan.idLaporan));
+
+  assert.equal(res.kode, 409);
+  assert.equal((await barisLaporan(laporan.idLaporan)).status, 'ditolak');
+  assert.equal(await statusJadwal(laporan.idJadwal), 'menunggu verifikasi');
 });
