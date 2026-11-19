@@ -1,0 +1,138 @@
+
+> sigap@0.9.0 test:semua
+> npm test && npm run test:db && npm run test:int
+
+
+> sigap@0.9.0 test
+> node --test "tests/*.test.js"
+
+✔ C13-UT01 tugas diurutkan dari skor risiko tertinggi (2.3803ms)
+✔ C13-UT02 skor yang sama tidak mengubah urutan (0.2946ms)
+✔ C13-UT03 daftar kosong tetap kosong (0.1604ms)
+✔ C13-UT04 batal tanpa alasan ditolak 400 (0.4547ms)
+✔ C13-UT05 alasan lebih dari 300 karakter ditolak 400 (0.18ms)
+✔ C13-UT06 id tugas tidak valid ditolak 409 (0.2253ms)
+✔ C15-UT06 mulaiLaporan membuat UUID baru setiap kali dipanggil (9.6681ms)
+✔ C15-UT07 daring dan server menerima, laporan tidak disimpan di HP (26.7402ms)
+✔ C15-UT08 luring, laporan disimpan di HP dan menunggu dikirim (1.9664ms)
+✔ C15-UT09 laporan ditolak server (409) tidak disimpan di HP (2.5191ms)
+✔ C15-UT10 laporan ke-20 masih bisa disimpan, ke-21 ditolak karena penuh (5.0412ms)
+✔ C15-UT11 sinkron otomatis mengirim semua laporan tertunda lalu menghapusnya dari HP (4.5986ms)
+✔ C15-UT12 koneksi putus di tengah sinkron, laporan yang belum terkirim tetap ada (5.6066ms)
+✔ C15-UT13 saat luring sinkron tidak mengirim apa-apa (3.2668ms)
+✔ C22-UT13 periksaSesi klien: token masih berlaku hasilnya true (1.6928ms)
+✔ C22-UT14 periksaSesi klien: token sudah lewat 1 detik hasilnya false (0.2473ms)
+✔ C22-UT15 periksaSesi klien: setelah keluar hasilnya false (0.1744ms)
+✔ C22-UT16 login klien berhasil, token disimpan di perangkat (27.4123ms)
+✔ C22-UT17 login klien ditolak 401, tidak ada token yang disimpan (0.5104ms)
+✔ C22-UT18 login klien saat server membalas bukan JSON tetap dapat pesan error (0.6039ms)
+✔ C22-UT19 arahkanSesuaiPeran: petugas ke /petugas/, relawan ke /relawan/ (0.2012ms)
+✔ C22-UT01 login dengan username dan password kosong ditolak 400 (1.1141ms)
+✔ C22-UT02 login tanpa body ditolak 400 (0.1355ms)
+✔ C22-UT03 buatSesi menghasilkan token berisi id dan peran (3.8776ms)
+✔ C22-UT04 token berlaku tepat 7 hari (0.6876ms)
+✔ C22-UT05 token tidak bisa dibaca pakai secret lain (0.6642ms)
+✔ C22-UT06 middleware cekLogin: token valid boleh lewat (0.5554ms)
+✔ C22-UT07 middleware cekLogin: tanpa token ditolak 401 (0.1187ms)
+✔ C22-UT08 middleware cekLogin: token yang baru lewat 1 detik dari batas ditolak 401 (2.0663ms)
+✔ C22-UT09 relawan tidak boleh akses halaman petugas (403) (0.2351ms)
+✔ validasiKeterangan menolak keterangan kosong atau spasi saja (UC06 alternatif 1) (0.8683ms)
+✔ validasiKeterangan menerima 1 sampai 200 karakter setelah trim (0.1594ms)
+✔ cekPeran menolak petugas memanggil endpoint tandai keliru (C17 hanya relawan) (0.2054ms)
+✔ buatJadwal membalas 400 untuk isian kosong tanpa menyentuh database (Algo-004) (1.3008ms)
+✔ bacaLaporan mengubah isi multipart menjadi objek laporan (2.3597ms)
+✔ bacaLaporan mengembalikan null jika ada data kosong atau tidak valid (Algo-011) (0.3036ms)
+✔ terimaLaporan membalas 400 untuk data tidak lengkap tanpa menyentuh database (0.2847ms)
+✔ terimaFoto menolak foto lebih dari 500 KB dengan 413 (KNF09) (74.152ms)
+✔ batas ukuran foto di klien dan server sama (0.1773ms)
+✔ daftarPercobaanKompresi mengikuti urutan C15 kompresFoto dan berhenti (0.3736ms)
+✔ haversine menghasilkan jarak 0 km untuk titik yang sama (1.4787ms)
+✔ haversine menghitung jarak ~1 km untuk selisih lintang 0.009 derajat (0.4346ms)
+✔ isDikecualikan mengecualikan titik keliru < 24 jam tanpa deteksi baru dalam 500 m (0.943ms)
+✔ isDikecualikan mengembalikan false bila ada deteksi baru <= 500 m setelah ditandai keliru (0.2151ms)
+✔ isDikecualikan mengembalikan false jika ditandai keliru lebih dari 24 jam lalu (Algo-003) (0.1397ms)
+✔ isDikecualikan mengabaikan titik yang terdeteksi sebelum waktu penandaan walaupun jarak < 500 m (0.1307ms)
+✔ hitungHariKering menghitung hari berturut-turut dari akhir dengan curah hujan < 1 mm (0.1232ms)
+✔ hitungSkorRisiko menghitung skor dan tingkat risiko per petak sesuai rumus (0.2685ms)
+✔ isDataUsang bernilai true bila waktuUpdateTerakhir > 3 jam atau kosong (KF04) (0.183ms)
+✔ perbaruiData mengembalikan 401 jika CRON_TOKEN tidak cocok (0.3978ms)
+✔ titik terbaru digeser menjadi 1 jam sebelum sekarang (1.9395ms)
+✔ jarak waktu antartitik tidak berubah setelah digeser (0.1711ms)
+✔ koordinat laporan I-04a berada di dalam Petak 214 (0.2224ms)
+✔ hitungJarak bernilai 0 jika koordinat di dalam petak (Algo-005) (0.7885ms)
+✔ hitungJarak mengukur ke titik terdekat pada batas petak dengan haversine (0.9022ms)
+✔ laporan seed Petak 187 berada sekitar 340 m di luar petak (I-04b) (0.1424ms)
+✔ validasiAlasan mewajibkan alasan 1 sampai 300 karakter setelah trim (0.144ms)
+✔ cekPeran menolak relawan mengakses endpoint petugas (KNF05) (0.1806ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 58
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 519.9483
+
+> sigap@0.9.0 test:db
+> node --env-file=.env --test --test-concurrency=1 "tests/db/*.test.js"
+
+✔ C13-UT07 daftar tugas hanya berisi tugas aktif, skor tertinggi paling atas (376.5879ms)
+✔ C13-UT08 relawan tanpa tugas dapat daftar kosong (3.0782ms)
+✔ C13-UT09 tidak bisa membatalkan tugas milik relawan lain (409) (1.3919ms)
+✔ C13-UT10 batal tugas berhasil dan petugas dapat notifikasi (12.8535ms)
+✔ C13-UT11 tugas yang sudah dibatalkan tidak bisa dibatalkan lagi (409) (1.3745ms)
+✔ C13-UT12 tandai notifikasi dibaca, lalu notifikasinya tidak muncul lagi (5.4953ms)
+✔ C13-UT13 tidak bisa menandai notifikasi milik orang lain (404) (2.0349ms)
+✔ C13-UT14 id notifikasi tidak valid ditolak 400 (0.2406ms)
+✔ C15-UT01 laporan valid tersimpan (201) dan status tugas jadi menunggu verifikasi (218.6728ms)
+✔ C15-UT02 laporan dengan UUID yang sama dikirim ulang dibalas 200, tidak dobel (20.8343ms)
+✔ C15-UT03 tiga kiriman UUID sama secara bersamaan tetap tersimpan satu (28.5105ms)
+✔ C15-UT04 laporan untuk tugas relawan lain ditolak 409 (14.1425ms)
+✔ C15-UT05 laporan untuk tugas yang sudah dibatalkan ditolak 409 (14.1195ms)
+✔ C22-UT10 login dengan akun benar dapat token (199.7073ms)
+✔ C22-UT11 login dengan password salah ditolak 401 (73.9218ms)
+✔ C22-UT12 login dengan username yang tidak ada ditolak 401 (2.7041ms)
+✔ titik panas yang tidak ada dibalas 404 (52.5998ms)
+✔ relawan lain tidak bisa menandai titik panas dari tugas orang lain (403) (3.8241ms)
+✔ pemilik tugas berhasil menandai keliru (200) (6.3538ms)
+✔ menandai ulang dalam 24 jam dibalas 409 dan waktu penandaan tidak berubah (KF15) (5.0783ms)
+✔ setelah lewat 24 jam titik boleh ditandai lagi (6.2934ms)
+✔ relawan dengan kurang dari 3 tugas aktif bisa diberi tugas (KF06) (81.6917ms)
+✔ tugas keempat ditolak 409 dan tidak tersimpan (KF06) (3.394ms)
+✔ tugas yang dibatalkan tidak dihitung tugas aktif (Q-013) (11.7791ms)
+✔ KNF11-TC01 tidak ada password yang tersimpan sebagai teks biasa (35.1473ms)
+✔ petak tinggi: warga aktif menerima SMS, nomor tidak aktif tercatat gagal (77.5666ms)
+✔ batas 24 jam: panggilan kedua dalam 24 jam tidak mengirim lagi (17.0027ms)
+✔ batas 24 jam: setelah lewat 24 jam boleh mengirim lagi (24.4375ms)
+✔ petak berisiko sedang tidak dikirimi SMS (7.1714ms)
+✔ balasan STOP (huruf apa pun) mencabut persetujuan (9.5681ms)
+✔ balasan selain STOP dan nomor tak dikenal diabaikan (4.9279ms)
+✔ warga yang sudah STOP tidak dikirimi SMS lagi (34.7684ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2592.4267
+
+> sigap@0.9.0 test:int
+> node --env-file=.env --test --test-concurrency=1 "tests/int/*.test.js"
+
+✔ INT-TC01 login dengan akun yang ada di tabel pengguna berhasil (804.5066ms)
+✔ INT-TC02 login dengan password salah ditolak 401 (76.8082ms)
+✔ INT-TC03 daftar tugas dari database tampil beserta tingkat risiko petaknya (29.7905ms)
+✔ INT-TC04 petugas tidak bisa membuka daftar tugas relawan (403) (2.4002ms)
+✔ INT-TC05 pembatalan tugas mengubah status di database (33.0339ms)
+✔ INT-TC06 laporan yang diunggah tersimpan di database beserta fotonya (30.16ms)
+✔ INT-TC07 laporan dengan UUID sama dikirim dua kali hanya tersimpan satu (27.1415ms)
+✔ INT-TC08 foto lebih dari 500 KB ditolak 413 dan tidak masuk database (12.2221ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1195.7943
