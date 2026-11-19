@@ -63,6 +63,21 @@ function gagalkanQuery(potongan) {
   mock.method(console, 'error', () => {});
 }
 
+// Menjalankan `selaan` tepat setelah SQL yang memuat `potongan` selesai, sebelum hasilnya dipakai.
+// Dipakai untuk meniru keputusan lain yang masuk di antara pengecekan status dan transaksi.
+function selaSetelahQuery(potongan, selaan) {
+  const asli = pool.query.bind(pool);
+  let sudah = false;
+  mock.method(pool, 'query', async (sql, ...sisa) => {
+    const hasil = await asli(sql, ...sisa);
+    if (!sudah && String(sql).includes(potongan)) {
+      sudah = true;
+      await selaan(asli);
+    }
+    return hasil;
+  });
+}
+
 // ambilAntrean
 test('C10-UT14 ambilAntrean: laporan menunggu tampil urut dari unggahan terlama, tanpa foto', async () => {
   const baru = await buatLaporan(relawan.id, petak, { waktuUnggah: new Date('2026-11-18T03:00:00Z') });
@@ -258,4 +273,32 @@ test('C10-UT34 dalamTransaksi: kerja melempar galat, perubahan di-ROLLBACK dan g
 
   assert.equal((await barisLaporan(laporan.idLaporan)).status, 'menunggu verifikasi');
   assert.equal(pool.totalCount, pool.idleCount, 'client harus dikembalikan ke pool');
+});
+
+// tolakLaporan: keputusan lain masuk di antara pengecekan status dan transaksi
+test('C10-UT35 tolakLaporan: laporan disetujui petugas lain setelah dicek, transaksi dibalas 409 dan alasan tidak tersimpan', async () => {
+  const laporan = await buatLaporan(relawan.id, petak);
+  selaSetelahQuery('nama_relawan', (query) =>
+    query(`UPDATE laporan_bukti_kerja SET status = 'terverifikasi', id_petugas_verifikasi = $2, waktu_verifikasi = NOW() WHERE id_laporan = $1`, [laporan.idLaporan, petugasLain.id])
+  );
+  const res = await panggil(tolakLaporan, req(laporan.idLaporan, { body: { alasan: 'uji-setup terlambat' } }));
+
+  assert.equal(res.kode, 409);
+  const baris = await barisLaporan(laporan.idLaporan);
+  assert.equal(baris.status, 'terverifikasi');
+  assert.equal(baris.alasan_penolakan, null);
+  assert.equal(baris.id_petugas_verifikasi, petugasLain.id);
+});
+
+test('C10-UT36 tolakLaporan: status tugas sudah berubah setelah dicek, penolakan di-ROLLBACK dan dibalas 409', async () => {
+  const laporan = await buatLaporan(relawan.id, petak);
+  selaSetelahQuery('nama_relawan', (query) =>
+    query(`UPDATE jadwal_pekerjaan SET status = 'ditugaskan' WHERE id_jadwal = $1`, [laporan.idJadwal])
+  );
+  const res = await panggil(tolakLaporan, req(laporan.idLaporan, { body: { alasan: 'uji-setup terlambat' } }));
+
+  assert.equal(res.kode, 409);
+  const baris = await barisLaporan(laporan.idLaporan);
+  assert.equal(baris.status, 'menunggu verifikasi');
+  assert.equal(baris.alasan_penolakan, null);
 });
