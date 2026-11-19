@@ -1,18 +1,22 @@
 KNF04-TC01 Portability (emulasi perangkat Android di Chrome DevTools)
-Waktu        : 19/11/2026, 22.41.05 WIB
+Waktu        : 20/11/2026, 05.05.22 WIB
 Peramban     : Chrome 157.0.8103.79
 Emulasi      : viewport 412x892 CSS px, DPR 2.625 (setara 1080x2340), mobile + touch
 User-Agent   : Mozilla/5.0 (Linux; Android 14; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.8103.79 Mobile Safari/537.36
 Catatan      : bukan HP fisik. CPU, RAM, dan mesin Chrome yang dipakai adalah milik laptop.
 
 [PASS] 1. Aplikasi relawan terbuka dan bisa login di peramban: http://localhost:3000/relawan/ -> "3 tugas aktif, risiko tertinggi paling atas"
+   screenshot : knf04-tc01a-emulasi-android-daftar-tugas-daring.png (20/11/2026, 05.05.24 WIB, daring)
    manifest   : http://localhost:3000/relawan/manifest.json (galat parsing: 0)
    name       : SIGAP Relawan, display: standalone, start_url: /relawan/, ikon: 272x272
    service worker: http://localhost:3000/relawan/ (activated)
    installabilityErrors: []
 [PASS] 2. Memenuhi syarat dipasang sebagai PWA (Page.getInstallabilityErrors kosong): 0 galat kelayakan pasang
-[PASS] 3. Mode pesawat: muat ulang, daftar tugas tetap tampil: banner "Tidak ada koneksi", Tersinkron Hari ini, 22.41, "3 tugas aktif, risiko tertinggi paling atas"
+[PASS] 3. Mode pesawat: muat ulang, daftar tugas tetap tampil: banner "Tidak ada koneksi", Tersinkron Hari ini, 05.05, "3 tugas aktif, risiko tertinggi paling atas"
+   screenshot : knf04-tc01b-emulasi-android-mode-pesawat.png (20/11/2026, 05.05.28 WIB, Offline, halaman dimuat ulang)
+   tab ditutup, menunggu 90 detik sebelum aplikasi dibuka lagi
 [PASS] 4. Ditutup lalu dibuka lagi saat mode pesawat: sesi masih berlaku, daftar tugas dari salinan: http://localhost:3000/relawan/ -> "3 tugas aktif, risiko tertinggi paling atas"
+   screenshot : knf04-tc01c-emulasi-android-dibuka-ulang-saat-mode-pesawat.png (20/11/2026, 05.07.01 WIB, Offline, tab baru dari start_url)
 
 4/4 pemeriksaan lulus
 Belum tercakup emulasi: pemasangan ke layar utama dan tampilan standalone di HP fisik.
