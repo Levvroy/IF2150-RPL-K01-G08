@@ -125,3 +125,21 @@ test('C18-UT12 hapusNomorDicabut menghapus yang dicabut lebih dari 30 hari saja'
   assert.notEqual(await statusWarga(baru), undefined);
   assert.notEqual(await statusWarga(aktif), undefined);
 });
+
+test('C18-UT12b hapusNomorDicabut batas 30 hari: 31 hari terhapus, 29 hari tetap', async () => {
+  const petak = await buatPetak(10, 'rendah');
+  const lewat = await buatWarga(petak, '081200000124', 'dicabut', 31);
+  const belum = await buatWarga(petak, '081200000125', 'dicabut', 29);
+  await hapusNomorDicabut();
+  assert.equal(await statusWarga(lewat), undefined);
+  assert.notEqual(await statusWarga(belum), undefined);
+});
+
+test('C18-UT12c hapusNomorDicabut tanpa data melewati batas tidak menghapus apa pun dan tidak error', async () => {
+  const petak = await buatPetak(10, 'rendah');
+  const aktif = await buatWarga(petak, '081200000126');
+  const baru = await buatWarga(petak, '081200000127', 'dicabut', 1);
+  await assert.doesNotReject(() => hapusNomorDicabut());
+  assert.notEqual(await statusWarga(aktif), undefined);
+  assert.notEqual(await statusWarga(baru), undefined);
+});
