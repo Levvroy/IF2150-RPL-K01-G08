@@ -35,6 +35,7 @@
   - [Milestone 7](#milestone-7)
   - [Milestone 8](#milestone-8)
   - [Milestone 9](#milestone-9)
+  - [Milestone 10](#milestone-10)
     - [Pernyataan Integritas dan Persetujuan](#pernyataan-integritas-dan-persetujuan)
 
 ---
@@ -119,6 +120,15 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Gemini | Memverifikasi kesesuaian `perbaruiData` dengan Algo-001 serta penanganan galat API Open-Meteo dan CSV NASA FIRMS | "Cek apakah alur `perbaruiData` dan `ambilDataCuaca` sudah sesuai Algo-001 saat API gagal, dan bagaimana membaca kolom CSV FIRMS secara aman?" | Saya menghapus `try/catch` internal di `ambilDataCuaca` agar galat diteruskan ke `perbaruiData` (balasan 500 dan fallback cache), membatasi curah hujan sampai kemarin, serta menyesuaikan parsing CSV berdasarkan indeks header (`indexOf`) |
 | Gemini | Brainstorming kasus uji batas (*edge cases*) untuk fungsi `isDikecualikan` dan `hitungHariKering` sesuai Algo-003 dan Algo-001 | "Skenario batas apa saja yang perlu diuji untuk radius 500 m dan batas 24 jam pada `isDikecualikan` agar semua cabang Algo-003 tertutup?" | Saya memilah skenario uji yang sesuai DPPL (batas 24 jam dan titik yang terdeteksi sebelum penandaan keliru), membersihkan fallback koordinat bertumpuk, lalu memverifikasi seluruh tes lulus lewat `npm test` |
 | Gemini | Membantu menindaklanjuti hasil code review PR #17 pada antarmuka peta risiko (`HalamanPetaRisiko.js`) | "Bagaimana menangani state gagal saat `/api/peta` error agar skeleton tidak tertahan, dan jalur apa saja yang diubah jika Leaflet dipindah ke lokal?" | Saya memilah poin review antara yang diubah di kode dan yang dicatat di laporan M9, menambahkan state gagal pada UI, memindahkan aset Leaflet 1.9.4 ke `vendor/leaflet/`, serta menguji ulang tampilan luring dan cache |
+
+---
+
+## Milestone 10
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Gemini | Menyusun unit test `C02`, `C03`, `C04`, helper server dummy FIRMS/Open-Meteo, serta tes integrasi `INT-TC30`–`TC35` dan `KNF02` | "Buat unit test dan tes integrasi peta risiko dengan PostgreSQL nyata dan server HTTP dummy lokal untuk NASA FIRMS dan Open-Meteo sesuai pola test/m10-setup" | Saya memeriksa ulang kesesuaian skenario terhadap Algo-001/Algo-003 dan batas waktu 3 jam/24 jam/500 m, menjalankan `npm run test:semua` dan `npm run coverage` hingga semua tes lulus tanpa menyisakan data uji di database, serta menyederhanakan helper dan menurunkan C03 ke tingkat Sedang sesuai review PR |
+| Gemini | Membuat skrip pengukuran `src/scripts/ukur-knf.js` (KNF07/KNF08) dan menindaklanjuti catatan review PR | "Buat skrip pengukuran KNF08 ergonomi mobile di Chrome DevTools Protocol dan sesuaikan revisi review pada KNF01, KNF07, dan helper" | Saya menguji ulang KNF01 secara manual 5× langsung di Google Chrome DevTools memakai preset `3G` bawaan dan mencatat hasilnya apa adanya sebagai `Fail`, memeriksa screenshot dan keluaran `ukur-knf.js`, serta menyesuaikan kesimpulan KNF07 agar jujur hanya mengklaim pengujian pada lingkungan lokal |
 
 ---
 

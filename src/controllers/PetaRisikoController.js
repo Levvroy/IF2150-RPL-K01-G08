@@ -15,6 +15,8 @@ export const KONFIG_SKOR = {
 const TIGA_JAM_MS = 3 * 60 * 60 * 1000;
 const BBOX_WILAYAH = '101.371,-0.561,101.488,-0.471';
 const PUSAT_WILAYAH = { lat: -0.516, lng: 101.43 };
+const URL_FIRMS_DEFAULT = 'https://firms.modaps.eosdis.nasa.gov';
+const URL_OPEN_METEO_DEFAULT = 'https://api.open-meteo.com';
 
 export function tingkatDariSkor(skor) {
   if (skor >= KONFIG_SKOR.ambangTinggi) return 'tinggi';
@@ -68,7 +70,8 @@ async function ambilDataTitikPanas() {
   if (!mapKey) return [];
 
   try {
-    const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${mapKey}/VIIRS_SNPP_NRT/${BBOX_WILAYAH}/1`;
+    const dasar = (process.env.FIRMS_BASE_URL?.trim() || URL_FIRMS_DEFAULT).replace(/\/+$/, '');
+    const url = `${dasar}/api/area/csv/${mapKey}/VIIRS_SNPP_NRT/${BBOX_WILAYAH}/1`;
     const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
     if (!res.ok) return [];
 
@@ -105,8 +108,9 @@ async function ambilDataTitikPanas() {
 }
 
 async function ambilDataCuaca() {
+  const dasar = (process.env.OPEN_METEO_BASE_URL?.trim() || URL_OPEN_METEO_DEFAULT).replace(/\/+$/, '');
   const url =
-    `https://api.open-meteo.com/v1/forecast?latitude=${PUSAT_WILAYAH.lat}&longitude=${PUSAT_WILAYAH.lng}` +
+    `${dasar}/v1/forecast?latitude=${PUSAT_WILAYAH.lat}&longitude=${PUSAT_WILAYAH.lng}` +
     '&daily=precipitation_sum&past_days=7&forecast_days=1&timezone=Asia%2FJakarta';
   const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
   if (!res.ok) throw new Error(`Open-Meteo membalas ${res.status}`);
