@@ -1,0 +1,17 @@
+Bukti DB UC07 (diambil 20/11/2026 di lingkungan uji lokal, setelah npm run seed)
+Langkah: NOMOR_TIDAK_AKTIF=081300000002, node --env-file=.env scripts/simulasiSMS.js (petak 214), lalu balas 'stop' dari 081300000001 di halaman I-08
+
+$ SELECT w.nomor_hp, p.status, p.isi_pesan, p.waktu_kirim FROM peringatan_sms p JOIN warga w USING (id_warga);
+   nomor_hp   |  status  |                                                                         isi_pesan                                                                         |          waktu_kirim          
+--------------+----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------
+ 081300000001 | terkirim | PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan | 2026-11-20 22:13:18.812926+07
+ 081300000002 | gagal    | PERINGATAN!! Petak Lahan 214 yang dekat dengan anda berisiko tinggi terjadinya karhutla. Balas pesan ini dengan 'STOP' untuk berhenti menerima peringatan | 2026-11-20 22:13:18.814118+07
+(2 rows)
+
+$ SELECT nomor_hp, status_persetujuan, waktu_dicabut FROM warga WHERE id_petak = 214;
+   nomor_hp   | status_persetujuan |         waktu_dicabut         
+--------------+--------------------+-------------------------------
+ 081300000002 | aktif              | 
+ 081300000001 | dicabut            | 2026-11-20 22:14:11.797834+07
+(2 rows)
+
