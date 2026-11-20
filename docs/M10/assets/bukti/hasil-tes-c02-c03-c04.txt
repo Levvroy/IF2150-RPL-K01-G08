@@ -1,0 +1,85 @@
+> node --test --test-reporter=spec tests/c02-peta-risiko.test.js tests/c04-titik-panas.test.js
+✔ C02-UT01 tingkatDariSkor: mengklasifikasikan nilai normal rendah, sedang, dan tinggi (1.023083ms)
+✔ C02-UT02 tingkatDariSkor: memeriksa nilai batas ambang sedang (30) dan tinggi (60) (0.125125ms)
+✔ C02-UT03 hitungHariKering: menghitung hari berturut-turut dari akhir dengan curah hujan < 1 mm (0.167667ms)
+✔ C02-UT04 hitungHariKering: nilai batas tepat 1 mm menghentikan hitungan dan array kosong bernilai 0 (0.087583ms)
+✔ C02-UT05 hitungSkorRisiko: menghitung skor dan tingkat risiko per petak sesuai rumus pembobotan (0.494625ms)
+✔ C02-UT06 hitungSkorRisiko: menerapkan batas setengah terbuka petak dan membatasi skor minimum 0 (0.21025ms)
+✔ C02-UT07 hitungSkorRisiko: daftar petak atau data cuaca kosong ditangani aman tanpa error (0.883708ms)
+✔ C02-UT08 isDataUsang: bernilai false dalam 3 jam dan true jika lewat 3 jam (0.136666ms)
+✔ C02-UT09 isDataUsang: batas tepat 3 jam masih segar (false) dan lewat 1 ms menjadi usang (true) (0.156042ms)
+✔ C02-UT10 isDataUsang: nilai kosong atau format tanggal tidak valid bernilai true (0.219ms)
+✔ C02-UT11 perbaruiData: menolak token tidak cocok atau CRON_TOKEN kosong dengan status 401 (0.140458ms)
+✔ C02-UT12 perbaruiDataHandler: header Authorization kosong atau Bearer salah dibalas 401 (0.117625ms)
+✔ C04-UT01 haversine: jarak dua koordinat identik adalah 0 km (0.738833ms)
+✔ C04-UT02 haversine: selisih lintang 0.009 derajat menghasilkan jarak sekitar 1 km (0.130625ms)
+✔ C04-UT03 isDikecualikan: titik keliru kurang dari 24 jam tanpa deteksi baru dalam 500 m dikecualikan (Algo-003) (0.0955ms)
+✔ C04-UT04 isDikecualikan: titik berstatus valid atau tanpa waktuTandaiKeliru tidak dikecualikan (0.057917ms)
+✔ C04-UT05 isDikecualikan: memeriksa batas tepat 24 jam (true) dan 24 jam 1 detik (false) (0.058875ms)
+✔ C04-UT06 isDikecualikan: batas radius 500 m membatalkan pengecualian jika <= 500 m dan tetap mengecualikan jika > 500 m (0.070333ms)
+✔ C04-UT07 isDikecualikan: mengabaikan deteksi sebelum atau tepat pada waktuTandaiKeliru meski berjarak < 500 m (0.098833ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.234334
+
+> node --env-file=.env --test --test-reporter=spec --test-concurrency=1 tests/db/c02-peta-risiko.test.js tests/db/c03-petak-lahan.test.js tests/db/c04-titik-panas.test.js
+✔ C02-UT13 perbaruiData: mengambil FIRMS dan Open-Meteo lalu memperbarui skor di database (Algo-001) (177.125625ms)
+✔ C02-UT14 perbaruiData: petak naik ke tingkat tinggi memicu SMS ke warga aktif di petak (KF16) (35.947792ms)
+✔ C02-UT15 perbaruiData: MAP_KEY kosong, FIRMS gagal HTTP, CSV kosong, atau putus jaringan tetap 200 (81.38ms)
+✔ C02-UT16 perbaruiData: menyaring baris CSV cacat, jam pendek, dan precipitation_sum kosong dengan aman (27.594375ms)
+✔ C02-UT17 perbaruiData: Open-Meteo gagal mengembalikan 500 dan tidak mengubah cache petak (16.045375ms)
+✔ C02-UT18 perbaruiData: galat saat hapusNomorDicabut hanya dicatat di log dan pembaruan tetap 200 (33.601292ms)
+✔ C02-UT19 perbaruiDataHandler: token Bearer valid membalas 200 beserta ringkasan JSON (26.98675ms)
+✔ C02-UT20 ambilDataPeta: mengembalikan petak, notifikasi belum dibaca, dan isUsang false saat data segar (15.882667ms)
+✔ C02-UT21 ambilDataPeta: satu petak lebih dari 3 jam membuat isUsang true dan waktuUpdate paling lama (KF04) (15.005791ms)
+✔ C02-UT22 ambilDataPeta: satu petak bernilai NULL menghasilkan waktuUpdate null dan isUsang true (17.037875ms)
+✔ C02-UT23 ambilDataPeta: mengembalikan 404 bila tabel petak_lahan kosong (16.646875ms)
+✔ C02-UT24 ambilDataPeta: mengembalikan 500 bila terjadi galat basis data (15.06475ms)
+✔ C03-UT01 ambilSemua: mengembalikan daftar petak terurut id_petak beserta batasWilayah (Q-001) (90.204583ms)
+✔ C03-UT02 ambilById: mengembalikan detail satu petak yang ada di database (Q-002) (2.688208ms)
+✔ C03-UT03 ambilById: mengembalikan null jika idPetak tidak ditemukan (1.572958ms)
+✔ C03-UT04 ambilRekomendasi: mengurutkan skor tertinggi dan mengecualikan petak dengan tugas aktif (Q-003, KF17) (11.470375ms)
+✔ C03-UT05 ambilRekomendasi: menghormati batas jumlah rekomendasi yang diminta (7.350458ms)
+✔ C03-UT06 perbaruiSkor: memperbarui skor_risiko, tingkat_risiko, dan waktu_update_terakhir (Q-004) (3.225042ms)
+✔ C03-UT07 perbaruiSkor: idPetak yang tidak ada tidak menimbulkan error dan tidak mengubah petak lain (2.824292ms)
+✔ C04-UT08 simpanBaru: menyimpan titik panas baru dan mengembalikan jumlah baris tersimpan (Q-005) (20.146416ms)
+✔ C04-UT09 simpanBaru: kombinasi latitude, longitude, dan waktu_deteksi ganda diabaikan (ON CONFLICT) (3.416625ms)
+✔ C04-UT10 simpanBaru: larik kosong mengembalikan 0 tanpa menambah baris (2.996042ms)
+✔ C04-UT11 ambilTitikBerlaku: menyertakan titik valid 24 jam terakhir dan menyaring yang lebih dari 24 jam (Q-006) (4.905458ms)
+✔ C04-UT12 ambilTitikBerlaku: mengecualikan titik bertanda keliru dalam 24 jam terakhir (KF15) (3.112292ms)
+✔ C04-UT13 ambilTitikBerlaku: titik keliru kembali berlaku jika ada deteksi baru dalam radius 500 m (Algo-003) (4.2145ms)
+✔ C04-UT14 ambilById: mengembalikan objek titik panas camelCase lengkap untuk ID yang ada (4.010375ms)
+✔ C04-UT15 ambilById: mengembalikan null bila ID titik panas tidak ada (1.524792ms)
+✔ C04-UT16 tandaiKeliru: mengubah status menjadi keliru, menyimpan keterangan dan waktu (Q-007) (4.021584ms)
+✔ C04-UT17 tandaiKeliru: penandaan ulang dalam 24 jam ditolak (false) dan keterangan lama dipertahankan (3.987625ms)
+✔ C04-UT18 tandaiKeliru: setelah lewat 24 jam titik boleh ditandai ulang (true) (3.990292ms)
+✔ C04-UT19 tandaiKeliru: ID titik panas tidak ditemukan mengembalikan false (2.186792ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1084.112667
+
+> node --env-file=.env --test --test-reporter=spec tests/int/peta-risiko.int.test.js
+✔ INT-TC30 POST /api/perbarui dengan FIRMS dan Open-Meteo dummy sukses menyimpan titik tanpa duplikat, memperbarui skor, dan mencatat SMS (692.60675ms)
+✔ INT-TC31 POST /api/perbarui saat Open-Meteo dummy gagal (503) membalas 500 dan mempertahankan cache petak lama (KF04) (27.026333ms)
+✔ INT-TC32 POST /api/perbarui saat FIRMS dummy gagal (500) tetapi Open-Meteo sukses tetap memperbarui skor dari titik berlaku di DB (40.5415ms)
+✔ INT-TC33 POST /api/perbarui tanpa token atau token salah ditolak 401 tanpa memanggil API eksternal (20.608459ms)
+✔ INT-TC34 GET /api/peta untuk petugas memuat data petak & notifikasi dari DB; relawan (403) dan tanpa login (401) ditolak (26.932042ms)
+✔ INT-TC35 GET /api/peta saat data usang (> 3 jam) tetap membalas 200 dengan isUsang true dan data cache utuh (KF04) (32.922ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1004.16675

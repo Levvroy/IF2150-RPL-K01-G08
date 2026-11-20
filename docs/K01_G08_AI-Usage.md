@@ -35,6 +35,7 @@
   - [Milestone 7](#milestone-7)
   - [Milestone 8](#milestone-8)
   - [Milestone 9](#milestone-9)
+  - [Milestone 10](#milestone-10)
     - [Pernyataan Integritas dan Persetujuan](#pernyataan-integritas-dan-persetujuan)
 
 ---
@@ -132,6 +133,8 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Claude | Menguji KNF04 (portability) tanpa memindahkan aplikasi ke HP fisik | "HP-ku Samsung Galaxy A16 5G, tapi ribet kalau harus dipindah ke HP. Bisa tidak diuji lewat inspect di Chrome seolah-olah pakai HP, termasuk saat mode pesawat?" | Saya memutuskan memakai emulasi Android di Chrome DevTools dan meminta semua bukti diberi label "emulasi", bukan HP fisik. Setelah review, saya menambahkan screenshot panel Manifest dan Service workers, lalu mengambil ulang tc01c dengan jeda 90 detik dan jam pengambilan agar berbeda dari tc01b. Hal yang belum tercakup emulasi, yaitu pemasangan ke layar utama di HP fisik, saya tulis sebagai keterbatasan |
 | Claude | Menyusun deskripsi PR bagian M10 | "Tuliskan deskripsi PR-nya dengan gaya seperti contoh ini, lalu tambahkan bagian ID test case, tabel hasil coverage, dan cara mencoba seperti punya Jonathan untuk test case-ku" | Saya meringkas sendiri draf awalnya, lalu mencocokkan setiap angka (jumlah tes, persentase coverage, dan nama file bukti) dengan isi file di `docs/M10/assets/bukti/`, dan memperbaruinya setiap kali ada revisi dari reviewer |
 | Claude | Menindaklanjuti review PR test/m10-c06-jadwal | jelaskan singkat isi review | Saya menerapkan saran reviewer (port 3103, `hentikanServer`, assertion urutan KF17, kode galat 22001, judul INT-TC21), memastikan kode 22001 benar muncul dari database, lalu menjalankan ulang seluruh tes |
+| Gemini | Menyusun unit test `C02`, `C03`, `C04`, helper server dummy FIRMS/Open-Meteo, serta tes integrasi `INT-TC30`–`TC35` dan `KNF02` | "Buat unit test dan tes integrasi peta risiko dengan PostgreSQL nyata dan server HTTP dummy lokal untuk NASA FIRMS dan Open-Meteo sesuai pola test/m10-setup" | Saya memeriksa ulang kesesuaian skenario terhadap Algo-001/Algo-003 dan batas waktu 3 jam/24 jam/500 m, menjalankan `npm run test:semua` dan `npm run coverage` hingga semua tes lulus tanpa menyisakan data uji di database, serta menyederhanakan helper dan menurunkan C03 ke tingkat Sedang sesuai review PR |
+| Gemini | Membuat skrip pengukuran `src/scripts/ukur-knf.js` (KNF07/KNF08) dan menindaklanjuti catatan review PR | "Buat skrip pengukuran KNF08 ergonomi mobile di Chrome DevTools Protocol dan sesuaikan revisi review pada KNF01, KNF07, dan helper" | Saya menguji ulang KNF01 secara manual 5× langsung di Google Chrome DevTools memakai preset `3G` bawaan dan mencatat hasilnya apa adanya sebagai `Fail`, memeriksa screenshot dan keluaran `ukur-knf.js`, serta menyesuaikan kesimpulan KNF07 agar jujur hanya mengklaim pengujian pada lingkungan lokal |
 
 ---
 
