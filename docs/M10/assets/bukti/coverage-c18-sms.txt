@@ -1,0 +1,228 @@
+> sigap@0.9.0 coverage
+> c8 --include=controllers --include=models --include=middleware --include=public npm run test:semua
+
+
+> sigap@0.9.0 test:semua
+> npm test && npm run test:db && npm run test:int
+
+
+> sigap@0.9.0 test
+> node --test "tests/*.test.js"
+
+✔ C13-UT01 tugas diurutkan dari skor risiko tertinggi (2.0056ms)
+✔ C13-UT02 skor yang sama tidak mengubah urutan (0.2525ms)
+✔ C13-UT03 daftar kosong tetap kosong (0.1673ms)
+✔ C13-UT04 batal tanpa alasan ditolak 400 (0.4388ms)
+✔ C13-UT05 alasan lebih dari 300 karakter ditolak 400 (0.1313ms)
+✔ C13-UT06 id tugas tidak valid ditolak 409 (0.1387ms)
+✔ C15-UT06 mulaiLaporan membuat UUID baru setiap kali dipanggil (13.685ms)
+✔ C15-UT07 daring dan server menerima, laporan tidak disimpan di HP (48.4645ms)
+✔ C15-UT08 luring, laporan disimpan di HP dan menunggu dikirim (1.8318ms)
+✔ C15-UT09 laporan ditolak server (409) tidak disimpan di HP (3.5715ms)
+✔ C15-UT10 laporan ke-20 masih bisa disimpan, ke-21 ditolak karena penuh (7.1886ms)
+✔ C15-UT11 sinkron otomatis mengirim semua laporan tertunda lalu menghapusnya dari HP (5.1116ms)
+✔ C15-UT12 koneksi putus di tengah sinkron, laporan yang belum terkirim tetap ada (2.5127ms)
+✔ C15-UT13 saat luring sinkron tidak mengirim apa-apa (1.8746ms)
+✔ C18-UT05 daftar petak kosong selesai tanpa error (1.0333ms)
+✔ C18-UT10 balasan selain STOP tidak memproses apa pun (FALSE) (0.2295ms)
+✔ C18-UT10b balasan bukan string ditolak (FALSE) (0.0936ms)
+✔ C22-UT13 periksaSesi klien: token masih berlaku hasilnya true (1.2366ms)
+✔ C22-UT14 periksaSesi klien: token sudah lewat 1 detik hasilnya false (0.2449ms)
+✔ C22-UT15 periksaSesi klien: setelah keluar hasilnya false (0.1856ms)
+✔ C22-UT16 login klien berhasil, token disimpan di perangkat (44.394ms)
+✔ C22-UT17 login klien ditolak 401, tidak ada token yang disimpan (0.4033ms)
+✔ C22-UT18 login klien saat server membalas bukan JSON tetap dapat pesan error (0.3261ms)
+✔ C22-UT19 arahkanSesuaiPeran: petugas ke /petugas/, relawan ke /relawan/ (0.0884ms)
+✔ C22-UT01 login dengan username dan password kosong ditolak 400 (1.354ms)
+✔ C22-UT02 login tanpa body ditolak 400 (0.1876ms)
+✔ C22-UT03 buatSesi menghasilkan token berisi id dan peran (4.7224ms)
+✔ C22-UT04 token berlaku tepat 7 hari (0.6495ms)
+✔ C22-UT05 token tidak bisa dibaca pakai secret lain (0.6736ms)
+✔ C22-UT06 middleware cekLogin: token valid boleh lewat (0.5573ms)
+✔ C22-UT07 middleware cekLogin: tanpa token ditolak 401 (0.1134ms)
+✔ C22-UT08 middleware cekLogin: token yang baru lewat 1 detik dari batas ditolak 401 (0.3514ms)
+✔ C22-UT09 relawan tidak boleh akses halaman petugas (403) (0.2126ms)
+✔ validasiKeterangan menolak keterangan kosong atau spasi saja (UC06 alternatif 1) (0.7211ms)
+✔ validasiKeterangan menerima 1 sampai 200 karakter setelah trim (0.1242ms)
+✔ cekPeran menolak petugas memanggil endpoint tandai keliru (C17 hanya relawan) (0.1318ms)
+✔ buatJadwal membalas 400 untuk isian kosong tanpa menyentuh database (Algo-004) (0.9542ms)
+✔ bacaLaporan mengubah isi multipart menjadi objek laporan (2.201ms)
+✔ bacaLaporan mengembalikan null jika ada data kosong atau tidak valid (Algo-011) (0.2742ms)
+✔ terimaLaporan membalas 400 untuk data tidak lengkap tanpa menyentuh database (0.2391ms)
+✔ terimaFoto menolak foto lebih dari 500 KB dengan 413 (KNF09) (89.049ms)
+✔ batas ukuran foto di klien dan server sama (0.1392ms)
+✔ daftarPercobaanKompresi mengikuti urutan C15 kompresFoto dan berhenti (0.1802ms)
+✔ haversine menghasilkan jarak 0 km untuk titik yang sama (0.9689ms)
+✔ haversine menghitung jarak ~1 km untuk selisih lintang 0.009 derajat (0.3395ms)
+✔ isDikecualikan mengecualikan titik keliru < 24 jam tanpa deteksi baru dalam 500 m (0.2037ms)
+✔ isDikecualikan mengembalikan false bila ada deteksi baru <= 500 m setelah ditandai keliru (0.1084ms)
+✔ isDikecualikan mengembalikan false jika ditandai keliru lebih dari 24 jam lalu (Algo-003) (0.0805ms)
+✔ isDikecualikan mengabaikan titik yang terdeteksi sebelum waktu penandaan walaupun jarak < 500 m (0.0787ms)
+✔ hitungHariKering menghitung hari berturut-turut dari akhir dengan curah hujan < 1 mm (0.0901ms)
+✔ hitungSkorRisiko menghitung skor dan tingkat risiko per petak sesuai rumus (0.2279ms)
+✔ isDataUsang bernilai true bila waktuUpdateTerakhir > 3 jam atau kosong (KF04) (0.0945ms)
+✔ perbaruiData mengembalikan 401 jika CRON_TOKEN tidak cocok (0.2271ms)
+✔ titik terbaru digeser menjadi 1 jam sebelum sekarang (2.0429ms)
+✔ jarak waktu antartitik tidak berubah setelah digeser (0.1929ms)
+✔ koordinat laporan I-04a berada di dalam Petak 214 (0.2266ms)
+✔ hitungJarak bernilai 0 jika koordinat di dalam petak (Algo-005) (0.8521ms)
+✔ hitungJarak mengukur ke titik terdekat pada batas petak dengan haversine (0.2384ms)
+✔ laporan seed Petak 187 berada sekitar 340 m di luar petak (I-04b) (0.0866ms)
+✔ validasiAlasan mewajibkan alasan 1 sampai 300 karakter setelah trim (0.1017ms)
+✔ cekPeran menolak relawan mengakses endpoint petugas (KNF05) (0.1396ms)
+ℹ tests 61
+ℹ suites 0
+ℹ pass 61
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 837.6059
+
+> sigap@0.9.0 test:db
+> node --env-file=.env --test --test-concurrency=1 "tests/db/*.test.js"
+
+✔ C13-UT07 daftar tugas hanya berisi tugas aktif, skor tertinggi paling atas (231.1027ms)
+✔ C13-UT08 relawan tanpa tugas dapat daftar kosong (4.503ms)
+✔ C13-UT09 tidak bisa membatalkan tugas milik relawan lain (409) (1.8176ms)
+✔ C13-UT10 batal tugas berhasil dan petugas dapat notifikasi (15.3413ms)
+✔ C13-UT11 tugas yang sudah dibatalkan tidak bisa dibatalkan lagi (409) (1.1127ms)
+✔ C13-UT12 tandai notifikasi dibaca, lalu notifikasinya tidak muncul lagi (4.7336ms)
+✔ C13-UT13 tidak bisa menandai notifikasi milik orang lain (404) (1.6014ms)
+✔ C13-UT14 id notifikasi tidak valid ditolak 400 (0.2023ms)
+✔ C15-UT01 laporan valid tersimpan (201) dan status tugas jadi menunggu verifikasi (174.7356ms)
+✔ C15-UT02 laporan dengan UUID yang sama dikirim ulang dibalas 200, tidak dobel (13.0823ms)
+✔ C15-UT03 tiga kiriman UUID sama secara bersamaan tetap tersimpan satu (19.2268ms)
+✔ C15-UT04 laporan untuk tugas relawan lain ditolak 409 (14.2921ms)
+✔ C15-UT05 laporan untuk tugas yang sudah dibatalkan ditolak 409 (14.3523ms)
+✔ C18-UT01 petak tinggi: semua warga aktif dikirimi SMS dan dicatat terkirim (77.272ms)
+✔ C18-UT02 gateway menolak satu warga: dicatat gagal, yang lain terkirim, tanpa kirim ulang (38.1642ms)
+✔ C18-UT03 sudah ada SMS terkirim dalam 24 jam: tidak mengirim lagi (26.6534ms)
+✔ C18-UT04 petak tinggi tanpa warga aktif: tidak ada log dan tidak error (17.6052ms)
+Gagal memproses peringatan SMS untuk petak abc: invalid input syntax for type integer: "abc"
+✔ C18-UT06 error basis data pada satu petak tidak menghentikan petak berikutnya (55.6511ms)
+✔ C18-UT07 petak bukan tinggi dilewati tanpa SMS dan tanpa log (8.6029ms)
+✔ C18-UT08 balasan STOP mencabut persetujuan (TRUE) (15.6742ms)
+✔ C18-UT09 balasan "sToP" huruf campur diperlakukan sama dengan STOP (16.1599ms)
+✔ C18-UT10c balasan selain STOP tidak mengubah status warga (11.0324ms)
+✔ C18-UT11 STOP dari nomor tidak terdaftar mengembalikan FALSE tanpa galat (3.426ms)
+✔ C18-UT11b STOP dari warga yang sudah dicabut mengembalikan FALSE (10.1395ms)
+✔ C18-UT12 hapusNomorDicabut menghapus yang dicabut lebih dari 30 hari saja (28.3125ms)
+✔ C18-UT12b hapusNomorDicabut batas 30 hari: 31 hari terhapus, 29 hari tetap (26.8163ms)
+✔ C18-UT12c hapusNomorDicabut tanpa data melewati batas tidak menghapus apa pun dan tidak error (24.4734ms)
+✔ C19-UT01 ambilAktifByPetak hanya mengembalikan warga aktif di petak itu (66.2717ms)
+✔ C19-UT02 ambilAktifByPetak petak tanpa warga aktif mengembalikan larik kosong (3.4364ms)
+✔ C19-UT03 cariByNomor nomor tidak terdaftar mengembalikan null (5.4055ms)
+✔ C19-UT03b cariByNomor nomor terdaftar mengembalikan data warga (9.8602ms)
+✔ C19-UT04 cabutPersetujuan mengubah status dan mengisi waktu dicabut (19.1648ms)
+✔ C19-UT04b cabutPersetujuan pada warga yang sudah dicabut tidak mengubah waktu dicabut (17.1171ms)
+✔ C19-UT05 hapusDicabutLama menghapus yang dicabut lebih dari batas hari saja (32.191ms)
+✔ C19-UT05b hapusDicabutLama dengan batas lebih besar tidak menghapus warga yang lebih baru dari batas (9.4834ms)
+✔ C20-UT01 adaDalam24Jam TRUE jika ada SMS terkirim dalam 24 jam (64.4889ms)
+✔ C20-UT01b adaDalam24Jam TRUE untuk SMS terkirim 23 jam lalu (di dalam batas) (12.8816ms)
+✔ C20-UT02 adaDalam24Jam FALSE jika petak belum pernah dikirimi (6.7816ms)
+✔ C20-UT02b adaDalam24Jam FALSE jika hanya ada SMS berstatus gagal (19.352ms)
+✔ C20-UT02c adaDalam24Jam FALSE jika SMS terkirim sudah lebih dari 24 jam (17.0204ms)
+✔ C20-UT03 catat menyimpan satu baris dengan nilai sesuai masukan (15.0875ms)
+✔ C20-UT03b catat dengan status tidak valid ditolak basis data (20.3162ms)
+✔ C20-UT04 ambilTerkirimTerbaru hanya memuat SMS terkirim dan menghormati batas (23.7353ms)
+✔ C22-UT10 login dengan akun benar dapat token (268.3699ms)
+✔ C22-UT11 login dengan password salah ditolak 401 (132.1591ms)
+✔ C22-UT12 login dengan username yang tidak ada ditolak 401 (3.0833ms)
+✔ C24-UT01 buat menyimpan notifikasi baru yang belum dibaca (248.2977ms)
+✔ C24-UT01b buat untuk pengguna yang tidak ada ditolak basis data (4.572ms)
+✔ C24-UT02 ambilBelumDibaca dipetakan ke camelCase, hanya milik pengguna itu (31.1353ms)
+✔ C24-UT02b ambilBelumDibaca pengguna tanpa notifikasi mengembalikan larik kosong (117.7453ms)
+✔ C24-UT03 tandaiDibaca mengembalikan TRUE dan notifikasi tidak muncul lagi (8.0169ms)
+✔ C24-UT04 tandaiDibaca id yang tidak ada mengembalikan FALSE (1.8469ms)
+✔ C24-UT04b tandaiDibaca notifikasi milik pengguna lain mengembalikan FALSE (5.1645ms)
+✔ titik panas yang tidak ada dibalas 404 (57.1646ms)
+✔ relawan lain tidak bisa menandai titik panas dari tugas orang lain (403) (6.1454ms)
+✔ pemilik tugas berhasil menandai keliru (200) (7.4012ms)
+✔ menandai ulang dalam 24 jam dibalas 409 dan waktu penandaan tidak berubah (KF15) (9.6648ms)
+✔ setelah lewat 24 jam titik boleh ditandai lagi (12.6231ms)
+✔ relawan dengan kurang dari 3 tugas aktif bisa diberi tugas (KF06) (79.4253ms)
+✔ tugas keempat ditolak 409 dan tidak tersimpan (KF06) (2.2914ms)
+✔ tugas yang dibatalkan tidak dihitung tugas aktif (Q-013) (13.6442ms)
+✔ KNF11-TC01 tidak ada password yang tersimpan sebagai teks biasa (44.7401ms)
+✔ petak tinggi: warga aktif menerima SMS, nomor tidak aktif tercatat gagal (93.0778ms)
+✔ batas 24 jam: panggilan kedua dalam 24 jam tidak mengirim lagi (37.0512ms)
+✔ batas 24 jam: setelah lewat 24 jam boleh mengirim lagi (52.1353ms)
+✔ petak berisiko sedang tidak dikirimi SMS (11.1701ms)
+✔ balasan STOP (huruf apa pun) mencabut persetujuan (16.2075ms)
+✔ balasan selain STOP dan nomor tak dikenal diabaikan (8.4735ms)
+✔ warga yang sudah STOP tidak dikirimi SMS lagi (46.6603ms)
+ℹ tests 69
+ℹ suites 0
+ℹ pass 69
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5800.852
+
+> sigap@0.9.0 test:int
+> node --env-file=.env --test --test-concurrency=1 "tests/int/*.test.js"
+
+Pengulangan 1: skor 144.4, selisih hitung ke SMS tercatat 412 ms, respons /api/perbarui 1463 ms
+Pengulangan 2: skor 144.4, selisih hitung ke SMS tercatat 340 ms, respons /api/perbarui 549 ms
+Pengulangan 3: skor 144.4, selisih hitung ke SMS tercatat 572 ms, respons /api/perbarui 907 ms
+Pengulangan 4: skor 144.4, selisih hitung ke SMS tercatat 466 ms, respons /api/perbarui 749 ms
+Pengulangan 5: skor 144.4, selisih hitung ke SMS tercatat 477 ms, respons /api/perbarui 762 ms
+RINGKASAN KNF10: 5 pengulangan, rata-rata 453 ms, maksimum 572 ms, batas 900000 ms (15 menit)
+✔ KNF10-TC01 SMS peringatan tercatat paling lambat 15 menit setelah skor petak naik ke tinggi (5255.0752ms)
+✔ KNF12-TC01 nomor yang dicabut lewat STOP dan sudah 31 hari terhapus dari database (1632.9452ms)
+✔ KNF12-TC02 nomor dicabut 29 hari lalu dan warga aktif tetap tersimpan (569.0195ms)
+✔ INT-TC01 login dengan akun yang ada di tabel pengguna berhasil (805.867ms)
+✔ INT-TC02 login dengan password salah ditolak 401 (59.4625ms)
+✔ INT-TC03 daftar tugas dari database tampil beserta tingkat risiko petaknya (15.1997ms)
+✔ INT-TC04 petugas tidak bisa membuka daftar tugas relawan (403) (2.8851ms)
+✔ INT-TC05 pembatalan tugas mengubah status di database (35.5401ms)
+✔ INT-TC06 laporan yang diunggah tersimpan di database beserta fotonya (44.5679ms)
+✔ INT-TC07 laporan dengan UUID sama dikirim dua kali hanya tersimpan satu (41.6843ms)
+✔ INT-TC08 foto lebih dari 500 KB ditolak 413 dan tidak masuk database (22.6365ms)
+✔ INT-TC24 SMS yang diterima gateway muncul di halaman simulasi, yang ditolak tidak (579.6877ms)
+✔ INT-TC25 pemicu kedua dalam 24 jam tidak mengirim ulang (15.6642ms)
+✔ INT-TC26 balasan STOP lewat halaman simulasi mencabut persetujuan di database dan menghentikan SMS berikutnya (27.6401ms)
+✔ INT-TC27 balasan tidak valid ditolak 400, nomor tidak terdaftar diterima tanpa pencabutan (11.0639ms)
+✔ INT-TC28 nomor yang dicabut lebih dari 30 hari dihapus dari database (26.784ms)
+✔ INT-TC29 pembatalan tugas oleh relawan membuat notifikasi untuk petugas di database (31.8061ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10659.1237
+---------------------------------|---------|----------|---------|---------|--------------------------------------------------------
+File                             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                      
+---------------------------------|---------|----------|---------|---------|--------------------------------------------------------
+All files                        |   70.19 |    90.54 |   71.96 |   70.19 |                                                        
+ controllers                     |    63.1 |    88.64 |   69.23 |    63.1 |                                                        
+  AutentikasiController.js       |    90.9 |    94.11 |     100 |    90.9 | 30-32                                                  
+  DaftarTugasController.js       |   87.64 |    83.33 |     100 |   87.64 | 20-21,42-44,65-67,86-88                                
+  DeteksiKeliruController.js     |   83.72 |    78.57 |     100 |   83.72 | 16-17,21-22,40-42                                      
+  JadwalController.js            |   71.05 |    89.47 |   71.42 |   71.05 | 12-14,26-28,44-53,70-75                                
+  PeringatanSMSController.js     |   97.53 |    96.55 |     100 |   97.53 | 14-15                                                  
+  PetaRisikoController.js        |   35.84 |    77.27 |   45.45 |   35.84 | 66-105,107-120,122-124,126-132,139-183,188-191,195-226 
+  SimulasiSMSController.js       |    60.6 |    83.33 |      50 |    60.6 | 15-16,40-48,52-66                                      
+  UploadLaporanController.js     |   88.09 |     92.3 |     100 |   88.09 | 24,71-72,77-83                                         
+  VerifikasiLaporanController.js |   44.76 |    93.33 |      40 |   44.76 | 46-48,62-63,71-77,81-89,93-117,121-143,147-172         
+ middleware                      |   95.83 |       90 |     100 |   95.83 |                                                        
+  auth.js                        |   95.83 |       90 |     100 |   95.83 | 22                                                     
+ models                          |   74.76 |    96.77 |   71.42 |   74.76 |                                                        
+  JadwalPekerjaan.js             |     100 |      100 |     100 |     100 |                                                        
+  LaporanBuktiKerja.js           |    32.4 |      100 |      25 |    32.4 | 8-12,14-25,44-62,66-86,90-97,101-108                   
+  Notifikasi.js                  |     100 |      100 |     100 |     100 |                                                        
+  Pengguna.js                    |     100 |      100 |     100 |     100 |                                                        
+  PeringatanSMS.js               |     100 |      100 |     100 |     100 |                                                        
+  PetakLahan.js                  |   49.18 |       75 |      40 |   49.18 | 15-21,35-51,55-61                                      
+  RelawanLapangan.js             |   66.66 |      100 |      50 |   66.66 | 5-12                                                   
+  TitikPanas.js                  |      78 |    94.11 |      75 |      78 | 33-34,56-67,71-78                                      
+  Warga.js                       |     100 |      100 |     100 |     100 |                                                        
+ public/relawan/js               |   82.42 |    90.14 |      75 |   82.42 |                                                        
+  AutentikasiController.js       |   87.75 |    92.85 |      75 |   87.75 | 27-28,32-33,36-37                                      
+  PenyimpananLokal.js            |   92.15 |    94.11 |      75 |   92.15 | 27-28,38-39                                            
+  UploadLaporanController.js     |   77.56 |     87.5 |      75 |   77.56 | 8-11,43-45,48-61,115-118,138-143,146,154-156           
+---------------------------------|---------|----------|---------|---------|--------------------------------------------------------
