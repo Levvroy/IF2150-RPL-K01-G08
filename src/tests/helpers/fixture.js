@@ -11,6 +11,7 @@ export async function bersihkan() {
   const petakUji = `SELECT id_petak FROM petak_lahan WHERE lat_min < -80`;
   await pool.query(`DELETE FROM peringatan_sms WHERE id_petak IN (${petakUji})`);
   await pool.query(`DELETE FROM warga WHERE id_petak IN (${petakUji})`);
+  await pool.query(`DELETE FROM titik_panas WHERE latitude < -80`);
   await pool.query(`DELETE FROM petak_lahan WHERE lat_min < -80`);
   await pool.query(`DELETE FROM petak_lahan WHERE lat_min < -80`);
   await pool.query(`DELETE FROM relawan_lapangan WHERE id_relawan IN (${idUji})`);
