@@ -8,6 +8,10 @@ export async function bersihkan() {
   await pool.query(`DELETE FROM laporan_bukti_kerja WHERE id_jadwal IN (SELECT id_jadwal FROM jadwal_pekerjaan WHERE id_relawan IN (${idUji}))`);
   await pool.query(`DELETE FROM notifikasi WHERE id_pengguna IN (${idUji}) OR isi_pesan LIKE '%uji-setup%'`);
   await pool.query(`DELETE FROM jadwal_pekerjaan WHERE id_relawan IN (${idUji})`);
+  const petakUji = `SELECT id_petak FROM petak_lahan WHERE lat_min < -80`;
+  await pool.query(`DELETE FROM peringatan_sms WHERE id_petak IN (${petakUji})`);
+  await pool.query(`DELETE FROM warga WHERE id_petak IN (${petakUji})`);
+  await pool.query(`DELETE FROM titik_panas WHERE latitude < -80`);
   await pool.query(`DELETE FROM petak_lahan WHERE lat_min < -80`);
   await pool.query(`DELETE FROM relawan_lapangan WHERE id_relawan IN (${idUji})`);
   await pool.query(`DELETE FROM pengguna WHERE username LIKE 'uji-setup-%'`);
@@ -41,4 +45,14 @@ export function resPalsu() {
     status(k) { this.kode = k; return this; },
     json(i) { this.isi = i; return this; }
   };
+}
+
+export async function buatWarga(idPetak, nomorHP, status = 'aktif', hariLaluDicabut = null) {
+  const { rows } = await pool.query(
+    `INSERT INTO warga (nomor_hp, id_petak, status_persetujuan, waktu_dicabut)
+     VALUES ($1, $2, $3, NOW() - make_interval(days => $4::int))
+     RETURNING id_warga`,
+    [nomorHP, idPetak, status, hariLaluDicabut]
+  );
+  return rows[0].id_warga;
 }

@@ -1,0 +1,11 @@
+node --env-file=.env --test --test-concurrency=1 tests/int/knf12-nomor.int.test.js 
+✔ KNF12-TC01 nomor yang dicabut lewat STOP dan sudah 31 hari terhapus dari database (1568.2527ms)
+✔ KNF12-TC02 nomor dicabut 29 hari lalu dan warga aktif tetap tersimpan (496.0243ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2331.9661
