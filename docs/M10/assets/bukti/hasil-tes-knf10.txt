@@ -1,0 +1,16 @@
+node --env-file=.env --test --test-concurrency=1 tests/int/knf10-sms.int.test.js                                 
+Pengulangan 1: skor 144.4, selisih hitung ke SMS tercatat 366 ms, respons /api/perbarui 1340 ms
+Pengulangan 2: skor 144.4, selisih hitung ke SMS tercatat 285 ms, respons /api/perbarui 481 ms
+Pengulangan 3: skor 144.4, selisih hitung ke SMS tercatat 321 ms, respons /api/perbarui 514 ms
+Pengulangan 4: skor 144.4, selisih hitung ke SMS tercatat 317 ms, respons /api/perbarui 518 ms
+Pengulangan 5: skor 144.4, selisih hitung ke SMS tercatat 378 ms, respons /api/perbarui 587 ms
+RINGKASAN KNF10: 5 pengulangan, rata-rata 333 ms, maksimum 378 ms, batas 900000 ms (15 menit)
+✔ KNF10-TC01 SMS peringatan tercatat paling lambat 15 menit setelah skor petak naik ke tinggi (3902.6684ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4125.519

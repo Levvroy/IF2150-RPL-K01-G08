@@ -15,3 +15,10 @@ export function jalankanServer(port, envTambahan = {}) {
     proses.on('exit', (kode) => reject(new Error(`server gagal nyala (${kode}): ${stderr}`)));
   });
 }
+
+export function hentikanServer(proses) {
+  return new Promise((resolve) => {
+    proses.once('exit', resolve);
+    proses.kill();
+  });
+}
