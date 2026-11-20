@@ -1,0 +1,11 @@
+> node --env-file=.env --test --test-reporter=spec tests/int/knf02-reliabilitas.int.test.js
+✔ KNF02-TC01 Open-Meteo gagal (503 dan koneksi putus) tidak merusak cache dan peta tetap tampil dengan penanda usang (382.592583ms)
+✔ KNF02-TC02 NASA FIRMS gagal (500 dan koneksi putus) tetap menjaga pembaruan dan ketersediaan peta (79.443291ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 587.470333
