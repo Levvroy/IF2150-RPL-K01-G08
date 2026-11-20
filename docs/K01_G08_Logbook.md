@@ -31,6 +31,7 @@
 * [Milestone 7](#milestone-7)
 * [Milestone 8](#milestone-8)
 * [Milestone 9](#milestone-9)
+* [Milestone 10](#milestone-10)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -212,5 +213,15 @@
 
 **Catatan/Evaluasi Milestone 9:**
 * Tiap use case dikerjakan di branch masing-masing, lalu masuk ke develop lewat pull request yang direview anggota lain. UC02 dan UC06 baru selesai di-merge pada hari terakhir, jadi ke depannya PR sebaiknya dibuka lebih awal biar review tidak numpuk di akhir.
+
+
+### Milestone 10
+**Periode:** 14-11-2026 - 20-11-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / Blocker |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 20-11-2026 | Rafi | Menyusun unit test C06 JadwalController (C06-UT01 sampai UT13) dan C07 operasi simpan (C07-UT01 sampai UT05), tes integrasi penyusunan jadwal dan tandai keliru ke database (INT-TC16 sampai TC23), serta KNF05-TC01 dan TC02, lalu menjalankan coverage (C06 100% line dan branch) | 2,5 Jam | Done | Tes database sempat gagal semua karena container PostgreSQL belum dinyalakan |
+| 20-11-2026 | Rafi | Menguji manual UC03 (TC01 sampai TC04) dan UC08 (TC01 sampai TC03) di Chrome, mengambil screenshot bukti, lalu membuka PR test/m10-c06-jadwal | 1,5 Jam | Done | - |
+| 20-11-2026 | Rafi | Merevisi PR berdasarkan review, yaitu memindahkan port INT jadwal ke 3103, menambah helper hentikanServer, memperbaiki assertion rekomendasi C06-UT05, dan menambah uji kode galat 22001 | 1 Jam | Done | Port 3101 bentrok dengan tes integrasi verifikasi |
 
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``

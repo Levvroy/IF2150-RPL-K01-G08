@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import pool from '../../db.js';
-import { jalankanServer } from '../helpers/server.js';
+import { jalankanServer, hentikanServer } from '../helpers/server.js';
 import { bersihkan, buatPengguna, buatPetak, buatJadwal, PASSWORD } from '../helpers/fixture.js';
 
 const URL = 'http://localhost:3102';
@@ -41,7 +41,7 @@ before(async () => {
 });
 
 after(async () => {
-  server.kill();
+  await hentikanServer(server);
   await bersihkan();
   await pool.end();
 });

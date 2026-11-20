@@ -1,55 +1,34 @@
-> node --test tests/c06-jadwal.test.js
-✔ C06-UT01 buatJadwal: tanpa body atau body kosong dibalas 400 tanpa query (0.989562ms)
-✔ C06-UT02 buatJadwal: id relawan dan petak harus bilangan bulat positif (0, negatif, pecahan, teks ditolak) (0.331457ms)
-✔ C06-UT03 buatJadwal: jenis pekerjaan dan tanggal kosong atau bukan teks dibalas 400 (0.155719ms)
-ℹ tests 3
+﻿✔ C06-UT01 buatJadwal: tanpa body atau body kosong dibalas 400 tanpa query (1.5386ms)
+✔ C06-UT02 buatJadwal: id relawan dan petak harus bilangan bulat positif (0, negatif, pecahan, teks ditolak) (0.6076ms)
+✔ C06-UT03 buatJadwal: jenis pekerjaan dan tanggal kosong atau bukan teks dibalas 400 (0.3804ms)
+✔ C06-UT04 bukaFormJadwal: relawan aktif, rekomendasi, dan seluruh petak dikirim ke formulir (347.4042ms)
+✔ C06-UT05 bukaFormJadwal: relawan nonaktif tidak muncul, rekomendasi paling banyak 5 petak, urut skor risiko tertinggi (KF17) (12.5167ms)
+✔ C06-UT06 bukaFormJadwal: database gagal dibalas 500 (4.158ms)
+✔ C06-UT07 buatJadwal: jadwal tersimpan berstatus ditugaskan dan relawan mendapat notifikasi (KF07) (18.2769ms)
+✔ C06-UT08 buatJadwal: tugas ke-3 masih diterima, tugas ke-4 ditolak 409 dan tidak tersimpan (KF06) (21.1846ms)
+✔ C06-UT09 buatJadwal: tugas selesai dan dibatalkan tidak dihitung tugas aktif (Q-013) (21.9262ms)
+✔ C06-UT10 buatJadwal: relawan atau petak yang tidak ada dibalas 400 "Data jadwal tidak valid" (23503) (49.5645ms)
+✔ C06-UT11 buatJadwal: jenis pekerjaan di luar pilihan (23514), jenis lebih dari 30 karakter (22001), dan tanggal tidak valid (22008, 22007) dibalas 400 (77.2452ms)
+✔ C06-UT12 buatJadwal: galat database lain saat menyimpan dibalas 500 (5.614ms)
+✔ C06-UT13 buatJadwal: notifikasi gagal dibuat, jadwal tetap tersimpan dengan notifikasiTerkirim false (11.0709ms)
+✔ C07-UT01 simpan: tugas patroli tersimpan berstatus ditugaskan tanpa titik panas, tanggal tetap YYYY-MM-DD (202.6767ms)
+✔ C07-UT02 simpan: pengecekan titik panas memakai titik terbaru di dalam petak, titik di luar petak diabaikan (19.3973ms)
+✔ C07-UT03 simpan: titik tepat di lat_min dan lng_min masuk petak, titik tepat di lat_maks tidak (batas setengah terbuka) (15.4408ms)
+✔ C07-UT04 simpan: pengecekan titik panas tanpa titik di petak tetap tersimpan dengan idTitikPanas null (8.5594ms)
+✔ C07-UT05 simpan: petak yang tidak ada ditolak database (23503) dan tidak ada baris tersimpan (31.0051ms)
+✔ INT-TC16 formulir jadwal memuat relawan dan petak yang ada di database (UC02, KF05) (1576.5589ms)
+✔ INT-TC17 jadwal dari petugas tersimpan di database, muncul di daftar tugas relawan beserta notifikasinya (KF07) (23.8167ms)
+✔ INT-TC18 jadwal ke-4 untuk relawan yang sama ditolak 409 dan database tetap 3 tugas aktif (KF06) (28.0182ms)
+✔ INT-TC19 relawan (403), tanpa login (401), dan data yang ditolak database (400) tidak menambah jadwal (14.4479ms)
+✔ INT-TC20 jadwal pengecekan titik panas tersimpan dengan id titik panas di petak, terbaca di daftar tugas relawan (Q-008) (34.2999ms)
+✔ INT-TC21 relawan tanpa tugas 403, petugas 403, titik tidak ada 404, keterangan kosong 400, database tidak berubah (UC06) (14.5106ms)
+✔ INT-TC22 relawan pemilik tugas menandai titik keliru: status, keterangan, dan waktu tersimpan di database (UC06, KF15) (10.7972ms)
+✔ INT-TC23 titik yang sudah ditandai dalam 24 jam terakhir tidak bisa ditandai lagi (409), keterangan lama tetap (6.5096ms)
+ℹ tests 26
 ℹ suites 0
-ℹ pass 3
+ℹ pass 26
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 93.070972
-
-> node --env-file=.env --test --test-concurrency=1 tests/db/c06-jadwal.test.js tests/db/c07-jadwal-simpan.test.js
-✔ C06-UT04 bukaFormJadwal: relawan aktif, rekomendasi, dan seluruh petak dikirim ke formulir (176.919727ms)
-✔ C06-UT05 bukaFormJadwal: relawan nonaktif tidak muncul dan rekomendasi paling banyak 5 petak (KF17) (5.420838ms)
-✔ C06-UT06 bukaFormJadwal: database gagal dibalas 500 (2.129701ms)
-✔ C06-UT07 buatJadwal: jadwal tersimpan berstatus ditugaskan dan relawan mendapat notifikasi (KF07) (6.903754ms)
-✔ C06-UT08 buatJadwal: tugas ke-3 masih diterima, tugas ke-4 ditolak 409 dan tidak tersimpan (KF06) (7.221254ms)
-✔ C06-UT09 buatJadwal: tugas selesai dan dibatalkan tidak dihitung tugas aktif (Q-013) (7.501705ms)
-✔ C06-UT10 buatJadwal: relawan atau petak yang tidak ada dibalas 400 "Data jadwal tidak valid" (23503) (15.934631ms)
-✔ C06-UT11 buatJadwal: jenis pekerjaan di luar pilihan (23514) dan tanggal tidak valid (22008, 22007) dibalas 400 (24.228398ms)
-✔ C06-UT12 buatJadwal: galat database lain saat menyimpan dibalas 500 (3.934023ms)
-✔ C06-UT13 buatJadwal: notifikasi gagal dibuat, jadwal tetap tersimpan dengan notifikasiTerkirim false (5.611292ms)
-✔ C07-UT01 simpan: tugas patroli tersimpan berstatus ditugaskan tanpa titik panas, tanggal tetap YYYY-MM-DD (93.914775ms)
-✔ C07-UT02 simpan: pengecekan titik panas memakai titik terbaru di dalam petak, titik di luar petak diabaikan (5.79439ms)
-✔ C07-UT03 simpan: titik tepat di lat_min dan lng_min masuk petak, titik tepat di lat_maks tidak (batas setengah terbuka) (3.866567ms)
-✔ C07-UT04 simpan: pengecekan titik panas tanpa titik di petak tetap tersimpan dengan idTitikPanas null (2.521328ms)
-✔ C07-UT05 simpan: petak yang tidak ada ditolak database (23503) dan tidak ada baris tersimpan (9.627102ms)
-ℹ tests 15
-ℹ suites 0
-ℹ pass 15
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 563.919655
-
-> node --env-file=.env --test tests/int/jadwal-keliru.int.test.js
-✔ INT-TC16 formulir jadwal memuat relawan dan petak yang ada di database (UC02, KF05) (665.82762ms)
-✔ INT-TC17 jadwal dari petugas tersimpan di database, muncul di daftar tugas relawan beserta notifikasinya (KF07) (19.913935ms)
-✔ INT-TC18 jadwal ke-4 untuk relawan yang sama ditolak 409 dan database tetap 3 tugas aktif (KF06) (17.193309ms)
-✔ INT-TC19 relawan (403), tanpa login (401), dan data yang ditolak database (400) tidak menambah jadwal (13.168675ms)
-✔ INT-TC20 jadwal pengecekan titik panas tersimpan dengan id titik panas di petak, terbaca di daftar tugas relawan (Q-008) (14.176836ms)
-✔ INT-TC21 relawan tanpa tugas di titik itu ditolak 403, titik yang tidak ada 404, keterangan kosong 400, database tidak berubah (UC06) (8.687981ms)
-✔ INT-TC22 relawan pemilik tugas menandai titik keliru: status, keterangan, dan waktu tersimpan di database (UC06, KF15) (4.531223ms)
-✔ INT-TC23 titik yang sudah ditandai dalam 24 jam terakhir tidak bisa ditandai lagi (409), keterangan lama tetap (5.894446ms)
-ℹ tests 8
-ℹ suites 0
-ℹ pass 8
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 849.58109
+ℹ duration_ms 3941.5364

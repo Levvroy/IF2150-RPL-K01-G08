@@ -35,6 +35,7 @@
   - [Milestone 7](#milestone-7)
   - [Milestone 8](#milestone-8)
   - [Milestone 9](#milestone-9)
+  - [Milestone 10](#milestone-10)
     - [Pernyataan Integritas dan Persetujuan](#pernyataan-integritas-dan-persetujuan)
 
 ---
@@ -119,6 +120,14 @@ Silakan catat penggunaan AI yang berdampak signifikan pada pengerjaan tugas (mis
 | Gemini | Memverifikasi kesesuaian `perbaruiData` dengan Algo-001 serta penanganan galat API Open-Meteo dan CSV NASA FIRMS | "Cek apakah alur `perbaruiData` dan `ambilDataCuaca` sudah sesuai Algo-001 saat API gagal, dan bagaimana membaca kolom CSV FIRMS secara aman?" | Saya menghapus `try/catch` internal di `ambilDataCuaca` agar galat diteruskan ke `perbaruiData` (balasan 500 dan fallback cache), membatasi curah hujan sampai kemarin, serta menyesuaikan parsing CSV berdasarkan indeks header (`indexOf`) |
 | Gemini | Brainstorming kasus uji batas (*edge cases*) untuk fungsi `isDikecualikan` dan `hitungHariKering` sesuai Algo-003 dan Algo-001 | "Skenario batas apa saja yang perlu diuji untuk radius 500 m dan batas 24 jam pada `isDikecualikan` agar semua cabang Algo-003 tertutup?" | Saya memilah skenario uji yang sesuai DPPL (batas 24 jam dan titik yang terdeteksi sebelum penandaan keliru), membersihkan fallback koordinat bertumpuk, lalu memverifikasi seluruh tes lulus lewat `npm test` |
 | Gemini | Membantu menindaklanjuti hasil code review PR #17 pada antarmuka peta risiko (`HalamanPetaRisiko.js`) | "Bagaimana menangani state gagal saat `/api/peta` error agar skeleton tidak tertahan, dan jalur apa saja yang diubah jika Leaflet dipindah ke lokal?" | Saya memilah poin review antara yang diubah di kode dan yang dicatat di laporan M9, menambahkan state gagal pada UI, memindahkan aset Leaflet 1.9.4 ke `vendor/leaflet/`, serta menguji ulang tampilan luring dan cache |
+
+---
+
+## Milestone 10
+
+| Tool AI | Tujuan Penggunaan | Contoh Prompt Utama | Modifikasi & Validasi Manusia |
+|---|---|---|---|
+| Claude | Menindaklanjuti review PR test/m10-c06-jadwal | Jelaskan secara singkat review | Saya menerapkan saran reviewer (port 3103, `hentikanServer`, assertion urutan KF17, kode galat 22001, judul INT-TC21), memastikan kode 22001 benar muncul dari database, lalu menjalankan ulang seluruh tes |
 
 ---
 

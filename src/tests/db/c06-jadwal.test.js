@@ -60,10 +60,12 @@ test('C06-UT04 bukaFormJadwal: relawan aktif, rekomendasi, dan seluruh petak dik
   assert.ok(Array.isArray(res.isi.rekomendasi));
 });
 
-test('C06-UT05 bukaFormJadwal: relawan nonaktif tidak muncul dan rekomendasi paling banyak 5 petak (KF17)', async () => {
+test('C06-UT05 bukaFormJadwal: relawan nonaktif tidak muncul, rekomendasi paling banyak 5 petak, urut skor risiko tertinggi (KF17)', async () => {
   const res = await panggil(bukaFormJadwal);
   assert.equal(res.isi.daftarRelawan.some((r) => r.idRelawan === relawanNonaktif.id), false);
-  assert.equal(res.isi.rekomendasi.length, Math.min(5, res.isi.daftarPetak.length));
+  const skor = res.isi.rekomendasi.map((p) => Number(p.skorRisiko));
+  assert.ok(skor.length <= 5);
+  assert.deepEqual(skor, [...skor].sort((a, b) => b - a));
 });
 
 test('C06-UT06 bukaFormJadwal: database gagal dibalas 500', async () => {
@@ -110,8 +112,13 @@ test('C06-UT10 buatJadwal: relawan atau petak yang tidak ada dibalas 400 "Data j
   assert.equal(await jumlahJadwal(), 0);
 });
 
-test('C06-UT11 buatJadwal: jenis pekerjaan di luar pilihan (23514) dan tanggal tidak valid (22008, 22007) dibalas 400', async () => {
-  for (const ubah of [{ jenisPekerjaan: 'menanam pohon' }, { tanggal: '2026-13-40' }, { tanggal: 'besok' }]) {
+test('C06-UT11 buatJadwal: jenis pekerjaan di luar pilihan (23514), jenis lebih dari 30 karakter (22001), dan tanggal tidak valid (22008, 22007) dibalas 400', async () => {
+  for (const ubah of [
+    { jenisPekerjaan: 'menanam pohon' },
+    { jenisPekerjaan: 'x'.repeat(31) },
+    { tanggal: '2026-13-40' },
+    { tanggal: 'besok' }
+  ]) {
     const res = await panggil(buatJadwal, dataJadwal(ubah));
     assert.equal(res.kode, 400, JSON.stringify(ubah));
     assert.equal(res.isi.pesan, 'Data jadwal tidak valid');

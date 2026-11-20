@@ -1,12 +1,14 @@
 // Tes integrasi UC02 dan UC06: server.js dijalankan beneran lalu diakses lewat HTTP,
 // hasilnya dicek langsung ke database. Tidak pakai mock.
+// Urutan TC berpengaruh: TC17 -> TC18 dan TC20 -> TC23 memakai data dari TC sebelumnya,
+// jadi jalankan file ini utuh, bukan per TC lewat --test-name-pattern.
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import pool from '../../db.js';
-import { jalankanServer } from '../helpers/server.js';
+import { jalankanServer, hentikanServer } from '../helpers/server.js';
 import { bersihkan, buatPengguna, buatPetak, buatJadwal, PASSWORD } from '../helpers/fixture.js';
 
-const URL = 'http://localhost:3101';
+const URL = 'http://localhost:3103';
 let server, petugas, relawan, relawanLain, petak, idTitik, tokenPetugas, tokenRelawan, tokenRelawanLain;
 
 async function token(username) {
@@ -52,14 +54,14 @@ before(async () => {
   petak = await buatPetak(70, 'tinggi');
   const { rows } = await pool.query(`INSERT INTO titik_panas (latitude, longitude, waktu_deteksi) VALUES (-87.995, 101.405, NOW() - INTERVAL '1 hour') RETURNING id_titik_panas`);
   idTitik = rows[0].id_titik_panas;
-  server = await jalankanServer(3101);
+  server = await jalankanServer(3103);
   tokenPetugas = await token(petugas.username);
   tokenRelawan = await token(relawan.username);
   tokenRelawanLain = await token(relawanLain.username);
 });
 
 after(async () => {
-  server.kill();
+  await hentikanServer(server);
   await hapusTitikUji();
   await bersihkan();
   await pool.end();
@@ -113,7 +115,7 @@ test('INT-TC20 jadwal pengecekan titik panas tersimpan dengan id titik panas di 
   assert.equal(tugas.daftarTugas.find((t) => t.idJadwal === idJadwal).idTitikPanas, idTitik);
 });
 
-test('INT-TC21 relawan tanpa tugas di titik itu ditolak 403, titik yang tidak ada 404, keterangan kosong 400, database tidak berubah (UC06)', async () => {
+test('INT-TC21 relawan tanpa tugas 403, petugas 403, titik tidak ada 404, keterangan kosong 400, database tidak berubah (UC06)', async () => {
   assert.equal((await kirim('PATCH', `/api/titik-panas/${idTitik}/keliru`, tokenRelawan, { keterangan: 'Asap sampah' })).status, 403);
   assert.equal((await kirim('PATCH', '/api/titik-panas/2147483000/keliru', tokenRelawanLain, { keterangan: 'Asap sampah' })).status, 404);
   assert.equal((await kirim('PATCH', `/api/titik-panas/${idTitik}/keliru`, tokenRelawanLain, { keterangan: '   ' })).status, 400);
