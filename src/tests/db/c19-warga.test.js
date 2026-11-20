@@ -77,7 +77,6 @@ test('C19-UT05 hapusDicabutLama menghapus yang dicabut lebih dari batas hari saj
   const baru = await buatWarga(petakKosong, '081200000232', 'dicabut', 5);
   const aktif = await buatWarga(petakKosong, '081200000233');
   const jumlah = await Warga.hapusDicabutLama(30);
-  await Warga.hapusDicabutLama(30);
   assert.ok(jumlah >= 1);
   assert.equal(await ambilBaris(lama), undefined);
   assert.notEqual(await ambilBaris(baru), undefined);

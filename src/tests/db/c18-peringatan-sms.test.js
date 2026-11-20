@@ -88,14 +88,14 @@ test('C18-UT08 balasan STOP mencabut persetujuan (TRUE)', async () => {
   const petak = await buatPetak(10, 'rendah');
   const warga = await buatWarga(petak, '081200000081');
   assert.equal(await prosesBalasanSTOP('081200000081', 'STOP'), true);
-  assert.notEqual(await statusWarga(warga), 'aktif');
+  assert.equal(await statusWarga(warga), 'dicabut');
 });
 
 test('C18-UT09 balasan "sToP" huruf campur diperlakukan sama dengan STOP', async () => {
   const petak = await buatPetak(10, 'rendah');
   const warga = await buatWarga(petak, '081200000091');
   assert.equal(await prosesBalasanSTOP('081200000091', ' sToP '), true);
-  assert.notEqual(await statusWarga(warga), 'aktif');
+  assert.equal(await statusWarga(warga), 'dicabut');
 });
 
 test('C18-UT10c balasan selain STOP tidak mengubah status warga', async () => {
