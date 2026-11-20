@@ -281,7 +281,7 @@ Ringkasan hasil `npm run coverage` terakhir (20/11/2026, bukti `coverage-semua-2
 
 ## 4.1 Strategi dan Kedalaman Pengujian Kelas
 
-Kami menggolongkan kelas sebagai Mendalam apabila kelas tersebut memuat algoritma pada DPPL (Algo-xxx), perhitungan, validasi, aturan status, integrasi eksternal, atau hal yang berkaitan dengan keamanan. Kelas yang hanya meneruskan kueri atau berisi aturan sederhana kami golongkan sebagai Sedang. Sementara itu, kelas *View* yang tugasnya hanya menampilkan data dari *Controller* kami golongkan sebagai Tidak perlu, karena kelas tersebut tetap ikut teruji secara tidak langsung melalui test case use case.
+Kami menggolongkan kelas sebagai Mendalam apabila kelas tersebut memuat algoritma pada DPPL (Algo-xxx), perhitungan, validasi, aturan status, integrasi eksternal, atau hal yang berkaitan dengan keamanan. Kelas yang hanya meneruskan kueri atau berisi aturan sederhana kami golongkan sebagai Sedang. Sementara itu, kelas *View* yang tugasnya hanya menampilkan data dari *Controller* kami golongkan sebagai Tidak perlu, karena kelas tersebut tetap ikut teruji secara tidak langsung melalui test case use case. Algoritma milik C19 (Algo-013) dan C20 (Algo-014) hanya berupa satu kueri tanpa percabangan logika, sehingga kedua kelas tersebut kami golongkan Sedang seperti kelas Model lainnya, sedangkan logika peringatan SMS-nya diuji mendalam di C18.
 
 Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 
@@ -294,14 +294,14 @@ Tabel 4.1.1. Identifikasi Tingkat Pengujian Kelas
 | C13 | `DaftarTugasController` | Mendalam | Memuat Algo-007 (`muatDaftarTugas` dengan salinan lokal saat luring) dan Algo-008 (pembatalan tugas dengan validasi alasan dan kepemilikan, KF21), serta pengurutan skor risiko (KF11) | C13-UT01 s.d. C13-UT14, INT-TC03 s.d. INT-TC05, INT-TC29 |
 | C15 | `UploadLaporanController` | Mendalam | Memuat Algo-009, Algo-010, dan Algo-011: penyimpanan luring maksimal 20 laporan, sinkron otomatis, penolakan UUID ganda (KNF03), batas foto 500 KB (KNF09), dan transaksi perubahan status tugas | C15-UT01 s.d. C15-UT19, INT-TC06 s.d. INT-TC08 |
 | C18 | `PeringatanSMSController` | Mendalam | Memuat Algo-012 `cekAmbangRisiko` (batas 24 jam, warga aktif, status gagal gateway), pemrosesan balasan STOP (KF22), dan penghapusan nomor dicabut lebih dari 30 hari (KNF12) | C18-UT01 s.d. C18-UT12c, INT-TC24 s.d. INT-TC28, KNF10-TC01, KNF12-TC01, KNF12-TC02 |
-| C19 | `Warga` | Mendalam | Memuat Algo-013 `ambilAktifByPetak` dan aturan pencabutan persetujuan serta batas hari penghapusan | C19-UT01 s.d. C19-UT05b |
-| C20 | `PeringatanSMS` | Mendalam | Memuat Algo-014 `adaDalam24Jam` (aturan batas 24 jam, hanya status terkirim yang dihitung) | C20-UT01 s.d. C20-UT04 |
 | C22 | `AutentikasiController` | Mendalam | Menangani keamanan: verifikasi kredensial (Algo-015), pesan gagal umum (KF19), token JWT 7 hari (KNF11), middleware `cekLogin` dan `cekPeran` (KNF05), serta pemeriksaan sesi luring di klien (KF20) | C22-UT01 s.d. C22-UT19, INT-TC01, INT-TC02, KNF11-TC01 |
 | C03 | `PetakLahan` | Sedang | Kueri CRUD Q-001 sampai Q-004; satu-satunya aturan adalah pengecualian petak bertugas aktif pada rekomendasi (Q-003) | C03-UT01 s.d. C03-UT07, INT-TC34 |
 | C07 | `JadwalPekerjaan` | Sedang | Kueri Q-008 sampai Q-011; aturan status ditaruh di klausa `WHERE` (`perbaruiStatus`, `batalkan`) | C07-UT01 s.d. C07-UT07; `perbaruiStatus` dan `batalkan` lewat C10-UT21, C10-UT27, C13-UT09 s.d. C13-UT11, C15-UT01, C15-UT05, INT-TC05 |
 | C08 | `RelawanLapangan` | Sedang | Dua kueri (Q-012, Q-013) tanpa logika tambahan | Lewat alur C06-UT04, C06-UT05, C06-UT08, C06-UT09, INT-TC16, INT-TC18 |
 | C11 | `LaporanBuktiKerja` | Sedang | Kueri Q-014 sampai Q-019; `setujui` dan `tolak` hanya mengubah laporan berstatus menunggu (penguncian KF10) | C11-UT01 s.d. C11-UT08; `simpan` dan `cekUUIDAda` lewat C15-UT01 s.d. C15-UT03, INT-TC06, INT-TC07 |
 | C17 | `DeteksiKeliruController` | Sedang | Controller tipis: validasi keterangan, cek kepemilikan tugas, lalu meneruskan ke `TitikPanas.tandaiKeliru` | C17-UT01 s.d. C17-UT08, INT-TC21 s.d. INT-TC23 |
+| C19 | `Warga` | Sedang | Model berisi kueri sederhana. Algo-013 `ambilAktifByPetak` hanya satu `SELECT` warga aktif per petak, sedangkan aturan pencabutan dan batas 30 hari diatur oleh C18 | C19-UT01 s.d. C19-UT05b |
+| C20 | `PeringatanSMS` | Sedang | Model pencatat log SMS. Algo-014 `adaDalam24Jam` hanya satu kueri hitung, sedangkan keputusan kirim atau tidak ada di C18 (Algo-012) | C20-UT01 s.d. C20-UT04 |
 | C23 | `Pengguna` | Sedang | Kueri `cariByUsername`, `ambilByPeran`, dan `cekPassword` yang hanya memanggil `bcrypt.compare` | Lewat C22-UT10 s.d. C22-UT12, INT-TC01, INT-TC02, KNF11-TC01 |
 | C24 | `Notifikasi` | Sedang | Kueri Q-028 sampai Q-030 dan pemetaan ke camelCase | C24-UT01 s.d. C24-UT04b, INT-TC17, INT-TC29 |
 | C01 | `HalamanPetaRisiko` | Tidak perlu | Kelas *View*: menggambar petak Leaflet, atribusi, keterangan cache, dan notifikasi dari JSON C02 | UC01-TC01, UC01-TC02, KNF01-TC01 |
@@ -719,7 +719,7 @@ Tabel 4.2.11b. Ringkasan Cakupan Kelas C18
 | Daftar operasi public pada DPPL | `cekAmbangRisiko`, `prosesBalasanSTOP`, `hapusNomorDicabut` |
 | Operasi yang diuji | Ketiganya (operasi privat `cekPeringatanTerakhir`, `identifikasiWargaTerdampak`, `kirimSMS` teruji lewat `cekAmbangRisiko`) |
 | ID Algoritma yang tercakup | Algo-012 |
-| Coverage (wajib minimal 70%) | 97,53% line / 96,66% branch (bukti `coverage-c18-sms.txt`) |
+| Coverage (wajib minimal 70%) | 97,53% line / 96,66% branch menurut `coverage-semua-20112026.txt`. Pada `coverage-c18-sms.txt` (run sebelumnya oleh Reinhard) angkanya 97,53% line / 96,55% branch |
 
 Catatan: `tests/db/peringatanSMS.test.js` berisi tujuh tes lama tanpa ID dari M9 yang cakupannya sudah tercakup C18-UT01 s.d. C18-UT12. Tes ini tetap dijalankan dan lulus.
 
@@ -727,7 +727,7 @@ Catatan: `tests/db/peringatanSMS.test.js` berisi tujuh tes lama tanpa ID dari M9
 
 **ID Kelas:** C19
 **Nama Kelas:** `Warga`
-**Tingkat:** Mendalam
+**Tingkat:** Sedang
 **File test:** `tests/db/c19-warga.test.js`
 **Penanggung jawab:** Reinhard Mikhael Tandra
 
@@ -744,20 +744,13 @@ Tabel 4.2.12. Hasil Pengujian Unit Kelas C19
 | C19-UT05 | `hapusDicabutLama` | Normal | Batas hari tertentu | Hanya yang melewati batas terhapus | Sesuai | Pass |
 | C19-UT05b | `hapusDicabutLama` | Batas | Batas hari lebih besar | Warga yang lebih baru tidak terhapus | Sesuai | Pass |
 
-Tabel 4.2.12b. Ringkasan Cakupan Kelas C19
-
-| Informasi | Keterangan |
-| :--- | :--- |
-| Daftar operasi public pada DPPL | `ambilAktifByPetak`, `cariByNomor`, `cabutPersetujuan`, `hapusDicabutLama` |
-| Operasi yang diuji | Keempatnya |
-| ID Algoritma yang tercakup | Algo-013 |
-| Coverage (wajib minimal 70%) | 100% line / 100% branch |
+Coverage C19: 100% line / 100% branch. Tes di atas sudah memenuhi syarat kelas Sedang (minimal satu kasus normal dan satu kasus gagal pada operasi utama), dan Algo-013 ikut teruji di dalamnya.
 
 ### 4.2.13 Kelas PeringatanSMS
 
 **ID Kelas:** C20
 **Nama Kelas:** `PeringatanSMS`
-**Tingkat:** Mendalam
+**Tingkat:** Sedang
 **File test:** `tests/db/c20-peringatan-sms.test.js`
 **Penanggung jawab:** Reinhard Mikhael Tandra
 
@@ -774,14 +767,7 @@ Tabel 4.2.13. Hasil Pengujian Unit Kelas C20
 | C20-UT03b | `catat` | Negatif | Status tidak valid | Ditolak `CHECK` constraint | Ditolak | Pass |
 | C20-UT04 | `ambilTerkirimTerbaru` | Normal | Campuran terkirim dan gagal | Hanya terkirim, sesuai batas | Sesuai | Pass |
 
-Tabel 4.2.13b. Ringkasan Cakupan Kelas C20
-
-| Informasi | Keterangan |
-| :--- | :--- |
-| Daftar operasi public pada DPPL | `catat`, `adaDalam24Jam` |
-| Operasi yang diuji | Keduanya, ditambah `ambilTerkirimTerbaru` (Tabel B.1 Tugas 9 no. 2) |
-| ID Algoritma yang tercakup | Algo-014 |
-| Coverage (wajib minimal 70%) | 100% line / 100% branch |
+Coverage C20: 100% line / 100% branch. Tes di atas sudah memenuhi syarat kelas Sedang (minimal satu kasus normal dan satu kasus gagal pada operasi utama), dan Algo-014 ikut teruji di dalamnya.
 
 ### 4.2.14 Kelas AutentikasiController
 
@@ -1136,7 +1122,7 @@ Tabel 4.6. Bukti Hasil Pengujian
 
 # BAB 5: Traceability
 
-Sebuah KF kami anggap terpenuhi apabila seluruh test case yang terkait dengannya berkesimpulan Pass. Seluruh KF01 sampai KF24 sudah diimplementasikan, tetapi KF16 belum dapat dinyatakan terpenuhi karena UC07-TC01 masih Fail (isi SMS belum memuat tindakan yang disarankan).
+Pada Tabel 5.1, status terpenuhi sebuah KF kami hitung dari test case fungsionalnya, yaitu test case use case, unit, dan integrasi. Sebuah KF dianggap terpenuhi apabila semua test case tersebut berkesimpulan Pass. Hasil pengujian KNF tetap kami cantumkan di kolom test case agar kerunutannya terlihat, tetapi status KNF kami nilai terpisah di Tabel 5.2. Seluruh KF01 sampai KF24 sudah diimplementasikan. Dari sisi fungsional, hanya KF16 yang belum terpenuhi karena UC07-TC01 masih Fail (isi SMS belum memuat tindakan yang disarankan). KF01 terpenuhi secara fungsional, sedangkan KNF01 yang terkait dengannya belum terpenuhi (KNF01-TC01 Fail, lihat Tabel 5.2). Hal yang sama berlaku untuk KF10 dan KNF05.
 
 Tabel 5.1. Matriks Kerunutan KF terhadap Implementasi dan Pengujian
 
@@ -1151,9 +1137,9 @@ Tabel 5.1. Matriks Kerunutan KF terhadap Implementasi dan Pengujian
 | KF07 | - | UC02 | C06 - JadwalController<br>C07 - JadwalPekerjaan<br>C24 - Notifikasi | `src/controllers/JadwalController.js`<br>`src/models/JadwalPekerjaan.js`<br>`src/models/Notifikasi.js` | UC02-TC01 | C06-UT07, C06-UT13, C07-UT01 s.d. C07-UT07, C24-UT01, INT-TC17, INT-TC20 |
 | KF08 | - | UC03 | C09 - HalamanAntreanLaporan<br>C10 - VerifikasiLaporanController<br>C11 - LaporanBuktiKerja | `src/public/petugas/js/HalamanAntreanLaporan.js`<br>`src/controllers/VerifikasiLaporanController.js`<br>`src/models/LaporanBuktiKerja.js` | UC03-TC01, UC03-TC04 | C10-UT14 s.d. C10-UT16, C11-UT01, C11-UT02, INT-TC09 |
 | KF09 | KNF06 | UC03 | C09 - HalamanAntreanLaporan<br>C10 - VerifikasiLaporanController | `src/public/petugas/js/HalamanAntreanLaporan.js`<br>`src/controllers/VerifikasiLaporanController.js` | UC03-TC01, UC03-TC02 | C10-UT01 s.d. C10-UT06, C10-UT17 s.d. C10-UT20, INT-TC10, KNF06-TC01 |
-| KF10 | KNF05 | UC03 | C10 - VerifikasiLaporanController<br>C11 - LaporanBuktiKerja<br>C15 - UploadLaporanController | `src/controllers/VerifikasiLaporanController.js`<br>`src/models/LaporanBuktiKerja.js`<br>`src/controllers/UploadLaporanController.js` | UC03-TC01 | C10-UT22, C10-UT24, C10-UT29, C10-UT31, C11-UT06, C11-UT08, C15-UT05, INT-TC14 |
+| KF10 | KNF05 | UC03 | C10 - VerifikasiLaporanController<br>C11 - LaporanBuktiKerja<br>C15 - UploadLaporanController | `src/controllers/VerifikasiLaporanController.js`<br>`src/models/LaporanBuktiKerja.js`<br>`src/controllers/UploadLaporanController.js` | UC03-TC01 | C10-UT22, C10-UT24, C10-UT29, C10-UT31, C11-UT06, C11-UT08, C15-UT05, INT-TC14, KNF05-TC01 |
 | KF11 | - | UC04 | C12 - HalamanDaftarTugas<br>C13 - DaftarTugasController<br>C07 - JadwalPekerjaan | `src/public/relawan/js/HalamanDaftarTugas.js`<br>`src/controllers/DaftarTugasController.js`<br>`src/public/relawan/js/DaftarTugasController.js`<br>`src/models/JadwalPekerjaan.js` | UC04-TC01, UC04-TC03 | C13-UT01 s.d. C13-UT03, C13-UT07, C13-UT08, INT-TC03 |
-| KF12 | KNF09 | UC05 | C14 - FormLaporanBuktiKerja<br>C15 - UploadLaporanController | `src/public/relawan/js/FormLaporanBuktiKerja.js`<br>`src/public/relawan/js/UploadLaporanController.js`<br>`src/public/relawan/js/PenyimpananLokal.js` | UC05-TC02, UC05-TC03, UC05-TC04 | C15-UT06 s.d. C15-UT10, KNF09-TC01 |
+| KF12 | KNF08, KNF09 | UC05 | C14 - FormLaporanBuktiKerja<br>C15 - UploadLaporanController | `src/public/relawan/js/FormLaporanBuktiKerja.js`<br>`src/public/relawan/js/UploadLaporanController.js`<br>`src/public/relawan/js/PenyimpananLokal.js` | UC05-TC02, UC05-TC03, UC05-TC04 | C15-UT06 s.d. C15-UT10, KNF09-TC01, KNF08-TC01 |
 | KF13 | KNF03 | UC05 | C15 - UploadLaporanController<br>C11 - LaporanBuktiKerja<br>C07 - JadwalPekerjaan | `src/public/relawan/js/UploadLaporanController.js`<br>`src/controllers/UploadLaporanController.js`<br>`src/models/LaporanBuktiKerja.js` | UC05-TC01, UC05-TC02 | C15-UT01 s.d. C15-UT05, C15-UT11 s.d. C15-UT16, INT-TC06, INT-TC07, KNF03-TC01 |
 | KF14 | - | UC06 | C16 - DialogTandaiKeliru<br>C17 - DeteksiKeliruController | `src/public/relawan/js/DialogTandaiKeliru.js`<br>`src/controllers/DeteksiKeliruController.js`<br>`src/public/relawan/js/DeteksiKeliruController.js` | UC06-TC01, UC06-TC02 | C17-UT01 s.d. C17-UT03, INT-TC21 |
 | KF15 | - | UC06, UC01 | C17 - DeteksiKeliruController<br>C04 - TitikPanas | `src/controllers/DeteksiKeliruController.js`<br>`src/models/TitikPanas.js` | UC06-TC01 | C04-UT03 s.d. C04-UT07, C04-UT12, C04-UT13, C04-UT16 s.d. C04-UT19, C17-UT04 s.d. C17-UT08, INT-TC22, INT-TC23 |
