@@ -1,0 +1,18 @@
+KNF01-TC01 Response time pemuatan peta risiko dengan throttling 3G
+Waktu        : 20/11/2026, 18.05.53 WIB
+Peramban     : Google Chrome (CDP Network.emulateNetworkConditions + CacheDisabled)
+Profil 3G    : latency 150 ms, download 200.000 B/s (~1,6 Mbps), upload 93.750 B/s (~750 Kbps)
+Viewport     : 1440 x 900 (desktop petugas)
+Target       : <= 5.000 ms (5 detik) hingga 99 petak terwarnai tampil di peta
+
+Percobaan | Waktu Total (ms) | Jumlah Petak Terwarnai | Status
+----------+------------------+------------------------+-------
+    1     |       2213       |           99           | Pass
+    2     |       2331       |           99           | Pass
+    3     |       2286       |           99           | Pass
+    4     |       2313       |           99           | Pass
+    5     |       2291       |           99           | Pass
+
+Rata-rata    : 2287 ms
+Maksimum     : 2331 ms
+Kesimpulan   : Pass (maksimum 2331 ms <= 5.000 ms)

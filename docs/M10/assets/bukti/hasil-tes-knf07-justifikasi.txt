@@ -1,0 +1,22 @@
+KNF07-TC01 Availability platform peta dan penugasan selama sesi pengujian
+Waktu        : 20/11/2026, 18.06.01 WIB
+Target       : Platform peta dan penugasan dapat diakses tanpa gangguan (0 galat 5xx)
+
+1. Justifikasi dan Batasan Pengukuran
+   - Sesuai SKPL Tabel 3.2, KNF07 menuntut ketersediaan penuh selama sesi pengujian dan demo tugas besar.
+   - Karena sesi demo tugas besar belum berlangsung dan lingkungan produksi memakai Render paket Free
+     (yang tidur setelah 15 menit tanpa permintaan dan memerlukan ~1 menit untuk cold start sesuai DPPL2 Bab 2.1),
+     tingkat uptime selama sesi demo penuh tidak dapat diukur sebelumnya.
+   - Mitigasi yang diterapkan:
+     (a) Memanaskan server sebelum sesi pengujian dan demo berlangsung.
+     (b) Memisahkan basis data PostgreSQL ke layanan Neon agar data tetap persisten.
+     (c) Menyimpan aset Leaflet dan font Inter secara lokal di src/public/vendor/ agar tidak bergantung CDN.
+
+2. Hasil Probe Sesi Pengujian M10 (30 permintaan ke endpoint peta & penugasan)
+   - Endpoint   : /petugas/, /api/peta, /petugas/jadwal.html, /api/jadwal/form
+   - Sukses HTTP 200 : 30/30 (100%)
+   - Galat 4xx/5xx   : 0
+   - Rata-rata waktu : 1.7 ms
+   - Maksimum waktu  : 10.2 ms
+
+Kesimpulan   : Pass (100% tersedia selama sesi pengujian M10; disertai justifikasi demo produksi)
