@@ -1,18 +1,23 @@
 KNF01-TC01 Response time pemuatan peta risiko dengan throttling 3G
-Waktu        : 20/11/2026, 18.05.53 WIB
-Peramban     : Google Chrome (CDP Network.emulateNetworkConditions + CacheDisabled)
-Profil 3G    : latency 150 ms, download 200.000 B/s (~1,6 Mbps), upload 93.750 B/s (~750 Kbps)
-Viewport     : 1440 x 900 (desktop petugas)
-Target       : <= 5.000 ms (5 detik) hingga 99 petak terwarnai tampil di peta
+Waktu        : 20/11/2026, 20.24 - 20.30 WIB
+Peramban     : Google Chrome (jendela lokal terhadap http://localhost:3000/petugas/)
+Metode       : Manual di Google Chrome DevTools tab Network (Disable cache tercentang, preset 3G bawaan Chrome, 5x reload Cmd+R)
+Bukti        : knf01-tc01b-devtools-network-3g.png
+Target       : <= 5,00 s (5.000 ms) hingga peta beserta 99 petak terwarnai termuat
 
-Percobaan | Waktu Total (ms) | Jumlah Petak Terwarnai | Status
-----------+------------------+------------------------+-------
-    1     |       2213       |           99           | Pass
-    2     |       2331       |           99           | Pass
-    3     |       2286       |           99           | Pass
-    4     |       2313       |           99           | Pass
-    5     |       2291       |           99           | Pass
+Percobaan | Requests | Load (s / ms)    | Finish (s / ms)  | Petak Terwarnai | Status
+----------+----------+------------------+------------------+-----------------+-------
+    1     |    23    | 13,63 s (13.630) | 19,26 s (19.260) |       99        | Fail
+    2     |    23    | 12,15 s (12.150) | 17,68 s (17.680) |       99        | Fail
+    3     |    23    | 12,10 s (12.100) | 17,62 s (17.620) |       99        | Fail
+    4     |    23    | 12,13 s (12.130) | 17,60 s (17.600) |       99        | Fail
+    5     |    24    | 12,24 s (12.240) | 17,87 s (17.870) |       99        | Fail
 
-Rata-rata    : 2287 ms
-Maksimum     : 2331 ms
-Kesimpulan   : Pass (maksimum 2331 ms <= 5.000 ms)
+Rata-rata    : Load 12,45 s (12.450 ms) | Finish 18,01 s (18.006 ms)
+Maksimum     : Load 13,63 s (13.630 ms) | Finish 19,26 s (19.260 ms)
+Kesimpulan   : Fail (seluruh 5 percobaan melebihi batas <= 5,00 s pada preset 3G bawaan Chrome DevTools; temuan dicatat apa adanya sesuai kesepakatan M10).
+
+Catatan temuan dari waterfall DevTools:
+- Preset 3G bawaan Chrome DevTools memakai latency tinggi dan bandwidth rendah dengan Disable cache aktif,
+  sehingga unduhan serial leaflet.js (148 kB, ~7,76 s), font inter-latin-wght-normal.woff2 (48,6 kB, ~3,97 s),
+  logo-sigap.png (45,6 kB, ~4,47 s), serta tile OpenStreetMap menyebabkan waktu muat > 5 detik.

@@ -1,6 +1,6 @@
 KNF08-TC01 Ergonomy antarmuka pengisian laporan relawan (I-06)
-Waktu        : 20/11/2026, 18.06.00 WIB
-Perangkat    : Emulasi mobile 412 x 892 dp (DPR 2, 1 CSS px = 1 dp)
+Waktu        : 20/11/2026, 20.40.13 WIB
+Metode       : Skrip otomatis src/scripts/ukur-knf.js (Google Chrome CDP, emulasi mobile 412 x 892 dp, DPR 2)
 Halaman      : http://localhost:3000/relawan/laporan.html?jadwal=5
 
 1. Posisi tombol aksi utama di 40% bagian bawah layar (operasi satu tangan)
