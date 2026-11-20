@@ -1,0 +1,29 @@
+KNF08-TC01 Ergonomy antarmuka pengisian laporan relawan (I-06)
+Waktu        : 20/11/2026, 20.40.13 WIB
+Metode       : Skrip otomatis src/scripts/ukur-knf.js (Google Chrome CDP, emulasi mobile 412 x 892 dp, DPR 2)
+Halaman      : http://localhost:3000/relawan/laporan.html?jadwal=5
+
+1. Posisi tombol aksi utama di 40% bagian bawah layar (operasi satu tangan)
+   - Tinggi viewport      : 892 dp
+   - Batas atas zona 40%  : y >= 535.2 dp (60% dari atas)
+   - Posisi #tombol-kirim : y = 824 dp s.d. 876 dp
+   - Hasil                : Pass
+
+2. Ukuran target sentuh (target >= 48 x 48 dp)
+   - Tombol ambil foto (awal) : 152 x 48 dp (Pass)
+   - Tombol kembali (< Tugas) : 380 x 48 dp (Pass)
+   - Tombol ambil ulang foto  : 356 x 52 dp (Pass)
+   - Tombol kirim laporan     : 380 x 52 dp (Pass)
+
+3. Kontras teks terhadap latar (target WCAG AA >= 4,5 : 1)
+   - Judul halaman (h1.teks-judul)              : 16.92:1 (Pass)
+   - Subjudul tugas (#judul-tugas)              : 7.9:1 (Pass)
+   - Label keterangan (.keterangan)             : 7.9:1 (Pass)
+   - Koordinat GPS (#teks-koordinat)            : 18.88:1 (Pass)
+   - Info catatan (#info-foto)                  : 7.9:1 (Pass)
+   - Tombol kirim aktif (#tombol-kirim)         : 18.88:1 (Pass)
+   - Tombol ambil ulang foto (#tombol-ulang-foto): 18.88:1 (Pass)
+   - Pesan penyimpanan penuh (#pesan-penuh)     : 5.89:1 (Pass)
+   - Tombol kirim nonaktif (#tombol-kirim:dis) : 5.79:1 (Pass)
+
+Kesimpulan   : Pass

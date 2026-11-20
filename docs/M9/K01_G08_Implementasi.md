@@ -40,7 +40,7 @@ Tabel B.1. Perubahan dari DPPL
 
 | No | Bagian DPPL | Rancangan Awal | Implementasi Akhir | Alasan |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | C18 `prosesBalasanSTOP` | `void` | Mengembalikan `boolean` (true jika persetujuan dicabut) | Dipakai halaman simulasi untuk memberi respons |
+| 1 | C18 `prosesBalasanSTOP` | `void` | Mengembalikan `boolean` (`TRUE` jika persetujuan dicabut) | Halaman simulasi SMS perlu tahu apakah balasan STOP berhasil mencabut persetujuan, dan nilainya dipakai untuk pengujian C18-UT08 s.d. UT11b |
 | 2 | C20 `PeringatanSMS` | `catat` `adaDalam24Jam` | Menambah `ambilTerkirimTerbaru(batas)` | Halaman I-08 perlu menampilkan SMS yang terkirim |
 | 3 | `SMSGatewaySimulasi` | Komponen eksternal tiruan | `controllers/SimulasiSMSController.js` + endpoint `/api/simulasi-sms/*` tanpa login | SKPL batasan 4; halaman berperan sebagai ponsel warga, data fiktif |
 | 4 | Algo-001 (C02 `perbaruiData`) | `hapusNomorDicabut` tidak dibungkus `try/catch` | Dipanggil lewat `jalankanHapusNomorDicabut` dengan `try/catch`; Kegagalan hanya dicatat di log | Kegagalan dalam membersihkan nomor tidak boleh membuat `perbaruiData` membalas dengan 500 setelah skor semua petak disimpan |

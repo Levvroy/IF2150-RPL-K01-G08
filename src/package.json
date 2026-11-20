@@ -13,7 +13,10 @@
     "seed": "node --env-file=.env sql/seed.js",
     "perbarui": "node --env-file=.env scripts/perbarui.js",
     "test": "node --test \"tests/*.test.js\"",
-    "test:db": "node --env-file=.env --test \"tests/db/*.test.js\""
+    "test:db": "node --env-file=.env --test --test-concurrency=1 \"tests/db/*.test.js\"",
+    "test:int": "node --env-file=.env --test --test-concurrency=1 \"tests/int/*.test.js\"",
+    "test:semua": "npm test && npm run test:db && npm run test:int",
+    "coverage": "c8 --include=controllers --include=models --include=middleware --include=public npm run test:semua"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -21,5 +24,9 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.5.0",
     "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "c8": "^12.0.0",
+    "fake-indexeddb": "^6.2.8"
   }
 }

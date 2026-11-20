@@ -31,6 +31,7 @@
 * [Milestone 7](#milestone-7)
 * [Milestone 8](#milestone-8)
 * [Milestone 9](#milestone-9)
+* [Milestone 10](#milestone-10)
 * Notes: Copy bagian Daftar Isi seperti Milestone 1 untuk Milestone berikutnya, contoh ``* [Milestone 2](#milestone-2)``. Ketika Daftar isi diklik maka akan langsung diarahkan ke bagian bawah sesuai dengan Milestone tujuan.
 
 
@@ -212,5 +213,28 @@
 
 **Catatan/Evaluasi Milestone 9:**
 * Tiap use case dikerjakan di branch masing-masing, lalu masuk ke develop lewat pull request yang direview anggota lain. UC02 dan UC06 baru selesai di-merge pada hari terakhir, jadi ke depannya PR sebaiknya dibuka lebih awal biar review tidak numpuk di akhir.
+
+### Milestone 10
+**Periode:** 13-11-2026 - 20-11-2026
+
+| Tanggal | Nama Anggota | Deskripsi Pekerjaan | Durasi (Jam) | Status | Kendala / Blocker |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 17-11-2026 | Lewi | Membuat tes integrasi untuk alur autentikasi, daftar tugas, dan laporan, termasuk pengecekan hash password di database | 2 Jam | Done | - |
+| 19-11-2026 | Lewi | Menyiapkan infrastruktur pengujian M10, yaitu c8 untuk coverage, fake-indexeddb, skrip test:db, test:int, dan coverage, serta fixture data uji dan helper untuk menjalankan server | 2 Jam | Done | - |
+| 19-11-2026 | Lewi | Mengerjakan unit test C22 (login, sesi, cek peran, pengalihan halaman di server dan klien), C13 (urutan tugas, pembatalan, notifikasi), dan C15 (laporan luring, sinkron otomatis, UUID ganda), lalu menghapus tes lama tanpa ID yang sudah tercakup | 3 Jam | Done | Tes lama belum memakai penomoran ID sehingga perlu dipetakan ulang ke kelas |
+| 19-11-2026 | Lewi | Menambahkan bukti hasil tes dan coverage C13, C15, dan C22, lalu merge setup pengujian ke develop lewat PR #25 | <1 Jam | Done | - |
+| 19-11-2026 | Rafiif | Membuat helper data uji laporan serta unit test C10 (hitungJarak, validasi alasan, antrean, detail, setujui, tolak, dan transaksi) dan C11 (verifikasi laporan bukti kerja) | 3 Jam | Done | - |
+| 19-11-2026 | Rafiif | Mengerjakan uji KNF06 untuk laporan yang berjarak lebih dari 200 m dari batas petak dan tes integrasi verifikasi laporan ke database | 1 Jam | Done | - |
+| 19-11-2026 | Rafiif | Mengambil bukti pengujian UC04-TC01 sampai TC04, UC05-TC01 sampai TC04, serta pengukuran KNF04 lewat emulasi Android daring dan mode pesawat | 3 Jam | Done | - |
+| 20-11-2026 | Rafiif | Menambahkan C10-UT35 sampai UT37 untuk tolak dan verifikasi laporan yang kalah balapan di dalam transaksi, memperbarui hasil tes dan coverage C10, lalu merge lewat PR #26 | 2 Jam | Done | Kasus balapan di dalam transaksi baru ketahuan saat review sehingga perlu tes tambahan |
+| 20-11-2026 | Rafiif | Mengambil ulang bukti KNF04-TC01 dengan jam pengambilan dan menambahkan screenshot DevTools Manifest serta Service Worker | 1 Jam | Done | Bukti awal belum menampilkan jam pengambilan |
+| 20-11-2026 | Reinhard | Mengerjakan unit test C18 (peringatan SMS, proses balasan, penghapusan nomor dicabut), C19 (warga aktif, cariByNomor, pencabutan status), C20 (adaDalam24Jam dan catat), dan C24 (buat notifikasi, ambilBelumDibaca, tandaiDibaca) | 3 Jam | Done | - |
+| 20-11-2026 | Reinhard | Menambahkan tes integrasi SMS serta uji KNF10 dan KNF12, merapikan penamaan dan penomoran TC integrasi | 2 Jam | Done | Nama dan nomor TC integrasi sempat bentrok dengan milik anggota lain |
+| 20-11-2026 | Reinhard | Menambahkan bukti coverage, UC01, UC02, dan hasil tes KNF, memperbaiki unit test dan dokumen implementasi berdasarkan review, lalu merge lewat PR #28 | 2 Jam | Done | - |
+| 20-11-2026 | Rafi | Mengerjakan unit test C06 dan C07.simpan, tes integrasi jadwal dan deteksi keliru, serta uji KNF05, lalu menambahkan bukti hasil tes, coverage, UC03, UC08, dan KNF05 (branch test/m10-c06-jadwal) | 3 Jam | In Progress | Belum di-merge ke develop |
+| 20-11-2026 | Rafi | Merevisi PR test/m10-c06-jadwal berdasarkan review, yaitu memindahkan port INT jadwal ke 3103, menambah helper hentikanServer, memperbaiki assertion rekomendasi C06-UT05, dan menambah uji kode galat 22001 | 1 Jam | Done | Port 3101 bentrok dengan tes integrasi verifikasi |
+| 20-11-2026 | Arga | Mengerjakan unit test C02 PetaRisikoController, C03 PetakLahan, dan C04 TitikPanas, tes integrasi peta risiko dengan server dummy FIRMS dan Open-Meteo, serta uji reliabilitas KNF02 saat gateway gagal dan cache usang | 4 Jam | In Progress | Butuh override base URL eksternal supaya tes tidak bergantung ke API asli; belum di-merge ke develop |
+| 20-11-2026 | Arga | Menambahkan log hasil tes dan coverage C02 sampai C04, bukti pengujian UC06, serta KNF01, KNF02, KNF07, dan KNF08 (branch test/m10-c02-peta-risiko) | 2 Jam | In Progress | Belum di-merge ke develop |
+| 20-11-2026 | Lewi | Mengisi logbook | <1 Jam | Done | - |
 
 ``Gunakan format penulisan Logbook yang sama untuk setiap Milestone dan pastikan pembuatan Daftar Isi juga sudah sesuai sebelum Logbook dikumpulkan. ``
