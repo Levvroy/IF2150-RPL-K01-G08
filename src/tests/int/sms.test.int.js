@@ -50,7 +50,7 @@ after(async () => {
   await pool.end();
 });
 
-test('INT-TC16 SMS yang diterima gateway muncul di halaman simulasi, yang ditolak tidak', async () => {
+test('INT-TC24 SMS yang diterima gateway muncul di halaman simulasi, yang ditolak tidak', async () => {
   const petak = await buatPetak(85, 'tinggi');
   await buatWarga(petak, '081200000401');
   await buatWarga(petak, NOMOR_DITOLAK);
@@ -68,7 +68,7 @@ test('INT-TC16 SMS yang diterima gateway muncul di halaman simulasi, yang ditola
   assert.ok(!data.some((p) => p.nomorHP === NOMOR_DITOLAK));
 });
 
-test('INT-TC17 pemicu kedua dalam 24 jam tidak mengirim ulang', async () => {
+test('INT-TC25 pemicu kedua dalam 24 jam tidak mengirim ulang', async () => {
   const petak = await buatPetak(86, 'tinggi');
   await buatWarga(petak, '081200000411');
   await cekAmbangRisiko([tinggi(petak)]);
@@ -76,7 +76,7 @@ test('INT-TC17 pemicu kedua dalam 24 jam tidak mengirim ulang', async () => {
   assert.equal(await jumlahLog(petak), 1);
 });
 
-test('INT-TC18 balasan STOP lewat halaman simulasi mencabut persetujuan di database dan menghentikan SMS berikutnya', async () => {
+test('INT-TC26 balasan STOP lewat halaman simulasi mencabut persetujuan di database dan menghentikan SMS berikutnya', async () => {
   const petak = await buatPetak(87, 'tinggi');
   const warga = await buatWarga(petak, '081200000421');
   const res = await balas('081200000421', ' stop ');
@@ -91,7 +91,7 @@ test('INT-TC18 balasan STOP lewat halaman simulasi mencabut persetujuan di datab
   assert.equal(await jumlahLog(petak), 0);
 });
 
-test('INT-TC19 balasan tidak valid ditolak 400, nomor tidak terdaftar diterima tanpa pencabutan', async () => {
+test('INT-TC27 balasan tidak valid ditolak 400, nomor tidak terdaftar diterima tanpa pencabutan', async () => {
   assert.equal((await balas('', 'STOP')).status, 400);
   assert.equal((await balas('081200000431', '   ')).status, 400);
   const asing = await balas('089999999997', 'STOP');
@@ -99,7 +99,7 @@ test('INT-TC19 balasan tidak valid ditolak 400, nomor tidak terdaftar diterima t
   assert.deepEqual(await asing.json(), { diterima: true, dicabut: false });
 });
 
-test('INT-TC20 nomor yang dicabut lebih dari 30 hari dihapus dari database', async () => {
+test('INT-TC28 nomor yang dicabut lebih dari 30 hari dihapus dari database', async () => {
   const petak = await buatPetak(10, 'rendah');
   const warga = await buatWarga(petak, '081200000441');
   await balas('081200000441', 'STOP');
@@ -109,7 +109,7 @@ test('INT-TC20 nomor yang dicabut lebih dari 30 hari dihapus dari database', asy
   assert.equal(rows.length, 0);
 });
 
-test('INT-TC21 pembatalan tugas oleh relawan membuat notifikasi untuk petugas di database', async () => {
+test('INT-TC29 pembatalan tugas oleh relawan membuat notifikasi untuk petugas di database', async () => {
   const petak = await buatPetak(60, 'sedang');
   const idJadwal = await buatJadwal(relawan.id, petak);
   const res = await fetch(`${URL}/api/tugas/${idJadwal}/batal`, {
