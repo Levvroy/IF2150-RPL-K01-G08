@@ -1,0 +1,27 @@
+> node --env-file=.env --test tests/int/knf05-akses.int.test.js
+✔ KNF05-TC01 foto bukti kerja hanya terbuka untuk petugas: tanpa login 401, token palsu atau kedaluwarsa 401, relawan 403 (572.627956ms)
+✖ KNF05-TC02 nomor HP warga tidak bisa dibaca tanpa login petugas (6.334213ms) # GET /api/simulasi-sms/pesan masih terbuka tanpa login, menunggu keputusan tim
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 1
+ℹ duration_ms 710.344947
+
+✖ failing tests:
+
+test at tests/int/knf05-akses.int.test.js:64:1
+✖ KNF05-TC02 nomor HP warga tidak bisa dibaca tanpa login petugas (6.334213ms) # GET /api/simulasi-sms/pesan masih terbuka tanpa login, menunggu keputusan tim
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 401
+  
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 401,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
