@@ -1,0 +1,1787 @@
+
+> sigap@0.9.0 coverage
+> c8 --include=controllers --include=models --include=middleware --include=public npm run test:semua
+
+
+> sigap@0.9.0 test:semua
+> npm test && npm run test:db && npm run test:int
+
+
+> sigap@0.9.0 test
+> node --test "tests/*.test.js"
+
+TAP version 13
+# Subtest: C02-UT01 tingkatDariSkor: mengklasifikasikan nilai normal rendah, sedang, dan tinggi
+ok 1 - C02-UT01 tingkatDariSkor: mengklasifikasikan nilai normal rendah, sedang, dan tinggi
+  ---
+  duration_ms: 0.990676
+  type: 'test'
+  ...
+# Subtest: C02-UT02 tingkatDariSkor: memeriksa nilai batas ambang sedang (30) dan tinggi (60)
+ok 2 - C02-UT02 tingkatDariSkor: memeriksa nilai batas ambang sedang (30) dan tinggi (60)
+  ---
+  duration_ms: 0.138184
+  type: 'test'
+  ...
+# Subtest: C02-UT03 hitungHariKering: menghitung hari berturut-turut dari akhir dengan curah hujan < 1 mm
+ok 3 - C02-UT03 hitungHariKering: menghitung hari berturut-turut dari akhir dengan curah hujan < 1 mm
+  ---
+  duration_ms: 0.119156
+  type: 'test'
+  ...
+# Subtest: C02-UT04 hitungHariKering: nilai batas tepat 1 mm menghentikan hitungan dan array kosong bernilai 0
+ok 4 - C02-UT04 hitungHariKering: nilai batas tepat 1 mm menghentikan hitungan dan array kosong bernilai 0
+  ---
+  duration_ms: 0.088913
+  type: 'test'
+  ...
+# Subtest: C02-UT05 hitungSkorRisiko: menghitung skor dan tingkat risiko per petak sesuai rumus pembobotan
+ok 5 - C02-UT05 hitungSkorRisiko: menghitung skor dan tingkat risiko per petak sesuai rumus pembobotan
+  ---
+  duration_ms: 0.251106
+  type: 'test'
+  ...
+# Subtest: C02-UT06 hitungSkorRisiko: menerapkan batas setengah terbuka petak dan membatasi skor minimum 0
+ok 6 - C02-UT06 hitungSkorRisiko: menerapkan batas setengah terbuka petak dan membatasi skor minimum 0
+  ---
+  duration_ms: 0.139114
+  type: 'test'
+  ...
+# Subtest: C02-UT07 hitungSkorRisiko: daftar petak atau data cuaca kosong ditangani aman tanpa error
+ok 7 - C02-UT07 hitungSkorRisiko: daftar petak atau data cuaca kosong ditangani aman tanpa error
+  ---
+  duration_ms: 0.903753
+  type: 'test'
+  ...
+# Subtest: C02-UT08 isDataUsang: bernilai false dalam 3 jam dan true jika lewat 3 jam
+ok 8 - C02-UT08 isDataUsang: bernilai false dalam 3 jam dan true jika lewat 3 jam
+  ---
+  duration_ms: 0.151568
+  type: 'test'
+  ...
+# Subtest: C02-UT09 isDataUsang: batas tepat 3 jam masih segar (false) dan lewat 1 ms menjadi usang (true)
+ok 9 - C02-UT09 isDataUsang: batas tepat 3 jam masih segar (false) dan lewat 1 ms menjadi usang (true)
+  ---
+  duration_ms: 0.101319
+  type: 'test'
+  ...
+# Subtest: C02-UT10 isDataUsang: nilai kosong atau format tanggal tidak valid bernilai true
+ok 10 - C02-UT10 isDataUsang: nilai kosong atau format tanggal tidak valid bernilai true
+  ---
+  duration_ms: 0.091975
+  type: 'test'
+  ...
+# Subtest: C02-UT11 perbaruiData: menolak token tidak cocok atau CRON_TOKEN kosong dengan status 401
+ok 11 - C02-UT11 perbaruiData: menolak token tidak cocok atau CRON_TOKEN kosong dengan status 401
+  ---
+  duration_ms: 0.303643
+  type: 'test'
+  ...
+# Subtest: C02-UT12 perbaruiDataHandler: header Authorization kosong atau Bearer salah dibalas 401
+ok 12 - C02-UT12 perbaruiDataHandler: header Authorization kosong atau Bearer salah dibalas 401
+  ---
+  duration_ms: 0.252808
+  type: 'test'
+  ...
+# Subtest: C04-UT01 haversine: jarak dua koordinat identik adalah 0 km
+ok 13 - C04-UT01 haversine: jarak dua koordinat identik adalah 0 km
+  ---
+  duration_ms: 0.712635
+  type: 'test'
+  ...
+# Subtest: C04-UT02 haversine: selisih lintang 0.009 derajat menghasilkan jarak sekitar 1 km
+ok 14 - C04-UT02 haversine: selisih lintang 0.009 derajat menghasilkan jarak sekitar 1 km
+  ---
+  duration_ms: 0.168656
+  type: 'test'
+  ...
+# Subtest: C04-UT03 isDikecualikan: titik keliru kurang dari 24 jam tanpa deteksi baru dalam 500 m dikecualikan (Algo-003)
+ok 15 - C04-UT03 isDikecualikan: titik keliru kurang dari 24 jam tanpa deteksi baru dalam 500 m dikecualikan (Algo-003)
+  ---
+  duration_ms: 1.015099
+  type: 'test'
+  ...
+# Subtest: C04-UT04 isDikecualikan: titik berstatus valid atau tanpa waktuTandaiKeliru tidak dikecualikan
+ok 16 - C04-UT04 isDikecualikan: titik berstatus valid atau tanpa waktuTandaiKeliru tidak dikecualikan
+  ---
+  duration_ms: 0.173917
+  type: 'test'
+  ...
+# Subtest: C04-UT05 isDikecualikan: memeriksa batas tepat 24 jam (true) dan 24 jam 1 detik (false)
+ok 17 - C04-UT05 isDikecualikan: memeriksa batas tepat 24 jam (true) dan 24 jam 1 detik (false)
+  ---
+  duration_ms: 0.090863
+  type: 'test'
+  ...
+# Subtest: C04-UT06 isDikecualikan: batas radius 500 m membatalkan pengecualian jika <= 500 m dan tetap mengecualikan jika > 500 m
+ok 18 - C04-UT06 isDikecualikan: batas radius 500 m membatalkan pengecualian jika <= 500 m dan tetap mengecualikan jika > 500 m
+  ---
+  duration_ms: 0.088442
+  type: 'test'
+  ...
+# Subtest: C04-UT07 isDikecualikan: mengabaikan deteksi sebelum atau tepat pada waktuTandaiKeliru meski berjarak < 500 m
+ok 19 - C04-UT07 isDikecualikan: mengabaikan deteksi sebelum atau tepat pada waktuTandaiKeliru meski berjarak < 500 m
+  ---
+  duration_ms: 0.070242
+  type: 'test'
+  ...
+# Subtest: C06-UT01 buatJadwal: tanpa body atau body kosong dibalas 400 tanpa query
+ok 20 - C06-UT01 buatJadwal: tanpa body atau body kosong dibalas 400 tanpa query
+  ---
+  duration_ms: 0.816865
+  type: 'test'
+  ...
+# Subtest: C06-UT02 buatJadwal: id relawan dan petak harus bilangan bulat positif (0, negatif, pecahan, teks ditolak)
+ok 21 - C06-UT02 buatJadwal: id relawan dan petak harus bilangan bulat positif (0, negatif, pecahan, teks ditolak)
+  ---
+  duration_ms: 0.193125
+  type: 'test'
+  ...
+# Subtest: C06-UT03 buatJadwal: jenis pekerjaan dan tanggal kosong atau bukan teks dibalas 400
+ok 22 - C06-UT03 buatJadwal: jenis pekerjaan dan tanggal kosong atau bukan teks dibalas 400
+  ---
+  duration_ms: 0.112948
+  type: 'test'
+  ...
+# Subtest: C10-UT01 hitungJarak: koordinat di tengah petak jaraknya 0
+ok 23 - C10-UT01 hitungJarak: koordinat di tengah petak jaraknya 0
+  ---
+  duration_ms: 0.698625
+  type: 'test'
+  ...
+# Subtest: C10-UT02 hitungJarak: koordinat tepat di garis batas dan di sudut petak jaraknya 0
+ok 24 - C10-UT02 hitungJarak: koordinat tepat di garis batas dan di sudut petak jaraknya 0
+  ---
+  duration_ms: 0.098564
+  type: 'test'
+  ...
+# Subtest: C10-UT03 hitungJarak: 0,001 derajat di timur petak sekitar 111 m (haversine)
+ok 25 - C10-UT03 hitungJarak: 0,001 derajat di timur petak sekitar 111 m (haversine)
+  ---
+  duration_ms: 0.118517
+  type: 'test'
+  ...
+# Subtest: C10-UT04 hitungJarak: di luar pojok diukur diagonal ke titik sudut, hasilnya bilangan bulat
+ok 26 - C10-UT04 hitungJarak: di luar pojok diukur diagonal ke titik sudut, hasilnya bilangan bulat
+  ---
+  duration_ms: 0.070936
+  type: 'test'
+  ...
+# Subtest: C10-UT05 hitungJarak: laporan seed Petak 187 sekitar 340 m di luar petak (I-04b)
+ok 27 - C10-UT05 hitungJarak: laporan seed Petak 187 sekitar 340 m di luar petak (I-04b)
+  ---
+  duration_ms: 0.092994
+  type: 'test'
+  ...
+# Subtest: C10-UT06 hitungJarak: koordinat bukan angka tidak dianggap di dalam petak (bukan 0)
+ok 28 - C10-UT06 hitungJarak: koordinat bukan angka tidak dianggap di dalam petak (bukan 0)
+  ---
+  duration_ms: 0.075422
+  type: 'test'
+  ...
+# Subtest: C10-UT07 validasiAlasan: alasan dirapikan dari spasi di awal dan akhir
+ok 29 - C10-UT07 validasiAlasan: alasan dirapikan dari spasi di awal dan akhir
+  ---
+  duration_ms: 0.065358
+  type: 'test'
+  ...
+# Subtest: C10-UT08 validasiAlasan: 300 karakter diterima, 301 karakter ditolak
+ok 30 - C10-UT08 validasiAlasan: 300 karakter diterima, 301 karakter ditolak
+  ---
+  duration_ms: 0.062316
+  type: 'test'
+  ...
+# Subtest: C10-UT09 validasiAlasan: kosong, spasi saja, dan bukan teks ditolak
+ok 31 - C10-UT09 validasiAlasan: kosong, spasi saja, dan bukan teks ditolak
+  ---
+  duration_ms: 0.121963
+  type: 'test'
+  ...
+# Subtest: C10-UT10 ambilDetailLaporan: id yang bukan UUID dibalas 404 tanpa query
+ok 32 - C10-UT10 ambilDetailLaporan: id yang bukan UUID dibalas 404 tanpa query
+  ---
+  duration_ms: 0.21252
+  type: 'test'
+  ...
+# Subtest: C10-UT11 verifikasiLaporan: id yang bukan UUID dibalas 404 tanpa query
+ok 33 - C10-UT11 verifikasiLaporan: id yang bukan UUID dibalas 404 tanpa query
+  ---
+  duration_ms: 0.153083
+  type: 'test'
+  ...
+# Subtest: C10-UT12 tolakLaporan: alasan kosong atau tanpa body dibalas 400 tanpa query
+ok 34 - C10-UT12 tolakLaporan: alasan kosong atau tanpa body dibalas 400 tanpa query
+  ---
+  duration_ms: 0.227817
+  type: 'test'
+  ...
+# Subtest: C10-UT13 tolakLaporan: alasan valid tetapi id bukan UUID dibalas 404
+ok 35 - C10-UT13 tolakLaporan: alasan valid tetapi id bukan UUID dibalas 404
+  ---
+  duration_ms: 0.075603
+  type: 'test'
+  ...
+# Subtest: C13-UT01 tugas diurutkan dari skor risiko tertinggi
+ok 36 - C13-UT01 tugas diurutkan dari skor risiko tertinggi
+  ---
+  duration_ms: 1.167025
+  type: 'test'
+  ...
+# Subtest: C13-UT02 skor yang sama tidak mengubah urutan
+ok 37 - C13-UT02 skor yang sama tidak mengubah urutan
+  ---
+  duration_ms: 0.176514
+  type: 'test'
+  ...
+# Subtest: C13-UT03 daftar kosong tetap kosong
+ok 38 - C13-UT03 daftar kosong tetap kosong
+  ---
+  duration_ms: 0.071381
+  type: 'test'
+  ...
+# Subtest: C13-UT04 batal tanpa alasan ditolak 400
+ok 39 - C13-UT04 batal tanpa alasan ditolak 400
+  ---
+  duration_ms: 0.216127
+  type: 'test'
+  ...
+# Subtest: C13-UT05 alasan lebih dari 300 karakter ditolak 400
+ok 40 - C13-UT05 alasan lebih dari 300 karakter ditolak 400
+  ---
+  duration_ms: 0.066195
+  type: 'test'
+  ...
+# Subtest: C13-UT06 id tugas tidak valid ditolak 409
+ok 41 - C13-UT06 id tugas tidak valid ditolak 409
+  ---
+  duration_ms: 0.064047
+  type: 'test'
+  ...
+# Subtest: C15-UT06 mulaiLaporan membuat UUID baru setiap kali dipanggil
+ok 42 - C15-UT06 mulaiLaporan membuat UUID baru setiap kali dipanggil
+  ---
+  duration_ms: 7.439296
+  type: 'test'
+  ...
+# Subtest: C15-UT07 daring dan server menerima, laporan tidak disimpan di HP
+ok 43 - C15-UT07 daring dan server menerima, laporan tidak disimpan di HP
+  ---
+  duration_ms: 19.047396
+  type: 'test'
+  ...
+# Subtest: C15-UT08 luring, laporan disimpan di HP dan menunggu dikirim
+ok 44 - C15-UT08 luring, laporan disimpan di HP dan menunggu dikirim
+  ---
+  duration_ms: 2.300848
+  type: 'test'
+  ...
+# Subtest: C15-UT09 laporan ditolak server (409) tidak disimpan di HP
+ok 45 - C15-UT09 laporan ditolak server (409) tidak disimpan di HP
+  ---
+  duration_ms: 2.501446
+  type: 'test'
+  ...
+# Subtest: C15-UT10 laporan ke-20 masih bisa disimpan, ke-21 ditolak karena penuh
+ok 46 - C15-UT10 laporan ke-20 masih bisa disimpan, ke-21 ditolak karena penuh
+  ---
+  duration_ms: 4.52364
+  type: 'test'
+  ...
+# Subtest: C15-UT11 sinkron otomatis mengirim semua laporan tertunda lalu menghapusnya dari HP
+ok 47 - C15-UT11 sinkron otomatis mengirim semua laporan tertunda lalu menghapusnya dari HP
+  ---
+  duration_ms: 2.857902
+  type: 'test'
+  ...
+# Subtest: C15-UT12 koneksi putus di tengah sinkron, laporan yang belum terkirim tetap ada
+ok 48 - C15-UT12 koneksi putus di tengah sinkron, laporan yang belum terkirim tetap ada
+  ---
+  duration_ms: 1.341916
+  type: 'test'
+  ...
+# Subtest: C15-UT13 saat luring sinkron tidak mengirim apa-apa
+ok 49 - C15-UT13 saat luring sinkron tidak mengirim apa-apa
+  ---
+  duration_ms: 1.002202
+  type: 'test'
+  ...
+# Subtest: C18-UT05 daftar petak kosong selesai tanpa error
+ok 50 - C18-UT05 daftar petak kosong selesai tanpa error
+  ---
+  duration_ms: 1.610106
+  type: 'test'
+  ...
+# Subtest: C18-UT10 balasan selain STOP tidak memproses apa pun (FALSE)
+ok 51 - C18-UT10 balasan selain STOP tidak memproses apa pun (FALSE)
+  ---
+  duration_ms: 0.250586
+  type: 'test'
+  ...
+# Subtest: C18-UT10b balasan bukan string ditolak (FALSE)
+ok 52 - C18-UT10b balasan bukan string ditolak (FALSE)
+  ---
+  duration_ms: 0.077787
+  type: 'test'
+  ...
+# Subtest: C22-UT13 periksaSesi klien: token masih berlaku hasilnya true
+ok 53 - C22-UT13 periksaSesi klien: token masih berlaku hasilnya true
+  ---
+  duration_ms: 1.57213
+  type: 'test'
+  ...
+# Subtest: C22-UT14 periksaSesi klien: token sudah lewat 1 detik hasilnya false
+ok 54 - C22-UT14 periksaSesi klien: token sudah lewat 1 detik hasilnya false
+  ---
+  duration_ms: 0.209913
+  type: 'test'
+  ...
+# Subtest: C22-UT15 periksaSesi klien: setelah keluar hasilnya false
+ok 55 - C22-UT15 periksaSesi klien: setelah keluar hasilnya false
+  ---
+  duration_ms: 0.094228
+  type: 'test'
+  ...
+# Subtest: C22-UT16 login klien berhasil, token disimpan di perangkat
+ok 56 - C22-UT16 login klien berhasil, token disimpan di perangkat
+  ---
+  duration_ms: 16.739418
+  type: 'test'
+  ...
+# Subtest: C22-UT17 login klien ditolak 401, tidak ada token yang disimpan
+ok 57 - C22-UT17 login klien ditolak 401, tidak ada token yang disimpan
+  ---
+  duration_ms: 0.226649
+  type: 'test'
+  ...
+# Subtest: C22-UT18 login klien saat server membalas bukan JSON tetap dapat pesan error
+ok 58 - C22-UT18 login klien saat server membalas bukan JSON tetap dapat pesan error
+  ---
+  duration_ms: 0.261851
+  type: 'test'
+  ...
+# Subtest: C22-UT19 arahkanSesuaiPeran: petugas ke /petugas/, relawan ke /relawan/
+ok 59 - C22-UT19 arahkanSesuaiPeran: petugas ke /petugas/, relawan ke /relawan/
+  ---
+  duration_ms: 0.07008
+  type: 'test'
+  ...
+# Subtest: C22-UT01 login dengan username dan password kosong ditolak 400
+ok 60 - C22-UT01 login dengan username dan password kosong ditolak 400
+  ---
+  duration_ms: 0.835556
+  type: 'test'
+  ...
+# Subtest: C22-UT02 login tanpa body ditolak 400
+ok 61 - C22-UT02 login tanpa body ditolak 400
+  ---
+  duration_ms: 0.146655
+  type: 'test'
+  ...
+# Subtest: C22-UT03 buatSesi menghasilkan token berisi id dan peran
+ok 62 - C22-UT03 buatSesi menghasilkan token berisi id dan peran
+  ---
+  duration_ms: 3.272474
+  type: 'test'
+  ...
+# Subtest: C22-UT04 token berlaku tepat 7 hari
+ok 63 - C22-UT04 token berlaku tepat 7 hari
+  ---
+  duration_ms: 0.34451
+  type: 'test'
+  ...
+# Subtest: C22-UT05 token tidak bisa dibaca pakai secret lain
+ok 64 - C22-UT05 token tidak bisa dibaca pakai secret lain
+  ---
+  duration_ms: 0.440035
+  type: 'test'
+  ...
+# Subtest: C22-UT06 middleware cekLogin: token valid boleh lewat
+ok 65 - C22-UT06 middleware cekLogin: token valid boleh lewat
+  ---
+  duration_ms: 0.287478
+  type: 'test'
+  ...
+# Subtest: C22-UT07 middleware cekLogin: tanpa token ditolak 401
+ok 66 - C22-UT07 middleware cekLogin: tanpa token ditolak 401
+  ---
+  duration_ms: 0.091834
+  type: 'test'
+  ...
+# Subtest: C22-UT08 middleware cekLogin: token yang baru lewat 1 detik dari batas ditolak 401
+ok 67 - C22-UT08 middleware cekLogin: token yang baru lewat 1 detik dari batas ditolak 401
+  ---
+  duration_ms: 0.346843
+  type: 'test'
+  ...
+# Subtest: C22-UT09 relawan tidak boleh akses halaman petugas (403)
+ok 68 - C22-UT09 relawan tidak boleh akses halaman petugas (403)
+  ---
+  duration_ms: 0.166165
+  type: 'test'
+  ...
+# Subtest: validasiKeterangan menolak keterangan kosong atau spasi saja (UC06 alternatif 1)
+ok 69 - validasiKeterangan menolak keterangan kosong atau spasi saja (UC06 alternatif 1)
+  ---
+  duration_ms: 1.540255
+  type: 'test'
+  ...
+# Subtest: validasiKeterangan menerima 1 sampai 200 karakter setelah trim
+ok 70 - validasiKeterangan menerima 1 sampai 200 karakter setelah trim
+  ---
+  duration_ms: 0.147084
+  type: 'test'
+  ...
+# Subtest: cekPeran menolak petugas memanggil endpoint tandai keliru (C17 hanya relawan)
+ok 71 - cekPeran menolak petugas memanggil endpoint tandai keliru (C17 hanya relawan)
+  ---
+  duration_ms: 0.117674
+  type: 'test'
+  ...
+# Subtest: bacaLaporan mengubah isi multipart menjadi objek laporan
+ok 72 - bacaLaporan mengubah isi multipart menjadi objek laporan
+  ---
+  duration_ms: 2.275501
+  type: 'test'
+  ...
+# Subtest: bacaLaporan mengembalikan null jika ada data kosong atau tidak valid (Algo-011)
+ok 73 - bacaLaporan mengembalikan null jika ada data kosong atau tidak valid (Algo-011)
+  ---
+  duration_ms: 0.308916
+  type: 'test'
+  ...
+# Subtest: terimaLaporan membalas 400 untuk data tidak lengkap tanpa menyentuh database
+ok 74 - terimaLaporan membalas 400 untuk data tidak lengkap tanpa menyentuh database
+  ---
+  duration_ms: 0.234302
+  type: 'test'
+  ...
+# Subtest: terimaFoto menolak foto lebih dari 500 KB dengan 413 (KNF09)
+ok 75 - terimaFoto menolak foto lebih dari 500 KB dengan 413 (KNF09)
+  ---
+  duration_ms: 71.752033
+  type: 'test'
+  ...
+# Subtest: batas ukuran foto di klien dan server sama
+ok 76 - batas ukuran foto di klien dan server sama
+  ---
+  duration_ms: 0.165004
+  type: 'test'
+  ...
+# Subtest: daftarPercobaanKompresi mengikuti urutan C15 kompresFoto dan berhenti
+ok 77 - daftarPercobaanKompresi mengikuti urutan C15 kompresFoto dan berhenti
+  ---
+  duration_ms: 0.171979
+  type: 'test'
+  ...
+# Subtest: titik terbaru digeser menjadi 1 jam sebelum sekarang
+ok 78 - titik terbaru digeser menjadi 1 jam sebelum sekarang
+  ---
+  duration_ms: 0.985852
+  type: 'test'
+  ...
+# Subtest: jarak waktu antartitik tidak berubah setelah digeser
+ok 79 - jarak waktu antartitik tidak berubah setelah digeser
+  ---
+  duration_ms: 0.225203
+  type: 'test'
+  ...
+# Subtest: koordinat laporan I-04a berada di dalam Petak 214
+ok 80 - koordinat laporan I-04a berada di dalam Petak 214
+  ---
+  duration_ms: 0.142033
+  type: 'test'
+  ...
+1..80
+# tests 80
+# suites 0
+# pass 80
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1083.833328
+
+> sigap@0.9.0 test:db
+> node --env-file=.env --test --test-concurrency=1 "tests/db/*.test.js"
+
+TAP version 13
+# Subtest: C02-UT13 perbaruiData: mengambil FIRMS dan Open-Meteo lalu memperbarui skor di database (Algo-001)
+ok 1 - C02-UT13 perbaruiData: mengambil FIRMS dan Open-Meteo lalu memperbarui skor di database (Algo-001)
+  ---
+  duration_ms: 162.734831
+  type: 'test'
+  ...
+# Subtest: C02-UT14 perbaruiData: petak naik ke tingkat tinggi memicu SMS ke warga aktif di petak (KF16)
+ok 2 - C02-UT14 perbaruiData: petak naik ke tingkat tinggi memicu SMS ke warga aktif di petak (KF16)
+  ---
+  duration_ms: 107.673407
+  type: 'test'
+  ...
+# Subtest: C02-UT15 perbaruiData: MAP_KEY kosong, FIRMS gagal HTTP, CSV kosong, atau putus jaringan tetap 200
+ok 3 - C02-UT15 perbaruiData: MAP_KEY kosong, FIRMS gagal HTTP, CSV kosong, atau putus jaringan tetap 200
+  ---
+  duration_ms: 271.188622
+  type: 'test'
+  ...
+# Subtest: C02-UT16 perbaruiData: menyaring baris CSV cacat, jam pendek, dan precipitation_sum kosong dengan aman
+ok 4 - C02-UT16 perbaruiData: menyaring baris CSV cacat, jam pendek, dan precipitation_sum kosong dengan aman
+  ---
+  duration_ms: 69.767695
+  type: 'test'
+  ...
+# Subtest: C02-UT17 perbaruiData: Open-Meteo gagal mengembalikan 500 dan tidak mengubah cache petak
+ok 5 - C02-UT17 perbaruiData: Open-Meteo gagal mengembalikan 500 dan tidak mengubah cache petak
+  ---
+  duration_ms: 42.890514
+  type: 'test'
+  ...
+# Subtest: C02-UT18 perbaruiData: galat saat hapusNomorDicabut hanya dicatat di log dan pembaruan tetap 200
+ok 6 - C02-UT18 perbaruiData: galat saat hapusNomorDicabut hanya dicatat di log dan pembaruan tetap 200
+  ---
+  duration_ms: 61.278897
+  type: 'test'
+  ...
+# Subtest: C02-UT19 perbaruiDataHandler: token Bearer valid membalas 200 beserta ringkasan JSON
+ok 7 - C02-UT19 perbaruiDataHandler: token Bearer valid membalas 200 beserta ringkasan JSON
+  ---
+  duration_ms: 60.873797
+  type: 'test'
+  ...
+# Subtest: C02-UT20 ambilDataPeta: mengembalikan petak, notifikasi belum dibaca, dan isUsang false saat data segar
+ok 8 - C02-UT20 ambilDataPeta: mengembalikan petak, notifikasi belum dibaca, dan isUsang false saat data segar
+  ---
+  duration_ms: 35.881795
+  type: 'test'
+  ...
+# Subtest: C02-UT21 ambilDataPeta: satu petak lebih dari 3 jam membuat isUsang true dan waktuUpdate paling lama (KF04)
+ok 9 - C02-UT21 ambilDataPeta: satu petak lebih dari 3 jam membuat isUsang true dan waktuUpdate paling lama (KF04)
+  ---
+  duration_ms: 30.585129
+  type: 'test'
+  ...
+# Subtest: C02-UT22 ambilDataPeta: satu petak bernilai NULL menghasilkan waktuUpdate null dan isUsang true
+ok 10 - C02-UT22 ambilDataPeta: satu petak bernilai NULL menghasilkan waktuUpdate null dan isUsang true
+  ---
+  duration_ms: 30.975075
+  type: 'test'
+  ...
+# Subtest: C02-UT23 ambilDataPeta: mengembalikan 404 bila tabel petak_lahan kosong
+ok 11 - C02-UT23 ambilDataPeta: mengembalikan 404 bila tabel petak_lahan kosong
+  ---
+  duration_ms: 35.370828
+  type: 'test'
+  ...
+# Subtest: C02-UT24 ambilDataPeta: mengembalikan 500 bila terjadi galat basis data
+ok 12 - C02-UT24 ambilDataPeta: mengembalikan 500 bila terjadi galat basis data
+  ---
+  duration_ms: 33.334821
+  type: 'test'
+  ...
+# Subtest: C03-UT01 ambilSemua: mengembalikan daftar petak terurut id_petak beserta batasWilayah (Q-001)
+ok 13 - C03-UT01 ambilSemua: mengembalikan daftar petak terurut id_petak beserta batasWilayah (Q-001)
+  ---
+  duration_ms: 84.057698
+  type: 'test'
+  ...
+# Subtest: C03-UT02 ambilById: mengembalikan detail satu petak yang ada di database (Q-002)
+ok 14 - C03-UT02 ambilById: mengembalikan detail satu petak yang ada di database (Q-002)
+  ---
+  duration_ms: 7.015335
+  type: 'test'
+  ...
+# Subtest: C03-UT03 ambilById: mengembalikan null jika idPetak tidak ditemukan
+ok 15 - C03-UT03 ambilById: mengembalikan null jika idPetak tidak ditemukan
+  ---
+  duration_ms: 4.328786
+  type: 'test'
+  ...
+# Subtest: C03-UT04 ambilRekomendasi: mengurutkan skor tertinggi dan mengecualikan petak dengan tugas aktif (Q-003, KF17)
+ok 16 - C03-UT04 ambilRekomendasi: mengurutkan skor tertinggi dan mengecualikan petak dengan tugas aktif (Q-003, KF17)
+  ---
+  duration_ms: 15.583463
+  type: 'test'
+  ...
+# Subtest: C03-UT05 ambilRekomendasi: menghormati batas jumlah rekomendasi yang diminta
+ok 17 - C03-UT05 ambilRekomendasi: menghormati batas jumlah rekomendasi yang diminta
+  ---
+  duration_ms: 9.420786
+  type: 'test'
+  ...
+# Subtest: C03-UT06 perbaruiSkor: memperbarui skor_risiko, tingkat_risiko, dan waktu_update_terakhir (Q-004)
+ok 18 - C03-UT06 perbaruiSkor: memperbarui skor_risiko, tingkat_risiko, dan waktu_update_terakhir (Q-004)
+  ---
+  duration_ms: 5.920013
+  type: 'test'
+  ...
+# Subtest: C03-UT07 perbaruiSkor: idPetak yang tidak ada tidak menimbulkan error dan tidak mengubah petak lain
+ok 19 - C03-UT07 perbaruiSkor: idPetak yang tidak ada tidak menimbulkan error dan tidak mengubah petak lain
+  ---
+  duration_ms: 3.782189
+  type: 'test'
+  ...
+# Subtest: C04-UT08 simpanBaru: menyimpan titik panas baru dan mengembalikan jumlah baris tersimpan (Q-005)
+ok 20 - C04-UT08 simpanBaru: menyimpan titik panas baru dan mengembalikan jumlah baris tersimpan (Q-005)
+  ---
+  duration_ms: 20.779777
+  type: 'test'
+  ...
+# Subtest: C04-UT09 simpanBaru: kombinasi latitude, longitude, dan waktu_deteksi ganda diabaikan (ON CONFLICT)
+ok 21 - C04-UT09 simpanBaru: kombinasi latitude, longitude, dan waktu_deteksi ganda diabaikan (ON CONFLICT)
+  ---
+  duration_ms: 5.508243
+  type: 'test'
+  ...
+# Subtest: C04-UT10 simpanBaru: larik kosong mengembalikan 0 tanpa menambah baris
+ok 22 - C04-UT10 simpanBaru: larik kosong mengembalikan 0 tanpa menambah baris
+  ---
+  duration_ms: 2.315993
+  type: 'test'
+  ...
+# Subtest: C04-UT11 ambilTitikBerlaku: menyertakan titik valid 24 jam terakhir dan menyaring yang lebih dari 24 jam (Q-006)
+ok 23 - C04-UT11 ambilTitikBerlaku: menyertakan titik valid 24 jam terakhir dan menyaring yang lebih dari 24 jam (Q-006)
+  ---
+  duration_ms: 7.576436
+  type: 'test'
+  ...
+# Subtest: C04-UT12 ambilTitikBerlaku: mengecualikan titik bertanda keliru dalam 24 jam terakhir (KF15)
+ok 24 - C04-UT12 ambilTitikBerlaku: mengecualikan titik bertanda keliru dalam 24 jam terakhir (KF15)
+  ---
+  duration_ms: 6.31018
+  type: 'test'
+  ...
+# Subtest: C04-UT13 ambilTitikBerlaku: titik keliru kembali berlaku jika ada deteksi baru dalam radius 500 m (Algo-003)
+ok 25 - C04-UT13 ambilTitikBerlaku: titik keliru kembali berlaku jika ada deteksi baru dalam radius 500 m (Algo-003)
+  ---
+  duration_ms: 3.507364
+  type: 'test'
+  ...
+# Subtest: C04-UT14 ambilById: mengembalikan objek titik panas camelCase lengkap untuk ID yang ada
+ok 26 - C04-UT14 ambilById: mengembalikan objek titik panas camelCase lengkap untuk ID yang ada
+  ---
+  duration_ms: 3.53837
+  type: 'test'
+  ...
+# Subtest: C04-UT15 ambilById: mengembalikan null bila ID titik panas tidak ada
+ok 27 - C04-UT15 ambilById: mengembalikan null bila ID titik panas tidak ada
+  ---
+  duration_ms: 3.898203
+  type: 'test'
+  ...
+# Subtest: C04-UT16 tandaiKeliru: mengubah status menjadi keliru, menyimpan keterangan dan waktu (Q-007)
+ok 28 - C04-UT16 tandaiKeliru: mengubah status menjadi keliru, menyimpan keterangan dan waktu (Q-007)
+  ---
+  duration_ms: 3.498165
+  type: 'test'
+  ...
+# Subtest: C04-UT17 tandaiKeliru: penandaan ulang dalam 24 jam ditolak (false) dan keterangan lama dipertahankan
+ok 29 - C04-UT17 tandaiKeliru: penandaan ulang dalam 24 jam ditolak (false) dan keterangan lama dipertahankan
+  ---
+  duration_ms: 3.172884
+  type: 'test'
+  ...
+# Subtest: C04-UT18 tandaiKeliru: setelah lewat 24 jam titik boleh ditandai ulang (true)
+ok 30 - C04-UT18 tandaiKeliru: setelah lewat 24 jam titik boleh ditandai ulang (true)
+  ---
+  duration_ms: 3.151507
+  type: 'test'
+  ...
+# Subtest: C04-UT19 tandaiKeliru: ID titik panas tidak ditemukan mengembalikan false
+ok 31 - C04-UT19 tandaiKeliru: ID titik panas tidak ditemukan mengembalikan false
+  ---
+  duration_ms: 1.967725
+  type: 'test'
+  ...
+# Subtest: C06-UT04 bukaFormJadwal: relawan aktif, rekomendasi, dan seluruh petak dikirim ke formulir
+ok 32 - C06-UT04 bukaFormJadwal: relawan aktif, rekomendasi, dan seluruh petak dikirim ke formulir
+  ---
+  duration_ms: 147.584384
+  type: 'test'
+  ...
+# Subtest: C06-UT05 bukaFormJadwal: relawan nonaktif tidak muncul, rekomendasi paling banyak 5 petak, urut skor risiko tertinggi (KF17)
+ok 33 - C06-UT05 bukaFormJadwal: relawan nonaktif tidak muncul, rekomendasi paling banyak 5 petak, urut skor risiko tertinggi (KF17)
+  ---
+  duration_ms: 10.52631
+  type: 'test'
+  ...
+# Subtest: C06-UT06 bukaFormJadwal: database gagal dibalas 500
+ok 34 - C06-UT06 bukaFormJadwal: database gagal dibalas 500
+  ---
+  duration_ms: 2.661766
+  type: 'test'
+  ...
+# Subtest: C06-UT07 buatJadwal: jadwal tersimpan berstatus ditugaskan dan relawan mendapat notifikasi (KF07)
+ok 35 - C06-UT07 buatJadwal: jadwal tersimpan berstatus ditugaskan dan relawan mendapat notifikasi (KF07)
+  ---
+  duration_ms: 10.846045
+  type: 'test'
+  ...
+# Subtest: C06-UT08 buatJadwal: tugas ke-3 masih diterima, tugas ke-4 ditolak 409 dan tidak tersimpan (KF06)
+ok 36 - C06-UT08 buatJadwal: tugas ke-3 masih diterima, tugas ke-4 ditolak 409 dan tidak tersimpan (KF06)
+  ---
+  duration_ms: 12.414187
+  type: 'test'
+  ...
+# Subtest: C06-UT09 buatJadwal: tugas selesai dan dibatalkan tidak dihitung tugas aktif (Q-013)
+ok 37 - C06-UT09 buatJadwal: tugas selesai dan dibatalkan tidak dihitung tugas aktif (Q-013)
+  ---
+  duration_ms: 11.283938
+  type: 'test'
+  ...
+# Subtest: C06-UT10 buatJadwal: relawan atau petak yang tidak ada dibalas 400 "Data jadwal tidak valid" (23503)
+ok 38 - C06-UT10 buatJadwal: relawan atau petak yang tidak ada dibalas 400 "Data jadwal tidak valid" (23503)
+  ---
+  duration_ms: 19.451715
+  type: 'test'
+  ...
+# Subtest: C06-UT11 buatJadwal: jenis pekerjaan di luar pilihan (23514), jenis lebih dari 30 karakter (22001), dan tanggal tidak valid (22008, 22007) dibalas 400
+ok 39 - C06-UT11 buatJadwal: jenis pekerjaan di luar pilihan (23514), jenis lebih dari 30 karakter (22001), dan tanggal tidak valid (22008, 22007) dibalas 400
+  ---
+  duration_ms: 31.015899
+  type: 'test'
+  ...
+# Subtest: C06-UT12 buatJadwal: galat database lain saat menyimpan dibalas 500
+ok 40 - C06-UT12 buatJadwal: galat database lain saat menyimpan dibalas 500
+  ---
+  duration_ms: 2.890934
+  type: 'test'
+  ...
+# Subtest: C06-UT13 buatJadwal: notifikasi gagal dibuat, jadwal tetap tersimpan dengan notifikasiTerkirim false
+ok 41 - C06-UT13 buatJadwal: notifikasi gagal dibuat, jadwal tetap tersimpan dengan notifikasiTerkirim false
+  ---
+  duration_ms: 4.716149
+  type: 'test'
+  ...
+# Subtest: C07-UT01 simpan: tugas patroli tersimpan berstatus ditugaskan tanpa titik panas, tanggal tetap YYYY-MM-DD
+ok 42 - C07-UT01 simpan: tugas patroli tersimpan berstatus ditugaskan tanpa titik panas, tanggal tetap YYYY-MM-DD
+  ---
+  duration_ms: 79.986001
+  type: 'test'
+  ...
+# Subtest: C07-UT02 simpan: pengecekan titik panas memakai titik terbaru di dalam petak, titik di luar petak diabaikan
+ok 43 - C07-UT02 simpan: pengecekan titik panas memakai titik terbaru di dalam petak, titik di luar petak diabaikan
+  ---
+  duration_ms: 4.672022
+  type: 'test'
+  ...
+# Subtest: C07-UT03 simpan: titik tepat di lat_min dan lng_min masuk petak, titik tepat di lat_maks tidak (batas setengah terbuka)
+ok 44 - C07-UT03 simpan: titik tepat di lat_min dan lng_min masuk petak, titik tepat di lat_maks tidak (batas setengah terbuka)
+  ---
+  duration_ms: 3.498904
+  type: 'test'
+  ...
+# Subtest: C07-UT04 simpan: pengecekan titik panas tanpa titik di petak tetap tersimpan dengan idTitikPanas null
+ok 45 - C07-UT04 simpan: pengecekan titik panas tanpa titik di petak tetap tersimpan dengan idTitikPanas null
+  ---
+  duration_ms: 2.347339
+  type: 'test'
+  ...
+# Subtest: C07-UT05 simpan: petak yang tidak ada ditolak database (23503) dan tidak ada baris tersimpan
+ok 46 - C07-UT05 simpan: petak yang tidak ada ditolak database (23503) dan tidak ada baris tersimpan
+  ---
+  duration_ms: 9.530331
+  type: 'test'
+  ...
+# Subtest: C10-UT14 ambilAntrean: laporan menunggu tampil urut dari unggahan terlama, tanpa foto
+ok 47 - C10-UT14 ambilAntrean: laporan menunggu tampil urut dari unggahan terlama, tanpa foto
+  ---
+  duration_ms: 195.003956
+  type: 'test'
+  ...
+# Subtest: C10-UT15 ambilAntrean: laporan yang sudah disetujui atau ditolak tidak masuk antrean
+ok 48 - C10-UT15 ambilAntrean: laporan yang sudah disetujui atau ditolak tidak masuk antrean
+  ---
+  duration_ms: 8.652074
+  type: 'test'
+  ...
+# Subtest: C10-UT16 ambilAntrean: database gagal dibalas 500
+ok 49 - C10-UT16 ambilAntrean: database gagal dibalas 500
+  ---
+  duration_ms: 0.962607
+  type: 'test'
+  ...
+# Subtest: C10-UT17 ambilDetailLaporan: laporan di dalam petak berjarak 0 dan foto dikirim sebagai data URL
+ok 50 - C10-UT17 ambilDetailLaporan: laporan di dalam petak berjarak 0 dan foto dikirim sebagai data URL
+  ---
+  duration_ms: 4.247092
+  type: 'test'
+  ...
+# Subtest: C10-UT18 ambilDetailLaporan: 200 m dari batas petak tidak ditandai, 201 m ditandai
+ok 51 - C10-UT18 ambilDetailLaporan: 200 m dari batas petak tidak ditandai, 201 m ditandai
+  ---
+  duration_ms: 5.403924
+  type: 'test'
+  ...
+# Subtest: C10-UT19 ambilDetailLaporan: UUID valid yang tidak ada dibalas 404
+ok 52 - C10-UT19 ambilDetailLaporan: UUID valid yang tidak ada dibalas 404
+  ---
+  duration_ms: 0.959402
+  type: 'test'
+  ...
+# Subtest: C10-UT20 ambilDetailLaporan: database gagal dibalas 500
+ok 53 - C10-UT20 ambilDetailLaporan: database gagal dibalas 500
+  ---
+  duration_ms: 0.218443
+  type: 'test'
+  ...
+# Subtest: C10-UT21 verifikasiLaporan: laporan dikunci, tugas selesai, relawan dapat notifikasi
+ok 54 - C10-UT21 verifikasiLaporan: laporan dikunci, tugas selesai, relawan dapat notifikasi
+  ---
+  duration_ms: 8.026093
+  type: 'test'
+  ...
+# Subtest: C10-UT22 verifikasiLaporan: laporan yang sudah diputuskan dibalas 409 dan tidak berubah (KF10)
+ok 55 - C10-UT22 verifikasiLaporan: laporan yang sudah diputuskan dibalas 409 dan tidak berubah (KF10)
+  ---
+  duration_ms: 5.392954
+  type: 'test'
+  ...
+# Subtest: C10-UT23 verifikasiLaporan: UUID valid yang tidak ada dibalas 404
+ok 56 - C10-UT23 verifikasiLaporan: UUID valid yang tidak ada dibalas 404
+  ---
+  duration_ms: 0.898169
+  type: 'test'
+  ...
+# Subtest: C10-UT24 verifikasiLaporan: dua petugas menyetujui bersamaan, hanya satu yang berhasil
+ok 57 - C10-UT24 verifikasiLaporan: dua petugas menyetujui bersamaan, hanya satu yang berhasil
+  ---
+  duration_ms: 15.05597
+  type: 'test'
+  ...
+# Subtest: C10-UT25 verifikasiLaporan: notifikasi gagal dibuat, keputusan tetap tersimpan dan dibalas 200
+ok 58 - C10-UT25 verifikasiLaporan: notifikasi gagal dibuat, keputusan tetap tersimpan dan dibalas 200
+  ---
+  duration_ms: 4.488809
+  type: 'test'
+  ...
+# Subtest: C10-UT26 verifikasiLaporan: database gagal dibalas 500
+ok 59 - C10-UT26 verifikasiLaporan: database gagal dibalas 500
+  ---
+  duration_ms: 0.270621
+  type: 'test'
+  ...
+# Subtest: C10-UT27 tolakLaporan: alasan tersimpan, tugas kembali ditugaskan, relawan dapat notifikasi
+ok 60 - C10-UT27 tolakLaporan: alasan tersimpan, tugas kembali ditugaskan, relawan dapat notifikasi
+  ---
+  duration_ms: 5.801855
+  type: 'test'
+  ...
+# Subtest: C10-UT28 tolakLaporan: alasan tepat 300 karakter diterima dan tersimpan utuh
+ok 61 - C10-UT28 tolakLaporan: alasan tepat 300 karakter diterima dan tersimpan utuh
+  ---
+  duration_ms: 6.252508
+  type: 'test'
+  ...
+# Subtest: C10-UT29 tolakLaporan: laporan yang sudah disetujui dibalas 409 dan tetap terverifikasi
+ok 62 - C10-UT29 tolakLaporan: laporan yang sudah disetujui dibalas 409 dan tetap terverifikasi
+  ---
+  duration_ms: 7.29304
+  type: 'test'
+  ...
+# Subtest: C10-UT30 tolakLaporan: UUID valid yang tidak ada dibalas 404
+ok 63 - C10-UT30 tolakLaporan: UUID valid yang tidak ada dibalas 404
+  ---
+  duration_ms: 1.181928
+  type: 'test'
+  ...
+# Subtest: C10-UT31 tolakLaporan: dua petugas memutuskan bersamaan, hanya satu yang berhasil
+ok 64 - C10-UT31 tolakLaporan: dua petugas memutuskan bersamaan, hanya satu yang berhasil
+  ---
+  duration_ms: 5.88992
+  type: 'test'
+  ...
+# Subtest: C10-UT32 tolakLaporan: database gagal dibalas 500
+ok 65 - C10-UT32 tolakLaporan: database gagal dibalas 500
+  ---
+  duration_ms: 0.240731
+  type: 'test'
+  ...
+# Subtest: C10-UT33 dalamTransaksi: kerja mengembalikan false, semua perubahan di-ROLLBACK
+ok 66 - C10-UT33 dalamTransaksi: kerja mengembalikan false, semua perubahan di-ROLLBACK
+  ---
+  duration_ms: 4.006158
+  type: 'test'
+  ...
+# Subtest: C10-UT34 dalamTransaksi: kerja melempar galat, perubahan di-ROLLBACK dan galat diteruskan
+ok 67 - C10-UT34 dalamTransaksi: kerja melempar galat, perubahan di-ROLLBACK dan galat diteruskan
+  ---
+  duration_ms: 4.191357
+  type: 'test'
+  ...
+# Subtest: C10-UT35 tolakLaporan: laporan disetujui petugas lain setelah dicek, transaksi dibalas 409 dan alasan tidak tersimpan
+ok 68 - C10-UT35 tolakLaporan: laporan disetujui petugas lain setelah dicek, transaksi dibalas 409 dan alasan tidak tersimpan
+  ---
+  duration_ms: 5.134906
+  type: 'test'
+  ...
+# Subtest: C10-UT36 tolakLaporan: status tugas sudah berubah setelah dicek, penolakan di-ROLLBACK dan dibalas 409
+ok 69 - C10-UT36 tolakLaporan: status tugas sudah berubah setelah dicek, penolakan di-ROLLBACK dan dibalas 409
+  ---
+  duration_ms: 4.839893
+  type: 'test'
+  ...
+# Subtest: C10-UT37 verifikasiLaporan: laporan ditolak petugas lain setelah dicek, transaksi dibalas 409 dan tugas tidak selesai
+ok 70 - C10-UT37 verifikasiLaporan: laporan ditolak petugas lain setelah dicek, transaksi dibalas 409 dan tugas tidak selesai
+  ---
+  duration_ms: 4.059891
+  type: 'test'
+  ...
+# Subtest: C11-UT01 ambilMenungguVerifikasi: laporan menunggu tampil dengan data tugas dan nama relawan, tanpa foto
+ok 71 - C11-UT01 ambilMenungguVerifikasi: laporan menunggu tampil dengan data tugas dan nama relawan, tanpa foto
+  ---
+  duration_ms: 128.262336
+  type: 'test'
+  ...
+# Subtest: C11-UT02 ambilMenungguVerifikasi: laporan terverifikasi dan ditolak tidak ikut
+ok 72 - C11-UT02 ambilMenungguVerifikasi: laporan terverifikasi dan ditolak tidak ikut
+  ---
+  duration_ms: 4.837075
+  type: 'test'
+  ...
+# Subtest: C11-UT03 ambilById: mengembalikan laporan lengkap beserta foto, koordinat, dan tanggal tugas
+ok 73 - C11-UT03 ambilById: mengembalikan laporan lengkap beserta foto, koordinat, dan tanggal tugas
+  ---
+  duration_ms: 3.371602
+  type: 'test'
+  ...
+# Subtest: C11-UT04 ambilById: UUID yang tidak ada mengembalikan null
+ok 74 - C11-UT04 ambilById: UUID yang tidak ada mengembalikan null
+  ---
+  duration_ms: 0.885684
+  type: 'test'
+  ...
+# Subtest: C11-UT05 setujui: laporan menunggu menjadi terverifikasi dan petugasnya tercatat
+ok 75 - C11-UT05 setujui: laporan menunggu menjadi terverifikasi dan petugasnya tercatat
+  ---
+  duration_ms: 5.262828
+  type: 'test'
+  ...
+# Subtest: C11-UT06 setujui: laporan yang sudah diputuskan mengembalikan false dan tidak berubah (KF10)
+ok 76 - C11-UT06 setujui: laporan yang sudah diputuskan mengembalikan false dan tidak berubah (KF10)
+  ---
+  duration_ms: 2.895118
+  type: 'test'
+  ...
+# Subtest: C11-UT07 tolak: laporan menunggu menjadi ditolak dan alasannya tersimpan
+ok 77 - C11-UT07 tolak: laporan menunggu menjadi ditolak dan alasannya tersimpan
+  ---
+  duration_ms: 3.302174
+  type: 'test'
+  ...
+# Subtest: C11-UT08 tolak: laporan yang sudah terverifikasi mengembalikan false dan tetap terverifikasi (KF10)
+ok 78 - C11-UT08 tolak: laporan yang sudah terverifikasi mengembalikan false dan tetap terverifikasi (KF10)
+  ---
+  duration_ms: 2.63887
+  type: 'test'
+  ...
+# Subtest: C13-UT07 daftar tugas hanya berisi tugas aktif, skor tertinggi paling atas
+ok 79 - C13-UT07 daftar tugas hanya berisi tugas aktif, skor tertinggi paling atas
+  ---
+  duration_ms: 184.060477
+  type: 'test'
+  ...
+# Subtest: C13-UT08 relawan tanpa tugas dapat daftar kosong
+ok 80 - C13-UT08 relawan tanpa tugas dapat daftar kosong
+  ---
+  duration_ms: 2.782309
+  type: 'test'
+  ...
+# Subtest: C13-UT09 tidak bisa membatalkan tugas milik relawan lain (409)
+ok 81 - C13-UT09 tidak bisa membatalkan tugas milik relawan lain (409)
+  ---
+  duration_ms: 1.530047
+  type: 'test'
+  ...
+# Subtest: C13-UT10 batal tugas berhasil dan petugas dapat notifikasi
+ok 82 - C13-UT10 batal tugas berhasil dan petugas dapat notifikasi
+  ---
+  duration_ms: 4.84
+  type: 'test'
+  ...
+# Subtest: C13-UT11 tugas yang sudah dibatalkan tidak bisa dibatalkan lagi (409)
+ok 83 - C13-UT11 tugas yang sudah dibatalkan tidak bisa dibatalkan lagi (409)
+  ---
+  duration_ms: 0.678365
+  type: 'test'
+  ...
+# Subtest: C13-UT12 tandai notifikasi dibaca, lalu notifikasinya tidak muncul lagi
+ok 84 - C13-UT12 tandai notifikasi dibaca, lalu notifikasinya tidak muncul lagi
+  ---
+  duration_ms: 1.677583
+  type: 'test'
+  ...
+# Subtest: C13-UT13 tidak bisa menandai notifikasi milik orang lain (404)
+ok 85 - C13-UT13 tidak bisa menandai notifikasi milik orang lain (404)
+  ---
+  duration_ms: 1.386108
+  type: 'test'
+  ...
+# Subtest: C13-UT14 id notifikasi tidak valid ditolak 400
+ok 86 - C13-UT14 id notifikasi tidak valid ditolak 400
+  ---
+  duration_ms: 0.185879
+  type: 'test'
+  ...
+# Subtest: C15-UT01 laporan valid tersimpan (201) dan status tugas jadi menunggu verifikasi
+ok 87 - C15-UT01 laporan valid tersimpan (201) dan status tugas jadi menunggu verifikasi
+  ---
+  duration_ms: 130.431344
+  type: 'test'
+  ...
+# Subtest: C15-UT02 laporan dengan UUID yang sama dikirim ulang dibalas 200, tidak dobel
+ok 88 - C15-UT02 laporan dengan UUID yang sama dikirim ulang dibalas 200, tidak dobel
+  ---
+  duration_ms: 3.228746
+  type: 'test'
+  ...
+# Subtest: C15-UT03 tiga kiriman UUID sama secara bersamaan tetap tersimpan satu
+ok 89 - C15-UT03 tiga kiriman UUID sama secara bersamaan tetap tersimpan satu
+  ---
+  duration_ms: 6.750196
+  type: 'test'
+  ...
+# Subtest: C15-UT04 laporan untuk tugas relawan lain ditolak 409
+ok 90 - C15-UT04 laporan untuk tugas relawan lain ditolak 409
+  ---
+  duration_ms: 4.784232
+  type: 'test'
+  ...
+# Subtest: C15-UT05 laporan untuk tugas yang sudah dibatalkan ditolak 409
+ok 91 - C15-UT05 laporan untuk tugas yang sudah dibatalkan ditolak 409
+  ---
+  duration_ms: 1.695226
+  type: 'test'
+  ...
+# Subtest: C18-UT01 petak tinggi: semua warga aktif dikirimi SMS dan dicatat terkirim
+ok 92 - C18-UT01 petak tinggi: semua warga aktif dikirimi SMS dan dicatat terkirim
+  ---
+  duration_ms: 18.991608
+  type: 'test'
+  ...
+# Subtest: C18-UT02 gateway menolak satu warga: dicatat gagal, yang lain terkirim, tanpa kirim ulang
+ok 93 - C18-UT02 gateway menolak satu warga: dicatat gagal, yang lain terkirim, tanpa kirim ulang
+  ---
+  duration_ms: 4.301639
+  type: 'test'
+  ...
+# Subtest: C18-UT03 sudah ada SMS terkirim dalam 24 jam: tidak mengirim lagi
+ok 94 - C18-UT03 sudah ada SMS terkirim dalam 24 jam: tidak mengirim lagi
+  ---
+  duration_ms: 5.095627
+  type: 'test'
+  ...
+# Subtest: C18-UT04 petak tinggi tanpa warga aktif: tidak ada log dan tidak error
+ok 95 - C18-UT04 petak tinggi tanpa warga aktif: tidak ada log dan tidak error
+  ---
+  duration_ms: 2.580993
+  type: 'test'
+  ...
+# Gagal memproses peringatan SMS untuk petak abc: invalid input syntax for type integer: "abc"
+# Subtest: C18-UT06 error basis data pada satu petak tidak menghentikan petak berikutnya
+ok 96 - C18-UT06 error basis data pada satu petak tidak menghentikan petak berikutnya
+  ---
+  duration_ms: 9.845748
+  type: 'test'
+  ...
+# Subtest: C18-UT07 petak bukan tinggi dilewati tanpa SMS dan tanpa log
+ok 97 - C18-UT07 petak bukan tinggi dilewati tanpa SMS dan tanpa log
+  ---
+  duration_ms: 2.028556
+  type: 'test'
+  ...
+# Subtest: C18-UT08 balasan STOP mencabut persetujuan (TRUE)
+ok 98 - C18-UT08 balasan STOP mencabut persetujuan (TRUE)
+  ---
+  duration_ms: 3.790075
+  type: 'test'
+  ...
+# Subtest: C18-UT09 balasan "sToP" huruf campur diperlakukan sama dengan STOP
+ok 99 - C18-UT09 balasan "sToP" huruf campur diperlakukan sama dengan STOP
+  ---
+  duration_ms: 3.329355
+  type: 'test'
+  ...
+# Subtest: C18-UT10c balasan selain STOP tidak mengubah status warga
+ok 100 - C18-UT10c balasan selain STOP tidak mengubah status warga
+  ---
+  duration_ms: 1.899644
+  type: 'test'
+  ...
+# Subtest: C18-UT11 STOP dari nomor tidak terdaftar mengembalikan FALSE tanpa galat
+ok 101 - C18-UT11 STOP dari nomor tidak terdaftar mengembalikan FALSE tanpa galat
+  ---
+  duration_ms: 1.236909
+  type: 'test'
+  ...
+# Subtest: C18-UT11b STOP dari warga yang sudah dicabut mengembalikan FALSE
+ok 102 - C18-UT11b STOP dari warga yang sudah dicabut mengembalikan FALSE
+  ---
+  duration_ms: 2.419792
+  type: 'test'
+  ...
+# Subtest: C18-UT12 hapusNomorDicabut menghapus yang dicabut lebih dari 30 hari saja
+ok 103 - C18-UT12 hapusNomorDicabut menghapus yang dicabut lebih dari 30 hari saja
+  ---
+  duration_ms: 4.963247
+  type: 'test'
+  ...
+# Subtest: C18-UT12b hapusNomorDicabut batas 30 hari: 31 hari terhapus, 29 hari tetap
+ok 104 - C18-UT12b hapusNomorDicabut batas 30 hari: 31 hari terhapus, 29 hari tetap
+  ---
+  duration_ms: 5.488675
+  type: 'test'
+  ...
+# Subtest: C18-UT12c hapusNomorDicabut tanpa data melewati batas tidak menghapus apa pun dan tidak error
+ok 105 - C18-UT12c hapusNomorDicabut tanpa data melewati batas tidak menghapus apa pun dan tidak error
+  ---
+  duration_ms: 3.56469
+  type: 'test'
+  ...
+# Subtest: C19-UT01 ambilAktifByPetak hanya mengembalikan warga aktif di petak itu
+ok 106 - C19-UT01 ambilAktifByPetak hanya mengembalikan warga aktif di petak itu
+  ---
+  duration_ms: 17.58872
+  type: 'test'
+  ...
+# Subtest: C19-UT02 ambilAktifByPetak petak tanpa warga aktif mengembalikan larik kosong
+ok 107 - C19-UT02 ambilAktifByPetak petak tanpa warga aktif mengembalikan larik kosong
+  ---
+  duration_ms: 1.054103
+  type: 'test'
+  ...
+# Subtest: C19-UT03 cariByNomor nomor tidak terdaftar mengembalikan null
+ok 108 - C19-UT03 cariByNomor nomor tidak terdaftar mengembalikan null
+  ---
+  duration_ms: 2.349843
+  type: 'test'
+  ...
+# Subtest: C19-UT03b cariByNomor nomor terdaftar mengembalikan data warga
+ok 109 - C19-UT03b cariByNomor nomor terdaftar mengembalikan data warga
+  ---
+  duration_ms: 1.935464
+  type: 'test'
+  ...
+# Subtest: C19-UT04 cabutPersetujuan mengubah status dan mengisi waktu dicabut
+ok 110 - C19-UT04 cabutPersetujuan mengubah status dan mengisi waktu dicabut
+  ---
+  duration_ms: 3.760957
+  type: 'test'
+  ...
+# Subtest: C19-UT04b cabutPersetujuan pada warga yang sudah dicabut tidak mengubah waktu dicabut
+ok 111 - C19-UT04b cabutPersetujuan pada warga yang sudah dicabut tidak mengubah waktu dicabut
+  ---
+  duration_ms: 3.510589
+  type: 'test'
+  ...
+# Subtest: C19-UT05 hapusDicabutLama menghapus yang dicabut lebih dari batas hari saja
+ok 112 - C19-UT05 hapusDicabutLama menghapus yang dicabut lebih dari batas hari saja
+  ---
+  duration_ms: 3.984501
+  type: 'test'
+  ...
+# Subtest: C19-UT05b hapusDicabutLama dengan batas lebih besar tidak menghapus warga yang lebih baru dari batas
+ok 113 - C19-UT05b hapusDicabutLama dengan batas lebih besar tidak menghapus warga yang lebih baru dari batas
+  ---
+  duration_ms: 1.515513
+  type: 'test'
+  ...
+# Subtest: C20-UT01 adaDalam24Jam TRUE jika ada SMS terkirim dalam 24 jam
+ok 114 - C20-UT01 adaDalam24Jam TRUE jika ada SMS terkirim dalam 24 jam
+  ---
+  duration_ms: 15.815862
+  type: 'test'
+  ...
+# Subtest: C20-UT01b adaDalam24Jam TRUE untuk SMS terkirim 23 jam lalu (di dalam batas)
+ok 115 - C20-UT01b adaDalam24Jam TRUE untuk SMS terkirim 23 jam lalu (di dalam batas)
+  ---
+  duration_ms: 2.489945
+  type: 'test'
+  ...
+# Subtest: C20-UT02 adaDalam24Jam FALSE jika petak belum pernah dikirimi
+ok 116 - C20-UT02 adaDalam24Jam FALSE jika petak belum pernah dikirimi
+  ---
+  duration_ms: 1.04849
+  type: 'test'
+  ...
+# Subtest: C20-UT02b adaDalam24Jam FALSE jika hanya ada SMS berstatus gagal
+ok 117 - C20-UT02b adaDalam24Jam FALSE jika hanya ada SMS berstatus gagal
+  ---
+  duration_ms: 2.675601
+  type: 'test'
+  ...
+# Subtest: C20-UT02c adaDalam24Jam FALSE jika SMS terkirim sudah lebih dari 24 jam
+ok 118 - C20-UT02c adaDalam24Jam FALSE jika SMS terkirim sudah lebih dari 24 jam
+  ---
+  duration_ms: 2.227507
+  type: 'test'
+  ...
+# Subtest: C20-UT03 catat menyimpan satu baris dengan nilai sesuai masukan
+ok 119 - C20-UT03 catat menyimpan satu baris dengan nilai sesuai masukan
+  ---
+  duration_ms: 3.700033
+  type: 'test'
+  ...
+# Subtest: C20-UT03b catat dengan status tidak valid ditolak basis data
+ok 120 - C20-UT03b catat dengan status tidak valid ditolak basis data
+  ---
+  duration_ms: 6.989454
+  type: 'test'
+  ...
+# Subtest: C20-UT04 ambilTerkirimTerbaru hanya memuat SMS terkirim dan menghormati batas
+ok 121 - C20-UT04 ambilTerkirimTerbaru hanya memuat SMS terkirim dan menghormati batas
+  ---
+  duration_ms: 5.316469
+  type: 'test'
+  ...
+# Subtest: C22-UT10 login dengan akun benar dapat token
+ok 122 - C22-UT10 login dengan akun benar dapat token
+  ---
+  duration_ms: 137.186348
+  type: 'test'
+  ...
+# Subtest: C22-UT11 login dengan password salah ditolak 401
+ok 123 - C22-UT11 login dengan password salah ditolak 401
+  ---
+  duration_ms: 54.508803
+  type: 'test'
+  ...
+# Subtest: C22-UT12 login dengan username yang tidak ada ditolak 401
+ok 124 - C22-UT12 login dengan username yang tidak ada ditolak 401
+  ---
+  duration_ms: 1.856505
+  type: 'test'
+  ...
+# Subtest: C24-UT01 buat menyimpan notifikasi baru yang belum dibaca
+ok 125 - C24-UT01 buat menyimpan notifikasi baru yang belum dibaca
+  ---
+  duration_ms: 141.113001
+  type: 'test'
+  ...
+# Subtest: C24-UT01b buat untuk pengguna yang tidak ada ditolak basis data
+ok 126 - C24-UT01b buat untuk pengguna yang tidak ada ditolak basis data
+  ---
+  duration_ms: 4.852893
+  type: 'test'
+  ...
+# Subtest: C24-UT02 ambilBelumDibaca dipetakan ke camelCase, hanya milik pengguna itu
+ok 127 - C24-UT02 ambilBelumDibaca dipetakan ke camelCase, hanya milik pengguna itu
+  ---
+  duration_ms: 13.431603
+  type: 'test'
+  ...
+# Subtest: C24-UT02b ambilBelumDibaca pengguna tanpa notifikasi mengembalikan larik kosong
+ok 128 - C24-UT02b ambilBelumDibaca pengguna tanpa notifikasi mengembalikan larik kosong
+  ---
+  duration_ms: 75.699228
+  type: 'test'
+  ...
+# Subtest: C24-UT03 tandaiDibaca mengembalikan TRUE dan notifikasi tidak muncul lagi
+ok 129 - C24-UT03 tandaiDibaca mengembalikan TRUE dan notifikasi tidak muncul lagi
+  ---
+  duration_ms: 3.925065
+  type: 'test'
+  ...
+# Subtest: C24-UT04 tandaiDibaca id yang tidak ada mengembalikan FALSE
+ok 130 - C24-UT04 tandaiDibaca id yang tidak ada mengembalikan FALSE
+  ---
+  duration_ms: 1.52972
+  type: 'test'
+  ...
+# Subtest: C24-UT04b tandaiDibaca notifikasi milik pengguna lain mengembalikan FALSE
+ok 131 - C24-UT04b tandaiDibaca notifikasi milik pengguna lain mengembalikan FALSE
+  ---
+  duration_ms: 4.78905
+  type: 'test'
+  ...
+# Subtest: titik panas yang tidak ada dibalas 404
+ok 132 - titik panas yang tidak ada dibalas 404
+  ---
+  duration_ms: 22.146673
+  type: 'test'
+  ...
+# Subtest: relawan lain tidak bisa menandai titik panas dari tugas orang lain (403)
+ok 133 - relawan lain tidak bisa menandai titik panas dari tugas orang lain (403)
+  ---
+  duration_ms: 3.241146
+  type: 'test'
+  ...
+# Subtest: pemilik tugas berhasil menandai keliru (200)
+ok 134 - pemilik tugas berhasil menandai keliru (200)
+  ---
+  duration_ms: 6.187469
+  type: 'test'
+  ...
+# Subtest: menandai ulang dalam 24 jam dibalas 409 dan waktu penandaan tidak berubah (KF15)
+ok 135 - menandai ulang dalam 24 jam dibalas 409 dan waktu penandaan tidak berubah (KF15)
+  ---
+  duration_ms: 6.519453
+  type: 'test'
+  ...
+# Subtest: setelah lewat 24 jam titik boleh ditandai lagi
+ok 136 - setelah lewat 24 jam titik boleh ditandai lagi
+  ---
+  duration_ms: 3.522103
+  type: 'test'
+  ...
+# Subtest: pengecekan titik panas menyimpan titik terbaru di petak itu (Q-008)
+ok 137 - pengecekan titik panas menyimpan titik terbaru di petak itu (Q-008)
+  ---
+  duration_ms: 25.596957
+  type: 'test'
+  ...
+# Subtest: pengecekan di petak tanpa titik panas tetap tersimpan, kolomnya NULL
+ok 138 - pengecekan di petak tanpa titik panas tetap tersimpan, kolomnya NULL
+  ---
+  duration_ms: 4.28443
+  type: 'test'
+  ...
+# Subtest: patroli tidak diberi titik panas walaupun petaknya punya titik
+ok 139 - patroli tidak diberi titik panas walaupun petaknya punya titik
+  ---
+  duration_ms: 5.19307
+  type: 'test'
+  ...
+# Subtest: KNF06-TC01 laporan lebih dari 200 m dari batas petak ditandai, 200 m ke bawah tidak
+ok 140 - KNF06-TC01 laporan lebih dari 200 m dari batas petak ditandai, 200 m ke bawah tidak
+  ---
+  duration_ms: 146.222367
+  type: 'test'
+  ...
+# arah    | jarak sebenarnya | hitungJarak | ditandai | diharapkan | hasil
+# dalam   |     0 m          |     0 m     | false    | false      | Pass
+# utara   |    50 m          |    50 m     | false    | false      | Pass
+# utara   |   100 m          |   100 m     | false    | false      | Pass
+# utara   |   150 m          |   150 m     | false    | false      | Pass
+# utara   |   199 m          |   199 m     | false    | false      | Pass
+# utara   |   200 m          |   200 m     | false    | false      | Pass
+# utara   |   201 m          |   201 m     | true     | true       | Pass
+# utara   |   250 m          |   250 m     | true     | true       | Pass
+# utara   |   340 m          |   340 m     | true     | true       | Pass
+# utara   |   500 m          |   500 m     | true     | true       | Pass
+# selatan |   199 m          |   199 m     | false    | false      | Pass
+# selatan |   200 m          |   200 m     | false    | false      | Pass
+# selatan |   201 m          |   201 m     | true     | true       | Pass
+# 13/13 skenario sesuai, galat jarak maksimum 0 m
+# Subtest: KNF11-TC01 tidak ada password yang tersimpan sebagai teks biasa
+ok 141 - KNF11-TC01 tidak ada password yang tersimpan sebagai teks biasa
+  ---
+  duration_ms: 17.45192
+  type: 'test'
+  ...
+# Subtest: petak tinggi: warga aktif menerima SMS, nomor tidak aktif tercatat gagal
+ok 142 - petak tinggi: warga aktif menerima SMS, nomor tidak aktif tercatat gagal
+  ---
+  duration_ms: 17.285697
+  type: 'test'
+  ...
+# Subtest: batas 24 jam: panggilan kedua dalam 24 jam tidak mengirim lagi
+ok 143 - batas 24 jam: panggilan kedua dalam 24 jam tidak mengirim lagi
+  ---
+  duration_ms: 5.332453
+  type: 'test'
+  ...
+# Subtest: batas 24 jam: setelah lewat 24 jam boleh mengirim lagi
+ok 144 - batas 24 jam: setelah lewat 24 jam boleh mengirim lagi
+  ---
+  duration_ms: 4.939891
+  type: 'test'
+  ...
+# Subtest: petak berisiko sedang tidak dikirimi SMS
+ok 145 - petak berisiko sedang tidak dikirimi SMS
+  ---
+  duration_ms: 2.750464
+  type: 'test'
+  ...
+# Subtest: balasan STOP (huruf apa pun) mencabut persetujuan
+ok 146 - balasan STOP (huruf apa pun) mencabut persetujuan
+  ---
+  duration_ms: 3.663308
+  type: 'test'
+  ...
+# Subtest: balasan selain STOP dan nomor tak dikenal diabaikan
+ok 147 - balasan selain STOP dan nomor tak dikenal diabaikan
+  ---
+  duration_ms: 2.067556
+  type: 'test'
+  ...
+# Subtest: warga yang sudah STOP tidak dikirimi SMS lagi
+ok 148 - warga yang sudah STOP tidak dikirimi SMS lagi
+  ---
+  duration_ms: 5.894293
+  type: 'test'
+  ...
+1..148
+# tests 148
+# suites 0
+# pass 148
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5084.150409
+
+> sigap@0.9.0 test:int
+> node --env-file=.env --test --test-concurrency=1 "tests/int/*.test.js"
+
+TAP version 13
+# Subtest: INT-TC16 formulir jadwal memuat relawan dan petak yang ada di database (UC02, KF05)
+ok 1 - INT-TC16 formulir jadwal memuat relawan dan petak yang ada di database (UC02, KF05)
+  ---
+  duration_ms: 549.713275
+  type: 'test'
+  ...
+# Subtest: INT-TC17 jadwal dari petugas tersimpan di database, muncul di daftar tugas relawan beserta notifikasinya (KF07)
+ok 2 - INT-TC17 jadwal dari petugas tersimpan di database, muncul di daftar tugas relawan beserta notifikasinya (KF07)
+  ---
+  duration_ms: 13.222001
+  type: 'test'
+  ...
+# Subtest: INT-TC18 jadwal ke-4 untuk relawan yang sama ditolak 409 dan database tetap 3 tugas aktif (KF06)
+ok 3 - INT-TC18 jadwal ke-4 untuk relawan yang sama ditolak 409 dan database tetap 3 tugas aktif (KF06)
+  ---
+  duration_ms: 12.620016
+  type: 'test'
+  ...
+# Subtest: INT-TC19 relawan (403), tanpa login (401), dan data yang ditolak database (400) tidak menambah jadwal
+ok 4 - INT-TC19 relawan (403), tanpa login (401), dan data yang ditolak database (400) tidak menambah jadwal
+  ---
+  duration_ms: 11.023008
+  type: 'test'
+  ...
+# Subtest: INT-TC20 jadwal pengecekan titik panas tersimpan dengan id titik panas di petak, terbaca di daftar tugas relawan (Q-008)
+ok 5 - INT-TC20 jadwal pengecekan titik panas tersimpan dengan id titik panas di petak, terbaca di daftar tugas relawan (Q-008)
+  ---
+  duration_ms: 11.235002
+  type: 'test'
+  ...
+# Subtest: INT-TC21 relawan tanpa tugas 403, petugas 403, titik tidak ada 404, keterangan kosong 400, database tidak berubah (UC06)
+ok 6 - INT-TC21 relawan tanpa tugas 403, petugas 403, titik tidak ada 404, keterangan kosong 400, database tidak berubah (UC06)
+  ---
+  duration_ms: 9.668336
+  type: 'test'
+  ...
+# Subtest: INT-TC22 relawan pemilik tugas menandai titik keliru: status, keterangan, dan waktu tersimpan di database (UC06, KF15)
+ok 7 - INT-TC22 relawan pemilik tugas menandai titik keliru: status, keterangan, dan waktu tersimpan di database (UC06, KF15)
+  ---
+  duration_ms: 4.349473
+  type: 'test'
+  ...
+# Subtest: INT-TC23 titik yang sudah ditandai dalam 24 jam terakhir tidak bisa ditandai lagi (409), keterangan lama tetap
+ok 8 - INT-TC23 titik yang sudah ditandai dalam 24 jam terakhir tidak bisa ditandai lagi (409), keterangan lama tetap
+  ---
+  duration_ms: 3.594458
+  type: 'test'
+  ...
+# Subtest: KNF02-TC01 Open-Meteo gagal (503 dan koneksi putus) tidak merusak cache dan peta tetap tampil dengan penanda usang
+ok 9 - KNF02-TC01 Open-Meteo gagal (503 dan koneksi putus) tidak merusak cache dan peta tetap tampil dengan penanda usang
+  ---
+  duration_ms: 411.304746
+  type: 'test'
+  ...
+# Subtest: KNF02-TC02 NASA FIRMS gagal (500 dan koneksi putus) tetap menjaga pembaruan dan ketersediaan peta
+ok 10 - KNF02-TC02 NASA FIRMS gagal (500 dan koneksi putus) tetap menjaga pembaruan dan ketersediaan peta
+  ---
+  duration_ms: 127.452119
+  type: 'test'
+  ...
+# Subtest: KNF05-TC01 foto bukti kerja hanya terbuka untuk petugas: tanpa login 401, token palsu atau kedaluwarsa 401, relawan 403
+ok 11 - KNF05-TC01 foto bukti kerja hanya terbuka untuk petugas: tanpa login 401, token palsu atau kedaluwarsa 401, relawan 403
+  ---
+  duration_ms: 437.896019
+  type: 'test'
+  ...
+# Subtest: KNF05-TC02 nomor HP warga tidak bisa dibaca tanpa login petugas
+not ok 12 - KNF05-TC02 nomor HP warga tidak bisa dibaca tanpa login petugas # TODO GET /api/simulasi-sms/pesan masih terbuka tanpa login, menunggu keputusan tim
+  ---
+  duration_ms: 6.366085
+  type: 'test'
+  location: 'src/tests/int/knf05-akses.int.test.js:64:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 401
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 401
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://src/tests/int/knf05-akses.int.test.js:65:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: KNF10-TC01 SMS peringatan tercatat paling lambat 15 menit setelah skor petak naik ke tinggi
+not ok 13 - KNF10-TC01 SMS peringatan tercatat paling lambat 15 menit setelah skor petak naik ke tinggi
+  ---
+  duration_ms: 264.293943
+  type: 'test'
+  location: 'src/tests/int/knf10-sms.int.test.js:50:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    perbarui gagal: periksa koneksi internet (Open-Meteo) dan CRON_TOKEN
+    
+    500 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 500
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://src/tests/int/knf10-sms.int.test.js:63:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: KNF12-TC01 nomor yang dicabut lewat STOP dan sudah 31 hari terhapus dari database
+not ok 14 - KNF12-TC01 nomor yang dicabut lewat STOP dan sudah 31 hari terhapus dari database
+  ---
+  duration_ms: 273.534496
+  type: 'test'
+  location: 'src/tests/int/knf12-nomor.int.test.js:43:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    perbarui gagal: periksa koneksi internet (Open-Meteo) dan CRON_TOKEN
+    
+    500 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 500
+  operator: 'strictEqual'
+  stack: |-
+    perbarui (file://src/tests/int/knf12-nomor.int.test.js:32:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file://src/tests/int/knf12-nomor.int.test.js:57:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: KNF12-TC02 nomor dicabut 29 hari lalu dan warga aktif tetap tersimpan
+not ok 15 - KNF12-TC02 nomor dicabut 29 hari lalu dan warga aktif tetap tersimpan
+  ---
+  duration_ms: 9.55092
+  type: 'test'
+  location: 'src/tests/int/knf12-nomor.int.test.js:62:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    perbarui gagal: periksa koneksi internet (Open-Meteo) dan CRON_TOKEN
+    
+    500 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 500
+  operator: 'strictEqual'
+  stack: |-
+    perbarui (file://src/tests/int/knf12-nomor.int.test.js:32:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file://src/tests/int/knf12-nomor.int.test.js:66:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: INT-TC30 POST /api/perbarui dengan FIRMS dan Open-Meteo dummy sukses menyimpan titik tanpa duplikat, memperbarui skor, dan mencatat SMS
+ok 16 - INT-TC30 POST /api/perbarui dengan FIRMS dan Open-Meteo dummy sukses menyimpan titik tanpa duplikat, memperbarui skor, dan mencatat SMS
+  ---
+  duration_ms: 666.848474
+  type: 'test'
+  ...
+# Subtest: INT-TC31 POST /api/perbarui saat Open-Meteo dummy gagal (503) membalas 500 dan mempertahankan cache petak lama (KF04)
+ok 17 - INT-TC31 POST /api/perbarui saat Open-Meteo dummy gagal (503) membalas 500 dan mempertahankan cache petak lama (KF04)
+  ---
+  duration_ms: 69.998853
+  type: 'test'
+  ...
+# Subtest: INT-TC32 POST /api/perbarui saat FIRMS dummy gagal (500) tetapi Open-Meteo sukses tetap memperbarui skor dari titik berlaku di DB
+ok 18 - INT-TC32 POST /api/perbarui saat FIRMS dummy gagal (500) tetapi Open-Meteo sukses tetap memperbarui skor dari titik berlaku di DB
+  ---
+  duration_ms: 95.786038
+  type: 'test'
+  ...
+# Subtest: INT-TC33 POST /api/perbarui tanpa token atau token salah ditolak 401 tanpa memanggil API eksternal
+ok 19 - INT-TC33 POST /api/perbarui tanpa token atau token salah ditolak 401 tanpa memanggil API eksternal
+  ---
+  duration_ms: 43.231733
+  type: 'test'
+  ...
+# Subtest: INT-TC34 GET /api/peta untuk petugas memuat data petak & notifikasi dari DB; relawan (403) dan tanpa login (401) ditolak
+ok 20 - INT-TC34 GET /api/peta untuk petugas memuat data petak & notifikasi dari DB; relawan (403) dan tanpa login (401) ditolak
+  ---
+  duration_ms: 63.076164
+  type: 'test'
+  ...
+# Subtest: INT-TC35 GET /api/peta saat data usang (> 3 jam) tetap membalas 200 dengan isUsang true dan data cache utuh (KF04)
+ok 21 - INT-TC35 GET /api/peta saat data usang (> 3 jam) tetap membalas 200 dengan isUsang true dan data cache utuh (KF04)
+  ---
+  duration_ms: 57.600444
+  type: 'test'
+  ...
+# Subtest: INT-TC01 login dengan akun yang ada di tabel pengguna berhasil
+ok 22 - INT-TC01 login dengan akun yang ada di tabel pengguna berhasil
+  ---
+  duration_ms: 514.682438
+  type: 'test'
+  ...
+# Subtest: INT-TC02 login dengan password salah ditolak 401
+ok 23 - INT-TC02 login dengan password salah ditolak 401
+  ---
+  duration_ms: 63.906269
+  type: 'test'
+  ...
+# Subtest: INT-TC03 daftar tugas dari database tampil beserta tingkat risiko petaknya
+ok 24 - INT-TC03 daftar tugas dari database tampil beserta tingkat risiko petaknya
+  ---
+  duration_ms: 10.612584
+  type: 'test'
+  ...
+# Subtest: INT-TC04 petugas tidak bisa membuka daftar tugas relawan (403)
+ok 25 - INT-TC04 petugas tidak bisa membuka daftar tugas relawan (403)
+  ---
+  duration_ms: 2.686858
+  type: 'test'
+  ...
+# Subtest: INT-TC05 pembatalan tugas mengubah status di database
+ok 26 - INT-TC05 pembatalan tugas mengubah status di database
+  ---
+  duration_ms: 8.254367
+  type: 'test'
+  ...
+# Subtest: INT-TC06 laporan yang diunggah tersimpan di database beserta fotonya
+ok 27 - INT-TC06 laporan yang diunggah tersimpan di database beserta fotonya
+  ---
+  duration_ms: 13.079564
+  type: 'test'
+  ...
+# Subtest: INT-TC07 laporan dengan UUID sama dikirim dua kali hanya tersimpan satu
+ok 28 - INT-TC07 laporan dengan UUID sama dikirim dua kali hanya tersimpan satu
+  ---
+  duration_ms: 13.49678
+  type: 'test'
+  ...
+# Subtest: INT-TC08 foto lebih dari 500 KB ditolak 413 dan tidak masuk database
+ok 29 - INT-TC08 foto lebih dari 500 KB ditolak 413 dan tidak masuk database
+  ---
+  duration_ms: 8.412804
+  type: 'test'
+  ...
+# Subtest: INT-TC24 SMS yang diterima gateway muncul di halaman simulasi, yang ditolak tidak
+ok 30 - INT-TC24 SMS yang diterima gateway muncul di halaman simulasi, yang ditolak tidak
+  ---
+  duration_ms: 369.576977
+  type: 'test'
+  ...
+# Subtest: INT-TC25 pemicu kedua dalam 24 jam tidak mengirim ulang
+ok 31 - INT-TC25 pemicu kedua dalam 24 jam tidak mengirim ulang
+  ---
+  duration_ms: 4.514086
+  type: 'test'
+  ...
+# Subtest: INT-TC26 balasan STOP lewat halaman simulasi mencabut persetujuan di database dan menghentikan SMS berikutnya
+ok 32 - INT-TC26 balasan STOP lewat halaman simulasi mencabut persetujuan di database dan menghentikan SMS berikutnya
+  ---
+  duration_ms: 9.970481
+  type: 'test'
+  ...
+# Subtest: INT-TC27 balasan tidak valid ditolak 400, nomor tidak terdaftar diterima tanpa pencabutan
+ok 33 - INT-TC27 balasan tidak valid ditolak 400, nomor tidak terdaftar diterima tanpa pencabutan
+  ---
+  duration_ms: 12.322631
+  type: 'test'
+  ...
+# Subtest: INT-TC28 nomor yang dicabut lebih dari 30 hari dihapus dari database
+ok 34 - INT-TC28 nomor yang dicabut lebih dari 30 hari dihapus dari database
+  ---
+  duration_ms: 13.680664
+  type: 'test'
+  ...
+# Subtest: INT-TC29 pembatalan tugas oleh relawan membuat notifikasi untuk petugas di database
+ok 35 - INT-TC29 pembatalan tugas oleh relawan membuat notifikasi untuk petugas di database
+  ---
+  duration_ms: 20.238501
+  type: 'test'
+  ...
+# Subtest: INT-TC09 laporan yang diunggah relawan muncul di antrean petugas
+ok 36 - INT-TC09 laporan yang diunggah relawan muncul di antrean petugas
+  ---
+  duration_ms: 460.948379
+  type: 'test'
+  ...
+# Subtest: INT-TC10 detail laporan berisi foto yang sama dengan unggahan dan jarak dari batas petak di database
+ok 37 - INT-TC10 detail laporan berisi foto yang sama dengan unggahan dan jarak dari batas petak di database
+  ---
+  duration_ms: 21.604557
+  type: 'test'
+  ...
+# Subtest: INT-TC11 setujui: laporan dan tugas berubah di database, relawan menerima notifikasi
+ok 38 - INT-TC11 setujui: laporan dan tugas berubah di database, relawan menerima notifikasi
+  ---
+  duration_ms: 22.833295
+  type: 'test'
+  ...
+# Subtest: INT-TC12 tolak: alasan tersimpan, tugas kembali aktif, relawan bisa mengunggah ulang
+ok 39 - INT-TC12 tolak: alasan tersimpan, tugas kembali aktif, relawan bisa mengunggah ulang
+  ---
+  duration_ms: 24.420376
+  type: 'test'
+  ...
+# Subtest: INT-TC13 relawan (403) dan tanpa login (401) tidak bisa memakai endpoint verifikasi, database tidak berubah
+ok 40 - INT-TC13 relawan (403) dan tanpa login (401) tidak bisa memakai endpoint verifikasi, database tidak berubah
+  ---
+  duration_ms: 21.390673
+  type: 'test'
+  ...
+# Subtest: INT-TC14 laporan yang sudah disetujui tidak bisa disetujui atau ditolak lagi (409, KF10)
+ok 41 - INT-TC14 laporan yang sudah disetujui tidak bisa disetujui atau ditolak lagi (409, KF10)
+  ---
+  duration_ms: 24.718152
+  type: 'test'
+  ...
+# Subtest: INT-TC15 tolak tanpa alasan dibalas 400 dan id asal-asalan dibalas 404, database tidak berubah
+ok 42 - INT-TC15 tolak tanpa alasan dibalas 400 dan id asal-asalan dibalas 404, database tidak berubah
+  ---
+  duration_ms: 18.359334
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 38
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 1
+# duration_ms 5969.437264
+---------------------------------|---------|----------|---------|---------|-------------------------
+File                             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s       
+---------------------------------|---------|----------|---------|---------|-------------------------
+All files                        |      94 |    95.13 |   91.72 |      94 |                         
+ controllers                     |    93.7 |    95.28 |   96.15 |    93.7 |                         
+  AutentikasiController.js       |    90.9 |    94.11 |     100 |    90.9 | 30-32                   
+  DaftarTugasController.js       |   87.64 |    83.33 |     100 |   87.64 | 20-21,42-44,65-67,86-88 
+  DeteksiKeliruController.js     |   83.72 |    78.57 |     100 |   83.72 | 16-17,21-22,40-42       
+  JadwalController.js            |     100 |      100 |     100 |     100 |                         
+  PeringatanSMSController.js     |   97.53 |    96.66 |     100 |   97.53 | 14-15                   
+  PetaRisikoController.js        |     100 |    98.64 |     100 |     100 | 92                      
+  SimulasiSMSController.js       |   63.63 |      100 |      50 |   63.63 | 40-48,52-66             
+  UploadLaporanController.js     |   90.47 |    94.73 |     100 |   90.47 | 24,77-83                
+  VerifikasiLaporanController.js |     100 |    97.01 |     100 |     100 | 64,101                  
+ middleware                      |   95.83 |       90 |     100 |   95.83 |                         
+  auth.js                        |   95.83 |       90 |     100 |   95.83 | 22                      
+ models                          |     100 |    98.94 |     100 |     100 |                         
+  JadwalPekerjaan.js             |     100 |      100 |     100 |     100 |                         
+  LaporanBuktiKerja.js           |     100 |    93.75 |     100 |     100 | 9                       
+  Notifikasi.js                  |     100 |      100 |     100 |     100 |                         
+  Pengguna.js                    |     100 |      100 |     100 |     100 |                         
+  PeringatanSMS.js               |     100 |      100 |     100 |     100 |                         
+  PetakLahan.js                  |     100 |      100 |     100 |     100 |                         
+  RelawanLapangan.js             |     100 |      100 |     100 |     100 |                         
+  TitikPanas.js                  |     100 |      100 |     100 |     100 |                         
+  Warga.js                       |     100 |      100 |     100 |     100 |                         
+ public/relawan/js               |   82.42 |    90.14 |      75 |   82.42 |                         
+  AutentikasiController.js       |   87.75 |    92.85 |      75 |   87.75 | 27-28,32-33,36-37       
+  PenyimpananLokal.js            |   92.15 |    94.11 |      75 |   92.15 | 27-28,38-39             
+  UploadLaporanController.js     |   77.56 |     87.5 |      75 |   77.56 | ...,138-143,146,154-156 
+---------------------------------|---------|----------|---------|---------|-------------------------
