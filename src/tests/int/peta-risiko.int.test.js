@@ -5,13 +5,14 @@ import assert from 'node:assert/strict';
 import pool from '../../db.js';
 import * as Notifikasi from '../../models/Notifikasi.js';
 import { bersihkan, buatPengguna, PASSWORD } from '../helpers/fixture.js';
+import { jalankanServer } from '../helpers/server.js';
 import {
-  jalankanServerDenganEnv,
   buatServerEksternalDummy,
   potretPetakAsli,
   pulihkanPetakAsli,
   buatPetakUji,
-  bersihkanDataUjiPeta
+  bersihkanDataUjiPeta,
+  waktuFirmsBaru
 } from '../helpers/peta-risiko.js';
 
 const PORT = 3102;
@@ -20,13 +21,6 @@ const CRON_TOKEN = 'uji-cron-int-peta';
 const MAP_KEY = 'uji-map-key';
 
 let server, dummy, potret, petugas, relawan, petakUji, tokenPetugas, tokenRelawan;
-
-function waktuFirmsBaru(menitLalu = 30) {
-  const d = new Date(Date.now() - menitLalu * 60 * 1000);
-  const tanggal = d.toISOString().slice(0, 10);
-  const jam = String(d.getUTCHours()).padStart(2, '0') + String(d.getUTCMinutes()).padStart(2, '0');
-  return { tanggal, jam };
-}
 
 async function login(username) {
   const res = await fetch(URL + '/api/login', {
@@ -52,7 +46,7 @@ before(async () => {
   petakUji = await buatPetakUji(pool, { skor: 0, tingkat: 'rendah', waktuUpdate: new Date() });
 
   dummy = await buatServerEksternalDummy();
-  server = await jalankanServerDenganEnv(PORT, {
+  server = await jalankanServer(PORT, {
     CRON_TOKEN,
     MAP_KEY,
     FIRMS_BASE_URL: dummy.url,

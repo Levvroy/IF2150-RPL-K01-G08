@@ -1,20 +1,10 @@
 import http from 'node:http';
-import { spawn } from 'node:child_process';
 
-export function jalankanServerDenganEnv(port, envTambahan = {}) {
-  const proses = spawn('node', ['server.js'], {
-    env: { ...process.env, PORT: String(port), ...envTambahan }
-  });
-  return new Promise((resolve, reject) => {
-    let stderr = '';
-    proses.stderr?.on('data', (d) => {
-      stderr += String(d);
-    });
-    proses.stdout.on('data', (d) => {
-      if (String(d).includes('berjalan')) resolve(proses);
-    });
-    proses.on('exit', (kode) => reject(new Error(`server gagal nyala (${kode}): ${stderr}`)));
-  });
+export function waktuFirmsBaru(menitLalu = 30) {
+  const d = new Date(Date.now() - menitLalu * 60 * 1000);
+  const tanggal = d.toISOString().slice(0, 10);
+  const jam = String(d.getUTCHours()).padStart(2, '0') + String(d.getUTCMinutes()).padStart(2, '0');
+  return { tanggal, jam };
 }
 
 export function buatServerEksternalDummy() {
@@ -160,24 +150,17 @@ export async function pulihkanPetakAsli(pool, potret) {
     potret?.maksTitikPanas ?? null
   );
   if (!potret?.petak?.length) return;
-  const ids = potret.petak.map((p) => p.id_petak);
-  const skors = potret.petak.map((p) => p.skor_risiko);
-  const tingkats = potret.petak.map((p) => p.tingkat_risiko);
-  const waktus = potret.petak.map((p) => p.waktu_update_terakhir);
-  await pool.query(
-    `UPDATE petak_lahan AS p
-     SET skor_risiko = v.skor_risiko,
-         tingkat_risiko = v.tingkat_risiko,
-         waktu_update_terakhir = v.waktu_update_terakhir
-     FROM (
-       SELECT * FROM unnest($1::int[], $2::double precision[], $3::text[], $4::timestamptz[])
-         AS t(id_petak, skor_risiko, tingkat_risiko, waktu_update_terakhir)
-     ) AS v
-     WHERE p.id_petak = v.id_petak`,
-    [ids, skors, tingkats, waktus]
-  );
+  for (const p of potret.petak) {
+    await pool.query(
+      `UPDATE petak_lahan
+       SET skor_risiko = $2, tingkat_risiko = $3, waktu_update_terakhir = $4
+       WHERE id_petak = $1`,
+      [p.id_petak, p.skor_risiko, p.tingkat_risiko, p.waktu_update_terakhir]
+    );
+  }
 }
 
+// Petak uji ditaruh di lintang -88 agar tidak bertabrakan dengan petak seed di Riau.
 export async function buatPetakUji(pool, {
   latMin = -88,
   latMaks = -87.99,
@@ -187,6 +170,7 @@ export async function buatPetakUji(pool, {
   tingkat = 'rendah',
   waktuUpdate = new Date()
 } = {}) {
+  // Geser sequence agar id petak uji tidak bentrok dengan id eksplisit dari seed.
   await pool.query(
     `SELECT setval(
        pg_get_serial_sequence('petak_lahan', 'id_petak'),

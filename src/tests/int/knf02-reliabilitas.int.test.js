@@ -4,8 +4,8 @@ import { test, before, after, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import pool from '../../db.js';
 import { bersihkan, buatPengguna, PASSWORD } from '../helpers/fixture.js';
+import { jalankanServer } from '../helpers/server.js';
 import {
-  jalankanServerDenganEnv,
   buatServerEksternalDummy,
   potretPetakAsli,
   pulihkanPetakAsli,
@@ -38,7 +38,7 @@ before(async () => {
   petakUji = await buatPetakUji(pool, { skor: 50, tingkat: 'sedang', waktuUpdate: new Date() });
 
   dummy = await buatServerEksternalDummy();
-  server = await jalankanServerDenganEnv(PORT, {
+  server = await jalankanServer(PORT, {
     CRON_TOKEN,
     MAP_KEY,
     FIRMS_BASE_URL: dummy.url,

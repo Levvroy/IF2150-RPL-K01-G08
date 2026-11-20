@@ -9,20 +9,14 @@ import {
   potretPetakAsli,
   pulihkanPetakAsli,
   buatPetakUji,
-  bersihkanDataUjiPeta
+  bersihkanDataUjiPeta,
+  waktuFirmsBaru
 } from '../helpers/peta-risiko.js';
 
 const CRON_ASLI = process.env.CRON_TOKEN;
 const MAP_KEY_ASLI = process.env.MAP_KEY;
 
 let potret, petugas, petakUji;
-
-function waktuFirmsBaru(menitLalu = 30) {
-  const d = new Date(Date.now() - menitLalu * 60 * 1000);
-  const tanggal = d.toISOString().slice(0, 10);
-  const jam = String(d.getUTCHours()).padStart(2, '0') + String(d.getUTCMinutes()).padStart(2, '0');
-  return { tanggal, jam };
-}
 
 function aturFetch({ firmsStatus = 200, firmsBody = null, firmsError = null, cuacaStatus = 200, cuacaJson = null, cuacaError = null } = {}) {
   const { tanggal, jam } = waktuFirmsBaru();
